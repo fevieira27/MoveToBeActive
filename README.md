@@ -7,6 +7,6 @@ Work in progress (not yet published) Garmin Watchface for the VivoActive 4 watch
 * Heart Rate with 5 zones: Grey (<90 bpm), Blue (between 90 and 113 bpm), Green (between 114 and 137 bpm), Yellow (between 138 and 161 bpm) and Red (>=162 bpm);
 * Notifications count (pending);
 * Step count (pending);
-* Floors climbed count
+* Floors climbed count (pending).
 
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
