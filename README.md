@@ -10,3 +10,8 @@ Work in progress (not yet published) Garmin Watchface for the VivoActive 4 watch
 * Floors climbed count (pending).
 
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
+
+Inspiration:
+* https://github.com/wwarby/walker
+* https://github.com/pshriwise/connectiqanalog
+* https://github.com/Laverlin/Yet-Another-WatchFace
