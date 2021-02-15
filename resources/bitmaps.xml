@@ -1,0 +1,9 @@
+<resources>
+    <bitmap id="LauncherIcon" filename="images/icon.png" />
+    <bitmap id="DoNotDisturbIcon" filename="images/donotdisturb.png">
+        <palette>
+            <color>AAAAAA</color>
+        </palette>
+    </bitmap>
+    <bitmap id="GarminLogo" filename="images/garmin.png"></bitmap>
+</resources>
