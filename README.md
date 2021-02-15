@@ -1,6 +1,6 @@
 # MoveToBeActive
 Work in progress (not yet published) Garmin Watchface for the VivoActive 4 watch series. Some features:
-* Analog hands (seconds removed to mimic Vivomove HR (and save battery);
+* Analog hands with seconds removed to mimic Vivomove HR (and save battery);
 * Garmin Logo;
 * Current Date;
 * Battery percentage with 3 colors: Red (<=10%), Yellow (between 11 and 20%) and Green (>20%);
