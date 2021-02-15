@@ -15,3 +15,4 @@ Inspiration:
 * https://github.com/wwarby/walker
 * https://github.com/pshriwise/connectiqanalog
 * https://github.com/Laverlin/Yet-Another-WatchFace
+* https://github.com/warmsound/crystal-face
