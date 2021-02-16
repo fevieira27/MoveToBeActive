@@ -6,10 +6,10 @@ Work in progress (not yet published) Garmin Watchface for the VivoActive 4 watch
 * Battery percentage with 3 colors: Red (<=10%), Yellow (between 11 and 20%) and Green (>20%);
 * Heart Rate with 5 zones: Grey (<90 bpm), Blue (between 90 and 113 bpm), Green (between 114 and 137 bpm), Yellow (between 138 and 161 bpm) and Red (>=162 bpm);
 * Notifications count;
-* Step count;
+* Distance traveled on the day;
 * Bluetooth indicator: Blue (connected to phone) or Grey (not connected);
-* Do not Disturb indicator;
-* Floors climbed count (pending).
+* Do not Disturb indicator (if applicable);
+* Floors climbed count.
 
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
 
