@@ -13,8 +13,9 @@ Work in progress (not yet published) Garmin Watchface for the VivoActive 4 watch
 
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
 
-Inspiration:
+# Inspiration:
 * https://github.com/wwarby/walker
 * https://github.com/pshriwise/connectiqanalog
 * https://github.com/Laverlin/Yet-Another-WatchFace
 * https://github.com/warmsound/crystal-face
+* https://github.com/OliverHannover/Formula_1
