@@ -21,6 +21,7 @@ var partialUpdatesAllowed = false;
 class AnalogView extends WatchUi.WatchFace
 {
     var font;
+    var IconsFont;
     //var isAwake;
     var screenShape;
     var dndIcon;
@@ -30,10 +31,12 @@ class AnalogView extends WatchUi.WatchFace
     //var curClip;
     var screenCenterPoint;
     var fullScreenRefresh;
+    var stepsIcon;
+    var unit;
+    var distStr;
     var batteryIconColour;
 	var batteryTextColour;
 	var heartRateIconColour;
-	var heartRateZoneTextColour;
 	var heartRateZone;
 
     // Initialize variables for this view
@@ -47,8 +50,9 @@ class AnalogView extends WatchUi.WatchFace
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
 
-        // Load the custom font we use for drawing the 3, 6, 9, and 12 on the watchface.
+        // Load the custom fonts: used for drawing the 3, 6, 9, and 12 on the watchface and various icons
         font = WatchUi.loadResource(Rez.Fonts.id_font_black_diamond);
+        IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont); 
 
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
         if(Toybox.Graphics has :BufferedBitmap) {
@@ -173,10 +177,24 @@ class AnalogView extends WatchUi.WatchFace
         var width;
         var height;
         var clockTime = System.getClockTime();
+        //var stepCount = ActivityMonitor.getInfo().steps.toString();
+        var stepDistance = ActivityMonitor.getInfo().distance;//.toString();
+        var DistanceMetric = System.getDeviceSettings().distanceUnits;
+        var floorsCount = ActivityMonitor.getInfo().floorsClimbed;//.toString();
         var minuteHandAngle;
         var hourHandAngle;
         //var secondHand;
         var targetDc = null;
+        
+        // notification count
+        var notificationAmount = System.getDeviceSettings().notificationCount;
+    	var formattedNotificationAmount = "";
+    	if(notificationAmount > 99)	{
+			formattedNotificationAmount = "99+";
+		}
+		else {
+			formattedNotificationAmount = notificationAmount.format("%d");
+		}
 
         // We always want to refresh the full screen when we get a regular onUpdate call.
         fullScreenRefresh = true;
@@ -201,17 +219,16 @@ class AnalogView extends WatchUi.WatchFace
         // Draw a grey triangle over the upper right half of the screen.
         //targetDc.fillPolygon([[0, 0], [targetDc.getWidth(), 0], [targetDc.getWidth(), targetDc.getHeight()], [0, 0]]);
                                     
-		// Draw the 3, 6, 9, and 12 hour labels.
-		targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		targetDc.drawText((width / 2), 14, font, "12", Graphics.TEXT_JUSTIFY_CENTER);
-		targetDc.drawText(width - 13, (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
-		targetDc.drawText(width / 2, height - 41, font, "6", Graphics.TEXT_JUSTIFY_CENTER);
-		targetDc.drawText(13, (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
-        
 
         // Output the offscreen buffers to the main display if required.
         drawBackground(dc);
 
+		// Draw the 3, 6, 9, and 12 hour labels.
+		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText((width / 2), 14, font, "12", Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(width - 13, (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
+		dc.drawText(width / 2, height - 41, font, "6", Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(13, (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
 		
 		// Get heart rate
 		var heartRate;
@@ -247,7 +264,6 @@ class AnalogView extends WatchUi.WatchFace
 		}
 		
 		// Choose the colour of the heart rate icon based on heart rate zone
-		heartRateZoneTextColour = Graphics.COLOR_WHITE;
 		if (heartRateZone == 0) {
 			heartRateIconColour = Graphics.COLOR_LT_GRAY;
 		} else if (heartRateZone == 1) {
@@ -263,25 +279,25 @@ class AnalogView extends WatchUi.WatchFace
 		}
 
 		
-		// Render heart rate icon
-		var hrIconY = height/2-17;
-		var hrIconWidth = 20;
-		var hrIconXOffset = height/2;
+		// Render heart rate icon and text
+		var hrIconY = height/2.9;
+		var hrIconWidth = 17;
 		dc.setColor(heartRateIconColour, Graphics.COLOR_TRANSPARENT);
-		dc.fillCircle(width/4 - (hrIconWidth / 4.7), hrIconY + (hrIconWidth / 3.2), hrIconWidth / 3.2);
+		dc.drawText( width / 4.6 , hrIconY  , IconsFont, "3", Graphics.TEXT_JUSTIFY_CENTER); // Using Icon
+/*		dc.fillCircle(width/4 - (hrIconWidth / 4.7), hrIconY + (hrIconWidth / 3.2), hrIconWidth / 3.2);
 		dc.fillCircle(width/4 + (hrIconWidth / 4.7), hrIconY + (hrIconWidth / 3.2), hrIconWidth / 3.2);
 		dc.fillPolygon([
-			[width/4 - (hrIconWidth / 2.2), hrIconY + (hrIconWidth / 1.8) - 1],
+			[width/4 - (hrIconWidth / 2.2), hrIconY + (hrIconWidth / 1.8) - 2],
 			[width/4, hrIconY + (hrIconWidth * 0.95)],
-			[width/4 + (hrIconWidth / 2.2), hrIconY + (hrIconWidth / 1.8) - 1]
+			[width/4 + (hrIconWidth / 2.2), hrIconY + (hrIconWidth / 1.8) - 0.5]
 		]);
-		
-		dc.setColor(heartRateZoneTextColour, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(width/4, hrIconY + (hrIconWidth / 2) + 7, Graphics.FONT_XTINY, heartRateText, Graphics.TEXT_JUSTIFY_CENTER);
+*/ // Using Polygons
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(width / 3.7, hrIconY + (hrIconWidth / 2) - 3 , Graphics.FONT_XTINY, heartRateText, Graphics.TEXT_JUSTIFY_LEFT);		
 
 
         // Choose the colour of the battery based on it's state
-		var battery = System.getSystemStats().battery; //System.getSystemStats().battery.toLong()
+		var battery = Math.floor(System.getSystemStats().battery); //System.getSystemStats().battery.toLong()
 		var batteryState;
 		
 		if (battery >= 50) {
@@ -307,10 +323,10 @@ class AnalogView extends WatchUi.WatchFace
         
         // Render battery
 		dc.setColor(batteryIconColour, Graphics.COLOR_TRANSPARENT); //dc.fillRoundedRectangle(x, y, width, height, radius)
-		dc.fillRoundedRectangle(width*0.7-3, (height / 2)-8 , 35 /* batteryWidth */, 16 /* batteryHeight */, 2);
-		dc.fillRoundedRectangle(width*0.7+ 31, (height / 2)-5 , 4 /* batteryWidth */, 10 /* batteryHeight */, 2);
+		dc.fillRoundedRectangle(width*0.7-3, (height / 2)-7 , 35 /* batteryWidth */, 16 /* batteryHeight */, 2);
+		dc.fillRoundedRectangle(width*0.7+ 31, (height / 2)-4 , 4 /* batteryWidth */, 10 /* batteryHeight */, 2);
 		dc.setColor(batteryTextColour, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(width*0.7+14, (height / 2)-10, Graphics.FONT_XTINY /* batteryFont */,battery.format("%d") + "%", Graphics.TEXT_JUSTIFY_CENTER );
+		dc.drawText(width*0.7+14, (height / 2)-9, Graphics.FONT_XTINY /* batteryFont */,battery.format("%d") + "%", Graphics.TEXT_JUSTIFY_CENTER );
 
         // If this device supports the Do Not Disturb feature,
         // load the associated Icon into memory.
@@ -320,13 +336,67 @@ class AnalogView extends WatchUi.WatchFace
             dndIcon = null;
         }
         
-        garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
-        dc.drawBitmap( width / 2 - 50, height / 5 , garminIcon);
-        
         // Draw the do-not-disturb icon if we support it and the setting is enabled
         if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
-            dc.drawBitmap( width /2 - 15, height /3, dndIcon);
+            dc.drawBitmap( width /2.2, height * 0.32 , dndIcon);
         }
+
+        // Garmin Logo
+        garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
+        dc.drawBitmap( width / 2 - 50, height / 6 , garminIcon);
+        
+		// Notifications
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( width *0.8, height * 0.572 , Graphics.FONT_XTINY, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
+		dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( width *0.74, height * 0.562, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
+		
+		//Bluetooth
+		var settings = System.getDeviceSettings().phoneConnected;
+		if (settings) {
+			dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+		} else {
+			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		}
+		dc.drawText( width*0.7+14, height / 2.9, IconsFont, "8", Graphics.TEXT_JUSTIFY_CENTER);
+        
+  
+        //Floors Climbed
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText( width / 4.7, height / 2.2 , IconsFont, "1", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText( width / 3.7, height / 2.12 , Graphics.FONT_XTINY, floorsCount, Graphics.TEXT_JUSTIFY_LEFT);
+  
+        
+        //Steps Icon
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT); 
+        dc.drawText( width / 4.5, height * 0.56, IconsFont, "0", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+        //stepsIcon = WatchUi.loadResource(Rez.Drawables.isd); // Using Icon
+        //dc.drawBitmap( width / 2 - 78, height / 2 - 15 , stepsIcon); // Using Icon
+        
+        // Steps Distance		
+		if (stepDistance != null) {
+        	if (DistanceMetric == System.UNIT_METRIC) {
+        		unit = " km";
+        		stepDistance = stepDistance * 0.00001;
+        	} else{
+        		unit = " mi";
+        		stepDistance = stepDistance * 0.00001 * 0.621371;
+        	}
+        } else {
+        	unit = "?";
+        }
+        
+        if (stepDistance >= 10) {
+        	distStr = Lang.format("$1$", [stepDistance.format("%.0f")] );
+        } else { //(stepDistance <10)
+        	distStr = Lang.format("$1$", [stepDistance.format("%.1f")] );
+        }
+        
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(width / 3.7, height * 0.572, Graphics.FONT_XTINY, distStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Step Distance
+        //dc.drawText( width / 2 - 50, height / 2 - 10 , Graphics.FONT_XTINY, stepCount, Graphics.TEXT_JUSTIFY_LEFT); // Step Count
+
 
         // If we have an offscreen buffer that we are using for the date string,
         // Draw the date into it. If we do not, the date will get drawn every update
@@ -354,9 +424,9 @@ class AnalogView extends WatchUi.WatchFace
 
         //Use white to draw the hour hand, with a dark grey background
 		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 5, 0, 10));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 3, 0, 10));
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 1, 0, 5));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 -1, 0, 5));
         
         // Draw the minute hand.
         minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
@@ -479,10 +549,10 @@ class AnalogView extends WatchUi.WatchFace
         // Draw the date
         if( null != dateBuffer ) {
             // If the date is saved in a Buffered Bitmap, just copy it from there.
-            dc.drawBitmap(0, (height * 0.65), dateBuffer );
+            dc.drawBitmap(0, (height * 0.70), dateBuffer );
         } else {
             // Otherwise, draw it from scratch.
-            drawDateString( dc, width / 2, height * 0.65 );
+            drawDateString( dc, width / 2, height * 0.70 );
             
 		    // Draw the tick marks around the edges of the screen
 		    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
