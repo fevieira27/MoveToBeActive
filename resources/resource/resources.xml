@@ -1,5 +1,6 @@
 <resources>
     <fonts>
-        <font id="id_font_black_diamond" filename="fonts/blackdiamond.fnt" filter="0123456789" />
+        <font id="id_font_black_diamond" filename="fonts/blackdiamond.fnt" filter="0123456789" antialias="true"/>
+        <font id="IconsFont" filename="fonts/crystal-icons.fnt" antialias="true"/>
     </fonts>
 </resources>
