@@ -1,9 +1,15 @@
 <resources>
     <bitmap id="LauncherIcon" filename="images/icon.png" />
-    <bitmap id="DoNotDisturbIcon" filename="images/donotdisturb.png">
-        <palette>
+    <bitmap id="DoNotDisturbIcon" filename="images/donotdisturb.png" dithering="none">
+        <palette disableTransparency="false">
             <color>AAAAAA</color>
         </palette>
     </bitmap>
-    <bitmap id="GarminLogo" filename="images/garmin.png"></bitmap>
+    <bitmap id="GarminLogo" filename="images/garmin.png" dithering="none">
+    </bitmap>
+	<bitmap id="isd" filename="images/steps.png" dithering="none">
+		<palette disableTransparency="false">
+            <color>AAAAAA</color>
+        </palette>
+	</bitmap>
 </resources>
