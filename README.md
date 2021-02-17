@@ -11,7 +11,24 @@ Work in progress (not yet published) Garmin Watchface for the VivoActive 4 watch
 * Do not Disturb indicator (if applicable);
 * Floors climbed count.
 
+### Vivoactive 4
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
+
+### Enduro
+![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Enduro.png?raw=true)
+
+### Fenix 6
+![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix.png?raw=true)
+
+### Fenix 6 Pro
+![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Monster.png?raw=true)
+
+### Fenix 6s
+![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix2.png?raw=true)
+
+### Forerunner 745
+![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Forerunner.png?raw=true)
+
 
 # Inspiration:
 * https://github.com/wwarby/walker
