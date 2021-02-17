@@ -1,19 +1,19 @@
 # MoveToBeActive Garmin Watch Face
-Work in progress (not yet published) Garmin Watchface that was initially meant for the VivoActive 4 series, as I am going to replace my old Vivomove HR soon. However, even though I'm now going to move (no pun intended) to a more smartwatch kind of devide, I do prefer the regular/classic look of an analog watch. So I developed this watch face to mimic the design of the Vivomove Hybrid series, but adding extra features that would be useful to me for daily usage.
+Garmin Watchface that was initially meant for the VivoActive 4 series, as I am going to replace my old Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device, I do prefer the regular/classic look of an analog watch. So that's when I decided to developed this watch face to mimic the design of the Vivomove Hybrid series, but adding extra features that would be very useful for my daily usage.
 
-I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro.
+I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro. Will be testing other watches soon an adding support on new releases.
 
 ## Feature listing:
-* Analog hands with seconds removed to mimic Vivomove HR (and save battery);
+* Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
 * Garmin Logo;
 * Current Date;
-* Battery percentage with 3 colors: Red (<=10%), Yellow (between 11 and 20%) and Green (>20%);
-* Heart Rate with 5 zones: Grey (<90 bpm), Blue (between 90 and 113 bpm), Green (between 114 and 137 bpm), Yellow (between 138 and 161 bpm) and Red (>=162 bpm);
+* Battery percentage with symbol changing colors depending on battery left: Red (<=15%), Yellow (between 16 and 30%) and Green (>30%);
+* Heart Rate data, showing current value and a symbol that is presented with colors from 5 different rate zones: Grey (<90 bpm), Blue (between 90 and 113 bpm), Green (between 114 and 137 bpm), Yellow (between 138 and 161 bpm) and Red (>=162 bpm);
 * Notifications count;
-* Distance traveled on the day;
+* Floors climbed count;
+* Distance traveled on the day (km or miles, dependent on watch's general config);
 * Bluetooth indicator: Blue (connected to phone) or Grey (not connected);
-* Do not Disturb indicator (if applicable);
-* Floors climbed count.
+* Do not Disturb indicator (only shown if active).
 
 ## Release notes:
 * 0.1.0 (17/Feb/21)
