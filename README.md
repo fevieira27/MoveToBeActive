@@ -3,7 +3,7 @@ Garmin Watch Face that was initially meant for the VivoActive 4 series, as I am 
 
 I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro (see pivture below). I will be testing other watches soon an adding support on new releases.
 
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Enduro.png?raw=true)
+![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix.png?raw=true)![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Enduro.png?raw=true)
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
