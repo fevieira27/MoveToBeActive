@@ -3,7 +3,7 @@ Work in progress (not yet published) Garmin Watchface that was initially meant f
 
 I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro.
 
-### Feature listing:
+## Feature listing:
 * Analog hands with seconds removed to mimic Vivomove HR (and save battery);
 * Garmin Logo;
 * Current Date;
@@ -15,7 +15,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Do not Disturb indicator (if applicable);
 * Floors climbed count.
 
-# Watchface examples: (Not real photos, there were taken from the Garmin Watch Simulator)
+## Watchface examples: (Not real photos, there were taken from the Garmin Watch Simulator)
 
 ### Vivoactive 4
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
