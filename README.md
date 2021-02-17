@@ -42,3 +42,4 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * https://github.com/Laverlin/Yet-Another-WatchFace
 * https://github.com/warmsound/crystal-face
 * https://github.com/OliverHannover/Formula_1
+* https://github.com/tumb1er/ElPrimero
