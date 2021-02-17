@@ -15,6 +15,10 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Do not Disturb indicator (if applicable);
 * Floors climbed count.
 
+## Release notes:
+* 0.1.0 (17/Feb/21)
+- [x] Initial public release
+
 ## Watchface examples: (Not real photos, these were taken from the Garmin Watch Simulator)
 
 ### Vivoactive 4
