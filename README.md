@@ -1,5 +1,5 @@
 # MoveToBeActive Garmin Watch Face
-Garmin Watchface that was initially meant for the VivoActive 4 series, as I am going to replace my old Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device, I do prefer the regular/classic look of an analog watch. So that's when I decided to developed this watch face to mimic the design of the Vivomove Hybrid series, but adding extra features that would be very useful for my daily usage.
+Garmin Watch Face that was initially meant for the VivoActive 4 series, as I am going to replace my old Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to developed this watch face to mimic the design of the Vivomove series, but adding extra features that would be very useful for my daily type of usage (more for health-related than activity tracking).
 
 I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro. Will be testing other watches soon an adding support on new releases.
 
