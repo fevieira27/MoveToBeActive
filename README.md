@@ -34,8 +34,8 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 ### Fenix 6
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix.png?raw=true)
 
-### Fenix 6 Pro
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Monster.png?raw=true)
+### Fenix 6X Pro
+![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix6xPro.png?raw=true)
 
 ### Fenix 6s
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix2.png?raw=true)
