@@ -23,7 +23,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * 0.1.0 (18/Feb/21)
 - [x] Initial public release
 * 0.2.0 (Coming soon)
-- [ ] Correct bug with battery % on vivoactive 4s (font size issue due to smaller resolution)
+- [ ] Correct bug with battery % on other devices (font size issue due to smaller or bigger resolution)
 
 ## Support this project:
 https://paypal.me/pools/c/8x2wuxFwFu
