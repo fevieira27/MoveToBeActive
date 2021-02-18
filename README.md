@@ -1,7 +1,7 @@
 # MoveToBeActive Garmin Watch Face
-Garmin Watch Face that was initially meant for the VivoActive 4 series, as I am going to replace my old Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to developed this watch face to mimic the design of the Vivomove series, but adding extra features that would be very useful for my daily type of usage (more for health-related than activity tracking).
+Garmin Watch Face that was initially meant for the VivoActive 4 series, as I want to replace my current Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of a hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to start developing a watch face that could to mimic the design of the Vivomove series, but adding extra features that will be very useful for my daily type of usage (more health related than activity tracking).
 
-I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro (see pivture below). I will be testing other watches soon an adding support on new releases.
+I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro (see picture below). I will be testing other watches soon an adding support on new releases.
 
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix.png?raw=true)![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Enduro.png?raw=true)
 
@@ -18,7 +18,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Do not Disturb indicator (only shown if active).
 
 ## Release notes:
-* 0.1.0 (17/Feb/21)
+* 0.1.0 (18/Feb/21)
 - [x] Initial public release
 * 0.2.0 (Coming soon)
 - [ ] Correct bug with battery % on vivoactive 4s (font size issue due to smaller resolution)
