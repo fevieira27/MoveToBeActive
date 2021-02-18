@@ -25,6 +25,10 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * 0.2.0 (Coming soon)
 - [ ] Correct bug with battery % on vivoactive 4s (font size issue due to smaller resolution)
 
+## Support this project:
+https://paypal.me/pools/c/8x2wuxFwFu
+
+
 ## Watchface examples: (Not real photos, these were taken from the Garmin Watch Simulator)
 
 ### Vivoactive 4
