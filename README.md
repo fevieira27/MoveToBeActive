@@ -20,12 +20,14 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Do not Disturb indicator (only shown if active).
 
 ## Release notes:
-* 0.1.0 (18/Feb/21)
+* 0.1.0 (22/Feb/21)
 - [x] Initial public release
 * 0.2.0 (Coming soon)
-- [ ] Add body battery percentage (if applicable)
+- [ ] Add city and temperature data, as well as blood oxygen percentage (if applicable)
 * 0.3.0
 - [ ] Correct bug with battery % on other devices (font size issue due to smaller or bigger resolution)
+* 0.4.0
+- [ ] Start adding features to the settings page, like giving the ability to the user to chose between different indicators
 
 ## Support this project:
 https://paypal.me/pools/c/8x2wuxFwFu
