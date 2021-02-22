@@ -59,5 +59,6 @@ https://paypal.me/pools/c/8x2wuxFwFu
 * https://github.com/pshriwise/connectiqanalog
 * https://github.com/Laverlin/Yet-Another-WatchFace
 * https://github.com/warmsound/crystal-face
+* https://github.com/darrencroton/SnapshotWatch
 * https://github.com/OliverHannover/Formula_1
 * https://github.com/tumb1er/ElPrimero
