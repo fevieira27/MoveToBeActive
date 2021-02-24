@@ -24,9 +24,9 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 ## Release notes:
 * 0.1.0 (22/Feb/21)
 - [x] Initial public release
-* 0.2.0 (Coming soon)
+* 0.2.0 (24/Feb/21)
 - [X] Added temperature, weather condition and city name, as well as anti-alias for hour and minute hands
-* 0.3.0
+* 0.3.0 (Coming soon)
 - [ ] Correct bug with battery % on Venu and D2 Air devices (font size issue due to bigger resolution)
 * 0.4.0
 - [ ] Start adding features to the settings page, like giving the ability to the user to chose between different indicators
