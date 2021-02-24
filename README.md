@@ -11,21 +11,23 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
 * Garmin Logo;
 * Current Date;
-* Battery percentage with symbol changing colors depending on battery left: Red (<=15%), Yellow (between 16 and 30%) and Green (>30%);
-* Heart Rate data, showing current value and a symbol that is presented with colors from 5 different rate zones: Grey (<90 bpm), Blue (between 90 and 113 bpm), Green (between 114 and 137 bpm), Yellow (between 138 and 161 bpm) and Red (>=162 bpm);
+* Battery percentage with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 16 and 30%) and Green (greater than 30%);
+* Heart Rate data, showing current value and a symbol that is presented with colors from 7 different rate zones automatically calculated by Garmin based on your gender, current health and age range;
 * Notifications count;
 * Floors climbed count;
-* Distance traveled on the day (km or miles, dependent on watch's general config);
-* Bluetooth indicator: Blue (connected to phone) or Grey (not connected);
-* Do not Disturb indicator (only shown if active).
+* Distance travelled on the day (km or miles, dependent on watch's selected unit on general config);
+* Temperature indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
+* City name (if available) and current weather condition;
+* Bluetooth indicator: Blue (connected to the phone) or Grey (not connected);
+* Do not Disturb indicator (only shown if mode is active).
 
 ## Release notes:
 * 0.1.0 (22/Feb/21)
 - [x] Initial public release
 * 0.2.0 (Coming soon)
-- [ ] Add city and temperature data, as well as blood oxygen percentage (if applicable)
+- [X] Added temperature, weather condition and city name, as well as anti-alias for hour and minute hands
 * 0.3.0
-- [ ] Correct bug with battery % on other devices (font size issue due to smaller or bigger resolution)
+- [ ] Correct bug with battery % on Venu and D2 Air devices (font size issue due to bigger resolution)
 * 0.4.0
 - [ ] Start adding features to the settings page, like giving the ability to the user to chose between different indicators
 
