@@ -19,17 +19,22 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Temperature indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
 * City name (if available) and current weather condition;
 * Bluetooth indicator: Blue (connected to the phone) or Grey (not connected);
-* Do not Disturb indicator (only shown if mode is active).
+* Do not Disturb indicator (only shown if mode is active);
+* Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again (coming soon).
 
 ## Release notes:
 * 0.1.0 (22/Feb/21)
 - [x] Initial public release
-* 0.2.0 (24/Feb/21)
+* 0.2.0 (23/Feb/21)
 - [X] Added temperature, weather condition and city name, as well as anti-alias for hour and minute hands
-* 0.3.0 (Coming soon)
-- [ ] Correct bug with battery % on Venu and D2 Air devices (font size issue due to bigger resolution)
-* 0.4.0
-- [ ] Start adding features to the settings page, like giving the ability to the user to chose between different indicators
+* 0.3.0 (24/Feb/21)
+- [X] Correct bug with battery % on Venu and D2 Air devices (font size issue due to bigger resolution)
+* 0.4.0 (Coming soon)
+- [ ] Improve alignment of battery % text on different watch sizes and resolutions
+* 0.5.0
+- [ ] Add the blood oxygen percentage (on supported watches only) when that is activated (usually during the night), temporarily replacing the floor climb count. When pulse ox is disabled, the floor count will show up again. Useful for people that are using pulse ox 24/7 or for those who wake up during the night (mainly those with sleep apnea) and want to check their current blood oxygen percentage.
+* 0.6.0
+- [ ] Start adding features to the settings page, like giving the ability for the user to chose between different hand colors
 
 ## Support this project:
 https://paypal.me/pools/c/8x2wuxFwFu
