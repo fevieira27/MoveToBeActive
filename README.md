@@ -12,7 +12,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Garmin Logo;
 * Current Date;
 * Battery percentage with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 16 and 30%) and Green (greater than 30%);
-* Heart Rate data, showing current value and a symbol that is presented with colors from 7 different rate zones automatically calculated by Garmin based on your gender, current health and age range;
+* Heart Rate data, showing last available value (not updated every second to save battery) and a symbol that is presented with colors from 7 different rate zones automatically calculated by Garmin based on your gender, current health and age range;
 * Notifications count;
 * Floors climbed count;
 * Distance travelled on the day (km or miles, dependent on watch's selected unit on general config);
