@@ -22,6 +22,9 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Do not Disturb indicator (only shown if mode is active);
 * Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again (coming soon).
 
+## Support this project:
+https://paypal.me/pools/c/8x2wuxFwFu
+
 ## Release notes:
 * 0.1.0 (22/Feb/21)
 - [x] Initial public release
@@ -35,10 +38,6 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 - [ ] Add the blood oxygen percentage (on supported watches only) when that is activated (usually during the night), temporarily replacing the floor climb count. When pulse ox is disabled, the floor count will show up again. Useful for people that are using pulse ox 24/7 or for those who wake up during the night (mainly those with sleep apnea) and want to check their current blood oxygen percentage.
 * 0.5.0
 - [ ] Start adding features to the settings page, like giving the ability for the user to chose between different hand colors
-
-## Support this project:
-https://paypal.me/pools/c/8x2wuxFwFu
-
 
 ## Watchface examples: (Not real photos, these were taken from the Garmin Watch Simulator)
 
