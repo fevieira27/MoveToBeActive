@@ -9,10 +9,14 @@ using Toybox.Lang;
 using Toybox.Math;
 using Toybox.System;
 using Toybox.Time;
-using Toybox.Time.Gregorian;
 using Toybox.WatchUi;
 using Toybox.Application;
 using Toybox.ActivityMonitor;
+using Toybox.Activity;
+using Toybox.Weather as CurrentConditions;
+using Toybox.SensorHistory;
+using Toybox.UserProfile as User;
+
 
 var partialUpdatesAllowed = false;
 
@@ -22,13 +26,12 @@ class AnalogView extends WatchUi.WatchFace
 {
     var font;
     var IconsFont;
-    //var isAwake;
+    var WeatherFont;
     var screenShape;
     var dndIcon;
 	var garminIcon;
     var offscreenBuffer;
     var dateBuffer;
-    //var curClip;
     var screenCenterPoint;
     var fullScreenRefresh;
     var stepsIcon;
@@ -38,7 +41,9 @@ class AnalogView extends WatchUi.WatchFace
 	var batteryTextColour;
 	var heartRateIconColour;
 	var heartRateZone;
-
+	var offset = 0;
+	var Xoffset = 0;
+	
     // Initialize variables for this view
     function initialize() {
         WatchFace.initialize();
@@ -53,6 +58,7 @@ class AnalogView extends WatchUi.WatchFace
         // Load the custom fonts: used for drawing the 3, 6, 9, and 12 on the watchface and various icons
         font = WatchUi.loadResource(Rez.Fonts.id_font_black_diamond);
         IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont); 
+        WeatherFont = WatchUi.loadResource(Rez.Fonts.WeatherFont);
 
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
         if(Toybox.Graphics has :BufferedBitmap) {
@@ -84,8 +90,6 @@ class AnalogView extends WatchUi.WatchFace
         } else {
             offscreenBuffer = null;
         }
-
-        //curClip = null;
 
         screenCenterPoint = [dc.getWidth()/2, dc.getHeight()/2];
     }
@@ -177,31 +181,26 @@ class AnalogView extends WatchUi.WatchFace
         var width;
         var height;
         var clockTime = System.getClockTime();
-        //var stepCount = ActivityMonitor.getInfo().steps.toString();
         var stepDistance = ActivityMonitor.getInfo().distance;//.toString();
         var DistanceMetric = System.getDeviceSettings().distanceUnits;
-        var floorsCount = ActivityMonitor.getInfo().floorsClimbed;//.toString();
+        var TempMetric = System.getDeviceSettings().temperatureUnits;
         var minuteHandAngle;
         var hourHandAngle;
-        //var secondHand;
         var targetDc = null;
-        
-        // notification count
-        var notificationAmount = System.getDeviceSettings().notificationCount;
-    	var formattedNotificationAmount = "";
-    	if(notificationAmount > 99)	{
-			formattedNotificationAmount = "99+";
-		}
-		else {
-			formattedNotificationAmount = notificationAmount.format("%d");
-		}
-
+        var floorsCount = null;
+        if (ActivityMonitor.getInfo() has :floorsClimbed) {
+        	floorsCount = ActivityMonitor.getInfo().floorsClimbed;//.toString();
+        }
+        var pulseOx = null;
+        if (ActivityMonitor.getInfo() has :currentOxygenSaturation) {
+        	pulseOx = ActivityMonitor.getInfo().currentOxygenSaturation;
+        }
+        		
         // We always want to refresh the full screen when we get a regular onUpdate call.
         fullScreenRefresh = true;
 
         if(null != offscreenBuffer) {
             dc.clearClip();
-            //curClip = null;
             // If we have an offscreen buffer that we are using to draw the background,
             // set the draw context of that buffer as our target.
             targetDc = offscreenBuffer.getDc();
@@ -211,6 +210,10 @@ class AnalogView extends WatchUi.WatchFace
 
         width = targetDc.getWidth();
         height = targetDc.getHeight();
+        if (width==390) { // Venu & D2 Air
+			Xoffset = 10;
+		}
+        
 
         // Fill the entire background with Black.
         targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
@@ -229,16 +232,112 @@ class AnalogView extends WatchUi.WatchFace
 		dc.drawText(width - 13, (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
 		dc.drawText(width / 2, height - 41, font, "6", Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(13, (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
+				
+		
+		//Weather
+		if(CurrentConditions has :getCurrentConditions) {
+			var weather = CurrentConditions.getCurrentConditions();
+			//System.println(CurrentConditions.getCurrentConditions().condition);
+			//System.println(CurrentConditions.getCurrentConditions().feelsLikeTemperature);
+			//System.println(CurrentConditions.getCurrentConditions().relativeHumidity);
+	        //System.println(CurrentConditions.getCurrentConditions().precipitationChance);
+			
+			offset = 0;
+	        if (width==218) { // Vivoactive 4S
+				offset = 5;
+			} else if (width==240) { // Fenix 6S
+				offset = 3;
+			}
+
+	        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+	        if (weather.condition == 20) { // Cloudy
+	       		dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "I", Graphics.TEXT_JUSTIFY_RIGHT); // Cloudy
+	       	} else if (weather.condition == 0 or weather.condition == 5) { // Clear or Windy
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.15-Xoffset+offset, height*0.65-29, WeatherFont, "f", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Night	
+	       		} else {
+	       			dc.drawText(width/2.15-Xoffset+offset, height*0.65-29, WeatherFont, "H", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Day
+	       		}
+	       	} else if (weather.condition == 1 or weather.condition == 23 or weather.condition == 40 or weather.condition == 52) { // Partly Cloudy or Mostly Clear or fair or thin clouds
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "g", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Night
+	       		} else {
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "G", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Day
+	       		}
+			} else if (weather.condition == 2 or weather.condition == 22) { // Mostly Cloudy or Partly Clear
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "h", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Night
+	       		} else {
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "B", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Day
+	       		}
+			} else if (weather.condition == 3 or weather.condition == 14 or weather.condition == 15 or weather.condition == 11 or weather.condition == 13 or weather.condition == 24 or weather.condition == 25 or weather.condition == 26 or weather.condition == 27 or weather.condition == 45) { // Rain or Light Rain or heavy rain or showers or unkown or chance  
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "c", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Night
+	       		} else {
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "D", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Day
+	       		}
+			} else if (weather.condition == 4 or weather.condition == 10 or weather.condition == 16 or weather.condition == 17 or weather.condition == 34 or weather.condition == 43 or weather.condition == 46 or weather.condition == 48 or weather.condition == 51) { // Snow or Hail or light or heavy snow or ice or chance or cloudy chance or flurries or ice snow
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "e", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Night
+	       		} else {
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "F", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Day
+	       		}
+			} else if (weather.condition == 6 or weather.condition == 12 or weather.condition == 28 or weather.condition == 32 or weather.condition == 36 or weather.condition == 41 or weather.condition == 42) { // Thunder or scattered or chance or tornado or squall or hurricane or tropical storm
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "b", Graphics.TEXT_JUSTIFY_RIGHT); // Thunder Night
+	       		} else {
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "C", Graphics.TEXT_JUSTIFY_RIGHT); // Thunder Day
+	       		}
+			} else if (weather.condition == 7 or weather.condition == 18 or weather.condition == 19 or weather.condition == 21 or weather.condition == 44 or weather.condition == 47 or weather.condition == 49 or weather.condition == 50) { // Wintry Mix (Snow and Rain) or chance or cloudy chance or freezing rain or sleet
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "d", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Night
+	       		} else {
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "E", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Day
+	       		}
+			} else if (weather.condition == 8 or weather.condition == 9 or weather.condition == 29 or weather.condition == 30 or weather.condition == 31 or weather.condition == 33 or weather.condition == 35 or weather.condition == 37 or weather.condition == 38 or weather.condition == 39) { // Fog or Hazy or Mist or Dust or Drizzle or Smoke or Sand or sandstorm or ash or haze
+				if (clockTime.hour >= 18 or clockTime.hour < 6) { 
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "a", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Night
+	       		} else {
+	       			dc.drawText(width/2.1-Xoffset+offset, height*0.65-29, WeatherFont, "A", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Day
+	       		}       		
+	        }
+	        
+	        if(weather has :temperature) {
+	        	if (TempMetric == System.UNIT_METRIC) { 
+	        		dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, weather.temperature+"°C", Graphics.TEXT_JUSTIFY_LEFT);
+	        	}
+	        	else {
+	        		var fahrenheit = (weather.temperature * 9/5) + 32; 
+	        		fahrenheit = Lang.format("$1$", [fahrenheit.format("%d")] );
+	        		dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, fahrenheit +"°F", Graphics.TEXT_JUSTIFY_LEFT);
+	        	}
+	        	//dc.drawText(width/2 - 15, height*0.58, IconsFont, "<", Graphics.TEXT_JUSTIFY_CENTER); // Using Font;
+	        }
+	        if(weather has :observationLocationName) {
+		        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		        dc.drawText(width/2, height*0.65, Graphics.FONT_XTINY, weather.observationLocationName, Graphics.TEXT_JUSTIFY_CENTER);
+		    }		
+		}		
+		
 		
 		// Get heart rate
 		var heartRate;
-    	if(ActivityMonitor has :INVALID_HR_SAMPLE) {
-    		heartRate = retrieveHeartrateText();
-    	}
-    	else {
-    		heartRate = 0;
-    	}
-		
+
+    	if(ActivityMonitor has :getHeartRateHistory) {
+    		heartRate = Activity.getActivityInfo().currentHeartRate; 
+    		if(heartRate==null) {
+    			var HRH=ActivityMonitor.getHeartRateHistory(1, true);
+				var HRS=HRH.next();
+				if(HRS!=null && HRS.heartRate!= ActivityMonitor.INVALID_HR_SAMPLE){
+					heartRate = HRS.heartRate;
+				}
+    		}
+	    	if(heartRate==null) {
+				heartRate = 0;
+			}
+		} else {
+			heartRate = 0;
+		}
 
 		// Render heart rate text
 		var heartRateText;
@@ -247,57 +346,63 @@ class AnalogView extends WatchUi.WatchFace
 		} else {
 			heartRateText=heartRate.format("%d");
 		}
-		//dc.drawText(width/4, height/2 /* heartRateTextY */, Graphics.FONT_XTINY /* heartRateFont */, heartRateText, Graphics.TEXT_JUSTIFY_CENTER );
 
-		// Heart rate zones definition
+
+		// Heart rate zones color definition (values for each zone are automatically calculated by Garmin)	
+		var autoZones = User.getHeartRateZones(User.getCurrentSport());
+		 
 		heartRateZone = 0;
-		if (heartRate >= 162) {
+		if (heartRate >= autoZones[5]) { // 185
+			heartRateZone = 7;
+		} else if (heartRate >= autoZones[4]) { // 167
+			heartRateZone = 6;
+		} else if (heartRate >= autoZones[3]) { // 148
 			heartRateZone = 5;
-		} else if (heartRate >= 138) {
+		} else if (heartRate >= autoZones[2]) { // 138
 			heartRateZone = 4;
-		} else if (heartRate >= 114) {
+		} else if (heartRate >= autoZones[1]) { // 114
 			heartRateZone = 3;
-		} else if (heartRate >= 90) {
+		} else if (heartRate >= autoZones[0]) { // 90
 			heartRateZone = 2;
-		} else {
+		} else {  
 			heartRateZone = 1;
 		}
 		
 		// Choose the colour of the heart rate icon based on heart rate zone
-		if (heartRateZone == 0) {
+		if (heartRateZone == 0) { // No zones detected
+			heartRateIconColour = Graphics.COLOR_DK_GRAY; 
+		} else if (heartRateZone == 1) { // Resting / Light load
 			heartRateIconColour = Graphics.COLOR_LT_GRAY;
-		} else if (heartRateZone == 1) {
-			heartRateIconColour = Graphics.COLOR_DK_GRAY;
 		} else if (heartRateZone == 2) {
 			heartRateIconColour = Graphics.COLOR_BLUE;
 		} else if (heartRateZone == 3) {
 			heartRateIconColour = 0xAAFF00; /* Vivomove GREEN */
 		} else if (heartRateZone == 4) {
 			heartRateIconColour = 0xFFFF55; /* pastel yellow */
-		} else if (heartRateZone == 5){
+		} else if (heartRateZone == 5) {
+			heartRateIconColour = 0xFFAA00; /* orange */
+		} else if (heartRateZone == 6){
 			heartRateIconColour = 0xFF5555; /* pastel red */
+ 		} else if (heartRateZone == 7){
+			heartRateIconColour = 0xFF0000; /* bright red */
 		}
-
-		
+			
 		// Render heart rate icon and text
+		offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 6;	
+		}
+		
 		var hrIconY = height/2.9;
 		var hrIconWidth = 17;
 		dc.setColor(heartRateIconColour, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( width / 4.6 , hrIconY  , IconsFont, "3", Graphics.TEXT_JUSTIFY_CENTER); // Using Icon
-/*		dc.fillCircle(width/4 - (hrIconWidth / 4.7), hrIconY + (hrIconWidth / 3.2), hrIconWidth / 3.2);
-		dc.fillCircle(width/4 + (hrIconWidth / 4.7), hrIconY + (hrIconWidth / 3.2), hrIconWidth / 3.2);
-		dc.fillPolygon([
-			[width/4 - (hrIconWidth / 2.2), hrIconY + (hrIconWidth / 1.8) - 2],
-			[width/4, hrIconY + (hrIconWidth * 0.95)],
-			[width/4 + (hrIconWidth / 2.2), hrIconY + (hrIconWidth / 1.8) - 0.5]
-		]);
-*/ // Using Polygons
+		dc.drawText( width / 4.7 - Xoffset , hrIconY - 1 + offset , IconsFont, "3", Graphics.TEXT_JUSTIFY_CENTER); // Using Icon
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(width / 3.7, hrIconY + (hrIconWidth / 2) - 3 , Graphics.FONT_XTINY, heartRateText, Graphics.TEXT_JUSTIFY_LEFT);		
+		dc.drawText(width / 3.65 - offset - Xoffset, hrIconY + (hrIconWidth / 2) -6 , Graphics.FONT_XTINY, heartRateText, Graphics.TEXT_JUSTIFY_LEFT);		
 
 
         // Choose the colour of the battery based on it's state
-		var battery = Math.floor(System.getSystemStats().battery); //System.getSystemStats().battery.toLong()
+		var battery = Math.floor(System.getSystemStats().battery);
 		var batteryState;
 		
 		if (battery >= 50) {
@@ -321,13 +426,28 @@ class AnalogView extends WatchUi.WatchFace
 			batteryIconColour = Graphics.COLOR_DK_GRAY ; 
 		}
         
-        // Render battery
-		dc.setColor(batteryIconColour, Graphics.COLOR_TRANSPARENT); //dc.fillRoundedRectangle(x, y, width, height, radius)
-		dc.fillRoundedRectangle(width*0.7-3, (height / 2)-7 , 35 /* batteryWidth */, 16 /* batteryHeight */, 2);
-		dc.fillRoundedRectangle(width*0.7+ 31, (height / 2)-4 , 4 /* batteryWidth */, 10 /* batteryHeight */, 2);
+        // Render battery icon
+		offset = 0;
+		if (width==218) { // Vivoactive 4S
+			offset = 1;	
+		} else if (width==280) { //Enduro & Fenix 6X Pro
+			offset = -1;
+		}
+		dc.setColor(batteryIconColour, Graphics.COLOR_TRANSPARENT); 
+		//dc.fillRoundedRectangle(x, y, width, height, radius)
+		dc.fillRoundedRectangle(width*0.69, height / 2.1 , width*0.135 /* batteryWidth */, height*0.0625 /* batteryHeight */, 2);
+		dc.fillRoundedRectangle(width*0.82, height / 2.05 , width*0.018 /* batteryWidth */, height*0.039 - offset /* batteryHeight */, 2);
+		offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = -2;	
+		} else if (width==280) { // Enduro & Fenix 6X Pro
+			offset = 0.75;	
+		}  else if (width==218 or width==240) { // Vivoactive 4S & Fenix 6S
+			offset = -0.5;	
+		} 
 		dc.setColor(batteryTextColour, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(width*0.7+14, (height / 2)-9, Graphics.FONT_XTINY /* batteryFont */,battery.format("%d") + "%", Graphics.TEXT_JUSTIFY_CENTER );
-
+		dc.drawText(width*0.76, height / 2.12 - 1 + offset , Graphics.FONT_XTINY /* batteryFont */,battery.format("%d") + "%", Graphics.TEXT_JUSTIFY_CENTER ); // Correct battery text on Fenix 5 series (except 5s)
+		
         // If this device supports the Do Not Disturb feature,
         // load the associated Icon into memory.
         if (System.getDeviceSettings() has :doNotDisturb) {
@@ -335,46 +455,107 @@ class AnalogView extends WatchUi.WatchFace
         } else {
             dndIcon = null;
         }
-        
         // Draw the do-not-disturb icon if we support it and the setting is enabled
+        offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		} 
         if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
-            dc.drawBitmap( width /2.2, height * 0.32 , dndIcon);
+            dc.drawBitmap( width /2.2 + offset, height * 0.31 , dndIcon);
         }
+        
 
-        // Garmin Logo
+        // Garmin Logo -- Create script to remove logo from Fenix 5 series (except 5 Plus and 5x Plus) and Forerunner Series
         garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
         dc.drawBitmap( width / 2 - 50, height / 6 , garminIcon);
         
+        
 		// Notifications
-		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( width *0.8, height * 0.572 , Graphics.FONT_XTINY, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
-		dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( width *0.74, height * 0.562, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
+       	var formattedNotificationAmount = "";
+       	var notificationAmount;
+
+       	offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 10;	
+		} else if (width==280 or width==240) { // Enduro & Fenix 6X Pro
+			offset = 1;	
+		} else if (width==218) { // Vivoactive 4S & Fenix 6S
+			offset = -1;	
+		}        
+       
+        if (System.getDeviceSettings() has :notificationCount) {
+	        notificationAmount = System.getDeviceSettings().notificationCount;
+	    	if(notificationAmount > 20)	{
+				formattedNotificationAmount = "20+";
+			}
+			else {
+				formattedNotificationAmount = notificationAmount.format("%d");
+			}
+		}
+		if (System.getDeviceSettings() has :notificationCount) {
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			dc.drawText( width *0.8 - Xoffset, height * 0.572 , Graphics.FONT_XTINY, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
+			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			dc.drawText( width *0.74 + offset/2 - Xoffset, height * 0.56 + offset, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
+		}
 		
-		//Bluetooth
+		
+		//Bluetooth icon
+		offset = 0;
+		if (width==218) { // Vivoactive 4S & Fenix 6S
+			offset = -5;	
+		} else if (width==390) { // Venu & D2 Air
+			offset = 9;	
+		}
+				
 		var settings = System.getDeviceSettings().phoneConnected;
 		if (settings) {
 			dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
 		} else {
 			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 		}
-		dc.drawText( width*0.7+14, height / 2.9, IconsFont, "8", Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText( width*0.7+14 + offset, height / 2.9 + offset, IconsFont, "8", Graphics.TEXT_JUSTIFY_CENTER);
         
   
         //Floors Climbed
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText( width / 4.7, height / 2.2 , IconsFont, "1", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText( width / 3.7, height / 2.12 , Graphics.FONT_XTINY, floorsCount, Graphics.TEXT_JUSTIFY_LEFT);
-  
+        offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}
+        
+        if (pulseOx!= null) {
+        	// Change the colour of the pulse Ox icon based on current value
+			if (pulseOx >= 95) { // Normal
+				dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+			} else if (pulseOx >= 85) { // Between Normal and Brain being affected
+				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); /* Blue */
+			} else if (pulseOx >= 80) { // Brain affected
+				dc.setColor(0xFFFF55, Graphics.COLOR_TRANSPARENT); /* pastel yellow */
+			} else if (pulseOx >= 66) { // Between brain affected and cyanosis
+				dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT); /* orange */
+			} else {
+				dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT); /* red */
+			}
+        	dc.drawText( width / 4.7 - Xoffset, height * 0.565 + offset , IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+        	dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        	dc.drawText( width / 3.75 - offset - Xoffset, height * 0.572 , Graphics.FONT_XTINY, Lang.format("$1$%", [pulseOx.format("%.0f")] ), Graphics.TEXT_JUSTIFY_LEFT);
+        } else if (ActivityMonitor.getInfo() has :floorsClimbed) {
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        	dc.drawText( width / 4.7 - Xoffset, height * 0.565 + offset , IconsFont, "1", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+        	dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        	dc.drawText( width / 3.65 - offset - Xoffset, height * 0.572 , Graphics.FONT_XTINY, floorsCount, Graphics.TEXT_JUSTIFY_LEFT);
+        }
         
         //Steps Icon
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT); 
-        dc.drawText( width / 4.5, height * 0.56, IconsFont, "0", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
-        //stepsIcon = WatchUi.loadResource(Rez.Drawables.isd); // Using Icon
-        //dc.drawBitmap( width / 2 - 78, height / 2 - 15 , stepsIcon); // Using Icon
+        offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}
         
-        // Steps Distance		
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT); 
+        dc.drawText( width / 4.6 - Xoffset, height / 2.25 + offset, IconsFont, "0", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+        
+        // Steps Distance Text	
 		if (stepDistance != null) {
         	if (DistanceMetric == System.UNIT_METRIC) {
         		unit = " km";
@@ -394,8 +575,7 @@ class AnalogView extends WatchUi.WatchFace
         }
         
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 3.7, height * 0.572, Graphics.FONT_XTINY, distStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Step Distance
-        //dc.drawText( width / 2 - 50, height / 2 - 10 , Graphics.FONT_XTINY, stepCount, Graphics.TEXT_JUSTIFY_LEFT); // Step Count
+        dc.drawText(width / 3.75 - offset - Xoffset, height / 2.18, Graphics.FONT_XTINY, distStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Step Distance
 
 
         // If we have an offscreen buffer that we are using for the date string,
@@ -423,113 +603,56 @@ class AnalogView extends WatchUi.WatchFace
         hourHandAngle = hourHandAngle * Math.PI * 2;
 
         //Use white to draw the hour hand, with a dark grey background
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 4, 0, 13)); //generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) {
 		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 3, 0, 10));
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 0.75 , 0, 7.25));        
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 -1, 0, 5));
+
         
         // Draw the minute hand.
         minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 18, 0, 10));
-        dc.setColor(0xAAFF00, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 22, 0, 5));
         
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 17, 0, 13));
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 18, 0, 11));
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 20.25, 0, 7.06));
+        dc.setColor(0xAAFF00, Graphics.COLOR_BLACK);
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 22, 0, 5.015));
+
+	    		        
         // Draw the arbor in the center of the screen.
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
         dc.fillCircle(width / 2, height / 2, 7);
         dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);
         dc.drawCircle(width / 2, height / 2, 7);
         
-//        if( partialUpdatesAllowed ) {
-            // If this device supports partial updates and they are currently
-            // allowed run the onPartialUpdate method to draw the second hand.
-            //onPartialUpdate( dc );
-//        } else if ( isAwake ) {
-            // Otherwise, if we are out of sleep mode, draw the second hand
-            // directly in the full update method.
-            //dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-            //secondHand = (clockTime.sec / 60.0) * Math.PI * 2;
-
-            //dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHand, 60, 20, 2));
-//        }
-
-
         fullScreenRefresh = false;
     }
     
     // Draw the date string into the provided buffer at the specified location
     function drawDateString( dc, x, y ) {
-        var info = Gregorian.info(Time.now(), Time.FORMAT_LONG);
+        var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
         var dateStr = Lang.format("$1$, $2$ $3$", [info.day_of_week, info.month, info.day]);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+        
+        dc.drawText(x, y + Xoffset, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
-    
-       
-    function retrieveHeartrateText() {
-    	var heartrateIterator = ActivityMonitor.getHeartRateHistory(null, false);
-    	var currentHeartrate = heartrateIterator.next().heartRate;
-    	
-    	if(currentHeartrate == ActivityMonitor.INVALID_HR_SAMPLE) {
-			return "";
-		}
-	
-		return currentHeartrate;
-    }
-    
-    
+      
 
     // Handle the partial update event
     //function onPartialUpdate( dc ) {
         // If we're not doing a full screen refresh we need to re-draw the background
         // before drawing the updated second hand position. Note this will only re-draw
         // the background in the area specified by the previously computed clipping region.
-      //  if(!fullScreenRefresh) {
-        //    drawBackground(dc);
-        //}
-
-        //var clockTime = System.getClockTime();
-        //var secondHand = (clockTime.sec / 60.0) * Math.PI * 2;
-        //var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, 60, 20, 2);
-
-        // Update the cliping rectangle to the new location of the second hand.
-        //curClip = getBoundingBox( secondHandPoints );
-        //var bboxWidth = curClip[1][0] - curClip[0][0] + 1;
-        //var bboxHeight = curClip[1][1] - curClip[0][1] + 1;
-        //dc.setClip(curClip[0][0], curClip[0][1], bboxWidth, bboxHeight);
-
-        // Draw the second hand to the screen.
-        //dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-        //dc.fillPolygon(secondHandPoints);
     //}
 
-    // Compute a bounding box from the passed in points
-    function getBoundingBox( points ) {
-        var min = [9999,9999];
-        var max = [0,0];
-
-        for (var i = 0; i < points.size(); ++i) {
-            if(points[i][0] < min[0]) {
-                min[0] = points[i][0];
-            }
-
-            if(points[i][1] < min[1]) {
-                min[1] = points[i][1];
-            }
-
-            if(points[i][0] > max[0]) {
-                max[0] = points[i][0];
-            }
-
-            if(points[i][1] > max[1]) {
-                max[1] = points[i][1];
-            }
-        }
-
-        return [min, max];
-    }
 
     // Draw the watch face background
     // onUpdate uses this method to transfer newly rendered Buffered Bitmaps
@@ -547,12 +670,17 @@ class AnalogView extends WatchUi.WatchFace
         }
 
         // Draw the date
+        offset = 0;
+        if (width==218) { // Vivoactive 4S
+			offset = -3;
+		}
+        
         if( null != dateBuffer ) {
             // If the date is saved in a Buffered Bitmap, just copy it from there.
-            dc.drawBitmap(0, (height * 0.70), dateBuffer );
+            dc.drawBitmap(0, (height * 0.725) + offset, dateBuffer );
         } else {
             // Otherwise, draw it from scratch.
-            drawDateString( dc, width / 2, height * 0.70 );
+            drawDateString( dc, width / 2 , height * 0.725 + offset );
             
 		    // Draw the tick marks around the edges of the screen
 		    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
