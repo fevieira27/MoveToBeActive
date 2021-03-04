@@ -11,8 +11,8 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
 * Garmin Logo;
 * Current Date;
-* Battery percentage with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 16 and 30%) and Green (greater than 30%);
-* Heart Rate data, showing last available value (not updated every second to save battery) and a symbol that is presented with colors from 7 different rate zones automatically calculated by Garmin based on your gender, current health and age range;
+* Battery percentage with symbol changing colors depending on battery left: Red (less than 10%), Yellow (between 11 and 20%) and Green (greater than 21%);
+* Heart Rate data, showing last available value (not updated every second to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On);
 * Notifications count;
 * Floors climbed count;
 * Distance travelled on the day (km or miles, dependent on watch's selected unit on general config);
@@ -20,7 +20,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * City name (if available) and current weather condition;
 * Bluetooth indicator: Blue (connected to the phone) or Grey (not connected);
 * Do not Disturb indicator (only shown if mode is active);
-* Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again (coming soon).
+* Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again.
 
 ## Support this project:
 https://paypal.me/pools/c/8x2wuxFwFu
