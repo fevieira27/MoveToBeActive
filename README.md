@@ -35,8 +35,12 @@ https://paypal.me/pools/c/8x2wuxFwFu
 * 0.3.5 (25/Feb/21)
 - [X] Improve alignment of battery % text and several other icons and texts for different watch sizes and resolutions
 * 0.4.0 (26/Fev/21)
-- [X] Add the blood oxygen percentage (on supported watches only) when that is activated (usually during the night), temporarily replacing the floor climb count. When pulse ox is disabled, the floor count will show up again. Useful for people that are using pulse ox 24/7 or for those who wake up during the night (mainly those with sleep apnea) and want to check their current blood oxygen percentage.
+- [X] Add the blood oxygen percentage (on supported watches only) when that is activated (usually during the night), temporarily replacing the floor climb count. When pulse ox is disabled, the floor count will show up again. Useful for people that are using pulse ox 24/7 or for those who wake up during the night (mainly those with sleep apnea) and want to check their current blood oxygen percentage
+* 0.4.5 (04/Mar/21)
+- [X] Corrected a bug on the battery icon color and added fixed heart rate zones, in case the user didn't set them up on the watch settings (Settings - User Profile - Heart Rate - Zones - Based On)
 * 0.5.0 (coming soon)
+- [ ] Correct Minute and Hour hand lengths and widths on higher resolution watches (Venu, Enduro, Fenix 6X)
+* 0.6.0
 - [ ] Start adding features to the settings page, like giving the ability for the user to chose between different hand colors
 
 ## Watchface examples: (Not real photos, these were taken from the Garmin Watch Simulator)
