@@ -38,9 +38,10 @@ class AnalogView extends WatchUi.WatchFace
     var unit;
     var distStr;
     var batteryIconColour;
-	var batteryTextColour;
 	var heartRateIconColour;
 	var heartRateZone;
+	var heartRate;	
+	var batteryState;
 	var offset = 0;
 	var Xoffset = 0;
 	
@@ -186,6 +187,7 @@ class AnalogView extends WatchUi.WatchFace
         var TempMetric = System.getDeviceSettings().temperatureUnits;
         var minuteHandAngle;
         var hourHandAngle;
+        var battery = Math.ceil(System.getSystemStats().battery);        
         var targetDc = null;
         var floorsCount = null;
         if (ActivityMonitor.getInfo() has :floorsClimbed) {
@@ -321,8 +323,6 @@ class AnalogView extends WatchUi.WatchFace
 		
 		
 		// Get heart rate
-		var heartRate;
-
     	if(ActivityMonitor has :getHeartRateHistory) {
     		heartRate = Activity.getActivityInfo().currentHeartRate; 
     		if(heartRate==null) {
@@ -350,7 +350,6 @@ class AnalogView extends WatchUi.WatchFace
 
 		// Heart rate zones color definition (values for each zone are automatically calculated by Garmin)	
 		var autoZones = User.getHeartRateZones(User.getCurrentSport());
-		 
 		heartRateZone = 0;
 		if (heartRate >= autoZones[5]) { // 185
 			heartRateZone = 7;
@@ -358,32 +357,50 @@ class AnalogView extends WatchUi.WatchFace
 			heartRateZone = 6;
 		} else if (heartRate >= autoZones[3]) { // 148
 			heartRateZone = 5;
-		} else if (heartRate >= autoZones[2]) { // 138
+		} else if (heartRate >= autoZones[2]) { // 130
 			heartRateZone = 4;
-		} else if (heartRate >= autoZones[1]) { // 114
+		} else if (heartRate >= autoZones[1]) { // 111
 			heartRateZone = 3;
-		} else if (heartRate >= autoZones[0]) { // 90
+		} else if (heartRate >= autoZones[0]) { // 93
 			heartRateZone = 2;
 		} else {  
 			heartRateZone = 1;
 		}
 		
 		// Choose the colour of the heart rate icon based on heart rate zone
-		if (heartRateZone == 0) { // No zones detected
-			heartRateIconColour = Graphics.COLOR_DK_GRAY; 
-		} else if (heartRateZone == 1) { // Resting / Light load
+		if (heartRateZone == 0) { // No default zones detected
+			if (heartRate >= 185) {
+				heartRateZone = 7;
+			} else if (heartRate >= 167) {
+				heartRateZone = 6;
+			} else if (heartRate >= 148) {
+				heartRateZone = 5;
+			} else if (heartRate >= 130) {
+				heartRateZone = 4;
+			} else if (heartRate >= 111) {
+				heartRateZone = 3;
+			} else if (heartRate >= 93) {
+				heartRateZone = 2;
+			} else if (heartRate > 0) {
+				heartRateZone = 1;
+			} else {
+				heartRateIconColour = Graphics.COLOR_DK_GRAY; //No heart rate detected
+			} 
+		} 
+		
+		if (heartRateZone == 1) { // Resting / Light load
 			heartRateIconColour = Graphics.COLOR_LT_GRAY;
-		} else if (heartRateZone == 2) {
+		} else if (heartRateZone == 2) { // Moderate Effort
 			heartRateIconColour = Graphics.COLOR_BLUE;
-		} else if (heartRateZone == 3) {
+		} else if (heartRateZone == 3) { // Weight Control
 			heartRateIconColour = 0xAAFF00; /* Vivomove GREEN */
-		} else if (heartRateZone == 4) {
+		} else if (heartRateZone == 4) { // Aerobic
 			heartRateIconColour = 0xFFFF55; /* pastel yellow */
-		} else if (heartRateZone == 5) {
+		} else if (heartRateZone == 5) { // Anaerobic
 			heartRateIconColour = 0xFFAA00; /* orange */
-		} else if (heartRateZone == 6){
+		} else if (heartRateZone == 6){ // Maximum effort
 			heartRateIconColour = 0xFF5555; /* pastel red */
- 		} else if (heartRateZone == 7){
+ 		} else if (heartRateZone == 7){ // Speed
 			heartRateIconColour = 0xFF0000; /* bright red */
 		}
 			
@@ -402,10 +419,7 @@ class AnalogView extends WatchUi.WatchFace
 
 
         // Choose the colour of the battery based on it's state
-		var battery = Math.floor(System.getSystemStats().battery);
-		var batteryState;
-		
-		if (battery >= 50) {
+        if (battery > 20) {
 			batteryState=0;
 		} else if (battery <= 10) {
 			batteryState=1;
@@ -414,8 +428,7 @@ class AnalogView extends WatchUi.WatchFace
 		} else {
 			batteryState=3;
 		}
-
-		batteryTextColour = Graphics.COLOR_BLACK;
+		
 		if (batteryState == 0) {
 			batteryIconColour = 0xAAFF00 /* Vivomove GREEN */;
 		} else if (batteryState == 1) {
@@ -423,7 +436,7 @@ class AnalogView extends WatchUi.WatchFace
 		} else if (batteryState == 2) {
 			batteryIconColour = 0xFFFF55 /* pastel yellow */;
 		} else {
-			batteryIconColour = Graphics.COLOR_DK_GRAY ; 
+			batteryIconColour = Graphics.COLOR_LT_GRAY ; // Not detected
 		}
         
         // Render battery icon
@@ -445,7 +458,7 @@ class AnalogView extends WatchUi.WatchFace
 		}  else if (width==218 or width==240) { // Vivoactive 4S & Fenix 6S
 			offset = -0.5;	
 		} 
-		dc.setColor(batteryTextColour, Graphics.COLOR_TRANSPARENT);
+		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		dc.drawText(width*0.76, height / 2.12 - 1 + offset , Graphics.FONT_XTINY /* batteryFont */,battery.format("%d") + "%", Graphics.TEXT_JUSTIFY_CENTER ); // Correct battery text on Fenix 5 series (except 5s)
 		
         // If this device supports the Do Not Disturb feature,

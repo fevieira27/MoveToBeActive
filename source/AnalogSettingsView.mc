@@ -34,16 +34,16 @@ class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
     function onMenu() {
         var menu = new AnalogSettingsMenu();
         var boolean = Storage.getValue(1) ? true : false;
-        menu.addItem(new WatchUi.ToggleMenuItem("Settings1", null, 1, boolean, null));
+        menu.addItem(new WatchUi.ToggleMenuItem("Coming Soon", null, 1, boolean, null));
 
-        boolean = Storage.getValue(2) ? true : false;
-        menu.addItem(new WatchUi.ToggleMenuItem("Settings2", null, 2, boolean, null));
+'        boolean = Storage.getValue(2) ? true : false;
+'        menu.addItem(new WatchUi.ToggleMenuItem("Settings2", null, 2, boolean, null));
 
-        boolean = Storage.getValue(3) ? true : false;
-        menu.addItem(new WatchUi.ToggleMenuItem("Settings3", null, 3, boolean, null));
+'        boolean = Storage.getValue(3) ? true : false;
+'        menu.addItem(new WatchUi.ToggleMenuItem("Settings3", null, 3, boolean, null));
 
-        boolean = Storage.getValue(4) ? true : false;
-        menu.addItem(new WatchUi.ToggleMenuItem("Settings4", null, 4, boolean, null));
+'        boolean = Storage.getValue(4) ? true : false;
+'        menu.addItem(new WatchUi.ToggleMenuItem("Settings4", null, 4, boolean, null));
 
         WatchUi.pushView( menu, new AnalogSettingsMenuDelegate(), WatchUi.SLIDE_IMMEDIATE);
     }
