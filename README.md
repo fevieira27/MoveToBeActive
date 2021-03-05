@@ -38,6 +38,12 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [X] Add the blood oxygen percentage (on supported watches only) when that is activated (usually during the night), temporarily replacing the floor climb count. When pulse ox is disabled, the floor count will show up again. Useful for people that are using pulse ox 24/7 or for those who wake up during the night (mainly those with sleep apnea) and want to check their current blood oxygen percentage
 * 0.4.5 (04/Mar/21)
 - [X] Corrected a bug on the battery icon color and added fixed heart rate zones, in case the user didn't set them up on the watch settings (Settings - User Profile - Heart Rate - Zones - Based On)
+* 0.4.7 (05/Mar/21)
+- [X] When the location name has more than 15 digits in length, the country is now being omitted. In case the final string is still bigger than 21 digits, it is being truncated (just in case)
+- [X] The floors climbed icon will now turn green when the goal has been reached on that day
+- [X] The steps icon will now turn green when the goal has been reached on that day
+- [X] The notification icon will be grey when there is no notification and green when at least one notification is available
+- [X] Testing a new tone of green, as it was becoming yellow when the backlight was on (transreflective displays only, AMOLED displays will keep the old green tone)
 * 0.5.0 (coming soon)
 - [ ] Correct Minute and Hour hand lengths and widths on higher resolution watches (Venu, Enduro, Fenix 6X)
 * 0.6.0
