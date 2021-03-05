@@ -44,6 +44,7 @@ class AnalogView extends WatchUi.WatchFace
 	var batteryState;
 	var offset = 0;
 	var Xoffset = 0;
+	var greenColor = 0x55FF00; //0xAAFF00
 	
     // Initialize variables for this view
     function initialize() {
@@ -55,7 +56,12 @@ class AnalogView extends WatchUi.WatchFace
 
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
-
+		
+		// Change green color only for Amoled displays
+		if (dc.getWidth()==390) {
+			greenColor = 0xAAFF00;
+		}
+		
         // Load the custom fonts: used for drawing the 3, 6, 9, and 12 on the watchface and various icons
         font = WatchUi.loadResource(Rez.Fonts.id_font_black_diamond);
         IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont); 
@@ -73,10 +79,10 @@ class AnalogView extends WatchUi.WatchFace
                     Graphics.COLOR_DK_GRAY,
                     Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_BLACK,
-                    Graphics.COLOR_WHITE,
-                    Graphics.COLOR_BLUE,
-                    Graphics.COLOR_TRANSPARENT,
-                    0xAAFF00 //Vivomove Green
+                    Graphics.COLOR_WHITE
+                    //,Graphics.COLOR_BLUE
+                    //,Graphics.COLOR_TRANSPARENT
+                    //,0xAAFF00 //Vivomove Green
                 ]
             });
 
@@ -133,7 +139,7 @@ class AnalogView extends WatchUi.WatchFace
             for (var i = 0; i <= 59; i += 1) {
             	var angle = i * Math.PI / 30;
                 if ((i == 15) or (i == 45)) {
-                	dc.setColor(0xAAFF00, 0xAAFF00);
+                	dc.setColor(greenColor, greenColor);
                 }
                 else {
                 	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
@@ -215,7 +221,6 @@ class AnalogView extends WatchUi.WatchFace
         if (width==390) { // Venu & D2 Air
 			Xoffset = 10;
 		}
-        
 
         // Fill the entire background with Black.
         targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
@@ -316,8 +321,19 @@ class AnalogView extends WatchUi.WatchFace
 	        	//dc.drawText(width/2 - 15, height*0.58, IconsFont, "<", Graphics.TEXT_JUSTIFY_CENTER); // Using Font;
 	        }
 	        if(weather has :observationLocationName) {
+	        	var location = weather.observationLocationName;
+	        	if (location.length()>15 and location.find(",")!=null){
+	        		location = location.substring(0,location.find(","));
+	        	}
+        		if (location.length()>=21) {
+        			if (width==280){
+        				location = location.substring(0,25);
+        			} else {
+        				location = location.substring(0,21);
+        			}
+        		}	        	
 		        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-		        dc.drawText(width/2, height*0.65, Graphics.FONT_XTINY, weather.observationLocationName, Graphics.TEXT_JUSTIFY_CENTER);
+		        dc.drawText(width/2, height*0.65, Graphics.FONT_XTINY, location, Graphics.TEXT_JUSTIFY_CENTER);
 		    }		
 		}		
 		
@@ -393,7 +409,7 @@ class AnalogView extends WatchUi.WatchFace
 		} else if (heartRateZone == 2) { // Moderate Effort
 			heartRateIconColour = Graphics.COLOR_BLUE;
 		} else if (heartRateZone == 3) { // Weight Control
-			heartRateIconColour = 0xAAFF00; /* Vivomove GREEN */
+			heartRateIconColour = greenColor; /* Vivomove GREEN */
 		} else if (heartRateZone == 4) { // Aerobic
 			heartRateIconColour = 0xFFFF55; /* pastel yellow */
 		} else if (heartRateZone == 5) { // Anaerobic
@@ -430,7 +446,7 @@ class AnalogView extends WatchUi.WatchFace
 		}
 		
 		if (batteryState == 0) {
-			batteryIconColour = 0xAAFF00 /* Vivomove GREEN */;
+			batteryIconColour = greenColor; //0xAAFF00 /* Vivomove GREEN */;
 		} else if (batteryState == 1) {
 			batteryIconColour = 0xFF5555 /* pastel red */;
 		} else if (batteryState == 2) {
@@ -508,7 +524,11 @@ class AnalogView extends WatchUi.WatchFace
 		if (System.getDeviceSettings() has :notificationCount) {
 			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 			dc.drawText( width *0.8 - Xoffset, height * 0.572 , Graphics.FONT_XTINY, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
-			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			if (formattedNotificationAmount.toNumber() == 0){
+				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			} else {
+				dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT);
+			}
 			dc.drawText( width *0.74 + offset/2 - Xoffset, height * 0.56 + offset, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
 		}
 		
@@ -539,7 +559,7 @@ class AnalogView extends WatchUi.WatchFace
         if (pulseOx!= null) {
         	// Change the colour of the pulse Ox icon based on current value
 			if (pulseOx >= 95) { // Normal
-				dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+				dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
 			} else if (pulseOx >= 85) { // Between Normal and Brain being affected
 				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); /* Blue */
 			} else if (pulseOx >= 80) { // Brain affected
@@ -553,7 +573,11 @@ class AnalogView extends WatchUi.WatchFace
         	dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         	dc.drawText( width / 3.75 - offset - Xoffset, height * 0.572 , Graphics.FONT_XTINY, Lang.format("$1$%", [pulseOx.format("%.0f")] ), Graphics.TEXT_JUSTIFY_LEFT);
         } else if (ActivityMonitor.getInfo() has :floorsClimbed) {
-            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        	if (floorsCount>=ActivityMonitor.getInfo().floorsClimbedGoal) {
+        		dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT);
+        	} else {
+            	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            }
         	dc.drawText( width / 4.7 - Xoffset, height * 0.565 + offset , IconsFont, "1", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
         	dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         	dc.drawText( width / 3.65 - offset - Xoffset, height * 0.572 , Graphics.FONT_XTINY, floorsCount, Graphics.TEXT_JUSTIFY_LEFT);
@@ -565,7 +589,11 @@ class AnalogView extends WatchUi.WatchFace
 			offset = 7;	
 		}
         
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT); 
+        if (ActivityMonitor.getInfo().steps>=ActivityMonitor.getInfo().stepGoal) {
+        	dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT);
+        } else {
+           	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        } 
         dc.drawText( width / 4.6 - Xoffset, height / 2.25 + offset, IconsFont, "0", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
         
         // Steps Distance Text	
@@ -635,7 +663,7 @@ class AnalogView extends WatchUi.WatchFace
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 18, 0, 11));
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 20.25, 0, 7.06));
-        dc.setColor(0xAAFF00, Graphics.COLOR_BLACK);
+        dc.setColor(greenColor, Graphics.COLOR_BLACK);
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 22, 0, 5.015));
 
 	    		        
