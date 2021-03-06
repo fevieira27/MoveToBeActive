@@ -16,6 +16,7 @@ using Toybox.Activity;
 using Toybox.Weather as CurrentConditions;
 using Toybox.SensorHistory;
 using Toybox.UserProfile as User;
+using Toybox.Application.Storage;
 
 
 var partialUpdatesAllowed = false;
@@ -44,8 +45,8 @@ class AnalogView extends WatchUi.WatchFace
 	var batteryState;
 	var offset = 0;
 	var Xoffset = 0;
-	var greenColor = 0x55FF00; //0xAAFF00
-	
+	var accentColor = 0x55FF00;
+
     // Initialize variables for this view
     function initialize() {
         WatchFace.initialize();
@@ -57,9 +58,8 @@ class AnalogView extends WatchUi.WatchFace
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
 		
-		// Change green color only for Amoled displays
-		if (dc.getWidth()==390) {
-			greenColor = 0xAAFF00;
+		if (Storage.getValue(1) != null) {
+			accentColor = Storage.getValue(1);
 		}
 		
         // Load the custom fonts: used for drawing the 3, 6, 9, and 12 on the watchface and various icons
@@ -139,7 +139,7 @@ class AnalogView extends WatchUi.WatchFace
             for (var i = 0; i <= 59; i += 1) {
             	var angle = i * Math.PI / 30;
                 if ((i == 15) or (i == 45)) {
-                	dc.setColor(greenColor, greenColor);
+                	dc.setColor(accentColor, accentColor);
                 }
                 else {
                 	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
@@ -244,7 +244,6 @@ class AnalogView extends WatchUi.WatchFace
 		//Weather
 		if(CurrentConditions has :getCurrentConditions) {
 			var weather = CurrentConditions.getCurrentConditions();
-			//System.println(CurrentConditions.getCurrentConditions().condition);
 			//System.println(CurrentConditions.getCurrentConditions().feelsLikeTemperature);
 			//System.println(CurrentConditions.getCurrentConditions().relativeHumidity);
 	        //System.println(CurrentConditions.getCurrentConditions().precipitationChance);
@@ -409,9 +408,13 @@ class AnalogView extends WatchUi.WatchFace
 		} else if (heartRateZone == 2) { // Moderate Effort
 			heartRateIconColour = Graphics.COLOR_BLUE;
 		} else if (heartRateZone == 3) { // Weight Control
-			heartRateIconColour = greenColor; /* Vivomove GREEN */
+			if (accentColor == 0xAAFF00) {
+				heartRateIconColour = 0xAAFF00; /* Vivomove GREEN */
+			} else {
+				heartRateIconColour = 0x55FF00; /* GREEN */
+			}
 		} else if (heartRateZone == 4) { // Aerobic
-			heartRateIconColour = 0xFFFF55; /* pastel yellow */
+			heartRateIconColour = 0xFFFF00; /* yellow */
 		} else if (heartRateZone == 5) { // Anaerobic
 			heartRateIconColour = 0xFFAA00; /* orange */
 		} else if (heartRateZone == 6){ // Maximum effort
@@ -435,18 +438,22 @@ class AnalogView extends WatchUi.WatchFace
 
 
         // Choose the colour of the battery based on it's state
-        if (battery > 20) {
+        if (battery > 30) {
 			batteryState=0;
-		} else if (battery <= 10) {
+		} else if (battery <= 15) {
 			batteryState=1;
-		} else if (battery <= 20) {
+		} else if (battery <= 30) {
 			batteryState=2;
 		} else {
 			batteryState=3;
 		}
 		
 		if (batteryState == 0) {
-			batteryIconColour = greenColor; //0xAAFF00 /* Vivomove GREEN */;
+			if (accentColor == 0xAAFF00) {
+				batteryIconColour = 0xAAFF00; /* Vivomove GREEN */
+			} else {
+				batteryIconColour = 0x55FF00; /* GREEN */
+			}
 		} else if (batteryState == 1) {
 			batteryIconColour = 0xFF5555 /* pastel red */;
 		} else if (batteryState == 2) {
@@ -527,7 +534,7 @@ class AnalogView extends WatchUi.WatchFace
 			if (formattedNotificationAmount.toNumber() == 0){
 				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 			} else {
-				dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT);
+				dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 			}
 			dc.drawText( width *0.74 + offset/2 - Xoffset, height * 0.56 + offset, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
 		}
@@ -559,7 +566,11 @@ class AnalogView extends WatchUi.WatchFace
         if (pulseOx!= null) {
         	// Change the colour of the pulse Ox icon based on current value
 			if (pulseOx >= 95) { // Normal
-				dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+				if (accentColor == 0xAAFF00) {
+					dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+				} else {
+					dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); /* GREEN */
+				}
 			} else if (pulseOx >= 85) { // Between Normal and Brain being affected
 				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); /* Blue */
 			} else if (pulseOx >= 80) { // Brain affected
@@ -574,7 +585,7 @@ class AnalogView extends WatchUi.WatchFace
         	dc.drawText( width / 3.75 - offset - Xoffset, height * 0.572 , Graphics.FONT_XTINY, Lang.format("$1$%", [pulseOx.format("%.0f")] ), Graphics.TEXT_JUSTIFY_LEFT);
         } else if (ActivityMonitor.getInfo() has :floorsClimbed) {
         	if (floorsCount>=ActivityMonitor.getInfo().floorsClimbedGoal) {
-        		dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT);
+        		dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
         	} else {
             	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
             }
@@ -590,7 +601,7 @@ class AnalogView extends WatchUi.WatchFace
 		}
         
         if (ActivityMonitor.getInfo().steps>=ActivityMonitor.getInfo().stepGoal) {
-        	dc.setColor(greenColor, Graphics.COLOR_TRANSPARENT);
+        	dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
         } else {
            	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         } 
@@ -663,7 +674,7 @@ class AnalogView extends WatchUi.WatchFace
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 18, 0, 11));
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 20.25, 0, 7.06));
-        dc.setColor(greenColor, Graphics.COLOR_BLACK);
+        dc.setColor(accentColor, Graphics.COLOR_BLACK);
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 22, 0, 5.015));
 
 	    		        

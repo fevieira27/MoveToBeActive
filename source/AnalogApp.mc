@@ -38,5 +38,8 @@ class AnalogWatch extends Application.AppBase
 
     function getSettingsView() {
         return [new AnalogSettingsView(), new AnalogSettingsDelegate()];
+        //return [ new Menu2TestView(), new Menu2TestDelegate() ];
     }
 }
+
+
