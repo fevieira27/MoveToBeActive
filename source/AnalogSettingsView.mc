@@ -9,19 +9,41 @@ using Toybox.Graphics;
 using Toybox.System;
 using Toybox.Application.Storage;
 
-class AnalogSettingsView extends WatchUi.View {
+class AnalogSettingsView extends WatchUi.Menu2InputDelegate {
+
+ 	function initialize() {
+        Menu2InputDelegate.initialize();
+    }
+	
+	function onSelect(item) {
+        // For IconMenuItems, we will change to the next icon state.
+        // This demonstates a custom toggle operation using icons.
+        // Static icons can also be used in this layout.
+        if(item instanceof IconMenuItem) {
+            item.setSubLabel(item.getIcon().nextState());
+        }
+        WatchUi.requestUpdate();
+    }
+    
+    function onBack() {
+        WatchUi.popView(WatchUi.SLIDE_DOWN);
+    }
+
+    function onDone() {
+        WatchUi.popView(WatchUi.SLIDE_DOWN);
+    }
+      
+}
+
+class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
 
     function initialize() {
-        View.initialize();
-    }    
+        BehaviorDelegate.initialize();
+    }
 
-    function onUpdate(dc) {
-        dc.clearClip();
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.clear();
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-
-    // Add menu items for demonstrating toggles, checkbox and icon menu items
+    function onMenu() {
+    
+	// Add menu items for demonstrating toggles, checkbox and icon menu items
     //menu.addItem(new WatchUi.MenuItem("Toggles", "sublabel", "toggle", null));
     //menu.addItem(new WatchUi.MenuItem("Checkboxes", null, "check", null));
     //menu.addItem(new WatchUi.MenuItem("Icons", null, "icon", null));
@@ -36,34 +58,13 @@ class AnalogSettingsView extends WatchUi.View {
     iconMenu.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), "left", drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 //    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 2", drawable2.getString(), "right", drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT}));
 //    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 3", drawable3.getString(), "default", drawable3, null));
-    WatchUi.pushView(iconMenu, new AnalogSettingsDelegate(), WatchUi.SLIDE_UP );  
-        
-    return true;
-
-	}     
-	         
-}
-
-class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
-
-    function initialize() {
-        BehaviorDelegate.initialize();
-    }
-         
-    function onSelect(item) {
-        // For IconMenuItems, we will change to the next icon state.
-        // This demonstates a custom toggle operation using icons.
-        // Static icons can also be used in this layout.
-        if(item instanceof IconMenuItem) {
-            item.setSubLabel(item.getIcon().nextState());
-        }
-        WatchUi.requestUpdate();
-    }
+    WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );  
+		
+	}
 
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_DOWN);
-    }
-    
+    }  
 
 }
 

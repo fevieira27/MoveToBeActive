@@ -185,6 +185,7 @@ class AnalogView extends WatchUi.WatchFace
 
     // Handle the update event
     function onUpdate(dc) {
+    	dc.setAntiAlias(true);
         var width;
         var height;
         var clockTime = System.getClockTime();
@@ -656,33 +657,34 @@ class AnalogView extends WatchUi.WatchFace
 
         //Use white to draw the hour hand, with a dark grey background
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 4, 0, 13)); //generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) {
+        //generateHandCoordinates(centerPoint, angle, handLength, tailLength, width)
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 4, 0, width*0.05)); 
 		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 3, 0, 10));
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 0.75 , 0, 7.25));        
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 3, 0, width*0.04));
+        //dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        //dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 0.75 , 0, 7.25));        
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 -1, 0, 5));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 -1, 0, width*0.023));
 
         
         // Draw the minute hand.
         minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
         
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 17, 0, 13));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 17, 0, width*0.05));
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 18, 0, 11));
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 20.25, 0, 7.06));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 18, 0, width*0.04));
+        //dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        //dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 20.25, 0, 7.06));
         dc.setColor(accentColor, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 22, 0, 5.015));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 22, 0, width*0.023));
 
 	    		        
         // Draw the arbor in the center of the screen.
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillCircle(width / 2, height / 2, 7);
+        dc.fillCircle(width / 2, height / 2, width*0.025);
         dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);
-        dc.drawCircle(width / 2, height / 2, 7);
+        dc.drawCircle(width / 2, height / 2, width*0.025);
         
         fullScreenRefresh = false;
     }
