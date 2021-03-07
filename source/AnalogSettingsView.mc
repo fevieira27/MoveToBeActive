@@ -75,8 +75,8 @@ class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
 class CustomIcon extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, Graphics.COLOR_BLUE, 0xAA55FF, 0xFFAA00/*0xFF5500*/, 0xFF0000, 0xFF55FF, Graphics.COLOR_WHITE];
-    const mColorStrings = ["Green", "Vivomove", "Yellow", "Blue", "Violet", "Orange", "Red", "Pink", "White"];
+    const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, Graphics.COLOR_BLUE, 0x00FFFF, 0xAA55FF, 0xFFAA00/*0xFF5500*/, 0xFF0000, 0xFF55FF, Graphics.COLOR_WHITE];
+    const mColorStrings = ["Green", "Vivomove", "Yellow", "Blue", "Cyan", "Violet", "Orange", "Red", "Pink", "White"];
     var mIndex;
 
     function initialize() {

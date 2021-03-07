@@ -221,6 +221,8 @@ class AnalogView extends WatchUi.WatchFace
         height = targetDc.getHeight();
         if (width==390) { // Venu & D2 Air
 			Xoffset = 10;
+		} else if (width==240) { // Fenix 6S e Active 3 Music
+			Xoffset = 3;
 		}
 
         // Fill the entire background with Black.
@@ -654,37 +656,53 @@ class AnalogView extends WatchUi.WatchFace
         hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
         hourHandAngle = hourHandAngle / (12 * 60.0);
         hourHandAngle = hourHandAngle * Math.PI * 2;
+        
+        // Correct widths and lengths depending on resolution
+        var offsetWidth = 0;
+        var offsetLength = 0;
+        var offsetLengthAccent = 0;
+        
+        if (width == 240) { // MARQ
+        	offsetWidth = 0.005;
+        	offsetLength = 0.05;
+        } else if (width == 280) { // Fenix 6X
+        	offsetWidth = 0.005;
+        	offsetLength = 0.05;
+        	offsetLengthAccent = 0.01;
+        } else if (width == 390) { // Venu
+        	offsetLength = 0.03;
+        	offsetLengthAccent = 0.01;
+        }
 
         //Use white to draw the hour hand, with a dark grey background
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        //generateHandCoordinates(centerPoint, angle, handLength, tailLength, width)
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 4, 0, width*0.05)); 
+        //generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) -- width / (higher means smaller)
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.4, 0, width*(0.055 - offsetWidth))); 
 		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 3, 0, width*0.04));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.45, 0, width*0.045));
         //dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         //dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 + 0.75 , 0, 7.25));        
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 4 -1, 0, width*0.023));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / (3.53 - offsetLength) , 0, width*0.035));
 
-        
         // Draw the minute hand.
         minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
-        
+        //generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) -- width / (higher means smaller)
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 17, 0, width*0.05));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2.19, 0, width*(0.055 - offsetWidth)));
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 18, 0, width*0.04));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2.22, 0, width*0.045));
         //dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         //dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 20.25, 0, 7.06));
         dc.setColor(accentColor, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2 - 22, 0, width*0.023));
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / (2.25 - offsetLengthAccent) , 0, width*0.035));
 
 	    		        
         // Draw the arbor in the center of the screen.
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillCircle(width / 2, height / 2, width*0.025);
+        dc.fillCircle(width / 2, height / 2, width*0.03);
         dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);
-        dc.drawCircle(width / 2, height / 2, width*0.025);
+        dc.drawCircle(width / 2, height / 2, width*0.03);
         
         fullScreenRefresh = false;
     }
@@ -727,7 +745,10 @@ class AnalogView extends WatchUi.WatchFace
         offset = 0;
         if (width==218) { // Vivoactive 4S
 			offset = -3;
+		} else if (width==240) { // Vivoactive 4S
+			offset = -8;
 		}
+		
         
         if( null != dateBuffer ) {
             // If the date is saved in a Buffered Bitmap, just copy it from there.
