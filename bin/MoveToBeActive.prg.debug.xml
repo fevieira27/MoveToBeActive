@@ -2,547 +2,571 @@
 <debugInfo>
     <manifest filename="C:\Users\felip\Documents\Garmin Key\Analog\manifest.xml"/>
     <pcToLineNum>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="22" pc="268435456" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="23" pc="268435460" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="24" pc="268435478" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="26" pc="268435507" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="28" pc="268435520" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="29" pc="268435538" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="31" pc="268435563" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="32" pc="268435581" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="34" pc="268435606" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="35" pc="268435624" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="4" lineNum="39" pc="268435650" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="4" lineNum="41" pc="268435654" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="45" pc="268435667" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="46" pc="268435671" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="23" pc="268435456" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="24" pc="268435460" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="25" pc="268435478" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="27" pc="268435507" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="29" pc="268435520" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="30" pc="268435538" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="32" pc="268435563" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="33" pc="268435581" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="35" pc="268435606" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="3" lineNum="36" pc="268435624" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="4" lineNum="40" pc="268435650" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="4" lineNum="42" pc="268435654" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="46" pc="268435667" symbol="onUpdate"/>
         <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="47" pc="268435671" symbol="onUpdate"/>
         <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="48" pc="268435671" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="50" pc="268435688" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="51" pc="268435701" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="53" pc="268435714" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="54" pc="268435731" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="56" pc="268435762" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="59" pc="268435838" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="60" pc="268435874" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="49" pc="268435671" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="51" pc="268435688" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="52" pc="268435701" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="54" pc="268435714" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="55" pc="268435731" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="57" pc="268435762" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="60" pc="268435838" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="61" pc="268435874" symbol="onUpdate"/>
         <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="63" pc="268435900" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="64" pc="268435936" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="67" pc="268436105" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="68" pc="268436141" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="71" pc="268436195" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="7" lineNum="16" pc="268436256" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="7" lineNum="17" pc="268436260" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="8" lineNum="20" pc="268436279" symbol="onStart"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="9" lineNum="23" pc="268436284" symbol="onStop"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="26" pc="268436289" symbol="getInitialView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="27" pc="268436293" symbol="getInitialView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="28" pc="268436316" symbol="getInitialView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="30" pc="268436386" symbol="getInitialView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="11" lineNum="35" pc="268436424" symbol="getGoalView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="11" lineNum="36" pc="268436428" symbol="getGoalView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="12" lineNum="39" pc="268436468" symbol="getSettingsView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="12" lineNum="40" pc="268436472" symbol="getSettingsView"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="51" pc="268436540" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="52" pc="268436544" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="53" pc="268436562" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="54" pc="268436591" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="55" pc="268436601" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="59" pc="268436636" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="61" pc="268436640" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="62" pc="268436665" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="66" pc="268436696" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="67" pc="268436739" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="68" pc="268436782" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="71" pc="268436825" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="75" pc="268436848" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="93" pc="268437020" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="98" pc="268437117" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="101" pc="268437126" symbol="onLayout"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="108" pc="268437191" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="110" pc="268437195" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="111" pc="268437387" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="112" pc="268437395" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="113" pc="268437414" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="116" pc="268437433" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="117" pc="268437451" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="118" pc="268437488" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="120" pc="268437525" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="123" pc="268437587" symbol="generateHandCoordinates"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="127" pc="268437591" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="128" pc="268437595" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="129" pc="268437608" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="132" pc="268437621" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="133" pc="268437645" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="134" pc="268437645" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="135" pc="268437645" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="136" pc="268437655" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="139" pc="268437665" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="140" pc="268437683" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="141" pc="268437706" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="142" pc="268437731" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="145" pc="268437762" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="148" pc="268437798" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="149" pc="268437815" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="152" pc="268437835" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="155" pc="268437852" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="156" pc="268437890" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="157" pc="268437918" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="158" pc="268437940" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="159" pc="268437968" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="162" pc="268437993" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="163" pc="268438015" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="164" pc="268438037" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="165" pc="268438059" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="168" pc="268438081" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="168" pc="268438088" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="169" pc="268438095" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="169" pc="268438102" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="170" pc="268438109" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="174" pc="268438145" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="175" pc="268438214" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="176" pc="268438238" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="177" pc="268438263" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="179" pc="268438279" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="181" pc="268438475" symbol="drawHashMarks"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="187" pc="268438697" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="188" pc="268438701" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="189" pc="268438701" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="190" pc="268438701" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="191" pc="268438718" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="192" pc="268438741" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="193" pc="268438764" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="194" pc="268438787" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="195" pc="268438787" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="196" pc="268438787" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="197" pc="268438825" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="198" pc="268438828" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="199" pc="268438831" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="200" pc="268438855" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="202" pc="268438881" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="203" pc="268438884" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="204" pc="268438908" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="208" pc="268438934" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="210" pc="268438944" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="211" pc="268438957" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="214" pc="268438969" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="216" pc="268438991" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="219" pc="268438995" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="220" pc="268439008" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="221" pc="268439021" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="222" pc="268439032" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="226" pc="268439048" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="227" pc="268439084" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="234" pc="268439128" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="237" pc="268439142" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="238" pc="268439178" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="239" pc="268439228" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="240" pc="268439287" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="241" pc="268439340" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="245" pc="268439396" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="246" pc="268439411" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="251" pc="268439428" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="252" pc="268439441" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="253" pc="268439452" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="254" pc="268439468" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="255" pc="268439479" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="258" pc="268439495" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="259" pc="268439531" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="260" pc="268439548" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="261" pc="268439628" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="262" pc="268439665" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="263" pc="268439702" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="265" pc="268439782" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="267" pc="268439862" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="268" pc="268439939" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="269" pc="268439976" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="271" pc="268440056" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="273" pc="268440136" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="274" pc="268440173" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="275" pc="268440210" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="277" pc="268440290" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="279" pc="268440370" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="64" pc="268435900" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="65" pc="268435925" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="67" pc="268435950" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="71" pc="268435964" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="72" pc="268435990" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="75" pc="268436159" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="76" pc="268436195" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="79" pc="268436249" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="80" pc="268436285" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="81" pc="268436342" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogGoalView.mc" id="5" lineNum="82" pc="268436378" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="7" lineNum="16" pc="268436439" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="7" lineNum="17" pc="268436443" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="8" lineNum="20" pc="268436462" symbol="onStart"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="9" lineNum="23" pc="268436467" symbol="onStop"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="26" pc="268436472" symbol="getInitialView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="27" pc="268436476" symbol="getInitialView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="28" pc="268436499" symbol="getInitialView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="10" lineNum="30" pc="268436569" symbol="getInitialView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="11" lineNum="35" pc="268436607" symbol="getGoalView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="11" lineNum="36" pc="268436611" symbol="getGoalView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="12" lineNum="39" pc="268436651" symbol="getSettingsView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogApp.mc" id="12" lineNum="40" pc="268436655" symbol="getSettingsView"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="51" pc="268436723" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="52" pc="268436727" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="53" pc="268436745" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="54" pc="268436774" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="14" lineNum="55" pc="268436784" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="59" pc="268436819" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="61" pc="268436823" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="62" pc="268436848" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="66" pc="268436879" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="67" pc="268436922" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="68" pc="268436965" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="71" pc="268437008" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="75" pc="268437031" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="93" pc="268437203" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="98" pc="268437300" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="15" lineNum="101" pc="268437309" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="108" pc="268437374" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="110" pc="268437378" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="111" pc="268437570" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="112" pc="268437578" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="113" pc="268437597" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="116" pc="268437616" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="117" pc="268437634" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="118" pc="268437671" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="120" pc="268437708" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="16" lineNum="123" pc="268437770" symbol="generateHandCoordinates"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="127" pc="268437774" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="128" pc="268437778" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="129" pc="268437791" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="132" pc="268437804" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="133" pc="268437828" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="134" pc="268437828" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="135" pc="268437828" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="136" pc="268437838" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="139" pc="268437848" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="140" pc="268437866" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="141" pc="268437889" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="142" pc="268437914" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="145" pc="268437945" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="148" pc="268437981" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="149" pc="268437998" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="152" pc="268438018" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="155" pc="268438035" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="156" pc="268438073" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="157" pc="268438101" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="158" pc="268438123" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="159" pc="268438151" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="162" pc="268438176" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="163" pc="268438198" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="164" pc="268438220" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="165" pc="268438242" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="168" pc="268438264" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="168" pc="268438271" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="169" pc="268438278" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="169" pc="268438285" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="170" pc="268438292" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="174" pc="268438328" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="175" pc="268438397" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="176" pc="268438421" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="177" pc="268438446" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="179" pc="268438462" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="17" lineNum="181" pc="268438658" symbol="drawHashMarks"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="187" pc="268438880" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="188" pc="268438884" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="189" pc="268438898" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="190" pc="268438898" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="191" pc="268438898" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="192" pc="268438915" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="193" pc="268438938" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="194" pc="268438961" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="195" pc="268438984" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="196" pc="268438984" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="197" pc="268438984" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="198" pc="268439022" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="199" pc="268439025" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="200" pc="268439028" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="201" pc="268439052" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="203" pc="268439078" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="204" pc="268439081" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="205" pc="268439105" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="209" pc="268439131" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="211" pc="268439141" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="212" pc="268439154" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="215" pc="268439166" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="217" pc="268439188" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="220" pc="268439192" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="221" pc="268439205" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="222" pc="268439218" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="223" pc="268439229" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="227" pc="268439245" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="228" pc="268439281" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="235" pc="268439325" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="238" pc="268439339" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="239" pc="268439375" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="240" pc="268439425" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="241" pc="268439484" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="242" pc="268439537" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="246" pc="268439593" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="247" pc="268439608" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="252" pc="268439625" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="253" pc="268439638" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="254" pc="268439649" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="255" pc="268439665" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="256" pc="268439676" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="259" pc="268439692" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="260" pc="268439728" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="261" pc="268439745" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="262" pc="268439825" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="263" pc="268439862" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="264" pc="268439899" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="266" pc="268439979" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="268" pc="268440059" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="269" pc="268440136" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="270" pc="268440173" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="272" pc="268440253" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="274" pc="268440333" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="275" pc="268440370" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="276" pc="268440407" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="278" pc="268440487" symbol="onUpdate"/>
         <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="280" pc="268440567" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="281" pc="268440604" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="283" pc="268440684" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="285" pc="268440764" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="286" pc="268440941" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="287" pc="268440978" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="289" pc="268441058" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="291" pc="268441138" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="292" pc="268441275" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="293" pc="268441312" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="295" pc="268441392" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="297" pc="268441472" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="298" pc="268441629" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="299" pc="268441666" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="301" pc="268441746" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="303" pc="268441826" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="281" pc="268440764" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="282" pc="268440801" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="284" pc="268440881" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="286" pc="268440961" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="287" pc="268441138" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="288" pc="268441175" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="290" pc="268441255" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="292" pc="268441335" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="293" pc="268441472" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="294" pc="268441509" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="296" pc="268441589" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="298" pc="268441669" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="299" pc="268441826" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="300" pc="268441863" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="302" pc="268441943" symbol="onUpdate"/>
         <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="304" pc="268442023" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="305" pc="268442060" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="307" pc="268442140" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="311" pc="268442220" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="312" pc="268442231" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="313" pc="268442249" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="316" pc="268442336" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="317" pc="268442364" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="318" pc="268442416" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="322" pc="268442497" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="323" pc="268442508" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="324" pc="268442518" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="325" pc="268442562" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="327" pc="268442599" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="328" pc="268442619" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="329" pc="268442630" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="331" pc="268442656" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="334" pc="268442682" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="335" pc="268442718" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="341" pc="268442778" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="342" pc="268442793" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="343" pc="268442822" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="344" pc="268442835" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="345" pc="268442859" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="346" pc="268442872" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="347" pc="268442906" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="350" pc="268442928" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="351" pc="268442941" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="354" pc="268442960" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="358" pc="268442973" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="359" pc="268442973" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="360" pc="268442990" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="362" pc="268443000" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="367" pc="268443024" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="368" pc="268443056" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="369" pc="268443069" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="370" pc="268443089" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="371" pc="268443105" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="372" pc="268443125" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="373" pc="268443141" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="374" pc="268443161" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="375" pc="268443177" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="376" pc="268443197" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="377" pc="268443213" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="378" pc="268443233" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="379" pc="268443249" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="380" pc="268443269" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="382" pc="268443285" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="386" pc="268443298" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="387" pc="268443315" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="388" pc="268443332" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="389" pc="268443348" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="390" pc="268443365" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="391" pc="268443381" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="392" pc="268443398" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="393" pc="268443414" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="394" pc="268443431" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="395" pc="268443447" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="396" pc="268443464" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="397" pc="268443480" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="398" pc="268443497" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="399" pc="268443513" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="400" pc="268443530" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="402" pc="268443546" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="406" pc="268443569" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="407" pc="268443586" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="408" pc="268443609" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="409" pc="268443626" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="410" pc="268443649" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="411" pc="268443666" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="412" pc="268443683" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="414" pc="268443699" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="416" pc="268443715" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="417" pc="268443732" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="418" pc="268443748" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="419" pc="268443765" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="420" pc="268443781" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="421" pc="268443798" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="422" pc="268443814" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="423" pc="268443831" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="427" pc="268443847" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="428" pc="268443860" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="429" pc="268443871" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="432" pc="268443887" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="433" pc="268443897" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="434" pc="268443904" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="435" pc="268443936" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="436" pc="268444007" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="437" pc="268444043" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="441" pc="268444124" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="442" pc="268444135" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="443" pc="268444151" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="444" pc="268444162" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="445" pc="268444178" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="446" pc="268444189" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="448" pc="268444205" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="451" pc="268444218" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="452" pc="268444235" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="453" pc="268444252" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="455" pc="268444268" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="457" pc="268444284" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="458" pc="268444301" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="459" pc="268444317" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="460" pc="268444334" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="462" pc="268444350" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="466" pc="268444370" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="467" pc="268444383" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="468" pc="268444394" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="469" pc="268444410" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="470" pc="268444421" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="472" pc="268444437" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="474" pc="268444469" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="475" pc="268444518" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="476" pc="268444576" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="477" pc="268444589" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="478" pc="268444600" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="479" pc="268444616" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="480" pc="268444627" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="481" pc="268444643" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="482" pc="268444668" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="484" pc="268444684" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="485" pc="268444720" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="489" pc="268444809" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="490" pc="268444833" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="492" pc="268444879" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="495" pc="268444888" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="496" pc="268444901" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="497" pc="268444912" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="499" pc="268444928" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="500" pc="268444968" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="505" pc="268445016" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="506" pc="268445059" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="510" pc="268445101" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="511" pc="268445108" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="513" pc="268445108" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="514" pc="268445121" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="515" pc="268445132" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="516" pc="268445148" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="517" pc="268445173" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="518" pc="268445189" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="519" pc="268445200" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="522" pc="268445216" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="523" pc="268445240" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="524" pc="268445263" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="525" pc="268445274" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="528" pc="268445284" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="531" pc="268445305" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="532" pc="268445329" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="533" pc="268445365" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="534" pc="268445428" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="535" pc="268445448" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="537" pc="268445487" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="539" pc="268445519" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="544" pc="268445608" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="545" pc="268445621" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="546" pc="268445632" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="547" pc="268445648" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="548" pc="268445659" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="551" pc="268445675" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="552" pc="268445698" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="553" pc="268445703" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="555" pc="268445742" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="557" pc="268445778" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="561" pc="268445855" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="562" pc="268445868" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="563" pc="268445879" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="566" pc="268445895" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="568" pc="268445902" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="569" pc="268445913" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="570" pc="268445930" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="572" pc="268445962" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="574" pc="268445994" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="575" pc="268446005" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="576" pc="268446044" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="577" pc="268446055" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="578" pc="268446087" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="579" pc="268446098" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="581" pc="268446137" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="583" pc="268446173" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="584" pc="268446244" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="585" pc="268446280" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="586" pc="268446403" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="587" pc="268446427" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="588" pc="268446454" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="590" pc="268446489" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="592" pc="268446525" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="593" pc="268446596" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="594" pc="268446632" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="598" pc="268446707" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="599" pc="268446720" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="600" pc="268446731" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="603" pc="268446747" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="604" pc="268446793" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="606" pc="268446828" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="608" pc="268446864" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="611" pc="268446935" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="612" pc="268446942" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="613" pc="268446960" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="614" pc="268446973" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="616" pc="268446986" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="617" pc="268446999" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="620" pc="268447018" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="623" pc="268447031" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="624" pc="268447042" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="626" pc="268447103" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="629" pc="268447161" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="630" pc="268447197" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="636" pc="268447284" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="637" pc="268447297" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="640" pc="268447316" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="643" pc="268447355" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="646" pc="268447382" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="647" pc="268447418" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="653" pc="268447435" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="654" pc="268447466" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="655" pc="268447476" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="658" pc="268447499" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="659" pc="268447535" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="660" pc="268447592" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="661" pc="268447628" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="662" pc="268447685" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="663" pc="268447721" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="664" pc="268447778" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="665" pc="268447814" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="669" pc="268447871" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="671" pc="268447906" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="672" pc="268447942" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="673" pc="268447999" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="674" pc="268448035" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="675" pc="268448092" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="676" pc="268448128" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="677" pc="268448185" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="678" pc="268448217" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="682" pc="268448274" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="683" pc="268448310" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="684" pc="268448343" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="685" pc="268448379" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="687" pc="268448412" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="691" pc="268448423" symbol="drawDateString"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="692" pc="268448427" symbol="drawDateString"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="693" pc="268448477" symbol="drawDateString"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="695" pc="268448553" symbol="drawDateString"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="697" pc="268448589" symbol="drawDateString"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="714" pc="268448641" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="715" pc="268448645" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="716" pc="268448658" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="720" pc="268448671" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="721" pc="268448684" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="725" pc="268448717" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="726" pc="268448730" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="727" pc="268448741" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="730" pc="268448757" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="732" pc="268448770" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="735" pc="268448815" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="738" pc="268448854" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="739" pc="268448890" symbol="drawBackground"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="21" lineNum="747" pc="268448905" symbol="onEnterSleep"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="22" lineNum="754" pc="268448910" symbol="onExitSleep"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="24" lineNum="761" pc="268448915" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="24" lineNum="762" pc="268448919" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="25" lineNum="770" pc="268448938" symbol="onPowerBudgetExceeded"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="25" lineNum="771" pc="268448942" symbol="onPowerBudgetExceeded"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="25" lineNum="772" pc="268448972" symbol="onPowerBudgetExceeded"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="27" lineNum="14" pc="268449003" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="27" lineNum="15" pc="268449007" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="18" pc="268449026" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="19" pc="268449030" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="20" pc="268449042" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="21" pc="268449078" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="22" pc="268449090" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="32" pc="268449126" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="33" pc="268449173" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="36" pc="268449197" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="39" pc="268449290" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="41" pc="268449342" symbol="onUpdate"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="30" lineNum="49" pc="268449346" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="30" lineNum="50" pc="268449350" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="31" lineNum="53" pc="268449369" symbol="onSelect"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="31" lineNum="57" pc="268449373" symbol="onSelect"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="31" lineNum="58" pc="268449387" symbol="onSelect"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="31" lineNum="60" pc="268449422" symbol="onSelect"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="32" lineNum="63" pc="268449439" symbol="onBack"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="32" lineNum="64" pc="268449443" symbol="onBack"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="34" lineNum="81" pc="268449472" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="34" lineNum="82" pc="268449476" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="34" lineNum="83" pc="268449500" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="34" lineNum="84" pc="268449554" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="34" lineNum="86" pc="268449570" symbol="initialize"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="35" lineNum="91" pc="268449599" symbol="getString"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="35" lineNum="92" pc="268449603" symbol="getString"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="36" lineNum="96" pc="268449622" symbol="getColor"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="36" lineNum="97" pc="268449626" symbol="getColor"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="101" pc="268449645" symbol="nextState"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="102" pc="268449649" symbol="nextState"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="103" pc="268449668" symbol="nextState"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="104" pc="268449697" symbol="nextState"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="106" pc="268449713" symbol="nextState"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="107" pc="268449745" symbol="nextState"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="108" pc="268449774" symbol="nextState"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="113" pc="268449793" symbol="draw"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="114" pc="268449797" symbol="draw"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="115" pc="268449816" symbol="draw"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="116" pc="268449832" symbol="draw"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="77" pc="268450058" symbol="&lt;init&gt;"/>
-        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="78" pc="268450189" symbol="&lt;init&gt;"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="305" pc="268442220" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="306" pc="268442257" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="308" pc="268442337" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="312" pc="268442417" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="313" pc="268442428" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="314" pc="268442446" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="317" pc="268442533" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="318" pc="268442561" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="319" pc="268442613" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="323" pc="268442694" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="324" pc="268442705" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="325" pc="268442715" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="326" pc="268442759" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="328" pc="268442796" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="329" pc="268442816" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="330" pc="268442827" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="332" pc="268442853" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="335" pc="268442879" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="336" pc="268442915" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="342" pc="268442975" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="343" pc="268442990" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="344" pc="268443019" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="345" pc="268443032" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="346" pc="268443056" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="347" pc="268443069" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="348" pc="268443103" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="351" pc="268443125" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="352" pc="268443138" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="355" pc="268443157" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="359" pc="268443170" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="360" pc="268443170" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="361" pc="268443187" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="363" pc="268443197" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="368" pc="268443221" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="369" pc="268443253" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="370" pc="268443266" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="371" pc="268443286" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="372" pc="268443302" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="373" pc="268443322" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="374" pc="268443338" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="375" pc="268443358" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="376" pc="268443374" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="377" pc="268443394" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="378" pc="268443410" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="379" pc="268443430" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="380" pc="268443446" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="381" pc="268443466" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="383" pc="268443482" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="387" pc="268443495" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="388" pc="268443512" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="389" pc="268443529" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="390" pc="268443545" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="391" pc="268443562" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="392" pc="268443578" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="393" pc="268443595" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="394" pc="268443611" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="395" pc="268443628" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="396" pc="268443644" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="397" pc="268443661" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="398" pc="268443677" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="399" pc="268443694" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="400" pc="268443710" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="401" pc="268443727" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="403" pc="268443743" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="407" pc="268443766" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="408" pc="268443783" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="409" pc="268443806" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="410" pc="268443823" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="411" pc="268443846" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="412" pc="268443863" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="413" pc="268443880" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="415" pc="268443896" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="417" pc="268443912" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="418" pc="268443929" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="419" pc="268443945" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="420" pc="268443962" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="421" pc="268443978" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="422" pc="268443995" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="423" pc="268444011" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="424" pc="268444028" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="428" pc="268444044" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="429" pc="268444057" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="430" pc="268444068" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="433" pc="268444084" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="434" pc="268444094" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="435" pc="268444101" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="436" pc="268444133" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="437" pc="268444204" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="438" pc="268444240" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="442" pc="268444321" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="443" pc="268444332" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="444" pc="268444348" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="445" pc="268444359" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="446" pc="268444375" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="447" pc="268444386" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="449" pc="268444402" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="452" pc="268444415" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="453" pc="268444432" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="454" pc="268444449" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="456" pc="268444465" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="458" pc="268444481" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="459" pc="268444498" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="460" pc="268444514" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="461" pc="268444531" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="463" pc="268444547" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="467" pc="268444567" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="468" pc="268444580" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="469" pc="268444591" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="470" pc="268444607" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="471" pc="268444618" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="473" pc="268444634" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="475" pc="268444666" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="476" pc="268444715" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="477" pc="268444773" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="478" pc="268444786" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="479" pc="268444797" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="480" pc="268444813" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="481" pc="268444824" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="482" pc="268444840" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="483" pc="268444865" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="485" pc="268444881" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="486" pc="268444917" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="490" pc="268445006" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="491" pc="268445030" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="493" pc="268445076" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="496" pc="268445085" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="497" pc="268445098" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="498" pc="268445109" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="500" pc="268445125" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="501" pc="268445165" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="506" pc="268445213" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="507" pc="268445256" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="511" pc="268445298" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="512" pc="268445305" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="514" pc="268445305" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="515" pc="268445318" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="516" pc="268445329" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="517" pc="268445345" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="518" pc="268445370" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="519" pc="268445386" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="520" pc="268445397" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="523" pc="268445413" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="524" pc="268445437" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="525" pc="268445460" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="526" pc="268445471" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="529" pc="268445481" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="532" pc="268445502" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="533" pc="268445526" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="534" pc="268445562" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="535" pc="268445625" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="536" pc="268445645" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="538" pc="268445684" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="540" pc="268445716" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="545" pc="268445805" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="546" pc="268445818" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="547" pc="268445829" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="548" pc="268445845" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="549" pc="268445856" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="552" pc="268445872" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="553" pc="268445895" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="554" pc="268445900" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="556" pc="268445939" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="558" pc="268445975" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="562" pc="268446052" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="563" pc="268446065" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="564" pc="268446076" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="567" pc="268446092" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="569" pc="268446099" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="570" pc="268446110" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="571" pc="268446127" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="573" pc="268446159" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="575" pc="268446191" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="576" pc="268446202" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="577" pc="268446241" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="578" pc="268446252" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="579" pc="268446284" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="580" pc="268446295" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="582" pc="268446334" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="584" pc="268446370" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="585" pc="268446441" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="586" pc="268446477" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="587" pc="268446600" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="588" pc="268446624" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="589" pc="268446651" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="591" pc="268446686" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="593" pc="268446722" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="594" pc="268446793" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="595" pc="268446829" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="599" pc="268446904" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="600" pc="268446917" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="601" pc="268446928" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="604" pc="268446944" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="605" pc="268446990" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="607" pc="268447025" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="609" pc="268447061" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="612" pc="268447132" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="613" pc="268447139" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="614" pc="268447157" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="615" pc="268447170" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="617" pc="268447183" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="618" pc="268447196" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="621" pc="268447215" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="624" pc="268447228" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="625" pc="268447239" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="627" pc="268447300" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="630" pc="268447358" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="631" pc="268447394" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="637" pc="268447481" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="638" pc="268447494" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="641" pc="268447513" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="644" pc="268447552" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="647" pc="268447579" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="648" pc="268447615" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="654" pc="268447632" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="655" pc="268447663" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="656" pc="268447673" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="659" pc="268447696" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="661" pc="268447732" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="662" pc="268447792" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="663" pc="268447828" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="666" pc="268447888" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="667" pc="268447924" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="671" pc="268447984" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="673" pc="268448019" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="674" pc="268448055" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="675" pc="268448115" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="676" pc="268448151" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="679" pc="268448211" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="680" pc="268448243" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="684" pc="268448303" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="685" pc="268448339" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="686" pc="268448375" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="687" pc="268448411" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="18" lineNum="689" pc="268448447" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="693" pc="268448458" symbol="drawDateString"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="694" pc="268448462" symbol="drawDateString"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="695" pc="268448512" symbol="drawDateString"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="697" pc="268448588" symbol="drawDateString"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="19" lineNum="699" pc="268448624" symbol="drawDateString"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="716" pc="268448676" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="717" pc="268448680" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="718" pc="268448693" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="722" pc="268448706" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="723" pc="268448719" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="727" pc="268448752" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="728" pc="268448765" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="729" pc="268448776" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="732" pc="268448792" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="734" pc="268448805" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="737" pc="268448850" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="740" pc="268448889" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="20" lineNum="741" pc="268448925" symbol="drawBackground"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="21" lineNum="749" pc="268448940" symbol="onEnterSleep"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="22" lineNum="756" pc="268448945" symbol="onExitSleep"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="24" lineNum="763" pc="268448950" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="24" lineNum="764" pc="268448954" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="25" lineNum="772" pc="268448973" symbol="onPowerBudgetExceeded"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="25" lineNum="773" pc="268448977" symbol="onPowerBudgetExceeded"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogView.mc" id="25" lineNum="774" pc="268449007" symbol="onPowerBudgetExceeded"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="27" lineNum="14" pc="268449038" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="27" lineNum="15" pc="268449042" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="18" pc="268449061" symbol="onSelect"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="22" pc="268449065" symbol="onSelect"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="23" pc="268449079" symbol="onSelect"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="28" lineNum="25" pc="268449114" symbol="onSelect"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="29" lineNum="28" pc="268449131" symbol="onBack"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="29" lineNum="29" pc="268449135" symbol="onBack"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="30" lineNum="32" pc="268449164" symbol="onDone"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="30" lineNum="33" pc="268449168" symbol="onDone"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="32" lineNum="40" pc="268449197" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="32" lineNum="41" pc="268449201" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="33" lineNum="44" pc="268449220" symbol="onMenu"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="33" lineNum="54" pc="268449224" symbol="onMenu"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="33" lineNum="55" pc="268449271" symbol="onMenu"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="33" lineNum="58" pc="268449295" symbol="onMenu"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="33" lineNum="61" pc="268449388" symbol="onMenu"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="34" lineNum="65" pc="268449441" symbol="onBack"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="34" lineNum="66" pc="268449445" symbol="onBack"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="36" lineNum="82" pc="268449474" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="36" lineNum="83" pc="268449478" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="36" lineNum="84" pc="268449502" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="36" lineNum="85" pc="268449556" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="36" lineNum="87" pc="268449572" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="92" pc="268449601" symbol="getString"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="37" lineNum="93" pc="268449605" symbol="getString"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="97" pc="268449624" symbol="getColor"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="38" lineNum="98" pc="268449628" symbol="getColor"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="39" lineNum="102" pc="268449647" symbol="nextState"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="39" lineNum="103" pc="268449651" symbol="nextState"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="39" lineNum="104" pc="268449670" symbol="nextState"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="39" lineNum="105" pc="268449699" symbol="nextState"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="39" lineNum="107" pc="268449715" symbol="nextState"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="39" lineNum="108" pc="268449747" symbol="nextState"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="39" lineNum="109" pc="268449776" symbol="nextState"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="40" lineNum="114" pc="268449795" symbol="draw"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="40" lineNum="115" pc="268449799" symbol="draw"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="40" lineNum="116" pc="268449818" symbol="draw"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="40" lineNum="117" pc="268449834" symbol="draw"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="40" lineNum="78" pc="268450666" symbol="&lt;init&gt;"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\AnalogSettingsView.mc" id="40" lineNum="79" pc="268450797" symbol="&lt;init&gt;"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="42" lineNum="13" pc="268449847" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="42" lineNum="14" pc="268449851" symbol="initialize"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="43" lineNum="18" pc="268449870" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="43" lineNum="19" pc="268449874" symbol="onLayout"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="44" lineNum="26" pc="268449912" symbol="onShow"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="45" lineNum="30" pc="268449917" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="45" lineNum="32" pc="268449921" symbol="onUpdate"/>
+        <entry filename="C:\\Users\\felip\\Documents\\Garmin Key\\Analog\\source\\MenuAnalogView.mc" id="46" lineNum="38" pc="268449942" symbol="onHide"/>
+        <entry filename="Rez" id="52" lineNum="21" pc="268449947" symbol="MainLayout"/>
+        <entry filename="Rez" id="52" lineNum="23" pc="268449959" symbol="MainLayout"/>
+        <entry filename="Rez" id="52" lineNum="24" pc="268450111" symbol="MainLayout"/>
+        <entry filename="Rez" id="52" lineNum="25" pc="268450263" symbol="MainLayout"/>
+        <entry filename="Rez" id="52" lineNum="27" pc="268450445" symbol="MainLayout"/>
     </pcToLineNum>
     <symbolTable>
         <entry id="8388639" module="true" symbol="Graphics"/>
         <entry id="8390101" object="true" symbol="BufferedBitmap"/>
-        <entry field="true" id="36" symbol="screenCenterPoint"/>
-        <entry id="47" method="true" symbol="generateHandCoordinates"/>
+        <entry id="8389346" symbol="text"/>
+        <entry field="true" id="42" symbol="screenCenterPoint"/>
+        <entry id="53" method="true" symbol="generateHandCoordinates"/>
         <entry id="13" object="true" symbol="AnalogDelegate"/>
         <entry id="8388632" method="true" symbol="&lt;init&gt;"/>
         <entry id="4" module="true" symbol="globals/Rez/Menus"/>
         <entry field="true" id="8391583" symbol="currentOxygenSaturation"/>
-        <entry field="true" id="34" symbol="offscreenBuffer"/>
+        <entry field="true" id="40" symbol="offscreenBuffer"/>
         <entry id="8390437" symbol="alignment"/>
-        <entry field="true" id="40" symbol="distStr"/>
+        <entry field="true" id="46" symbol="distStr"/>
+        <entry id="33" method="true" symbol="MainLayout"/>
         <entry id="8390098" method="true" symbol="onPowerBudgetExceeded"/>
         <entry id="16" object="true" symbol="CustomIcon"/>
         <entry id="8389702" method="true" symbol="getHeartRateHistory"/>
-        <entry field="true" id="19" symbol="DoNotDisturbIcon"/>
+        <entry field="true" id="26" symbol="DoNotDisturbIcon"/>
         <entry id="8390424" module="true" symbol="Storage"/>
         <entry field="true" id="8389795" symbol="doNotDisturb"/>
-        <entry field="true" id="20" symbol="GarminLogo"/>
+        <entry field="true" id="27" symbol="GarminLogo"/>
         <entry id="8388924" module="true" symbol="Gregorian"/>
         <entry field="true" id="8388611" module="true" symbol="Toybox"/>
-        <entry field="true" id="35" symbol="dateBuffer"/>
+        <entry field="true" id="41" symbol="dateBuffer"/>
         <entry field="true" id="8391675" symbol="observationLocationName"/>
         <entry field="true" id="8388962" symbol="temperature"/>
-        <entry id="49" method="true" symbol="drawDateString"/>
-        <entry field="true" id="26" symbol="AppName"/>
+        <entry id="55" method="true" symbol="drawDateString"/>
+        <entry field="true" id="37" symbol="AppName"/>
         <entry id="8388633" module="true" symbol="ActivityMonitor"/>
+        <entry field="true" id="35" symbol="HomeTitle"/>
         <entry id="8" module="true" symbol="globals/Rez/Strings"/>
+        <entry id="8389080" method="true" symbol="onMenu"/>
         <entry id="8388772" module="true" object="true" symbol="Fonts"/>
         <entry id="8388631" module="true" symbol="Activity"/>
         <entry id="8388648" module="true" symbol="WatchUi"/>
-        <entry field="true" id="33" symbol="garminIcon"/>
+        <entry field="true" id="39" symbol="garminIcon"/>
         <entry id="8389081" method="true" symbol="onBack"/>
         <entry id="8390097" method="true" symbol="onPartialUpdate"/>
-        <entry field="true" id="37" symbol="fullScreenRefresh"/>
+        <entry field="true" id="43" symbol="fullScreenRefresh"/>
         <entry id="2" module="true" symbol="globals/Rez"/>
         <entry id="8389124" method="true" symbol="onUpdate"/>
-        <entry field="true" id="45" symbol="Xoffset"/>
-        <entry id="48" method="true" symbol="drawHashMarks"/>
+        <entry field="true" id="8389065" symbol="locY"/>
+        <entry field="true" id="8389064" symbol="locX"/>
+        <entry id="8390422" method="true" symbol="onDone"/>
+        <entry field="true" id="51" symbol="Xoffset"/>
+        <entry id="54" method="true" symbol="drawHashMarks"/>
         <entry id="8388771" module="true" object="true" symbol="Drawables"/>
         <entry field="true" id="8389348" symbol="font"/>
         <entry field="true" id="8389067" symbol="height"/>
-        <entry id="18" module="true" symbol="Menus"/>
+        <entry id="25" module="true" symbol="Menus"/>
         <entry id="6" module="true" symbol="globals/Rez/Layouts"/>
         <entry field="true" id="8389066" symbol="width"/>
-        <entry field="true" id="43" symbol="heartRateZone"/>
+        <entry field="true" id="49" symbol="heartRateZone"/>
         <entry id="8389122" method="true" symbol="onLayout"/>
         <entry id="8389376" method="true" symbol="onEnterSleep"/>
-        <entry field="true" id="46" symbol="accentColor"/>
+        <entry id="8389349" symbol="justification"/>
+        <entry field="true" id="52" symbol="accentColor"/>
         <entry id="8391661" method="true" symbol="getCurrentConditions"/>
         <entry id="7" module="true" symbol="globals/Rez/JsonData"/>
-        <entry field="true" id="25" symbol="WeatherFont"/>
+        <entry field="true" id="32" symbol="WeatherFont"/>
         <entry id="8388637" module="true" symbol="Communications"/>
         <entry id="3" module="true" symbol="globals/Rez/Drawables"/>
-        <entry field="true" id="51" symbol="goalString"/>
+        <entry field="true" id="23" symbol="goalString"/>
         <entry id="8390095" object="true" symbol="WatchFaceDelegate"/>
-        <entry id="29" method="true" symbol="getString"/>
+        <entry id="20" method="true" symbol="getString"/>
         <entry id="9" object="true" symbol="AnalogGoalView"/>
-        <entry field="true" id="44" symbol="batteryState"/>
-        <entry id="50" method="true" symbol="drawBackground"/>
+        <entry field="true" id="50" symbol="batteryState"/>
+        <entry id="56" method="true" symbol="drawBackground"/>
         <entry field="true" id="8391337" symbol="offset"/>
         <entry id="8389377" method="true" symbol="onExitSleep"/>
         <entry id="8388644" module="true" symbol="System"/>
@@ -551,22 +575,26 @@
         <entry id="8389619" method="true" symbol="onSelect"/>
         <entry id="8388645" module="true" symbol="Time"/>
         <entry id="8388769" module="true" object="true" symbol="Rez"/>
-        <entry field="true" id="41" symbol="batteryIconColour"/>
-        <entry field="true" id="23" symbol="id_font_black_diamond"/>
+        <entry id="17" object="true" symbol="Menu2AnalogView"/>
+        <entry field="true" id="47" symbol="batteryIconColour"/>
+        <entry field="true" id="30" symbol="id_font_black_diamond"/>
         <entry id="8388640" module="true" symbol="Lang"/>
-        <entry field="true" id="24" symbol="IconsFont"/>
+        <entry field="true" id="31" symbol="IconsFont"/>
         <entry id="15" object="true" symbol="AnalogSettingsDelegate"/>
         <entry id="8390088" module="true" object="true" symbol="JsonData"/>
         <entry id="8389068" method="true" symbol="draw"/>
-        <entry field="true" id="22" symbol="LauncherIcon"/>
+        <entry field="true" id="29" symbol="LauncherIcon"/>
         <entry id="8388610" symbol="statics"/>
+        <entry id="8389123" method="true" symbol="onShow"/>
+        <entry field="true" id="34" symbol="MainMenuTitle"/>
         <entry id="8389350" module="true" symbol="globals"/>
-        <entry id="30" method="true" symbol="getColor"/>
-        <entry field="true" id="28" symbol="mColorStrings"/>
+        <entry id="21" method="true" symbol="getColor"/>
+        <entry field="true" id="19" symbol="mColorStrings"/>
         <entry id="8388770" module="true" object="true" symbol="Strings"/>
         <entry field="true" id="8388960" symbol="heartRate"/>
         <entry field="true" id="8389872" symbol="floorsClimbed"/>
         <entry id="8388702" method="true" symbol="initialize"/>
+        <entry field="true" id="36" symbol="Prompt"/>
         <entry field="true" id="8389670" symbol="screenShape"/>
         <entry id="8389279" method="true" symbol="onStart"/>
         <entry field="true" id="11" symbol="partialUpdatesAllowed"/>
@@ -576,123 +604,132 @@
         <entry id="14" object="true" symbol="AnalogSettingsView"/>
         <entry id="8389280" method="true" symbol="getInitialView"/>
         <entry id="8389281" method="true" symbol="onStop"/>
-        <entry field="true" id="39" symbol="unit"/>
-        <entry field="true" id="27" symbol="mColors"/>
+        <entry field="true" id="45" symbol="unit"/>
+        <entry id="8389347" symbol="color"/>
+        <entry field="true" id="18" symbol="mColors"/>
         <entry id="8389781" module="true" symbol="SensorHistory"/>
-        <entry field="true" id="38" symbol="stepsIcon"/>
-        <entry id="17" module="true" symbol="Layouts"/>
+        <entry field="true" id="44" symbol="stepsIcon"/>
+        <entry id="24" module="true" symbol="Layouts"/>
         <entry id="5" module="true" symbol="globals/Rez/Fonts"/>
-        <entry field="true" id="32" symbol="dndIcon"/>
+        <entry field="true" id="38" symbol="dndIcon"/>
         <entry id="12" object="true" symbol="AnalogView"/>
-        <entry field="true" id="21" symbol="isd"/>
+        <entry id="8389125" method="true" symbol="onHide"/>
+        <entry field="true" id="28" symbol="isd"/>
         <entry id="8388635" module="true" symbol="Application"/>
         <entry field="true" id="8389642" symbol="title"/>
         <entry field="true" id="8389584" symbol="notificationCount"/>
-        <entry id="31" method="true" symbol="nextState"/>
+        <entry id="22" method="true" symbol="nextState"/>
         <entry id="10" object="true" symbol="AnalogWatch"/>
-        <entry field="true" id="42" symbol="heartRateIconColour"/>
+        <entry field="true" id="48" symbol="heartRateIconColour"/>
         <entry id="8389660" symbol="palette"/>
     </symbolTable>
     <localVars>
         <entry arg="true" endPc="268435650" name="goal" stackId="1" startPc="268435456"/>
         <entry arg="true" endPc="268435667" name="dc" stackId="1" startPc="268435650"/>
-        <entry endPc="268436255" name="height" stackId="3" startPc="268435671"/>
-        <entry endPc="268436255" name="dateStr" stackId="7" startPc="268435671"/>
-        <entry endPc="268436255" name="now" stackId="5" startPc="268435671"/>
-        <entry endPc="268436255" name="width" stackId="2" startPc="268435671"/>
-        <entry endPc="268436255" name="clockTime" stackId="4" startPc="268435671"/>
-        <entry endPc="268436255" name="info" stackId="6" startPc="268435671"/>
-        <entry arg="true" endPc="268436256" name="dc" stackId="1" startPc="268435667"/>
-        <entry arg="true" endPc="268436284" name="state" stackId="1" startPc="268436279"/>
-        <entry arg="true" endPc="268436289" name="state" stackId="1" startPc="268436284"/>
-        <entry arg="true" endPc="268436468" name="goal" stackId="1" startPc="268436424"/>
-        <entry arg="true" endPc="268437191" name="dc" stackId="1" startPc="268436636"/>
-        <entry endPc="268437574" name="x" stackId="11" startPc="268437451"/>
-        <entry endPc="268437574" name="y" stackId="12" startPc="268437451"/>
-        <entry endPc="268437587" name="i" stackId="10" startPc="268437451"/>
-        <entry endPc="268437590" name="result" stackId="7" startPc="268437195"/>
-        <entry endPc="268437590" name="sin" stackId="9" startPc="268437195"/>
-        <entry endPc="268437590" name="cos" stackId="8" startPc="268437195"/>
-        <entry endPc="268437590" name="coords" stackId="6" startPc="268437195"/>
-        <entry arg="true" endPc="268437591" name="handLength" stackId="3" startPc="268437191"/>
-        <entry arg="true" endPc="268437591" name="tailLength" stackId="4" startPc="268437191"/>
-        <entry arg="true" endPc="268437591" name="width" stackId="5" startPc="268437191"/>
-        <entry arg="true" endPc="268437591" name="angle" stackId="2" startPc="268437191"/>
-        <entry arg="true" endPc="268437591" name="centerPoint" stackId="1" startPc="268437191"/>
-        <entry endPc="268438129" name="angle" stackId="11" startPc="268437683"/>
-        <entry endPc="268438142" name="i" stackId="10" startPc="268437683"/>
-        <entry endPc="268438142" name="eY" stackId="7" startPc="268437645"/>
-        <entry endPc="268438142" name="eX" stackId="6" startPc="268437645"/>
-        <entry endPc="268438142" name="innerRad" stackId="9" startPc="268437645"/>
-        <entry endPc="268438142" name="outerRad" stackId="8" startPc="268437645"/>
-        <entry endPc="268438142" name="sY" stackId="5" startPc="268437645"/>
-        <entry endPc="268438142" name="sX" stackId="4" startPc="268437645"/>
-        <entry endPc="268438683" name="upperX" stackId="15" startPc="268438238"/>
-        <entry endPc="268438683" name="dx" stackId="14" startPc="268438238"/>
-        <entry endPc="268438696" name="i" stackId="13" startPc="268438238"/>
-        <entry endPc="268438696" name="coords" stackId="12" startPc="268438145"/>
-        <entry endPc="268438696" name="height" stackId="3" startPc="268437595"/>
-        <entry endPc="268438696" name="width" stackId="2" startPc="268437595"/>
-        <entry arg="true" endPc="268438697" name="dc" stackId="1" startPc="268437591"/>
-        <entry endPc="268442494" name="fahrenheit" stackId="15" startPc="268442336"/>
-        <entry endPc="268442772" name="location" stackId="16" startPc="268442508"/>
-        <entry endPc="268442775" name="weather" stackId="14" startPc="268439411"/>
-        <entry endPc="268442925" name="HRS" stackId="18" startPc="268442835"/>
-        <entry endPc="268442925" name="HRH" stackId="17" startPc="268442835"/>
-        <entry endPc="268447432" name="dateDc" stackId="26" startPc="268447297"/>
-        <entry endPc="268448422" name="pulseOx" stackId="13" startPc="268438701"/>
-        <entry endPc="268448422" name="hourHandAngle" stackId="9" startPc="268438701"/>
-        <entry endPc="268448422" name="formattedNotificationAmount" stackId="23" startPc="268438701"/>
-        <entry endPc="268448422" name="minuteHandAngle" stackId="8" startPc="268438701"/>
-        <entry endPc="268448422" name="floorsCount" stackId="12" startPc="268438701"/>
-        <entry endPc="268448422" name="targetDc" stackId="11" startPc="268438701"/>
-        <entry endPc="268448422" name="battery" stackId="10" startPc="268438701"/>
-        <entry endPc="268448422" name="heartRateText" stackId="19" startPc="268438701"/>
-        <entry endPc="268448422" name="hrIconY" stackId="21" startPc="268438701"/>
-        <entry endPc="268448422" name="clockTime" stackId="4" startPc="268438701"/>
-        <entry endPc="268448422" name="autoZones" stackId="20" startPc="268438701"/>
-        <entry endPc="268448422" name="height" stackId="3" startPc="268438701"/>
-        <entry endPc="268448422" name="notificationAmount" stackId="24" startPc="268438701"/>
-        <entry endPc="268448422" name="width" stackId="2" startPc="268438701"/>
-        <entry endPc="268448422" name="TempMetric" stackId="7" startPc="268438701"/>
-        <entry endPc="268448422" name="DistanceMetric" stackId="6" startPc="268438701"/>
-        <entry endPc="268448422" name="stepDistance" stackId="5" startPc="268438701"/>
-        <entry endPc="268448422" name="settings" stackId="25" startPc="268438701"/>
-        <entry endPc="268448422" name="hrIconWidth" stackId="22" startPc="268438701"/>
-        <entry arg="true" endPc="268448423" name="dc" stackId="1" startPc="268438697"/>
-        <entry endPc="268448640" name="dateStr" stackId="5" startPc="268448427"/>
-        <entry endPc="268448640" name="info" stackId="4" startPc="268448427"/>
-        <entry arg="true" endPc="268448641" name="x" stackId="2" startPc="268448423"/>
-        <entry arg="true" endPc="268448641" name="dc" stackId="1" startPc="268448423"/>
-        <entry arg="true" endPc="268448641" name="y" stackId="3" startPc="268448423"/>
-        <entry endPc="268448904" name="height" stackId="3" startPc="268448645"/>
-        <entry endPc="268448904" name="width" stackId="2" startPc="268448645"/>
-        <entry arg="true" endPc="268448905" name="dc" stackId="1" startPc="268448641"/>
-        <entry arg="true" endPc="268449003" name="powerInfo" stackId="1" startPc="268448938"/>
-        <entry endPc="268449345" name="drawable1" stackId="3" startPc="268449030"/>
-        <entry endPc="268449345" name="iconMenu" stackId="2" startPc="268449030"/>
-        <entry arg="true" endPc="268449346" name="dc" stackId="1" startPc="268449026"/>
-        <entry arg="true" endPc="268449439" name="item" stackId="1" startPc="268449369"/>
-        <entry endPc="268449844" name="color" stackId="2" startPc="268449797"/>
-        <entry arg="true" endPc="268449845" name="dc" stackId="1" startPc="268449793"/>
+        <entry endPc="268436438" name="height" stackId="3" startPc="268435671"/>
+        <entry endPc="268436438" name="dateStr" stackId="7" startPc="268435671"/>
+        <entry endPc="268436438" name="now" stackId="5" startPc="268435671"/>
+        <entry endPc="268436438" name="width" stackId="2" startPc="268435671"/>
+        <entry endPc="268436438" name="halfColor" stackId="8" startPc="268435671"/>
+        <entry endPc="268436438" name="clockTime" stackId="4" startPc="268435671"/>
+        <entry endPc="268436438" name="info" stackId="6" startPc="268435671"/>
+        <entry arg="true" endPc="268436439" name="dc" stackId="1" startPc="268435667"/>
+        <entry arg="true" endPc="268436467" name="state" stackId="1" startPc="268436462"/>
+        <entry arg="true" endPc="268436472" name="state" stackId="1" startPc="268436467"/>
+        <entry arg="true" endPc="268436651" name="goal" stackId="1" startPc="268436607"/>
+        <entry arg="true" endPc="268437374" name="dc" stackId="1" startPc="268436819"/>
+        <entry endPc="268437757" name="x" stackId="11" startPc="268437634"/>
+        <entry endPc="268437757" name="y" stackId="12" startPc="268437634"/>
+        <entry endPc="268437770" name="i" stackId="10" startPc="268437634"/>
+        <entry endPc="268437773" name="result" stackId="7" startPc="268437378"/>
+        <entry endPc="268437773" name="sin" stackId="9" startPc="268437378"/>
+        <entry endPc="268437773" name="cos" stackId="8" startPc="268437378"/>
+        <entry endPc="268437773" name="coords" stackId="6" startPc="268437378"/>
+        <entry arg="true" endPc="268437774" name="handLength" stackId="3" startPc="268437374"/>
+        <entry arg="true" endPc="268437774" name="tailLength" stackId="4" startPc="268437374"/>
+        <entry arg="true" endPc="268437774" name="width" stackId="5" startPc="268437374"/>
+        <entry arg="true" endPc="268437774" name="angle" stackId="2" startPc="268437374"/>
+        <entry arg="true" endPc="268437774" name="centerPoint" stackId="1" startPc="268437374"/>
+        <entry endPc="268438312" name="angle" stackId="11" startPc="268437866"/>
+        <entry endPc="268438325" name="i" stackId="10" startPc="268437866"/>
+        <entry endPc="268438325" name="eY" stackId="7" startPc="268437828"/>
+        <entry endPc="268438325" name="eX" stackId="6" startPc="268437828"/>
+        <entry endPc="268438325" name="innerRad" stackId="9" startPc="268437828"/>
+        <entry endPc="268438325" name="outerRad" stackId="8" startPc="268437828"/>
+        <entry endPc="268438325" name="sY" stackId="5" startPc="268437828"/>
+        <entry endPc="268438325" name="sX" stackId="4" startPc="268437828"/>
+        <entry endPc="268438866" name="upperX" stackId="15" startPc="268438421"/>
+        <entry endPc="268438866" name="dx" stackId="14" startPc="268438421"/>
+        <entry endPc="268438879" name="i" stackId="13" startPc="268438421"/>
+        <entry endPc="268438879" name="coords" stackId="12" startPc="268438328"/>
+        <entry endPc="268438879" name="height" stackId="3" startPc="268437778"/>
+        <entry endPc="268438879" name="width" stackId="2" startPc="268437778"/>
+        <entry arg="true" endPc="268438880" name="dc" stackId="1" startPc="268437774"/>
+        <entry endPc="268442691" name="fahrenheit" stackId="15" startPc="268442533"/>
+        <entry endPc="268442969" name="location" stackId="16" startPc="268442705"/>
+        <entry endPc="268442972" name="weather" stackId="14" startPc="268439608"/>
+        <entry endPc="268443122" name="HRS" stackId="18" startPc="268443032"/>
+        <entry endPc="268443122" name="HRH" stackId="17" startPc="268443032"/>
+        <entry endPc="268447629" name="dateDc" stackId="26" startPc="268447494"/>
+        <entry endPc="268448457" name="pulseOx" stackId="13" startPc="268438884"/>
+        <entry endPc="268448457" name="hourHandAngle" stackId="9" startPc="268438884"/>
+        <entry endPc="268448457" name="formattedNotificationAmount" stackId="23" startPc="268438884"/>
+        <entry endPc="268448457" name="minuteHandAngle" stackId="8" startPc="268438884"/>
+        <entry endPc="268448457" name="floorsCount" stackId="12" startPc="268438884"/>
+        <entry endPc="268448457" name="targetDc" stackId="11" startPc="268438884"/>
+        <entry endPc="268448457" name="battery" stackId="10" startPc="268438884"/>
+        <entry endPc="268448457" name="heartRateText" stackId="19" startPc="268438884"/>
+        <entry endPc="268448457" name="hrIconY" stackId="21" startPc="268438884"/>
+        <entry endPc="268448457" name="clockTime" stackId="4" startPc="268438884"/>
+        <entry endPc="268448457" name="autoZones" stackId="20" startPc="268438884"/>
+        <entry endPc="268448457" name="height" stackId="3" startPc="268438884"/>
+        <entry endPc="268448457" name="notificationAmount" stackId="24" startPc="268438884"/>
+        <entry endPc="268448457" name="width" stackId="2" startPc="268438884"/>
+        <entry endPc="268448457" name="TempMetric" stackId="7" startPc="268438884"/>
+        <entry endPc="268448457" name="DistanceMetric" stackId="6" startPc="268438884"/>
+        <entry endPc="268448457" name="stepDistance" stackId="5" startPc="268438884"/>
+        <entry endPc="268448457" name="settings" stackId="25" startPc="268438884"/>
+        <entry endPc="268448457" name="hrIconWidth" stackId="22" startPc="268438884"/>
+        <entry arg="true" endPc="268448458" name="dc" stackId="1" startPc="268438880"/>
+        <entry endPc="268448675" name="dateStr" stackId="5" startPc="268448462"/>
+        <entry endPc="268448675" name="info" stackId="4" startPc="268448462"/>
+        <entry arg="true" endPc="268448676" name="x" stackId="2" startPc="268448458"/>
+        <entry arg="true" endPc="268448676" name="dc" stackId="1" startPc="268448458"/>
+        <entry arg="true" endPc="268448676" name="y" stackId="3" startPc="268448458"/>
+        <entry endPc="268448939" name="height" stackId="3" startPc="268448680"/>
+        <entry endPc="268448939" name="width" stackId="2" startPc="268448680"/>
+        <entry arg="true" endPc="268448940" name="dc" stackId="1" startPc="268448676"/>
+        <entry arg="true" endPc="268449038" name="powerInfo" stackId="1" startPc="268448973"/>
+        <entry arg="true" endPc="268449131" name="item" stackId="1" startPc="268449061"/>
+        <entry endPc="268449440" name="drawable1" stackId="2" startPc="268449224"/>
+        <entry endPc="268449440" name="iconMenu" stackId="1" startPc="268449224"/>
+        <entry endPc="268449846" name="color" stackId="2" startPc="268449799"/>
+        <entry arg="true" endPc="268449847" name="dc" stackId="1" startPc="268449795"/>
+        <entry arg="true" endPc="268449912" name="dc" stackId="1" startPc="268449870"/>
+        <entry arg="true" endPc="268449942" name="dc" stackId="1" startPc="268449917"/>
+        <entry endPc="268450482" name="rez_cmp_local_text_1188167673" stackId="2" startPc="268449959"/>
+        <entry endPc="268450482" name="rez_cmp_local_text_1241876688" stackId="4" startPc="268449959"/>
+        <entry endPc="268450482" name="rez_cmp_local_text_1562291417" stackId="3" startPc="268449959"/>
+        <entry arg="true" endPc="268450483" name="dc" stackId="1" startPc="268449947"/>
     </localVars>
     <annotations/>
     <dataEntryOffsetMappings>
         <dataEntry offset="87" parentId="" symbolId="globals" type="module"/>
-        <dataEntry offset="198" parentId="globals" symbolId="AnalogSettingsView" type="class"/>
-        <dataEntry offset="253" parentId="globals" symbolId="Rez" type="module"/>
-        <dataEntry offset="332" parentId="Rez" symbolId="Drawables" type="module"/>
-        <dataEntry offset="395" parentId="Rez" symbolId="Menus" type="module"/>
-        <dataEntry offset="426" parentId="Rez" symbolId="Fonts" type="module"/>
-        <dataEntry offset="481" parentId="Rez" symbolId="Layouts" type="module"/>
-        <dataEntry offset="512" parentId="Rez" symbolId="JsonData" type="module"/>
-        <dataEntry offset="543" parentId="Rez" symbolId="Strings" type="module"/>
-        <dataEntry offset="582" parentId="globals" symbolId="CustomIcon" type="class"/>
-        <dataEntry offset="685" parentId="globals" symbolId="AnalogView" type="class"/>
-        <dataEntry offset="964" parentId="globals" symbolId="AnalogGoalView" type="class"/>
-        <dataEntry offset="1043" parentId="globals" symbolId="AnalogWatch" type="class"/>
-        <dataEntry offset="1138" parentId="globals" symbolId="AnalogSettingsDelegate" type="class"/>
-        <dataEntry offset="1201" parentId="globals" symbolId="AnalogDelegate" type="class"/>
+        <dataEntry offset="206" parentId="globals" symbolId="Menu2AnalogView" type="class"/>
+        <dataEntry offset="285" parentId="globals" symbolId="CustomIcon" type="class"/>
+        <dataEntry offset="388" parentId="globals" symbolId="AnalogSettingsView" type="class"/>
+        <dataEntry offset="459" parentId="globals" symbolId="AnalogGoalView" type="class"/>
+        <dataEntry offset="538" parentId="globals" symbolId="Rez" type="module"/>
+        <dataEntry offset="617" parentId="Rez" symbolId="Drawables" type="module"/>
+        <dataEntry offset="680" parentId="Rez" symbolId="Menus" type="module"/>
+        <dataEntry offset="711" parentId="Rez" symbolId="Fonts" type="module"/>
+        <dataEntry offset="766" parentId="Rez" symbolId="Layouts" type="module"/>
+        <dataEntry offset="805" parentId="Rez" symbolId="JsonData" type="module"/>
+        <dataEntry offset="836" parentId="Rez" symbolId="Strings" type="module"/>
+        <dataEntry offset="899" parentId="globals" symbolId="AnalogDelegate" type="class"/>
+        <dataEntry offset="954" parentId="globals" symbolId="AnalogView" type="class"/>
+        <dataEntry offset="1233" parentId="globals" symbolId="AnalogWatch" type="class"/>
+        <dataEntry offset="1328" parentId="globals" symbolId="AnalogSettingsDelegate" type="class"/>
     </dataEntryOffsetMappings>
     <functions>
         <functionEntry accessMode="public" name="initialize" parent="AnalogGoalView">
@@ -777,15 +814,20 @@
         <functionEntry accessMode="public" name="initialize" parent="AnalogSettingsView">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" name="onUpdate" parent="AnalogSettingsView">
-            <param id="dc"/>
+        <functionEntry accessMode="public" name="onSelect" parent="AnalogSettingsView">
+            <param id="item"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onBack" parent="AnalogSettingsView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onDone" parent="AnalogSettingsView">
             <documentation/>
         </functionEntry>
         <functionEntry accessMode="public" name="initialize" parent="AnalogSettingsDelegate">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" name="onSelect" parent="AnalogSettingsDelegate">
-            <param id="item"/>
+        <functionEntry accessMode="public" name="onMenu" parent="AnalogSettingsDelegate">
             <documentation/>
         </functionEntry>
         <functionEntry accessMode="public" name="onBack" parent="AnalogSettingsDelegate">
@@ -804,6 +846,27 @@
             <documentation/>
         </functionEntry>
         <functionEntry accessMode="public" name="draw" parent="CustomIcon">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="initialize" parent="Menu2AnalogView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onLayout" parent="Menu2AnalogView">
+            <param id="dc"/>
+            <documentation><![CDATA[<div class="description"> Load your resources here<br/></div>]]></documentation>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onShow" parent="Menu2AnalogView">
+            <documentation><![CDATA[<div class="description"> Called when this View is brought to the foreground. Restore<br/> the state of this View and prepare it to be shown. This includes<br/> loading resources into memory.<br/></div>]]></documentation>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onUpdate" parent="Menu2AnalogView">
+            <param id="dc"/>
+            <documentation><![CDATA[<div class="description"> Update the view<br/></div>]]></documentation>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onHide" parent="Menu2AnalogView">
+            <documentation><![CDATA[<div class="description"> Called when this View is removed from the screen. Save the<br/> state of this View here. This includes freeing resources from<br/> memory.<br/></div>]]></documentation>
+        </functionEntry>
+        <functionEntry accessMode="public" name="MainLayout" parent="Layouts">
             <param id="dc"/>
             <documentation/>
         </functionEntry>
