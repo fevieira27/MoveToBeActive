@@ -48,7 +48,8 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [X] Corrected inconsistencies with the length and width of the minute and hour hands across different resolutions
 - [X] Redesigned hour and minute hands to have even better anti-aliasing
 - [X] Added a menu on the watch face settings ("pencil" icon on the watch face selection screen) with an option to cycle through 8 different accent colors
-- [X] The watch face now supports the Vivoactive 3 Music
+- [X] The colored icons that indicate goal reached (floor climbed & steps) and notification avilable will now follow the same accent color used on the minute hand
+- [X] Added support for the Vivoactive 3 Music watch
 * 0.6.0 (coming soon)
 - [ ] Add toggle to hide/show Garmin logo
 - [ ] Add toggle to hide/show Bluetooth logo
