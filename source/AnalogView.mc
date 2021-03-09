@@ -2,7 +2,7 @@
 // Copyright 2016-2017 by Garmin Ltd. or its subsidiaries.
 // Subject to Garmin SDK License Agreement and Wearables
 // Application Developer Agreement.
-// testing
+// 
 
 using Toybox.Graphics;
 using Toybox.Lang;
