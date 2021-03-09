@@ -56,6 +56,7 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [ ] Add toggle to hide/show Garmin logo
 - [ ] Add toggle to hide/show Bluetooth logo
 - [ ] Add toggle to hide hour numbers (3, 6, 9, 12), that when hidden would make accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
+- [ ] Add toggle to hide/show location name
 - [ ] Add toggle to switch between the current real (Weather.CurrentConditions.temperature) or feels like (Weather.CurrentConditions.feelsLikeTemperature) temperatures
 * **0.7.0**
 - [ ] Add alarm icon (System.getDeviceSettings().alarmCount) beside the bluetooth logo when at least one is active. If no alarm, icon will be hidden
