@@ -65,7 +65,7 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [ ] Add toggle to show either distance walked, elevation (Sensor.Info.altitude and System.getDeviceSettings().elevationUnits) or wind speed (Weather.CurrentConditions.windSpeed) (middle left data point)
 - [ ] Add toggle to show either floors climbed, precipitation percentage (Weather.CurrentConditions.precipitationChance) or humidity percentage (Weather.CurrentConditions.relativeHumidity) (bottom left data point)
 
-## Watchface examples: (Not real photos, these were taken from the Garmin Watch Simulator)
+## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
 ### Vivoactive 4
 ![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
