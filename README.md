@@ -56,9 +56,12 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [ ] Add toggle to hide/show Garmin logo
 - [ ] Add toggle to hide/show Bluetooth logo
 - [ ] Add toggle to hide hour numbers (3, 6, 9, 12), that when hidden would make accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
-- [ ] Add toggle to show either floors climbed or calories burned data
-* 0.7.0
+- [ ] Add toggle to show either heart rate or calories burned (top left data point)
+- [ ] Add toggle to show either distance walked or elevation (Sensor.Info.altitude) (middle left data point)
+* 0.7.0 
 - [ ] Add alarm icon (when at least one is active) beside the bluetooth logo
+- [ ] Add toggle to show either floors climbed or precipitation percentage (bottom left data point)
+
 
 ## Watchface examples: (Not real photos, these were taken from the Garmin Watch Simulator)
 
