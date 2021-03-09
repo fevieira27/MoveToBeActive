@@ -19,9 +19,13 @@ class AnalogSettingsView extends WatchUi.Menu2InputDelegate {
         // For IconMenuItems, we will change to the next icon state.
         // This demonstates a custom toggle operation using icons.
         // Static icons can also be used in this layout.
+        System.println(item.getId());
         if(item instanceof IconMenuItem) {
             item.setSubLabel(item.getIcon().nextState());
+        } else {
+            Storage.setValue(item.getId(), item.isEnabled());       
         }
+        
         WatchUi.requestUpdate();
     }
     
@@ -55,7 +59,19 @@ class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
     var drawable1 = new CustomIcon();
 //    var drawable2 = new CustomIcon();
 //    var drawable3 = new CustomIcon();
-    iconMenu.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), "left", drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+    iconMenu.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+    
+    var boolean;
+    if (Storage.getValue(3) != null ){
+    	boolean = Storage.getValue(3);
+    } else {
+    	boolean = true;
+    } 
+    //ToggleMenuItem(label, subLabel, identifier, enabled, options)
+    iconMenu.addItem(new WatchUi.ToggleMenuItem("Garmin Logo", {:enabled=>"ON", :disabled=>"OFF"}, 3, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+    //Storage.setValue(3, iconMenu.getItem(2));
+    //Storage.setValue(3, iconMenu.getItem(2).isEnabled());
+    System.println(Storage.getValue(3));
 //    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 2", drawable2.getString(), "right", drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT}));
 //    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 3", drawable3.getString(), "default", drawable3, null));
     WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );  

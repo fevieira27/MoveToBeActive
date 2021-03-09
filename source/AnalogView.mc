@@ -220,9 +220,9 @@ class AnalogView extends WatchUi.WatchFace
         width = targetDc.getWidth();
         height = targetDc.getHeight();
         if (width==390) { // Venu & D2 Air
-			Xoffset = 10;
-		} else if (width==240) { // Fenix 6S e Active 3 Music
-			Xoffset = 3;
+			Xoffset = 7;
+		} else if (width==240) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
+			Xoffset = 0;
 		}
 
         // Fill the entire background with Black.
@@ -242,7 +242,7 @@ class AnalogView extends WatchUi.WatchFace
 		dc.drawText(width - 13, (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
 		dc.drawText(width / 2, height - 41, font, "6", Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(13, (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
-				
+		
 		
 		//Weather
 		if(CurrentConditions has :getCurrentConditions) {
@@ -253,9 +253,13 @@ class AnalogView extends WatchUi.WatchFace
 			
 			offset = 0;
 	        if (width==218) { // Vivoactive 4S
-				offset = 5;
+				offset = 2;
 			} else if (width==240) { // Fenix 6S
-				offset = 3;
+				offset = -1;
+			} else if (width==280) { // Fenix 6X
+				Xoffset = -2;
+			} else if (width==260) { // Vivoactive 4
+				offset = 4;
 			}
 
 	        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -327,18 +331,70 @@ class AnalogView extends WatchUi.WatchFace
 	        	if (location.length()>15 and location.find(",")!=null){
 	        		location = location.substring(0,location.find(","));
 	        	}
-        		if (location.length()>=21) {
+/*        		if (location.length()>=21) {
         			if (width==280){
         				location = location.substring(0,25);
         			} else {
         				location = location.substring(0,21);
         			}
         		}	        	
-		        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-		        dc.drawText(width/2, height*0.65, Graphics.FONT_XTINY, location, Graphics.TEXT_JUSTIFY_CENTER);
+*/		        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		        //dc.fitTextToArea(text, font, width, height, truncate)
+		        dc.drawText(width/2, height*0.65, Graphics.FONT_XTINY, dc.fitTextToArea(location, Graphics.FONT_XTINY, width*0.60, height*0.10, true), Graphics.TEXT_JUSTIFY_CENTER);
+		        
 		    }		
-		}		
+		}	
 		
+		
+		// Notifications	
+       	offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 10;	
+		} else if (width==280) { // Enduro & Fenix 6X
+			offset = 1;	
+			Xoffset = 0;
+		} else if (width==218) { // Vivoactive 4S & Fenix 6S
+			offset = -1;	
+		} else if (width==240) { // Vivoactive 3 Music & MARQ Athlete
+			offset = 2;
+		} else if (width==260) { // Vivoactive 4
+			Xoffset = 0;
+		}
+       
+       	var formattedNotificationAmount = "";
+       	var notificationAmount;      
+       
+        if (System.getDeviceSettings() has :notificationCount) {
+	        notificationAmount = System.getDeviceSettings().notificationCount;
+	    	if(notificationAmount > 20)	{
+				formattedNotificationAmount = "20+";
+			}
+			else {
+				formattedNotificationAmount = notificationAmount.format("%d");
+			}
+		}
+		if (System.getDeviceSettings() has :notificationCount) {
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			dc.drawText( width *0.8 - Xoffset, height * 0.572 , Graphics.FONT_XTINY, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
+			if (formattedNotificationAmount.toNumber() == 0){
+				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			} else {
+				dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
+			}
+			dc.drawText( width *0.74 + offset/2 - Xoffset, height * 0.56 + offset, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
+		}
+		
+		
+		// X offset for left "bar": hear rate, steps and floor climb
+		if (width==390) { // Venu & D2 Air
+			Xoffset = 22;
+		} else if (width==240) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
+			Xoffset = 5;
+		} else if (width==280) { // Fenix 6X e Enduro
+			Xoffset = 5;
+		} else if (width==260) { // Fenix 6X e Enduro
+			Xoffset = 5;
+		}
 		
 		// Get heart rate
     	if(ActivityMonitor has :getHeartRateHistory) {
@@ -425,6 +481,7 @@ class AnalogView extends WatchUi.WatchFace
  		} else if (heartRateZone == 7){ // Speed
 			heartRateIconColour = 0xFF0000; /* bright red */
 		}
+				
 			
 		// Render heart rate icon and text
 		offset = 0;
@@ -481,7 +538,7 @@ class AnalogView extends WatchUi.WatchFace
 			offset = -2;	
 		} else if (width==280) { // Enduro & Fenix 6X Pro
 			offset = 0.75;	
-		}  else if (width==218 or width==240) { // Vivoactive 4S & Fenix 6S
+		}  else if (width==218 or width==240) { // Vivoactive 4S & Fenix 6S & Vivoactive 3 Music
 			offset = -0.5;	
 		} 
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
@@ -503,46 +560,14 @@ class AnalogView extends WatchUi.WatchFace
             dc.drawBitmap( width /2.2 + offset, height * 0.31 , dndIcon);
         }
         
-
+		System.println(Storage.getValue(3));
         // Garmin Logo -- Create script to remove logo from Fenix 5 series (except 5 Plus and 5x Plus) and Forerunner Series
-        garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
-        dc.drawBitmap( width / 2 - 50, height / 6 , garminIcon);
-        
-        
-		// Notifications
-       	var formattedNotificationAmount = "";
-       	var notificationAmount;
-
-       	offset = 0;
-		if (width==390) { // Venu & D2 Air
-			offset = 10;	
-		} else if (width==280 or width==240) { // Enduro & Fenix 6X Pro
-			offset = 1;	
-		} else if (width==218) { // Vivoactive 4S & Fenix 6S
-			offset = -1;	
-		}        
-       
-        if (System.getDeviceSettings() has :notificationCount) {
-	        notificationAmount = System.getDeviceSettings().notificationCount;
-	    	if(notificationAmount > 20)	{
-				formattedNotificationAmount = "20+";
-			}
-			else {
-				formattedNotificationAmount = notificationAmount.format("%d");
-			}
+        if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
+			garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
+        	dc.drawBitmap( width / 2 - 50, height / 6 , garminIcon);
 		}
-		if (System.getDeviceSettings() has :notificationCount) {
-			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-			dc.drawText( width *0.8 - Xoffset, height * 0.572 , Graphics.FONT_XTINY, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
-			if (formattedNotificationAmount.toNumber() == 0){
-				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-			} else {
-				dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
-			}
-			dc.drawText( width *0.74 + offset/2 - Xoffset, height * 0.56 + offset, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
-		}
-		
-		
+                
+        
 		//Bluetooth icon
 		offset = 0;
 		if (width==218) { // Vivoactive 4S & Fenix 6S
@@ -713,8 +738,8 @@ class AnalogView extends WatchUi.WatchFace
         var dateStr = Lang.format("$1$, $2$ $3$", [info.day_of_week, info.month, info.day]);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+       	dc.drawText(x, y, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
         
-        dc.drawText(x, y + Xoffset, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
       
 
@@ -745,8 +770,12 @@ class AnalogView extends WatchUi.WatchFace
         offset = 0;
         if (width==218) { // Vivoactive 4S
 			offset = -3;
-		} else if (width==240) { // Vivoactive 4S
-			offset = -8;
+		} else if (width==240) { // Vivoactive 4S and MARQ Athlete
+			offset = -2;
+		} else if (width==390) { // Vivoactive 4S and MARQ Athlete
+			offset = 13;
+		} else if (width==260) { // Vivoactive 4S and MARQ Athlete
+			offset = 1;
 		}
 		
         
@@ -754,8 +783,8 @@ class AnalogView extends WatchUi.WatchFace
             // If the date is saved in a Buffered Bitmap, just copy it from there.
             dc.drawBitmap(0, (height * 0.725) + offset, dateBuffer );
         } else {
-            // Otherwise, draw it from scratch.
-            drawDateString( dc, width / 2 , height * 0.725 + offset );
+            // Otherwise, draw it from scratch. drawDateString( dc, x, y )
+            drawDateString( dc, width / 2, height * 0.725 + offset );
             
 		    // Draw the tick marks around the edges of the screen
 		    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
