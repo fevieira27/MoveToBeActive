@@ -55,7 +55,7 @@ https://paypal.me/pools/c/8x2wuxFwFu
 * **0.6.0** (09/Mar/21)
 - [X] Add toggle to hide/show Garmin logo
 - [X] Add toggle to hide/show Bluetooth logo
-- [X] Add toggle to hide hour numbers (3, 6, 9, 12), that when hidden would add accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
+- [X] Add toggle to hide hour labels (3, 6, 9, 12), that when hidden would add accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
 - [X] Add toggle to hide/show location name
 - [X] Add toggle to switch between the current real or feels like temperatures
 * **0.7.0** (coming soon)
