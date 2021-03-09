@@ -155,18 +155,32 @@ class AnalogView extends WatchUi.WatchFace
                     dc.setPenWidth(1);            
                 }
                 // longer lines at intermediate 5 min marks
-                if( (i % 5) == 0 && !((i % 15) == 0)) {               		
-            		sY = (innerRad-10) * Math.sin(angle);
-                	eY = outerRad * Math.sin(angle);
-                	sX = (innerRad-10) * Math.cos(angle);
-                	eX = outerRad * Math.cos(angle);
-                }
-                else {
-                	sY = innerRad * Math.sin(angle);
-                	eY = outerRad * Math.sin(angle);
-                	sX = innerRad * Math.cos(angle);
-                	eX = outerRad * Math.cos(angle);
-            	}
+                if (Storage.getValue(5) == false) { // if not showing hour labels, then all 5 minute marks will have same length
+					if ((i % 5) == 0) {               		
+						sY = (innerRad-10) * Math.sin(angle);
+						eY = outerRad * Math.sin(angle);
+						sX = (innerRad-10) * Math.cos(angle);
+						eX = outerRad * Math.cos(angle);
+					}
+					else {
+						sY = innerRad * Math.sin(angle);
+						eY = outerRad * Math.sin(angle);
+						sX = innerRad * Math.cos(angle);
+						eX = outerRad * Math.cos(angle);
+					}
+				} else if( (i % 5) == 0 && !((i % 15) == 0)) { // when showing hour labels, the marks at each 15 min will be smaller to accomodate labels
+						sY = (innerRad-10) * Math.sin(angle);
+						eY = outerRad * Math.sin(angle);
+						sX = (innerRad-10) * Math.cos(angle);
+						eX = outerRad * Math.cos(angle);
+					}
+					else {
+						sY = innerRad * Math.sin(angle);
+						eY = outerRad * Math.sin(angle);
+						sX = innerRad * Math.cos(angle);
+						eX = outerRad * Math.cos(angle);
+					}
+				}
             	
             	sX += outerRad; sY += outerRad;
                 eX += outerRad; eY += outerRad;
