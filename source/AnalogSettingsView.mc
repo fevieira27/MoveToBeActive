@@ -69,9 +69,14 @@ class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
     } 
     //ToggleMenuItem(label, subLabel, identifier, enabled, options)
     iconMenu.addItem(new WatchUi.ToggleMenuItem("Garmin Logo", {:enabled=>"ON", :disabled=>"OFF"}, 3, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-    //Storage.setValue(3, iconMenu.getItem(2));
-    //Storage.setValue(3, iconMenu.getItem(2).isEnabled());
-    System.println(Storage.getValue(3));
+    boolean;
+    if (Storage.getValue(4) != null ){
+    	boolean = Storage.getValue(4);
+    } else {
+    	boolean = true;
+    } 
+    iconMenu.addItem(new WatchUi.ToggleMenuItem("Bluetooth Logo", {:enabled=>"ON", :disabled=>"OFF"}, 4, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+    iconMenu.addItem(new WatchUi.ToggleMenuItem("3,6,9,12 Numbers", {:enabled=>"ON", :disabled=>"OFF"}, 5, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 //    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 2", drawable2.getString(), "right", drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT}));
 //    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 3", drawable3.getString(), "default", drawable3, null));
     WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );  
