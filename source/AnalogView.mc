@@ -140,9 +140,12 @@ class AnalogView extends WatchUi.WatchFace
             	var angle = i * Math.PI / 30;
                 if ((i == 15) or (i == 45)) {
                 	dc.setColor(accentColor, accentColor);
-                }
-                else {
-                	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
+                } else {
+                    if ((Storage.getValue(5) == false) and (i == 0 or i == 30)) {
+                        dc.setColor(accentColor, accentColor);
+                    } else {
+                	    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
+                    }
                 }            	
             	// thicker lines at 5 min intervals
             	if( (i % 5) == 0) {
@@ -236,13 +239,15 @@ class AnalogView extends WatchUi.WatchFace
         // Output the offscreen buffers to the main display if required.
         drawBackground(dc);
 
-		// Draw the 3, 6, 9, and 12 hour labels.
-		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-		dc.drawText((width / 2), 14, font, "12", Graphics.TEXT_JUSTIFY_CENTER);
-		dc.drawText(width - 13, (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
-		dc.drawText(width / 2, height - 41, font, "6", Graphics.TEXT_JUSTIFY_CENTER);
-		dc.drawText(13, (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
-		
+        if (Storage.getValue(5) == null or Storage.getValue(5) == true) {
+            // Draw the 3, 6, 9, and 12 hour labels.
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText((width / 2), 14, font, "12", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(width - 13, (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
+            dc.drawText(width / 2, height - 41, font, "6", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(13, (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
+        }
+
 		
 		//Weather
 		if(CurrentConditions has :getCurrentConditions) {
@@ -560,7 +565,7 @@ class AnalogView extends WatchUi.WatchFace
             dc.drawBitmap( width /2.2 + offset, height * 0.31 , dndIcon);
         }
         
-		System.println(Storage.getValue(3));
+		
         // Garmin Logo -- Create script to remove logo from Fenix 5 series (except 5 Plus and 5x Plus) and Forerunner Series
         if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
 			garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
@@ -569,21 +574,23 @@ class AnalogView extends WatchUi.WatchFace
                 
         
 		//Bluetooth icon
-		offset = 0;
-		if (width==218) { // Vivoactive 4S & Fenix 6S
-			offset = -5;	
-		} else if (width==390) { // Venu & D2 Air
-			offset = 9;	
-		}
-				
-		var settings = System.getDeviceSettings().phoneConnected;
-		if (settings) {
-			dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
-		} else {
-			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-		}
-		dc.drawText( width*0.7+14 + offset, height / 2.9 + offset, IconsFont, "8", Graphics.TEXT_JUSTIFY_CENTER);
-        
+        if (Storage.getValue(4) == null or Storage.getValue(4) == true) {
+            offset = 0;
+            if (width==218) { // Vivoactive 4S & Fenix 6S
+                offset = -5;	
+            } else if (width==390) { // Venu & D2 Air
+                offset = 9;	
+            }
+                    
+            var settings = System.getDeviceSettings().phoneConnected;
+            if (settings) {
+                dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+            } else {
+                dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            }
+            dc.drawText( width*0.7+14 + offset, height / 2.9 + offset, IconsFont, "8", Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
   
         //Floors Climbed
         offset = 0;
