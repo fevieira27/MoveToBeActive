@@ -69,7 +69,6 @@ class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
     } 
     //ToggleMenuItem(label, subLabel, identifier, enabled, options)
     iconMenu.addItem(new WatchUi.ToggleMenuItem("Garmin Logo", {:enabled=>"ON", :disabled=>"OFF"}, 3, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-    boolean;
     if (Storage.getValue(4) != null ){
     	boolean = Storage.getValue(4);
     } else {

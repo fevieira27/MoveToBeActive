@@ -67,6 +67,7 @@ class AnalogView extends WatchUi.WatchFace
         IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont); 
         WeatherFont = WatchUi.loadResource(Rez.Fonts.WeatherFont);
 
+
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
         if(Toybox.Graphics has :BufferedBitmap) {
             // Allocate a full screen size buffer with a palette of only 4 colors to draw
@@ -584,7 +585,7 @@ class AnalogView extends WatchUi.WatchFace
         }
         
 		
-        // Garmin Logo -- Create script to remove logo from Fenix 5 series (except 5 Plus and 5x Plus) and Forerunner Series
+        // Garmin Logo check
         if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
 			garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
         	dc.drawBitmap( width / 2 - 50, height / 6 , garminIcon);
@@ -690,7 +691,7 @@ class AnalogView extends WatchUi.WatchFace
             var dateDc = dateBuffer.getDc();
 
             //Draw the background image buffer into the date buffer to set the background
-            dateDc.drawBitmap(0, -(height / 4), offscreenBuffer);
+            dateDc.drawBitmap(0, -(height / 4), offscreenBuffer); //Graphics.Dc.drawBitmap(x, y, bitmap)
 
             //Draw the date string into the buffer.
             drawDateString( dateDc, width / 2, 0 );
@@ -806,10 +807,21 @@ class AnalogView extends WatchUi.WatchFace
         
         if( null != dateBuffer ) {
             // If the date is saved in a Buffered Bitmap, just copy it from there.
-            dc.drawBitmap(0, (height * 0.725) + offset, dateBuffer );
+            if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
+            	dc.drawBitmap(0, (height * 0.725) + offset, dateBuffer ); //Graphics.Dc.drawBitmap(x, y, bitmap)
+			} else {
+				dc.drawBitmap(0, height / 5.1, dateBuffer ); //Graphics.Dc.drawBitmap(x, y, bitmap)
+			}            	
         } else {
             // Otherwise, draw it from scratch. drawDateString( dc, x, y )
-            drawDateString( dc, width / 2, height * 0.725 + offset );
+            
+            // Garmin Logo check
+	        if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
+            	drawDateString( dc, width / 2, height * 0.725 + offset );
+			} else {
+				drawDateString( dc, 0, height / 5.1 );
+			}
+            
             
 		    // Draw the tick marks around the edges of the screen
 		    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
