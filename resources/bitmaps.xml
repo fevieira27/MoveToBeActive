@@ -7,9 +7,4 @@
     </bitmap>
     <bitmap id="GarminLogo" filename="images/garmin.png" dithering="none">
     </bitmap>
-	<bitmap id="isd" filename="images/steps.png" dithering="none">
-		<palette disableTransparency="false">
-            <color>AAAAAA</color>
-        </palette>
-	</bitmap>
 </resources>

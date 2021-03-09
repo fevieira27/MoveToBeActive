@@ -150,8 +150,7 @@ class AnalogView extends WatchUi.WatchFace
             	// thicker lines at 5 min intervals
             	if( (i % 5) == 0) {
                     dc.setPenWidth(3);
-                }
-                else {
+                } else {
                     dc.setPenWidth(1);            
                 }
                 // longer lines at intermediate 5 min marks
@@ -173,19 +172,16 @@ class AnalogView extends WatchUi.WatchFace
 						eY = outerRad * Math.sin(angle);
 						sX = (innerRad-10) * Math.cos(angle);
 						eX = outerRad * Math.cos(angle);
-					}
-					else {
+					} else {
 						sY = innerRad * Math.sin(angle);
 						eY = outerRad * Math.sin(angle);
 						sX = innerRad * Math.cos(angle);
 						eX = outerRad * Math.cos(angle);
 					}
-				}
-            	
+
             	sX += outerRad; sY += outerRad;
                 eX += outerRad; eY += outerRad;
                 dc.drawLine(sX, sY, eX, eY);
-
             }
         } else {
             var coords = [0, width / 4, (3 * width) / 4, width];
