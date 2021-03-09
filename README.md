@@ -52,13 +52,13 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [X] Added a menu on the watch face settings ("pencil" icon on the watch face selection screen) with an option to cycle through 8 different accent colors
 - [X] The colored icons that indicate goal reached (floor climbed & steps) and notification avilable will now follow the same accent color used on the minute hand
 - [X] Added support for the Vivoactive 3 Music watch
-* **0.6.0** (coming soon)
-- [ ] Add toggle to hide/show Garmin logo
-- [ ] Add toggle to hide/show Bluetooth logo
-- [ ] Add toggle to hide hour numbers (3, 6, 9, 12), that when hidden would make accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
-- [ ] Add toggle to hide/show location name
-- [ ] Add toggle to switch between the current real (Weather.CurrentConditions.temperature) or feels like (Weather.CurrentConditions.feelsLikeTemperature) temperatures
-* **0.7.0**
+* **0.6.0** (09/Mar/21)
+- [X] Add toggle to hide/show Garmin logo
+- [X] Add toggle to hide/show Bluetooth logo
+- [X] Add toggle to hide hour numbers (3, 6, 9, 12), that when hidden would add accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
+- [X] Add toggle to hide/show location name
+- [X] Add toggle to switch between the current real or feels like temperatures
+* **0.7.0** (coming soon)
 - [ ] Add alarm icon (System.getDeviceSettings().alarmCount) beside the bluetooth logo when at least one is active. If no alarm, icon will be hidden
 - [ ] Create functions for each data point (big internal code change that will support customizations on the next version)
 * **0.8.0** 
