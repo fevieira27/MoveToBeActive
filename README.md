@@ -56,12 +56,14 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [ ] Add toggle to hide/show Garmin logo
 - [ ] Add toggle to hide/show Bluetooth logo
 - [ ] Add toggle to hide hour numbers (3, 6, 9, 12), that when hidden would make accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
-- [ ] Add toggle to show either heart rate or calories burned (top left data point)
-- [ ] Add toggle to show either distance walked or elevation (Sensor.Info.altitude) (middle left data point)
+- [ ] Add toggle to switch between the current real (Weather.CurrentConditions.temperature) or feels like (Weather.CurrentConditions.feelsLikeTemperature) temperatures
 * 0.7.0 
-- [ ] Add alarm icon (when at least one is active) beside the bluetooth logo
-- [ ] Add toggle to show either floors climbed or precipitation percentage (bottom left data point)
-
+- [ ] Add alarm icon (System.getDeviceSettings().alarmCount) beside the bluetooth logo when at least one is active. If no alarm, icon will be hidden
+- [ ] Create functions for each data point (big internal code change that will support customizations on the next version)
+* 0.8.0 
+- [ ] Add toggle to show either heart rate or calories burned (ActivityMonitor.Info.calories) (top left data point)
+- [ ] Add toggle to show either distance walked, elevation (Sensor.Info.altitude and System.getDeviceSettings().elevationUnits) or wind speed (Weather.CurrentConditions.windSpeed) (middle left data point)
+- [ ] Add toggle to show either floors climbed, precipitation percentage (Weather.CurrentConditions.precipitationChance) or humidity percentage (Weather.CurrentConditions.relativeHumidity) (bottom left data point)
 
 ## Watchface examples: (Not real photos, these were taken from the Garmin Watch Simulator)
 
