@@ -334,33 +334,41 @@ class AnalogView extends WatchUi.WatchFace
 	       		}       		
 	        }
 	        
-	        if(weather has :temperature) {
-	        	if (TempMetric == System.UNIT_METRIC) { 
-	        		dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, weather.temperature+"°C", Graphics.TEXT_JUSTIFY_LEFT);
-	        	}
-	        	else {
-	        		var fahrenheit = (weather.temperature * 9/5) + 32; 
-	        		fahrenheit = Lang.format("$1$", [fahrenheit.format("%d")] );
-	        		dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, fahrenheit +"°F", Graphics.TEXT_JUSTIFY_LEFT);
-	        	}
-	        	//dc.drawText(width/2 - 15, height*0.58, IconsFont, "<", Graphics.TEXT_JUSTIFY_CENTER); // Using Font;
-	        }
-	        if(weather has :observationLocationName) {
-	        	var location = weather.observationLocationName;
-	        	if (location.length()>15 and location.find(",")!=null){
-	        		location = location.substring(0,location.find(","));
-	        	}
-/*        		if (location.length()>=21) {
-        			if (width==280){
-        				location = location.substring(0,25);
-        			} else {
-        				location = location.substring(0,21);
-        			}
-        		}	        	
-*/		        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-		        //dc.fitTextToArea(text, font, width, height, truncate)
-		        dc.drawText(width/2, height*0.65, Graphics.FONT_XTINY, dc.fitTextToArea(location, Graphics.FONT_XTINY, width*0.60, height*0.10, true), Graphics.TEXT_JUSTIFY_CENTER);
-		        
+			if (Storage.getValue(6) == null or Storage.getValue(6) == true) {
+				if(weather has :temperature) {
+					if (TempMetric == System.UNIT_METRIC) { 
+						dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, weather.temperature+"°C", Graphics.TEXT_JUSTIFY_LEFT);
+					}
+					else {
+						var fahrenheit = (weather.temperature * 9/5) + 32; 
+						fahrenheit = Lang.format("$1$", [fahrenheit.format("%d")] );
+						dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, fahrenheit +"°F", Graphics.TEXT_JUSTIFY_LEFT);
+					}
+					//dc.drawText(width/2 - 15, height*0.58, IconsFont, "<", Graphics.TEXT_JUSTIFY_CENTER); // Using Font;
+				}
+			} else { // Feels like setting selected
+				if(weather has :feelsLikeTemperature) {
+					if (TempMetric == System.UNIT_METRIC) { 
+						dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, weather.feelsLikeTemperature+"°C", Graphics.TEXT_JUSTIFY_LEFT);
+					}
+					else {
+						var fahrenheit = (weather.feelsLikeTemperature * 9/5) + 32; 
+						fahrenheit = Lang.format("$1$", [fahrenheit.format("%d")] );
+						dc.drawText(width/2.05-Xoffset+offset, height*0.57, Graphics.FONT_XTINY, fahrenheit +"°F", Graphics.TEXT_JUSTIFY_LEFT);
+					}
+				}
+			}
+
+			if (Storage.getValue(7) == null or Storage.getValue(7) == true) {
+				if(weather has :observationLocationName) {
+					var location = weather.observationLocationName;
+					if (location.length()>15 and location.find(",")!=null){
+						location = location.substring(0,location.find(","));
+					}
+			        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+					//dc.fitTextToArea(text, font, width, height, truncate)
+					dc.drawText(width/2, height*0.65, Graphics.FONT_XTINY, dc.fitTextToArea(location, Graphics.FONT_XTINY, width*0.60, height*0.10, true), Graphics.TEXT_JUSTIFY_CENTER);
+				}		        
 		    }		
 		}	
 		
@@ -596,7 +604,7 @@ class AnalogView extends WatchUi.WatchFace
                 offset = 9;	
             }
                     
-            var settings = System.getDeviceSettings().phoneConnected;
+            var settings = System.getDeviceSettings().phoneConnected; // maybe .connectionAvailable or .ConnectionInfo.state ?
             if (settings) {
                 dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
             } else {
@@ -626,7 +634,7 @@ class AnalogView extends WatchUi.WatchFace
 				dc.setColor(0xFFFF55, Graphics.COLOR_TRANSPARENT); /* pastel yellow */
 			} else if (pulseOx >= 66) { // Between brain affected and cyanosis
 				dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT); /* orange */
-			} else {
+			} else { // Cyanosis
 				dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT); /* red */
 			}
         	dc.drawText( width / 4.7 - Xoffset, height * 0.565 + offset , IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
