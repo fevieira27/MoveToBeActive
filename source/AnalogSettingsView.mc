@@ -19,7 +19,7 @@ class AnalogSettingsView extends WatchUi.Menu2InputDelegate {
         // For IconMenuItems, we will change to the next icon state.
         // This demonstates a custom toggle operation using icons.
         // Static icons can also be used in this layout.
-        //System.println(item.getId());
+        System.println(item.getId());
         if(item instanceof IconMenuItem) {
             item.setSubLabel(item.getIcon().nextState());
         } else {
