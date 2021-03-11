@@ -61,6 +61,7 @@ https://paypal.me/pools/c/8x2wuxFwFu
 * **0.7.0** (coming soon)
 - [ ] Add alarm icon (System.getDeviceSettings().alarmCount) beside the bluetooth logo when at least one is active. If no alarm, icon will be hidden
 - [ ] Create functions for each data point (big internal code change that will support customizations on the next version)
+- [ ] Memory optimizations (average and especially peak)
 * **0.8.0** 
 - [ ] Add toggle to show either heart rate or calories burned (ActivityMonitor.Info.calories) (top left data point)
 - [ ] Add toggle to show either distance walked, elevation (Sensor.Info.altitude and System.getDeviceSettings().elevationUnits) or wind speed (Weather.CurrentConditions.windSpeed) (middle left data point)
