@@ -59,7 +59,7 @@ https://paypal.me/pools/c/8x2wuxFwFu
 - [X] Add toggle to hide/show location name
 - [X] Add toggle to switch between the current real or feels like temperatures
 * **0.7.0** (coming soon)
-- [ ] Add alarm icon (System.getDeviceSettings().alarmCount) beside the bluetooth logo when at least one is active. If no alarm, icon will be hidden
+- [ ] Add alarm icon beside the bluetooth logo when at least one is active. If no alarm, icon will be hidden
 - [ ] Create functions for each data point (big internal code change that will support customizations on the next version)
 - [ ] Memory optimizations (average and especially peak)
 * **0.8.0** 
