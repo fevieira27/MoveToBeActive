@@ -27,7 +27,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again.
 
 ## Support this project:
-[Click to Donate](https://paypal.me/pools/c/8x2wuxFwFu)
+[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" href="https://paypal.me/pools/c/8x2wuxFwFu">](https://paypal.me/pools/c/8x2wuxFwFu)
 
 ## Release notes:
 * **0.1.0** (22/Feb/21)
