@@ -44,31 +44,37 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 
 **0.4.0** (26/Fev/21)
 - [X] Add the blood oxygen percentage (on supported watches only) when that is activated (usually during the night), temporarily replacing the floor climb count. When pulse ox is disabled, the floor count will show up again. Useful for people that are using pulse ox 24/7 or for those who wake up during the night (mainly those with sleep apnea) and want to check their current blood oxygen percentage
-* **0.4.5** (04/Mar/21)
+
+**0.4.5** (04/Mar/21)
 - [X] Corrected a bug on the battery icon color and added fixed heart rate zones, in case the user didn't set them up on the watch settings (Settings - User Profile - Heart Rate - Zones - Based On)
-* **0.4.7** (05/Mar/21)
+
+**0.4.7** (05/Mar/21)
 - [X] When the location name has more than 15 digits in length, the country is now being omitted. In case the final string is still bigger than 21 digits, it is being truncated (just in case)
 - [X] The floors climbed icon will now turn green when the goal has been reached on that day
 - [X] The steps icon will now turn green when the goal has been reached on that day
 - [X] The notification icon will be grey when there is no notification and green when at least one notification is available
 - [X] Testing a new tone of green, as it was becoming yellow when the backlight was on (transreflective displays only, AMOLED displays will keep the old green tone)
-* **0.5.0** (07/Mar/21)
+
+**0.5.0** (07/Mar/21)
 - [X] Corrected inconsistencies with the length and width of the minute and hour hands across different resolutions
 - [X] Redesigned hour and minute hands to have even better anti-aliasing
 - [X] Added a menu on the watch face settings ("pencil" icon on the watch face selection screen) with an option to cycle through 8 different accent colors
 - [X] The colored icons that indicate goal reached (floor climbed & steps) and notification avilable will now follow the same accent color used on the minute hand
 - [X] Added support for the Vivoactive 3 Music watch
-* **0.6.0** (09/Mar/21)
+
+**0.6.0** (09/Mar/21)
 - [X] Add toggle to hide/show Garmin logo
 - [X] Add toggle to hide/show Bluetooth logo
 - [X] Add toggle to hide hour labels (3, 6, 9, 12), that when hidden would add accent-colored horizontal hash marks on the location where the 3 and 9 numbers were
 - [X] Add toggle to hide/show location name
 - [X] Add toggle to switch between the current real or feels like temperatures
-* **0.7.0** (coming soon)
+
+**0.7.0** (coming soon)
 - [ ] Add alarm icon beside the bluetooth logo when at least one is active. If no alarm, icon will be hidden
 - [ ] Create functions for each data point (big internal code change that will support customizations on the next version)
 - [ ] Memory optimizations (average and especially peak)
-* **0.8.0** 
+
+**0.8.0** 
 - [ ] Add toggle to show either heart rate or calories burned (ActivityMonitor.Info.calories) (top left data point)
 - [ ] Add toggle to show either distance walked, elevation (Sensor.Info.altitude and System.getDeviceSettings().elevationUnits) or wind speed (Weather.CurrentConditions.windSpeed) (middle left data point)
 - [ ] Add toggle to show either floors climbed, precipitation percentage (Weather.CurrentConditions.precipitationChance) or humidity percentage (Weather.CurrentConditions.relativeHumidity) (bottom left data point)
