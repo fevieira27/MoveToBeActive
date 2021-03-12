@@ -29,7 +29,7 @@ Download the compiled version from Garmin's ConnectIQ store:
   - (coming soon) **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
   - (coming soon) **Wind speed**: Current wind speed in km/h;
 * Bottom left data point - Can be selected between one of the below:
-  - **Blood oxygen** percentage: will automatically activate when the sensor is active, temporarily replacing whatever data point was selected for this same position. As soon as it deactivates, the previous data point (setup on the watch face's config menu) will show up again.
+  - **Blood oxygen** percentage: will automatically activate when the sensor is active, temporarily replacing whatever data point was selected for this same position. As soon as it deactivates, the previous data point (setup on the watch face's config menu and listed below) will show up again.
   - **Floors climbed** count: Icon will be displayed in Grey until floors climbed goal has been met, changing to the Accent color of choice;
   - (coming soon) **Precipitation** percentage: The current chance of rain/snow precipitation (0-100%);
   - (coming soon) **Humidity** percentage: The current relative humidity (0-100%);
