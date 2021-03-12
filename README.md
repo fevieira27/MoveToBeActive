@@ -9,7 +9,7 @@ Download the compiled version from Garmin's ConnectIQ store:
 
 I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro (see picture below). I will be testing other watches soon an adding support on new releases.
 
-![Vivomove HR](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true)![](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true)![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home3.png?raw=true)
+<img src="https://images-na.ssl-images-amazon.com/images/I/817VHcWxBjL._AC_SL1500_.jpg" width="270">![Vivomove HR](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true)![](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true)![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home3.png?raw=true)
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
