@@ -11,18 +11,29 @@ Download the compiled version from Garmin's ConnectIQ store:
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
-* Garmin Logo;
-* Current Date;
+* Current Date with day of the week and Month;
+* Garmin Logo that can be hidden on the watch face's config menu;
 * Battery percentage with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 15 and 30%) and Green (greater than 31%);
-* Heart Rate data, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On);
-* Notifications count;
-* Floors climbed count;
-* Distance travelled on the day (km or miles, dependent on watch's selected unit on general config);
-* Temperature indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
-* City name (if available) and current weather condition;
+* Notifications count: Accent color (at least one available) or Grey (no unread notifications);
 * Bluetooth indicator: Blue (connected to the phone) or Grey (not connected);
-* Do not Disturb indicator (only shown if mode is active);
-* Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again.
+* Alarm indicator: Accent color (at least one alarm active) or Grey (no alarms);
+* Do not Disturb indicator (only shown when mode is activate);
+* Temperature indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
+* City name (if available) that can be hidden on the watch face's config menu;
+* Current weather condition and temperature (°C/°F);
+* Top left data point - Can be selected between one of the below:
+  - Heart Rate data, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On);
+  - (coming soon) Calories burned: Icon will be displayed in Grey until calories goal has been met, changing to the Accent color of choice;
+* Middle left data point - Can be selected between one of the below:
+  - Distance walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in Grey until steps goal has been met, changing to the Accent color of choice;
+  - (coming soon) Elevation (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
+  - (coming soon) Wind speed: Current wind speed in km/h;
+* Bottom left data point - Can be selected between one of the below:
+  - Blood oxygen percentage: will automatically activate when the sensor is active, temporarily replacing whatever data point was selected for this same position. As soon as it deactivates, the previous data point (setup on the watch face's config menu) will show up again.
+  - Floors climbed count: Icon will be displayed in Grey until floors climbed goal has been met, changing to the Accent color of choice;
+  - (coming soon) Precipitation percentage: The current chance of rain/snow precipitation (0-100%);
+  - (coming soon) Humidity percentage: The current relative humidity (0-100%);
+  - (coming soon) Solar intensity percentage: Describes the solar sensor's charge efficiency, if available on the devide (0-100%);
 
 ## Support this project:
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" href="https://paypal.me/pools/c/8x2wuxFwFu">](https://paypal.me/pools/c/8x2wuxFwFu)
