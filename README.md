@@ -18,9 +18,9 @@ Download the compiled version from Garmin's ConnectIQ store:
 * Bluetooth indicator: Blue (connected to the phone) or Grey (not connected);
 * Alarm indicator: Accent color (at least one alarm active) or Grey (no alarms);
 * Do not Disturb indicator (only shown when mode is activate);
-* Temperature indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
 * City name (if available) that can be hidden on the watch face's config menu;
-* Current weather condition and temperature (°C/°F);
+* Current weather condition icon;
+* Temperature indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
 * Top left data point - Can be selected between one of the below:
   - Heart Rate data, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On);
   - (coming soon) Calories burned: Icon will be displayed in Grey until calories goal has been met, changing to the Accent color of choice;
