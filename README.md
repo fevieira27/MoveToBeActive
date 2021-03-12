@@ -3,7 +3,7 @@
 
 Garmin Watch Face that was initially meant for the VivoActive 4 series, as I want to replace my current Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of a hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to start developing a watch face inspired by the design of the Vivomove series, but adding extra features that will be very useful for my daily type of usage (more health related than activity tracking).
 
-Download the compiled version from Garmin's ConnectIQ store: https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8
+Download the compiled version from Garmin's ConnectIQ store: [Link to IQ Store](https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8)
 
 I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro (see picture below). I will be testing other watches soon an adding support on new releases.
 
@@ -25,7 +25,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again.
 
 ## Support this project:
-https://paypal.me/pools/c/8x2wuxFwFu
+[Link to Paypal](https://paypal.me/pools/c/8x2wuxFwFu)
 
 ## Release notes:
 * **0.1.0** (22/Feb/21)
