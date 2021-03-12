@@ -14,7 +14,7 @@ Download the compiled version from Garmin's ConnectIQ store:
 * Current Date with day of the week and Month;
 * Garmin Logo that can be hidden on the watch face's config menu;
 * Battery percentage with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 15 and 30%) and Green (greater than 31%);
-* Notifications count: Accent color (at least one available) or Grey (no unread notifications);
+* Notifications count: Accent color if at least one notification is available or Grey if no unread notifications;
 * Bluetooth indicator: Blue (connected to the phone) or Grey (not connected);
 * Alarm indicator: Accent color (at least one alarm active) or Grey (no alarms);
 * Do not Disturb indicator (only shown when mode is activate);
