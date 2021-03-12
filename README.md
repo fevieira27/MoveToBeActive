@@ -5,7 +5,7 @@ Garmin Watch Face that was initially meant for the VivoActive 4 series, as I wan
 
 Download the compiled version from Garmin's ConnectIQ store:
 
-<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8">
+[<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8">](https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8)
 
 I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro (see picture below). I will be testing other watches soon an adding support on new releases.
 
