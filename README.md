@@ -1,13 +1,15 @@
 # MoveToBeActive Garmin Watch Face
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Logo2-MoveToBeActive.png?raw=true)
+![MoveToBeActive Logo](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Logo2-MoveToBeActive.png?raw=true)
 
 Garmin Watch Face that was initially meant for the VivoActive 4 series, as I want to replace my current Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of a hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to start developing a watch face inspired by the design of the Vivomove series, but adding extra features that will be very useful for my daily type of usage (more health related than activity tracking).
 
-Download the compiled version from Garmin's ConnectIQ store: [Link to IQ Store](https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8)
+Download the compiled version from Garmin's ConnectIQ store:
+
+<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8">
 
 I have tested/adapted this watch face to work with a few other rounded devices, including the new flagship Enduro (see picture below). I will be testing other watches soon an adding support on new releases.
 
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true)![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true)![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home3.png?raw=true)
+![Vivomove HR](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true)![](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true)![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home3.png?raw=true)
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
@@ -25,7 +27,7 @@ I have tested/adapted this watch face to work with a few other rounded devices, 
 * Blood oxygen percentage, that when activated will temporarily replace the floor climb count. As soon as it deactivates, the floor climb count will show up again.
 
 ## Support this project:
-[Link to Paypal](https://paypal.me/pools/c/8x2wuxFwFu)
+[Click to Donate](https://paypal.me/pools/c/8x2wuxFwFu)
 
 ## Release notes:
 * **0.1.0** (22/Feb/21)
