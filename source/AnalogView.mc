@@ -30,7 +30,6 @@ class AnalogView extends WatchUi.WatchFace
         WatchFace.initialize();
         fullScreenRefresh = true;
         partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
-        MtbA = new MtbA_functions();
     }
 
     // Configure the layout of the watchface for this device
@@ -53,9 +52,9 @@ class AnalogView extends WatchUi.WatchFace
                     Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_BLACK,
                     Graphics.COLOR_WHITE
-                    //,Graphics.COLOR_BLUE
-                    //,Graphics.COLOR_TRANSPARENT
-                    //,0xAAFF00 //Vivomove Green
+                    ,Graphics.COLOR_BLUE
+                    ,Graphics.COLOR_TRANSPARENT
+                    ,0xAAFF00 //Vivomove Green
                 ]
             });
 
@@ -82,6 +81,8 @@ class AnalogView extends WatchUi.WatchFace
         var width;
         var height;
         var targetDc = null;
+        
+        MtbA = new MtbA_functions();
         		
         // We always want to refresh the full screen when we get a regular onUpdate call.
         fullScreenRefresh = true;
@@ -147,6 +148,7 @@ class AnalogView extends WatchUi.WatchFace
 		
 		// Notifications (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)	
 		MtbA.drawNotification(dc, width*0.74, height*0.56, width *0.8, height*0.57, accentColor, width, Xoffset);
+		//MtbA.drawPrecipitation(dc, width*0.71, height*0.565, width *0.75, height*0.57, width);
 
 		// Draw Battery
 		MtbA.drawBatteryIcon(dc, width*0.69, height / 2.1, width*0.82, height / 2.05, width, height, accentColor);
@@ -201,11 +203,20 @@ class AnalogView extends WatchUi.WatchFace
         if (pulseBoolean==false) {
         	// Floors Climbed (dc, xIcon, yIcon, xText, yText, width, accentColor)
         	MtbA.drawFloorsClimbed(dc, width / 4.7 - Xoffset, height * 0.56, width / 3.65 - Xoffset, height * 0.57, width, accentColor);
+        	//MtbA.drawHumidity(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width);
+        	//MtbA.drawSolarIntensity(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width, accentColor);        	
         }
         
-		// Draw Distance Traveled / Steps
-		MtbA.drawSteps(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width, accentColor);        
+		// Draw Distance Traveled / Steps (dc, xIcon, yIcon, xText, yText, width, accentColor)
+		MtbA.drawSteps(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width, accentColor);
+		//MtbA.drawWindSpeed(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width);
         
+        // Draw elevation (dc, xIcon, yIcon, xText, yText, width)
+        //MtbA.drawElevation(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width);
+
+    	// Calories (dc, xIcon, yIcon, xText, yText, width, accentColor)
+    	//MtbA.drawCalories(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width);
+
 
         // If we have an offscreen buffer that we are using for the date string,
         // Draw the date into it. If we do not, the date will get drawn every update
@@ -233,13 +244,13 @@ class AnalogView extends WatchUi.WatchFace
     }
           
 
-/*  // Handle the partial update event
+  // Handle the partial update event
     function onPartialUpdate( dc ) {
         // If we're not doing a full screen refresh we need to re-draw the background
         // before drawing the updated second hand position. Note this will only re-draw
         // the background in the area specified by the previously computed clipping region.
     }
-*/
+
 
     // Draw the watch face background
     // onUpdate uses this method to transfer newly rendered Buffered Bitmaps
@@ -323,6 +334,6 @@ class AnalogDelegate extends WatchUi.WatchFaceDelegate {
     function onPowerBudgetExceeded(powerInfo) {
         System.println( "Average execution time: " + powerInfo.executionTimeAverage );
         System.println( "Allowed execution time: " + powerInfo.executionTimeLimit );
-        partialUpdatesAllowed = false;
+        //partialUpdatesAllowed = false;
     }
 }

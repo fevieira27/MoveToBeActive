@@ -5,7 +5,6 @@ using Toybox.WatchUi;
 using Toybox.Weather as CurrentConditions;
 using Toybox.ActivityMonitor;
 using Toybox.UserProfile as User;
-using Toybox.ActivityMonitor;
 using Toybox.Activity;
 using Toybox.Math;
 using Toybox.Lang;
@@ -191,8 +190,6 @@ class MtbA_functions {
 		
 		if(CurrentConditions has :getCurrentConditions and CurrentConditions.getCurrentConditions() != null) {
 			var weather = CurrentConditions.getCurrentConditions();
-			//System.println(CurrentConditions.getCurrentConditions().relativeHumidity);
-	        //System.println(CurrentConditions.getCurrentConditions().precipitationChance);
 	        
 			var offset = 0;
 			var LEDoffset = 0;
@@ -305,6 +302,7 @@ class MtbA_functions {
 	
 	/* ------------------------ */
 	
+	// Weather Location Name
 	function drawLocation(dc, x, y, wMax, hMax, showBoolean) {
 		if(CurrentConditions has :getCurrentConditions and CurrentConditions.getCurrentConditions() != null) {
 			var weather = CurrentConditions.getCurrentConditions();
@@ -324,6 +322,7 @@ class MtbA_functions {
 	
 	/* ------------------------ */
 	
+	// Notification Icon and Count
 	function drawNotification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset) {
        	var offset = 0;
 		if (width==390) { // Venu & D2 Air
@@ -341,8 +340,8 @@ class MtbA_functions {
        
         if (System.getDeviceSettings() has :notificationCount) {
 	        notificationAmount = System.getDeviceSettings().notificationCount;
-	    	if(notificationAmount > 20)	{
-				formattedNotificationAmount = "20+";
+	    	if(notificationAmount > 99)	{
+				formattedNotificationAmount = "99+";
 			}
 			else {
 				formattedNotificationAmount = notificationAmount.format("%d");
@@ -412,7 +411,7 @@ class MtbA_functions {
 		
 		// Choose the colour of the heart rate icon based on heart rate zone
 		var heartRateIconColour = Graphics.COLOR_DK_GRAY;
-		if (heartRateZone == 0) { // No default zones detected
+		if (heartRateZone == 0) { // Only when no default zones were detected
 			if (heartRate >= 185) {
 				heartRateZone = 7;
 			} else if (heartRate >= 167) {
@@ -528,7 +527,7 @@ class MtbA_functions {
 	
 	/* ------------------------ */
 	
-	// Draw Battery Icon and Text	
+	// Draw Do Not Disturb Icon
 	function drawDndIcon(dc, x, y, width) {	
 		
 	    // If this device supports the Do Not Disturb feature,
@@ -741,5 +740,305 @@ class MtbA_functions {
     	var garminIcon = WatchUi.loadResource(Rez.Drawables.GarminLogo);
        	dc.drawBitmap( x, y , garminIcon);
     }
+
+	/* ------------------------ */
 	
+	// Draw Calories Burned
+	function drawCalories(dc, xIcon, yIcon, xText, yText, width) {	
+	
+		var IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+	    var calories=0;
+	    
+	    if (ActivityMonitor.getInfo() has :calories) {
+	    	calories = ActivityMonitor.getInfo().calories;//.toString();
+	    } else {
+	    	return false;
+		}
+			
+        var offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}	    
+	    
+	    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xIcon, yIcon + offset , IconsFont, "6", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xText - offset , yText , Graphics.FONT_XTINY, calories, Graphics.TEXT_JUSTIFY_LEFT);
+		return true;
+    }
+
+	/* ------------------------ */
+	
+	// Draw Elevation
+	function drawElevation(dc, xIcon, yIcon, xText, yText, width) {	
+
+		var IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+		var elevationMetric = System.getDeviceSettings().elevationUnits;
+		var elevation=null;
+		var elevationStr;
+		var unit;
+        
+        if (Activity.getActivityInfo() has :altitude) {
+	    	elevation = Activity.getActivityInfo().altitude;//.toString();
+	    }
+        
+        var offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}
+        
+       	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT); 
+        dc.drawText( xIcon, yIcon + offset, IconsFont, ";", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+        
+        // Elevation Text	
+		if (elevation != null) {
+        	if (elevationMetric == System.UNIT_METRIC) {
+        		if (elevation >= 1000) {
+        			unit = " km";
+        		} else {
+        			unit = " m";
+        		}
+        	} else{
+        		unit = " ft";
+        		elevation = elevation * 3.28084;
+        	}
+        } else {
+        	unit = "?";
+        }
+        
+        if (elevation >= 1000 and elevationMetric == System.UNIT_METRIC) {
+        	elevation = elevation * 0.001;
+        	elevationStr = Lang.format("$1$", [elevation.format("%.1f")] );
+        } else { //(elevation <10)
+        	elevationStr = Lang.format("$1$", [elevation.format("%.0f")] );
+        }
+        
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(xText - offset , yText, Graphics.FONT_XTINY, elevationStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Elevation in m or mi
+	}
+
+	/* ------------------------ */
+	
+	// Draw Precipitation Percentage
+	function drawPrecipitation(dc, xIcon, yIcon, xText, yText, width) {	
+	
+		//var IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+		var IconsFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+	    var precipitation=0;
+	    
+	    if (CurrentConditions has :getCurrentConditions) {
+	    	precipitation = CurrentConditions.getCurrentConditions().precipitationChance;//.toString();
+	    } else {
+	    	return false;
+		}
+			
+        var offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}	    
+	    
+	    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xIcon, yIcon + offset , IconsFont, "S", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xText - offset , yText , Graphics.FONT_XTINY, Lang.format("$1$%",[precipitation]), Graphics.TEXT_JUSTIFY_LEFT);
+		return true;
+    }
+
+	/* ------------------------ */
+	
+	// Draw Humidity Percentage
+	function drawHumidity(dc, xIcon, yIcon, xText, yText, width) {	
+	
+		var IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+	    var humidity=0;
+	    
+	    if (CurrentConditions has :getCurrentConditions) {
+	    	humidity = CurrentConditions.getCurrentConditions().relativeHumidity;//.toString();
+	    } else {
+	    	return false;
+		}
+			
+        var offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}	    
+	    
+	    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xIcon, yIcon + offset , IconsFont, "A", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xText - offset , yText , Graphics.FONT_XTINY, Lang.format("$1$%",[humidity]), Graphics.TEXT_JUSTIFY_LEFT);
+		return true;
+    }
+	
+	/* ------------------------ */	
+
+	// Draw Wind Speed
+	function drawWindSpeed(dc, xIcon, yIcon, xText, yText, width) {	
+
+		var IconsFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+		var WindMetric = System.getDeviceSettings().paceUnits;
+		var windSpeed=null;
+		var unit;
+        
+        if (CurrentConditions has :getCurrentConditions) {
+	    	windSpeed = CurrentConditions.getCurrentConditions().windSpeed;//.toString();
+	    }
+        
+        var offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}
+        
+        var beaufortZone = null;
+		var windIconColour = Graphics.COLOR_DK_GRAY;
+		
+		if (windSpeed >= 32.7) { // Hurricane Force
+			beaufortZone = 12;
+		} else if (windSpeed >= 28.5) { // Violent Storm
+			beaufortZone = 11;
+		} else if (windSpeed >= 24.5) { // Storm
+			beaufortZone = 10;
+		} else if (windSpeed >= 20.8) { // Strong Gale
+			beaufortZone = 9;
+		} else if (windSpeed >= 17.2) { // Gale
+			beaufortZone = 8;
+		} else if (windSpeed >= 13.9) { // Near Gale
+			beaufortZone = 7;
+		} else if (windSpeed >= 10.8) { // Strong Breeze
+			beaufortZone = 6;
+		} else if (windSpeed >= 8) { // Fresh Breeze
+			beaufortZone = 5;
+		} else if (windSpeed >= 5.5) { // Moderate Breeze
+			beaufortZone = 4;
+		} else if (windSpeed >= 3.4) { // Gentle Breeze
+			beaufortZone = 3;
+		} else if (windSpeed >= 1.6) { // Light Breeze
+			beaufortZone = 2;
+		} else if (windSpeed >= 0.3) { // Light Air
+			beaufortZone = 1;			
+		} else { // Calm
+			beaufortZone = 0;
+		}  
+		
+		if (beaufortZone == 0) { // Calm
+			windIconColour = 0x00AAFF;
+		} else if (beaufortZone == 1) { // Light Air
+			windIconColour = 0x55FFFF;
+		} else if (beaufortZone == 2) { // Light Breeze
+			windIconColour = 0x55AAAA; 
+		} else if (beaufortZone == 3) { // Gentle Breeze
+			windIconColour = 0x55AA00; 
+		} else if (beaufortZone == 4) { // Moderate Breeze
+			windIconColour = 0x55FF00; 
+		} else if (beaufortZone == 5){ // Fresh Breeze
+			windIconColour = 0xAAFF00; 
+ 		} else if (beaufortZone == 6){ // Strong Breeze
+			windIconColour = 0xAAFFAA; 
+ 		} else if (beaufortZone == 7){ // Near Gale
+			windIconColour = 0xFFFFAA; 
+ 		} else if (beaufortZone == 8){ // Gale
+			windIconColour = 0xFFFF00; 
+ 		} else if (beaufortZone == 9){ // Strong Gale
+			windIconColour = 0xFFAA00; 
+ 		} else if (beaufortZone == 10){ // Storm
+			windIconColour = 0xFFAAAA; 
+ 		} else if (beaufortZone == 11){ // Violent Storm
+			windIconColour = 0xFF5500; 
+ 		} else if (beaufortZone == 12){ // Hurricane Force
+			windIconColour = 0xFF0000; 						
+		}        
+        
+       	dc.setColor(windIconColour, Graphics.COLOR_TRANSPARENT); 
+        dc.drawText( xIcon, yIcon + offset, IconsFont, "P", Graphics.TEXT_JUSTIFY_CENTER); // Icon Using Font
+        
+        // Wind Speed Text	
+		if (windSpeed != null) {
+        	if (WindMetric == System.UNIT_METRIC) {
+				windSpeed = windSpeed * 3.6; //converting from m/s to km/h
+				if (windSpeed>=100){
+					unit = "km/h";
+				} else{
+        			unit = " km/h";
+        		}
+        	} else{
+        		windSpeed = windSpeed * 2.22369; //converting from m/s to mph
+        		unit = " mph";
+        	}
+        } else {
+        	unit = " m/s";
+        }
+        
+       	var windStr = Lang.format("$1$", [windSpeed.format("%.0d")] );
+        
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(xText - offset , yText, Graphics.FONT_XTINY, windStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Wind Speed in km/h or mph
+	}
+
+	/* ------------------------ */
+	
+	// Draw Solar Intensity
+	function drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
+	
+		var IconsFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+	    var solarIntensity=0;
+	    
+	    if (System.getSystemStats() has :solarIntensity) {
+	    	if (System.getSystemStats().solarIntensity != null) {
+	    		solarIntensity = System.getSystemStats().solarIntensity;//.toString();
+	    	} else {
+	    		return false;
+	    	}
+	    } else {
+	    	return false;
+		}
+		
+		var solarZone = null;
+		
+		if (solarIntensity >= 80) { // Extreme
+			solarZone = 5;
+		} else if (solarIntensity >= 60) { // Very High
+			solarZone = 4;
+		} else if (solarIntensity >= 40) { // High
+			solarZone = 3;
+		} else if (solarIntensity >= 20) { // Moderate
+			solarZone = 2;
+		} else if (solarIntensity > 0) { // Low
+			solarZone = 1;			
+		} else { // Not existent
+			solarZone = 0;
+		}  
+
+		var solarIconColour = Graphics.COLOR_DK_GRAY;
+		
+		if (solarZone == 0) { // Not existent
+			solarIconColour = Graphics.COLOR_LT_GRAY;
+		} else if (solarZone == 1) { // Low
+			if (accentColor == 0xAAFF00) {
+				solarIconColour = 0xAAFF00; /* Vivomove GREEN */
+			} else {
+				solarIconColour = 0x55FF00; /* GREEN */
+			}		
+		} else if (solarZone == 2) { // Moderate
+			solarIconColour = 0xFFFF55; 
+		} else if (solarZone == 3) { // High
+			solarIconColour = 0xFFAA00; 
+		} else if (solarZone == 4) { // Very High
+			solarIconColour = Graphics.COLOR_RED; 
+		} else if (solarZone == 5){ // Extreme
+			solarIconColour = 0xFF55FF; 
+		}        
+        
+        var offset = 0;
+		if (width==390) { // Venu & D2 Air
+			offset = 7;	
+		}	    
+	    
+       	dc.setColor(solarIconColour, Graphics.COLOR_TRANSPARENT); 
+		dc.drawText( xIcon, yIcon + offset , IconsFont, "R", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xText - offset , yText , Graphics.FONT_XTINY, Lang.format("$1$%",[solarIntensity]), Graphics.TEXT_JUSTIFY_LEFT);
+		return true;
+    }
+
+
 }
