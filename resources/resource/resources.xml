@@ -1,7 +1,10 @@
 <resources>
     <fonts>
-        <font id="id_font_black_diamond" filename="fonts/blackdiamond.fnt" filter="0123456789" antialias="true"/>
-        <font id="IconsFont" filename="fonts/crystal-icons.fnt" antialias="true"/>
-        <font id="WeatherFont" filename="fonts/weather-icons-24.fnt" antialias="true"/>
+        <font id="id_font_black_diamond" filename="fonts/blackdiamond.fnt" filter="12369" antialias="true"/>
+        <font id="IconsFont" filename="fonts/crystal-icons.fnt"
+        	antialias="true" filter="013568:;@A" />
+        <font id="WeatherFont" filename="fonts/weather-icons-24.fnt"
+        	antialias="true"></font>
+        <font id="HumidityFont" filename="fonts/humidity-icon.fnt" antialias="true"></font>
     </fonts>
 </resources>
