@@ -9,7 +9,7 @@ using Toybox.Graphics;
 using Toybox.System;
 using Toybox.Application.Storage;
 
-class AnalogSettingsView extends WatchUi.Menu2InputDelegate {
+class AnalogSettingsView extends WatchUi.Menu2InputDelegate { // main menu
 
  	function initialize() {
         Menu2InputDelegate.initialize();
@@ -54,61 +54,134 @@ class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
     //menu.addItem(new WatchUi.MenuItem("Custom", null, "custom", null));
     //WatchUi.pushView(menu, new AnalogSettingsDelegate(), WatchUi.SLIDE_UP );
 
-    // Generate a new Menu with a Text Title
-    var iconMenu = new WatchUi.Menu2({:title=>"Config"});
-    var drawable1 = new CustomIcon();
-//    var drawable2 = new CustomIcon();
-//    var drawable3 = new CustomIcon();
-    iconMenu.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-    
-    var boolean;
-    if (Storage.getValue(3) != null ){
-    	boolean = Storage.getValue(3);
-    } else {
-    	boolean = true;
-    } 
-    //ToggleMenuItem(label, subLabel, identifier, enabled, options)
-    iconMenu.addItem(new WatchUi.ToggleMenuItem("Garmin Logo", {:enabled=>"ON", :disabled=>"OFF"}, 3, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-    if (Storage.getValue(4) != null ){
-    	boolean = Storage.getValue(4);
-    } else {
-    	boolean = true;
-    } 
-    iconMenu.addItem(new WatchUi.ToggleMenuItem("Bluetooth Logo", {:enabled=>"ON", :disabled=>"OFF"}, 4, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-    if (Storage.getValue(8) != null ){
-    	boolean = Storage.getValue(8);
-    } else {
-    	boolean = true;
-    }
-    iconMenu.addItem(new WatchUi.ToggleMenuItem("Alarm Icon", {:enabled=>"ON", :disabled=>"OFF"}, 8, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
-    if (Storage.getValue(5) != null ){
-    	boolean = Storage.getValue(5);
-    } else {
-    	boolean = true;
-    }
-    iconMenu.addItem(new WatchUi.ToggleMenuItem("3,6,9,12 Numbers", {:enabled=>"ON", :disabled=>"OFF"}, 5, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-    if (Storage.getValue(7) != null ){
-    	boolean = Storage.getValue(7);
-    } else {
-    	boolean = true;
-    }
-    iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-    if (Storage.getValue(6) != null ){
-    	boolean = Storage.getValue(6);
-    } else {
-    	boolean = true;
-    }
-    iconMenu.addItem(new WatchUi.ToggleMenuItem("Temperature Type", {:enabled=>"Real Temp.", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-//    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 2", drawable2.getString(), "right", drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT}));
-//    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 3", drawable3.getString(), "default", drawable3, null));
-    WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );  
-		
+    // Generate a new Menu with a drawable Title
+    var menu = new WatchUi.Menu2({:title=>new DrawableMenuTitle()});
+
+    menu.addItem(new WatchUi.MenuItem("Design Options", null, "design", null));
+    menu.addItem(new WatchUi.MenuItem("Data Points", null, "datapoints", null));
+    WatchUi.pushView(menu, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
+
 	}
 
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_DOWN);
     }  
 
+}
+
+
+class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu Design
+
+	function initialize() {
+        Menu2InputDelegate.initialize();
+    }
+
+	function onSelect(item) {
+		var boolean;
+        if( item.getId().equals("design") ) {
+		    // Generate a new Menu with a Text Title
+		    
+		    var iconMenu = new WatchUi.Menu2({:title=>"Design"});
+		    var drawable1 = new CustomIcon();
+		//    var drawable2 = new CustomIcon();
+		//    var drawable3 = new CustomIcon();
+		    iconMenu.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    
+		    if (Storage.getValue(3) != null ){
+		    	boolean = Storage.getValue(3);
+		    } else {
+		    	boolean = true;
+		    } 
+		    //ToggleMenuItem(label, subLabel, identifier, enabled, options)
+		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Garmin Logo", {:enabled=>"ON", :disabled=>"OFF"}, 3, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    if (Storage.getValue(4) != null ){
+		    	boolean = Storage.getValue(4);
+		    } else {
+		    	boolean = true;
+		    } 
+		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Bluetooth Logo", {:enabled=>"ON", :disabled=>"OFF"}, 4, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    if (Storage.getValue(8) != null ){
+		    	boolean = Storage.getValue(8);
+		    } else {
+		    	boolean = true;
+		    }
+		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Alarm Icon", {:enabled=>"ON", :disabled=>"OFF"}, 8, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
+		    if (Storage.getValue(5) != null ){
+		    	boolean = Storage.getValue(5);
+		    } else {
+		    	boolean = true;
+		    }
+		    iconMenu.addItem(new WatchUi.ToggleMenuItem("3,6,9,12 Numbers", {:enabled=>"ON", :disabled=>"OFF"}, 5, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    if (Storage.getValue(7) != null ){
+		    	boolean = Storage.getValue(7);
+		    } else {
+		    	boolean = true;
+		    }
+		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		//    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 2", drawable2.getString(), "right", drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT}));
+		//    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 3", drawable3.getString(), "default", drawable3, null));
+		    WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );
+        } else if( item.getId().equals("datapoints") ) {
+		    var dataMenu = new WatchUi.Menu2({:title=>"Data"});
+			//    var drawable2 = new CustomIcon();
+
+		    if (Storage.getValue(6) != null ){
+		    	boolean = Storage.getValue(6);
+		    } else {
+		    	boolean = true;
+		    }
+		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperature Type", {:enabled=>"Real Temp.", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    WatchUi.pushView(dataMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );			        	    
+	    } else {
+            WatchUi.requestUpdate();
+        }  
+	}
+
+    function onBack() {
+        WatchUi.popView(WatchUi.SLIDE_DOWN);
+    }  
+
+}
+
+
+// This is the custom drawable we will use for our main menu title
+class DrawableMenuTitle extends WatchUi.Drawable {
+
+    // This constant data stores the color state list.
+    const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, Graphics.COLOR_BLUE, 0x00FFFF, 0xAA55FF, 0xFFAA00/*0xFF5500*/, 0xFF0000, 0xFF55FF, Graphics.COLOR_WHITE];
+
+    function initialize() {
+        Drawable.initialize({});
+    }
+
+    // Draw the application icon and main menu title
+    function draw(dc) {
+        var spacing = 2;
+        var mIndex;
+        
+        if (Storage.getValue(2) == false or Storage.getValue(2) == null){ 
+        	mIndex = 0;
+        } else {
+        	mIndex=Storage.getValue(2);
+        }        
+        
+        var appIcon = WatchUi.loadResource(Rez.Drawables.LauncherIcon);        
+        var bitmapWidth = appIcon.getWidth();
+        var labelWidth = dc.getTextWidthInPixels("Config", Graphics.FONT_SMALL);
+
+        var bitmapX = (dc.getWidth() - (bitmapWidth + spacing + labelWidth)) / 3;
+        var bitmapY = (dc.getHeight() - appIcon.getHeight()) / 2;
+        var labelX = bitmapX + bitmapWidth + spacing;
+        var labelY = dc.getHeight() / 2;
+
+		var color = mColors[mIndex];
+        dc.setColor(color, color);
+        dc.clear();               
+        
+        dc.drawBitmap(bitmapX, bitmapY, appIcon);
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(labelX, labelY, Graphics.FONT_SMALL, "Config", Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+    }
 }
 
 
@@ -155,8 +228,10 @@ class CustomIcon extends WatchUi.Drawable {
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
     function draw(dc) {
-        var color = mColors[mIndex];
+    
+		var color = mColors[mIndex];
         dc.setColor(color, color);
-        dc.clear();
+        dc.clear();        
+        
     }
 }
