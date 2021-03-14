@@ -1,5 +1,6 @@
 <resources>
-    <bitmap id="LauncherIcon" filename="images/MoveToBeActive.png" />
+    <bitmap id="LauncherIcon" filename="images/MoveToBeActive.png"
+    	dithering="none" />
     <bitmap id="DoNotDisturbIcon" filename="images/donotdisturb.png" dithering="none">
         <palette disableTransparency="false">
             <color>AAAAAA</color>
