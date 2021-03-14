@@ -78,12 +78,13 @@ Download the compiled version from Garmin's ConnectIQ store:
 - [X] Add toggle to hide/show location name
 - [X] Add toggle to switch between the current real or feels like temperatures
 
-**0.7.0** (coming soon)
-- [ ] Add alarm icon beside the bluetooth logo when at least one is active. If no alarm has been set, then icon will be hidden
-- [ ] Create functions for each data point (big internal code change that will support customizations on the next releases)
-- [ ] Memory optimizations (especially peak usage, but also a bit on average)
+**0.7.0** (13/Mar/21)
+- [X] Add alarm icon beside the bluetooth logo when at least one is active. If no alarm has been set, then icon will be hidden
+- [X] Added a second sensor for pulse Ox, in case the previous one is null
+- [X] Create functions for each data point (big internal code change that will support data point customizations on next release)
+- [X] Memory optimizations, reduced average and peak usage by 14%
 
-**0.8.0** 
+**0.8.0** (coming soon)
 - [ ] Top left data point - Add selector to show: heart rate or calories burned (ActivityMonitor.Info.calories) 
 - [ ] Middle left data point - Add selector to show: distance walked, elevation (Sensor.Info.altitude and System.getDeviceSettings().elevationUnits) or wind speed (Weather.CurrentConditions.windSpeed)
 - [ ] Bottom left data point - Add selector to show: floors climbed, precipitation percentage (Weather.CurrentConditions.precipitationChance), humidity percentage (Weather.CurrentConditions.relativeHumidity) or solar intensity percentage (for solar powered devices - System.Stats.solarIntensity)
