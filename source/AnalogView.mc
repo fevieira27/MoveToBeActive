@@ -7,8 +7,6 @@
 using Toybox.Graphics;
 using Toybox.System;
 using Toybox.WatchUi;
-//using Toybox.Application;
-//using Toybox.SensorHistory;
 using Toybox.Application.Storage;
 
 var partialUpdatesAllowed = false;
@@ -146,8 +144,31 @@ class AnalogView extends WatchUi.WatchFace
 			}
 		}
 		
+		
+		//Data Points
+		var dataPoint = Storage.getValue(12);
+		// (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset, dataPoint)
+		MtbA.drawRightBottom(dc, width*0.72, height*0.56, width * 0.765, height * 0.57, accentColor, width, Xoffset, dataPoint);
+	
+		// Xoffset for the 3 left data points: heart rate, steps and floor climb
+		if (width==390) { // Venu & D2 Air
+			Xoffset = 22;
+		} else if (width==240) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
+			Xoffset = 5;
+		} else if (width==280) { // Fenix 6X e Enduro
+			Xoffset = 5;
+		} else if (width==260) { // Vivoactive 4
+			Xoffset = 5;
+		} else if (width==218) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
+			Xoffset = 2;
+		}
+		
+		dataPoint = Storage.getValue(11);
+        MtbA.drawLeftBottom(dc, width / 4.7 - Xoffset, height*0.56, width / 3.65 - Xoffset, height * 0.57, accentColor, width, Xoffset, dataPoint);
+		
+		
 		// Notifications (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)	
-		MtbA.drawNotification(dc, width*0.74, height*0.56, width *0.8, height*0.57, accentColor, width, Xoffset);
+		//MtbA.drawNotification(dc, width*0.74, height*0.56, width *0.8, height*0.57, accentColor, width, Xoffset);
 		//MtbA.drawPrecipitation(dc, width*0.71, height*0.565, width *0.75, height*0.57, width);
 
 		// Draw Battery
@@ -181,31 +202,18 @@ class AnalogView extends WatchUi.WatchFace
 	        }
         }
  
-		
-		// Xoffset for the 3 left data points: heart rate, steps and floor climb
-		if (width==390) { // Venu & D2 Air
-			Xoffset = 22;
-		} else if (width==240) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
-			Xoffset = 5;
-		} else if (width==280) { // Fenix 6X e Enduro
-			Xoffset = 5;
-		} else if (width==260) { // Vivoactive 4
-			Xoffset = 5;
-		} else if (width==218) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
-			Xoffset = 2;
-		}
-		
+				
 		// Draw heart rate
 		MtbA.drawHeartRate(dc, width / 4.7, height/2.9, width / 3.65, width, Xoffset, accentColor);
 					
         // Draw Pulse Ox and return true (if sensor is active) or false (if sensor inactive)    
-        var pulseBoolean = MtbA.drawPulseOx(dc, width / 4.7 - Xoffset, height * 0.565, width / 3.75 - Xoffset, height * 0.57, width, accentColor);
-        if (pulseBoolean==false) {
+        //var pulseBoolean = MtbA.drawPulseOx(dc, width / 4.7 - Xoffset, height * 0.565, width / 3.75 - Xoffset, height * 0.57, width, accentColor);
+        //if (pulseBoolean==false) {
         	// Floors Climbed (dc, xIcon, yIcon, xText, yText, width, accentColor)
-        	MtbA.drawFloorsClimbed(dc, width / 4.7 - Xoffset, height * 0.56, width / 3.65 - Xoffset, height * 0.57, width, accentColor);
+        	//MtbA.drawFloorsClimbed(dc, width / 4.7 - Xoffset, height * 0.56, width / 3.65 - Xoffset, height * 0.57, width, accentColor);
         	//MtbA.drawHumidity(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width);
         	//MtbA.drawSolarIntensity(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width, accentColor);        	
-        }
+        //}
         
 		// Draw Distance Traveled / Steps (dc, xIcon, yIcon, xText, yText, width, accentColor)
 		MtbA.drawSteps(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width, accentColor);
