@@ -5,4 +5,4 @@ chars count=4
 char id=79   x=0     y=0     width=19    height=25    xoffset=2     yoffset=3     xadvance=24    page=0  chnl=15
 char id=80   x=20    y=0     width=26    height=23    xoffset=2     yoffset=1     xadvance=30    page=0  chnl=15
 char id=82   x=47    y=0     width=20    height=21    xoffset=1     yoffset=1     xadvance=24    page=0  chnl=15
-char id=83   x=68    y=0     width=14    height=20    xoffset=2     yoffset=5     xadvance=18    page=0  chnl=15
+char id=83   x=68    y=0     width=14    height=20    xoffset=2     yoffset=2     xadvance=18    page=0  chnl=15
