@@ -121,21 +121,15 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );
         } else if( item.getId().equals("datapoints") ) {
 		    var dataMenu = new WatchUi.Menu2({:title=>"Data"});
-			var drawable2 = new CustomDataPoint();
+		    var drawable2 = new CustomLeftTopDataPoint();
 
 		    if (Storage.getValue(6) != null ){
 		    	boolean = Storage.getValue(6);
 		    } else {
 		    	boolean = true;
 		    }
-		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperature Type", {:enabled=>"Real Temp.", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-
-/*		    if (Storage.getValue(6) != null ){
-		    	boolean = Storage.getValue(8);
-		    } else {
-		    	boolean = true;
-		    }
-*/		    
+		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperature Type", {:enabled=>"Real Temp.", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
+		    
 		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Top", drawable2.getString(), 8, drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    
 		    WatchUi.pushView(dataMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );			        	    
@@ -236,7 +230,7 @@ class CustomAccent extends WatchUi.Drawable {
     // the drawable area with that color
     function draw(dc) {
     
-		var color = mColors[mIndex];
+	var color = mColors[mIndex];
         dc.setColor(color, color);
         dc.clear();        
         
@@ -248,17 +242,16 @@ class CustomAccent extends WatchUi.Drawable {
 // This is the custom Icon drawable. It fills the icon space with a color to
 // to demonstrate its extents. It changes color each time the next state is
 // triggered, which is done when the item is selected in this application.
-class CustomDataPoint extends WatchUi.Drawable {
+class CustomLeftTopDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const notificationIcon = "5";
-    const mIcons = [notificationIcon, notificationIcon, notificationIcon, notificationIcon, notificationIcon, notificationIcon, notificationIcon/*0xFF5500*/, notificationIcon, notificationIcon, notificationIcon, notificationIcon];
+    const mIcons = ["R" /*solarIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, ";" /*elevationIcon*/, "6" /*caloriesIcon*/, "0" /*stepsIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/];
     const mIconStrings = ["Solar Intensity", "Wind Speed", "Humidity", "Precipitation", "Elevation", "Calories", "Distance", "Floors Climbed", "Pulse Ox", "Heart Rate", "Notification"];
-    var mIndex;
+    var mIndex; // 0=solarIcon, 1=windIcon, 2=humidityIcon, 3=precipitationIcon, 4=elevationIcon, 5=caloriesIcon, 6=stepsIcon, 7=floorsClimbIcon, 8=pulseOxIcon, 9=heartRateIcon, 10=notificationIcon
 
     function initialize() {
         Drawable.initialize({});
-        if (Storage.getValue(8) == false or Storage.getValue(8) == true){ 
+        if (Storage.getValue(8) == false or Storage.getValue(8) == true or Storage.getValue(8) == null){ 
         	mIndex = 0;
         } else {
         	mIndex=Storage.getValue(8);
@@ -266,15 +259,16 @@ class CustomDataPoint extends WatchUi.Drawable {
         System.println(mIndex);
     }
 
-    // Return the color string for the menu to use as it's sublabel
+    // Return the icon string for the menu to use as its label
     function getString() {
         return mIconStrings[mIndex];
     }
     
-    // Return the color code to save in Storage
+/*    // Return the color code to save in Storage
     function getIcon() {
         return mIcons[mIndex];
     }
+*/
 
     // Advance to the next color state for the drawable
     function nextState() {
@@ -282,20 +276,24 @@ class CustomDataPoint extends WatchUi.Drawable {
         if(mIndex >= mIcons.size()) {
             mIndex = 0;
         }
-		//Storage.setValue(8, getIcon());
-		Storage.setValue(8, mIndex);
+	//Storage.setValue(8, getIcon());
+	Storage.setValue(8, mIndex);
         return mIconStrings[mIndex];
     }
 
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
     function draw(dc) {
-    	
-    	var IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
-		var icon = mIcons[mIndex];
+    
+    	var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+	var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+	var icon = mIcons[mIndex];
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-        dc.drawText( dc.getWidth()/2, dc.getHeight()/2, IconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
-        dc.clear();        
-        
+	if (icon=="R" or icon=="S" or icon=="P"){
+		dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+	} else {
+		dc.drawText( dc.getWidth()/2, dc.getHeight()/3, IconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+	}
+        dc.clear();
     }
 }
