@@ -164,8 +164,11 @@ class AnalogView extends WatchUi.WatchFace
 		}
 		
 		dataPoint = Storage.getValue(11);
-        MtbA.drawLeftBottom(dc, width / 4.7 - Xoffset, height*0.56, width / 3.65 - Xoffset, height * 0.57, accentColor, width, Xoffset, dataPoint);
-		
+        	MtbA.drawLeftBottom(dc, width / 4.7 - Xoffset, height*0.56, width / 3.65 - Xoffset, height * 0.57, accentColor, width, Xoffset, dataPoint);
+		dataPoint = Storage.getValue(10);
+		MtbA.drawLeftMiddle(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, accentColor, width, Xoffset, dataPoint);
+		dataPoint = Storage.getValue(9); //(dc, width / 4.7, height/2.9, width / 3.65, width, Xoffset, accentColor)
+		MtbA.drawLeftTop(dc, width / 4.7, height/2.9, width / 3.65, height/2.9 + 2.5, accentColor, width, Xoffset, dataPoint);
 		
 		// Notifications (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)	
 		//MtbA.drawNotification(dc, width*0.74, height*0.56, width *0.8, height*0.57, accentColor, width, Xoffset);
@@ -204,7 +207,7 @@ class AnalogView extends WatchUi.WatchFace
  
 				
 		// Draw heart rate
-		MtbA.drawHeartRate(dc, width / 4.7, height/2.9, width / 3.65, width, Xoffset, accentColor);
+		//MtbA.drawHeartRate(dc, width / 4.7, height/2.9, width / 3.65, width, Xoffset, accentColor);
 					
         // Draw Pulse Ox and return true (if sensor is active) or false (if sensor inactive)    
         //var pulseBoolean = MtbA.drawPulseOx(dc, width / 4.7 - Xoffset, height * 0.565, width / 3.75 - Xoffset, height * 0.57, width, accentColor);
@@ -216,7 +219,7 @@ class AnalogView extends WatchUi.WatchFace
         //}
         
 		// Draw Distance Traveled / Steps (dc, xIcon, yIcon, xText, yText, width, accentColor)
-		MtbA.drawSteps(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width, accentColor);
+		//MtbA.drawSteps(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width, accentColor);
 		//MtbA.drawWindSpeed(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width);
         
         // Draw elevation (dc, xIcon, yIcon, xText, yText, width)
