@@ -250,7 +250,7 @@ class CustomAccent extends WatchUi.Drawable {
 class CustomLeftTopDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mIcons = ["R" /*solarIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, ";" /*elevationIcon*/, "6" /*caloriesIcon*/, "0" /*stepsIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/];
+    const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/];
     const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
     var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=humidityIcon, 3=precipitationIcon, 4=caloriesIcon, 5=floorsClimbIcon, 6=pulseOxIcon, 7=heartRateIcon, 8=notificationIcon, 9=solarIcon, 10=none
 
@@ -308,7 +308,7 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
 class CustomLeftMiddleDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mIcons = ["R" /*solarIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, ";" /*elevationIcon*/, "6" /*caloriesIcon*/, "0" /*stepsIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/];
+    const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/];
     const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
     var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=humidityIcon, 3=precipitationIcon, 4=caloriesIcon, 5=floorsClimbIcon, 6=pulseOxIcon, 7=heartRateIcon, 8=notificationIcon, 9=solarIcon, 10=none
 
