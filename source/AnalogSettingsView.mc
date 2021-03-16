@@ -251,8 +251,8 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
     const mIcons = ["R" /*solarIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, ";" /*elevationIcon*/, "6" /*caloriesIcon*/, "0" /*stepsIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/];
-    const mIconStrings = ["Solar Intensity", "Wind Speed", "Humidity", "Precipitation", "Elevation", "Calories", "Distance", "Floors Climbed", "Pulse Ox", "Heart Rate", "Notification"];
-    var mIndex; // 0=solarIcon, 1=windIcon, 2=humidityIcon, 3=precipitationIcon, 4=elevationIcon, 5=caloriesIcon, 6=stepsIcon, 7=floorsClimbIcon, 8=pulseOxIcon, 9=heartRateIcon, 10=notificationIcon
+    const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
+    var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=humidityIcon, 3=precipitationIcon, 4=caloriesIcon, 5=floorsClimbIcon, 6=pulseOxIcon, 7=heartRateIcon, 8=notificationIcon, 9=solarIcon, 10=none
 
     function initialize() {
         Drawable.initialize({});
@@ -309,8 +309,8 @@ class CustomLeftMiddleDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
     const mIcons = ["R" /*solarIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, ";" /*elevationIcon*/, "6" /*caloriesIcon*/, "0" /*stepsIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/];
-    const mIconStrings = ["Solar Intensity", "Wind Speed", "Humidity", "Precipitation", "Elevation", "Calories", "Distance", "Floors Climbed", "Pulse Ox", "Heart Rate", "Notification"];
-    var mIndex; // 0=solarIcon, 1=windIcon, 2=humidityIcon, 3=precipitationIcon, 4=elevationIcon, 5=caloriesIcon, 6=stepsIcon, 7=floorsClimbIcon, 8=pulseOxIcon, 9=heartRateIcon, 10=notificationIcon
+    const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
+    var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=humidityIcon, 3=precipitationIcon, 4=caloriesIcon, 5=floorsClimbIcon, 6=pulseOxIcon, 7=heartRateIcon, 8=notificationIcon, 9=solarIcon, 10=none
 
     function initialize() {
         Drawable.initialize({});
