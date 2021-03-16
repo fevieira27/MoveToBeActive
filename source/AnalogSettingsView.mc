@@ -238,7 +238,7 @@ class CustomAccent extends WatchUi.Drawable {
 	var color = mColors[mIndex];
         dc.setColor(color, color);
         dc.clear();        
-        
+       
     }
 }
 
