@@ -162,13 +162,13 @@ class AnalogView extends WatchUi.WatchFace
 		} else if (width==218) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
 			Xoffset = 2;
 		}
-		
-		dataPoint = Storage.getValue(11);
-        	MtbA.drawLeftBottom(dc, width / 4.7 - Xoffset, height*0.56, width / 3.65 - Xoffset, height * 0.57, accentColor, width, Xoffset, dataPoint);
+
+		dataPoint = Storage.getValue(9); //(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		MtbA.drawLeftTop(dc, width/4.7-Xoffset, height/2.921, width/3.71-Xoffset, height/2.9 + 2.5, accentColor, width, Xoffset, dataPoint);		
 		dataPoint = Storage.getValue(10);
-		MtbA.drawLeftMiddle(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, accentColor, width, Xoffset, dataPoint);
-		dataPoint = Storage.getValue(9); //(dc, width / 4.7, height/2.9, width / 3.65, width, Xoffset, accentColor)
-		MtbA.drawLeftTop(dc, width / 4.7, height/2.9, width / 3.65, height/2.9 + 2.5, accentColor, width, Xoffset, dataPoint);
+		MtbA.drawLeftMiddle(dc, width/4.7-Xoffset, height/2.222, width/3.71-Xoffset, height / 2.15, accentColor, width, Xoffset, dataPoint);
+		dataPoint = Storage.getValue(11); 
+        MtbA.drawLeftBottom(dc, width/4.7-Xoffset, height/1.793, width/3.71-Xoffset, height/1.75, accentColor, width, Xoffset, dataPoint);
 		
 		// Notifications (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)	
 		//MtbA.drawNotification(dc, width*0.74, height*0.56, width *0.8, height*0.57, accentColor, width, Xoffset);

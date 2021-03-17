@@ -807,7 +807,7 @@ class MtbA_functions {
         if (elevation >= 1000 and elevationMetric == System.UNIT_METRIC) {
         	elevation = elevation * 0.001;
         	elevationStr = Lang.format("$1$", [elevation.format("%.1f")] );
-        } else { //(elevation <10)
+        } else { //(elevation <1000)
         	elevationStr = Lang.format("$1$", [elevation.format("%.0f")] );
         }
         
@@ -1042,6 +1042,12 @@ class MtbA_functions {
 	
 	// Draw Right Bottom Data Point
 	function drawRightBottom(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset, dataPoint) {	// 0=humidityIcon, 1=precipitationIcon, 2=caloriesIcon, 3=floorsClimbIcon, 4=pulseOxIcon, 5=heartRateIcon, 6=notificationIcon, 7=solarIcon, 8=none
+		
+		var offset = 0;
+		if (width==280) { // Venu & D2 Air
+			offset = 2;	
+		}
+		
 		if (dataPoint == 0) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
 			drawHumidity(dc, xIcon, yIcon, xText, yText, width);
 		} else if (dataPoint == 1) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
@@ -1053,11 +1059,11 @@ class MtbA_functions {
 		} else if (dataPoint == 4) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawPulseOx(dc, xIcon, yIcon, xText+(xText*0.01), yText, width, accentColor);
 		} else if (dataPoint == 5) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
-			drawHeartRate(dc, xIcon+(xIcon*0.01), yIcon, xText+(xText*0.03), width, Xoffset, accentColor);
+			drawHeartRate(dc, xIcon+(xIcon*0.01), yIcon, xText+(xText*0.03)-offset, width, Xoffset, accentColor);
 		} else if (dataPoint == 6) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawNotification(dc, xIcon, yIcon, xText+(xText*0.035), yText, accentColor, width, Xoffset);
+			drawNotification(dc, xIcon, yIcon, xText+(xText*0.035)-offset, yText, accentColor, width, Xoffset);
 		} else if (dataPoint == 7) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
+			drawSolarIntensity(dc, xIcon, yIcon, xText+offset, yText, width, accentColor);
 		}		
 	}
 
@@ -1076,7 +1082,7 @@ class MtbA_functions {
 		} else if (dataPoint == 4) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawPulseOx(dc, xIcon, yIcon, xText+(xText*0.01), yText, width, accentColor);
 		} else if (dataPoint == 5) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
-			drawHeartRate(dc, xIcon+(xIcon*0.01), yIcon, xText+(xText*0.03), width, Xoffset, accentColor);
+			drawHeartRate(dc, xIcon+(xIcon*0.05), yIcon, xText+(xText*0.03), width, Xoffset, accentColor);
 		} else if (dataPoint == 6) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawNotification(dc, xIcon, yIcon, xText+(xText*0.035), yText, accentColor, width, Xoffset);
 		} else if (dataPoint == 7) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
@@ -1105,7 +1111,7 @@ class MtbA_functions {
 		} else if (dataPoint == 7) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawPulseOx(dc, xIcon, yIcon, xText+(xText*0.01), yText, width, accentColor);
 		} else if (dataPoint == 8) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
-			drawHeartRate(dc, xIcon+(xIcon*0.01), yIcon, xText+(xText*0.03), width, Xoffset, accentColor);
+			drawHeartRate(dc, xIcon+(xIcon*0.05), yIcon, xText+(xText*0.03), width, Xoffset, accentColor);
 		} else if (dataPoint == 9) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawNotification(dc, xIcon, yIcon, xText+(xText*0.035), yText, accentColor, width, Xoffset);
 		} else if (dataPoint == 10) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
@@ -1134,13 +1140,12 @@ class MtbA_functions {
 		} else if (dataPoint == 7) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawPulseOx(dc, xIcon, yIcon, xText+(xText*0.01), yText, width, accentColor);
 		} else if (dataPoint == 8) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
-			drawHeartRate(dc, xIcon+(xIcon*0.01), yIcon, xText+(xText*0.03), width, Xoffset, accentColor);
+			drawHeartRate(dc, xIcon+(xIcon*0.05), yIcon, xText+(xText*0.03), width, Xoffset, accentColor);
 		} else if (dataPoint == 9) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawNotification(dc, xIcon, yIcon, xText+(xText*0.035), yText, accentColor, width, Xoffset);
 		} else if (dataPoint == 10) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
 		}		
 	}
-
 
 }
