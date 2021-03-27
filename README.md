@@ -10,7 +10,7 @@ Download the compiled version from Garmin's ConnectIQ store:
 [<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8">](https://apps.garmin.com/en-US/apps/736a2d5a-3b08-4cb1-8358-461f7374b0c8)
 
 ## Feature listing:
-* Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery);
+* Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for standard or thick (30% larger) hands;
 * Current Date with day of the week and Month;
 * Garmin Logo that can be hidden on the watch face's config menu;
 * Battery percentage with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 15 and 30%) and Green (greater than 31%);
@@ -21,19 +21,16 @@ Download the compiled version from Garmin's ConnectIQ store:
 * City name (if available) that can be hidden on the watch face's config menu;
 * Current weather condition icon;
 * Temperature indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
-* Top left data point - Can be selected between one of the below:
-  - **Heart Rate data**, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On);
-  - (coming soon) **Calories burned**: Icon will be displayed in Grey until calories goal has been met, changing to the Accent color of choice;
-* Middle left data point - Can be selected between one of the below:
-  - **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in Grey until steps goal has been met, changing to the Accent color of choice;
-  - (coming soon) **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
-  - (coming soon) **Wind speed**: Current wind speed in km/h;
-* Bottom left data point - Can be selected between one of the below:
-  - **Blood oxygen** percentage: will automatically activate when the sensor is active, temporarily replacing whatever data point was selected for this same position. As soon as it deactivates, the previous data point (setup on the watch face's config menu and listed below) will show up again;
-  - **Floors climbed** count: Icon will be displayed in Grey until floors climbed goal has been met, changing to the Accent color of choice;
-  - (coming soon) **Precipitation** percentage: The current chance of rain/snow precipitation (0-100%);
-  - (coming soon) **Humidity** percentage: The current relative humidity (0-100%);
-  - (coming soon) **Solar intensity** percentage: Describes the solar sensor's charge efficiency, if available on the devide (0-100%).
+* Heart Rate data, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On). Color palette for each zone: Resting / Light Load = grey, Moderate Effort = blue, Weight Control = green, Aerobic = yellow, Anaerobic = orange, High effort = light red and Speed = bright red;
+* Calories burned: Icon will be displayed in Grey until calories goal has been met, changing to the Accent color of choice;
+* Distance walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in Grey until steps goal has been met, changing to the Accent color of choice;
+* Elevation (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
+* Wind speed: Current wind speed in km/h or mph (depending on watch's pace unit settings);
+* Blood oxygen percentage: will display the current pulse ox if the sensor is active all the time. However, if sensor is activated only while sleeping or on ad-hoc measurements, data point will show last available value. Color palette doesn't follow accent color and is based on 5 zones: Healthy = green, Normal = blue, Low = yellow, Brain Dysfunction = orange, Cyanosis = red;
+* Floors climbed count: Icon will be displayed in Grey until floors climbed goal has been met, changing to the Accent color of choice;
+* Precipitation percentage: The current chance of rain/snow precipitation (0-100%);
+* Humidity percentage: The current relative humidity (0-100%);
+* Solar intensity percentage: Describes the solar sensor's charge efficiency, only available on Solar Charged watches.
 
 ## Support this project:
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" href="https://paypal.me/pools/c/8x2wuxFwFu">](https://paypal.me/pools/c/8x2wuxFwFu)
