@@ -84,10 +84,10 @@ Download the compiled version from Garmin's ConnectIQ store:
 - [X] Create functions for each data point (big internal code change that will support data point customizations on next release)
 - [X] Memory optimizations, reduced average and peak usage by 14%
 
-**0.8.0** (coming soon)
-- [ ] Top left data point - Add selector to show: heart rate or calories burned (ActivityMonitor.Info.calories) 
-- [ ] Middle left data point - Add selector to show: distance walked, elevation (Sensor.Info.altitude and System.getDeviceSettings().elevationUnits) or wind speed (Weather.CurrentConditions.windSpeed)
-- [ ] Bottom left data point - Add selector to show: floors climbed, precipitation percentage (Weather.CurrentConditions.precipitationChance), humidity percentage (Weather.CurrentConditions.relativeHumidity) or solar intensity percentage (for solar powered devices - System.Stats.solarIntensity)
+**1.0.1** (27/Mar/21)
+- [X] Revamped settings menu, split between "Design" and "Data Points"
+- [X] "Data Points" menu that allows the user to select which data to be displayed in each of the 4 available locations (right bottom and left top, middle and bottom). Available data points (may vary depending on whatch model): Distance, Elevation, Wind Speed, Humidity, Precipitation, Calories, Floors Climbed, Pulse Ox, Heart Rate, Notification and Solar Intensity.
+- [X] Added toggle on the "Design" menu to make the hour and minute hans thicker by 30% or return to standard thickness.
 
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
