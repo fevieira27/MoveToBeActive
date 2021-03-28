@@ -18,8 +18,6 @@ class AnalogView extends WatchUi.WatchFace
     var offscreenBuffer;
     var dateBuffer;
     var fullScreenRefresh;
-	var offset = 0;
-	var Xoffset = 0;
 	var accentColor = 0x55FF00;
 	var MtbA = null;
 
@@ -53,6 +51,13 @@ class AnalogView extends WatchUi.WatchFace
                     ,Graphics.COLOR_BLUE
                     ,Graphics.COLOR_TRANSPARENT
                     ,0xAAFF00 //Vivomove Green
+                    ,0x55FF00 //Green
+                    ,0xFFFF00 //Yellow
+                    ,0x00FFFF //Cyan
+                    ,0xAA55FF //Violet
+                    ,0xFFAA00 //Orange
+                    ,0xFF0000 //Red
+                    ,0xFF55FF //Pink
                 ]
             });
 
@@ -79,6 +84,7 @@ class AnalogView extends WatchUi.WatchFace
         var width;
         var height;
         var targetDc = null;
+        var Xoffset = 0;
         
         MtbA = new MtbA_functions();
         		
@@ -148,27 +154,23 @@ class AnalogView extends WatchUi.WatchFace
 		//Data Points
 		var dataPoint = Storage.getValue(12);
 		// (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset, dataPoint)
-		MtbA.drawRightBottom(dc, width*0.72, height*0.56, width * 0.765, height * 0.57, accentColor, width, Xoffset, dataPoint);
+		MtbA.drawRightBottom(dc, width*0.73, height*0.557, width * 0.776, height * 0.57, accentColor, width, Xoffset, dataPoint);
 	
 		// Xoffset for the 3 left data points: heart rate, steps and floor climb
 		if (width==390) { // Venu & D2 Air
-			Xoffset = 22;
-		} else if (width==240) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
-			Xoffset = 5;
-		} else if (width==280) { // Fenix 6X e Enduro
-			Xoffset = 5;
-		} else if (width==260) { // Vivoactive 4
-			Xoffset = 5;
-		} else if (width==218) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
-			Xoffset = 2;
+			Xoffset = 15;
+		} else if (width==240) { // Fenix 6S & Vivoactive 3 Music & MARQ Athlete
+			Xoffset = -2;
+		} else if (width==218) { // Vivoactive 4S
+			Xoffset = -4;
 		}
 
 		dataPoint = Storage.getValue(9); //(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-		MtbA.drawLeftTop(dc, width/4.7-Xoffset, height/2.921, width/3.71-Xoffset, height/2.9 + 2.5, accentColor, width, Xoffset, dataPoint);		
+		MtbA.drawLeftTop(dc, width/5.3-Xoffset, height/2.988, width/4.127-Xoffset, height/2.86, accentColor, width, dataPoint);
 		dataPoint = Storage.getValue(10);
-		MtbA.drawLeftMiddle(dc, width/4.7-Xoffset, height/2.222, width/3.71-Xoffset, height / 2.15, accentColor, width, Xoffset, dataPoint);
+		MtbA.drawLeftMiddle(dc, width/5.3-Xoffset, height/2.222, width/4.127-Xoffset, height / 2.15, accentColor, width, dataPoint);	
 		dataPoint = Storage.getValue(11); 
-        MtbA.drawLeftBottom(dc, width/4.7-Xoffset, height/1.793, width/3.71-Xoffset, height/1.75, accentColor, width, Xoffset, dataPoint);
+        MtbA.drawLeftBottom(dc, width/5.3-Xoffset, height/1.793, width/4.127-Xoffset, height/1.75, accentColor, width, dataPoint);
 		
 		// Notifications (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)	
 		//MtbA.drawNotification(dc, width*0.74, height*0.56, width *0.8, height*0.57, accentColor, width, Xoffset);
@@ -206,29 +208,6 @@ class AnalogView extends WatchUi.WatchFace
         }
  
 				
-		// Draw heart rate
-		//MtbA.drawHeartRate(dc, width / 4.7, height/2.9, width / 3.65, width, Xoffset, accentColor);
-					
-        // Draw Pulse Ox and return true (if sensor is active) or false (if sensor inactive)    
-        //var pulseBoolean = MtbA.drawPulseOx(dc, width / 4.7 - Xoffset, height * 0.565, width / 3.75 - Xoffset, height * 0.57, width, accentColor);
-        //if (pulseBoolean==false) {
-        	// Floors Climbed (dc, xIcon, yIcon, xText, yText, width, accentColor)
-        	//MtbA.drawFloorsClimbed(dc, width / 4.7 - Xoffset, height * 0.56, width / 3.65 - Xoffset, height * 0.57, width, accentColor);
-        	//MtbA.drawHumidity(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width);
-        	//MtbA.drawSolarIntensity(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width, accentColor);        	
-        //}
-        
-		// Draw Distance Traveled / Steps (dc, xIcon, yIcon, xText, yText, width, accentColor)
-		//MtbA.drawSteps(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width, accentColor);
-		//MtbA.drawWindSpeed(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width);
-        
-        // Draw elevation (dc, xIcon, yIcon, xText, yText, width)
-        //MtbA.drawElevation(dc, width / 4.6 - Xoffset, height / 2.25, width / 3.75 - Xoffset, height / 2.18, width);
-
-    	// Calories (dc, xIcon, yIcon, xText, yText, width, accentColor)
-    	//MtbA.drawCalories(dc, width / 4.6 - Xoffset, height * 0.56, width / 3.75 - Xoffset, height * 0.57, width);
-
-
         // If we have an offscreen buffer that we are using for the date string,
         // Draw the date into it. If we do not, the date will get drawn every update
         // after blanking the second hand.
@@ -249,7 +228,11 @@ class AnalogView extends WatchUi.WatchFace
         }
         
 		//Draw Hour and Minute hands
-		MtbA.drawHands(dc, width, height, accentColor);        
+		if (Storage.getValue(13) == null or Storage.getValue(13) == false){
+			MtbA.drawHands(dc, width, height, accentColor, false);
+		} else {
+			MtbA.drawHands(dc, width, height, accentColor, true);
+		}        
         
         fullScreenRefresh = false;
     }
@@ -279,14 +262,14 @@ class AnalogView extends WatchUi.WatchFace
         }
 
         // Draw the date
-        offset = 0;
+        var offset = 0;
         if (width==218) { // Vivoactive 4S
 			offset = -3;
-		} else if (width==240) { // Vivoactive 4S and MARQ Athlete
+		} else if (width==240) { // Fenix 6S and MARQ
 			offset = -2;
-		} else if (width==390) { // Vivoactive 4S and MARQ Athlete
+		} else if (width==390) { // Venu
 			offset = 13;
-		} else if (width==260) { // Vivoactive 4S and MARQ Athlete
+		} else if (width==260) { // Vivoactive 4
 			offset = 1;
 		}
 		

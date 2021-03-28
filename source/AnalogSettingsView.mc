@@ -116,8 +116,12 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    	boolean = true;
 		    }
 		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		//    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 2", drawable2.getString(), "right", drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT}));
-		//    iconMenu.addItem(new WatchUi.IconMenuItem("Icon 3", drawable3.getString(), "default", drawable3, null));
+		    if (Storage.getValue(13) != null ){
+		    	boolean = Storage.getValue(13);
+		    } else {
+		    	boolean = false;
+		    }
+		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Thicker Hands", {:enabled=>"ON", :disabled=>"OFF"}, 13, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );
         } else if( item.getId().equals("datapoints") ) {
 		    var dataMenu = new WatchUi.Menu2({:title=>"Data"});
@@ -130,13 +134,13 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    	boolean = Storage.getValue(6);
 		    } else {
 		    	boolean = true;
-		    }
-		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperature Type", {:enabled=>"Real Temp.", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
+		    }	    
 		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Top", drawable2.getString(), 9, drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Middle", drawable3.getString(), 10, drawable3, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Bottom", drawable4.getString(), 11, drawable4, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    dataMenu.addItem(new WatchUi.IconMenuItem("Right Bottom", drawable5.getString(), 12, drawable5, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    
+		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Type", {:enabled=>"Real Temperature", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    		    
 		    WatchUi.pushView(dataMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );			        	    
 	    } else {
             WatchUi.requestUpdate();
@@ -250,16 +254,15 @@ class CustomAccent extends WatchUi.Drawable {
 class CustomLeftTopDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/];
+    const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/, "" /*none*/];
     const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
-    var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=humidityIcon, 3=precipitationIcon, 4=caloriesIcon, 5=floorsClimbIcon, 6=pulseOxIcon, 7=heartRateIcon, 8=notificationIcon, 9=solarIcon, 10=none
-
+    var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=windSpeed, 3=humidityIcon, 4=precipitationIcon, 5=caloriesIcon, 6=floorsClimbIcon, 7=pulseOxIcon, 8=heartRateIcon, 9=notificationIcon, 10=solarIcon, 11=none
+	
     function initialize() {
         Drawable.initialize({});
-        if (Storage.getValue(9) == null){ 
-        	mIndex = 0;
-        } else {
-        	mIndex=Storage.getValue(9);
+        mIndex=Storage.getValue(9);
+        if (mIndex == null){ 
+        	mIndex = 11;
         }
     }
 
@@ -268,11 +271,6 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
         return mIconStrings[mIndex];
     }
     
-/*    // Return the color code to save in Storage
-    function getIcon() {
-        return mIcons[mIndex];
-    }
-*/
 
     // Advance to the next color state for the drawable
     function nextState() {
@@ -288,14 +286,16 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
     // the drawable area with that color
     function draw(dc) {
     
-		var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
-		var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
-		var icon = mIcons[mIndex];
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
-		} else {
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+		if (mIndex < mIcons.size()-1){
+			var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+			var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);		
+			var icon = mIcons[mIndex];
+			if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			} else {
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			}
 		}
         dc.clear();
     }
@@ -308,16 +308,15 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
 class CustomLeftMiddleDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/];
+    const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/, "" /*none*/];
     const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
-    var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=humidityIcon, 3=precipitationIcon, 4=caloriesIcon, 5=floorsClimbIcon, 6=pulseOxIcon, 7=heartRateIcon, 8=notificationIcon, 9=solarIcon, 10=none
+    var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=windSpeed, 3=humidityIcon, 4=precipitationIcon, 5=caloriesIcon, 6=floorsClimbIcon, 7=pulseOxIcon, 8=heartRateIcon, 9=notificationIcon, 10=solarIcon, 11=none
 
     function initialize() {
         Drawable.initialize({});
-        if (Storage.getValue(10) == null){ 
-        	mIndex = 0;
-        } else {
-        	mIndex=Storage.getValue(10);
+        mIndex=Storage.getValue(10);
+        if (mIndex == null){ 
+        	mIndex = 11;
         }
     }
 
@@ -340,15 +339,17 @@ class CustomLeftMiddleDataPoint extends WatchUi.Drawable {
     // the drawable area with that color
     function draw(dc) {
     
-		var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
-		var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
-		var icon = mIcons[mIndex];
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
-		} else {
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
-		}
+		if (mIndex < mIcons.size()-1){
+			var icon = mIcons[mIndex];
+			var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+			var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+			if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			} else {
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			}
+		} 
         dc.clear();
     }
 }
@@ -365,10 +366,9 @@ class CustomLeftBottomDataPoint extends WatchUi.Drawable {
 
     function initialize() {
         Drawable.initialize({});
-        if (Storage.getValue(11) == null){ 
-        	mIndex = 0;
-        } else {
-        	mIndex=Storage.getValue(11);
+        mIndex=Storage.getValue(11);
+        if (mIndex == null){ 
+        	mIndex = 8;
         }
     }
 
@@ -391,14 +391,16 @@ class CustomLeftBottomDataPoint extends WatchUi.Drawable {
     // the drawable area with that color
     function draw(dc) {
     
-		var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
-		var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
-		var icon = mIcons[mIndex];
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
-		} else {
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+		if (mIndex < mIcons.size()-1){			
+			var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+			var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+			var icon = mIcons[mIndex];
+			if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			} else {
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			}
 		}
         dc.clear();
     }
@@ -416,10 +418,9 @@ class CustomRightBottomDataPoint extends WatchUi.Drawable {
 
     function initialize() {
         Drawable.initialize({});
-        if (Storage.getValue(12) == null){ 
-        	mIndex = 0;
-        } else {
-        	mIndex=Storage.getValue(12);
+        mIndex=Storage.getValue(12);
+        if (mIndex == null){ 
+        	mIndex = 8;
         }
     }
 
@@ -442,14 +443,16 @@ class CustomRightBottomDataPoint extends WatchUi.Drawable {
     // the drawable area with that color
     function draw(dc) {
     	
-		var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
-		var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
-		var icon = mIcons[mIndex];
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
-		} else {
-			dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+		if (mIndex < mIcons.size()-1){
+			var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
+			var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+			var icon = mIcons[mIndex];
+			if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			} else {
+				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, iconsFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
+			}
 		}
         dc.clear();
     }
