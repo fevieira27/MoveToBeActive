@@ -22,7 +22,7 @@ Download the compiled version from Garmin's ConnectIQ store:
 * **Current weather** condition icon;
 * **Temperature** indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
 * **Heart Rate** data, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On). Color palette for each zone: Resting / Light Load = grey, Moderate Effort = blue, Weight Control = green, Aerobic = yellow, Anaerobic = orange, High effort = light red and Speed = bright red;
-* **Calories** burned: Icon will be displayed in Grey until calories goal has been met, changing to the Accent color of choice;
+* **Calories** burned;
 * **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in Grey until steps goal has been met, changing to the Accent color of choice;
 * **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
 * **Wind speed**: Current wind speed in km/h or mph (depending on watch's pace unit settings);
