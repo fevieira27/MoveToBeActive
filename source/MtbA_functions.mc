@@ -9,6 +9,7 @@ using Toybox.Activity;
 using Toybox.Math;
 using Toybox.Lang;
 using Toybox.Time;
+using Toybox.Application.Storage;
 
 
 class MtbA_functions {
@@ -614,11 +615,32 @@ class MtbA_functions {
 		var IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
 		var DistanceMetric = System.getDeviceSettings().distanceUnits;
 		var stepDistance=null;
-		var distStr;
-		var unit;
+		var distStr = "0";
+		var unit = "";
         
         if (ActivityMonitor.getInfo() has :distance) {
-	    	stepDistance = ActivityMonitor.getInfo().distance;//.toString();
+        	if (Storage.getValue(14)==false) {
+        		distStr = ActivityMonitor.getInfo().steps;
+        	} else {
+	    		stepDistance = ActivityMonitor.getInfo().distance;//.toString();
+				if (stepDistance != null) {
+		        	if (DistanceMetric == System.UNIT_METRIC) {
+		        		unit = " km";
+		        		stepDistance = stepDistance * 0.00001;
+		        	} else{
+		        		unit = " mi";
+		        		stepDistance = stepDistance * 0.00001 * 0.621371;
+		        	}
+		        } else {
+		        	unit = "?";
+		        }
+		        
+		        if (stepDistance >= 10) {
+		        	distStr = Lang.format("$1$", [stepDistance.format("%.0f")] );
+		        } else { //(stepDistance <10)
+		        	distStr = Lang.format("$1$", [stepDistance.format("%.1f")] );
+		        }	    		
+	    	}
 	    }
         
         var offset = 0;
@@ -633,25 +655,7 @@ class MtbA_functions {
         } 
         dc.drawText( xIcon, yIcon + offset, IconsFont, "0", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
         
-        // Steps Distance Text	
-		if (stepDistance != null) {
-        	if (DistanceMetric == System.UNIT_METRIC) {
-        		unit = " km";
-        		stepDistance = stepDistance * 0.00001;
-        	} else{
-        		unit = " mi";
-        		stepDistance = stepDistance * 0.00001 * 0.621371;
-        	}
-        } else {
-        	unit = "?";
-        }
-        
-        if (stepDistance >= 10) {
-        	distStr = Lang.format("$1$", [stepDistance.format("%.0f")] );
-        } else { //(stepDistance <10)
-        	distStr = Lang.format("$1$", [stepDistance.format("%.1f")] );
-        }
-        
+        // Steps Distance Text	        
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(xText - offset , yText, Graphics.FONT_XTINY, distStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Step Distance
 	}
