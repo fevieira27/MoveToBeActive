@@ -3,7 +3,7 @@
 
 Garmin Watch Face that was initially meant for the VivoActive 4 series, as I want to replace my current Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of a hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to start developing a watch face inspired by the design of the Vivomove series, but adding extra features that will be very useful for my daily type of usage (more health related than activity tracking), but still focusing on maximizing battery life.
 
-<img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270"> ![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home3.png?raw=true)
+<img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270"> ![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home4.png?raw=true)
 
 Download the compiled version from Garmin's ConnectIQ store:
 
@@ -86,25 +86,20 @@ Download the compiled version from Garmin's ConnectIQ store:
 - [X] "Data Points" menu that allows the user to select which data to be displayed in each of the 4 available locations (right bottom and left top, middle and bottom). Available data points (may vary depending on whatch model): Distance, Elevation, Wind Speed, Humidity, Precipitation, Calories, Floors Climbed, Pulse Ox, Heart Rate, Notification and Solar Intensity.
 - [X] Added toggle on the "Design" menu to make the hour and minute hans thicker by 30% or return to standard thickness.
 
+**1.1.0** (31/Mar/21)
+- [X] Several optimizations that ended up removing 100 lines of code and reducing memory usage by 2%.
+
+**1.2.0** (31/Mar/21)
+- [X] Added a toggle on the "data points" menu to choose the activity length type between Steps or Distance.
+- [X] Settigs menu bug fixes.
+
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
-### Vivoactive 4
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/MoveToBeActive.png?raw=true)
-
-### Enduro
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Enduro.png?raw=true)
-
-### Fenix 6S Pro
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Fenix6Spro.png?raw=true)
-
-### Forerunner 745
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Forerunner745.png?raw=true)
-
-### Forerunner 245
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Forerunner245.png?raw=true)
-
-### Venu
-![alt text](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Venu.png?raw=true)
+![Design Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img4.png?raw=true)
+![Data Points Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img5.png?raw=true)
+![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img1.png?raw=true)
+![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img2.png?raw=true)
+![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img3.png?raw=true)
 
 # Inspiration:
 * https://github.com/wwarby/walker
