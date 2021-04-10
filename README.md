@@ -112,3 +112,4 @@ Download the compiled version from Garmin's ConnectIQ store:
 * https://github.com/darrencroton/SnapshotWatch
 * https://github.com/OliverHannover/Formula_1
 * https://github.com/tumb1er/ElPrimero
+* https://github.com/douglasr/connectiq-logo-analog
