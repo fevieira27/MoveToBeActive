@@ -59,7 +59,8 @@ class AnalogView extends WatchUi.WatchFace
                     ,0xFF0000 //Red
                     ,0xFF55FF //Pink
                 ]
-            });
+             
+            }) as BufferedBitmapReference;
 
             // Allocate a buffer tall enough to draw the date into the full width of the
             // screen. This buffer is also used for blanking the second hand. This full
@@ -71,6 +72,7 @@ class AnalogView extends WatchUi.WatchFace
             });
         } else {
             offscreenBuffer = null;
+            dateBuffer = null;
         }
 
     }

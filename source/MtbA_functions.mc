@@ -11,7 +11,6 @@ using Toybox.Lang;
 using Toybox.Time;
 using Toybox.Application.Storage;
 
-
 class MtbA_functions {
 	
     const IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
@@ -310,6 +309,19 @@ class MtbA_functions {
 					var location = weather.observationLocationName;
 					if (location.length()>15 and location.find(",")!=null){
 						location = location.substring(0,location.find(","));
+					}
+					if (location.find("null")!=null and location.find(",")!=null) {
+						var location2 = location.substring(0,location.find(","));
+						if (location2.find("null")!=null) {
+							location2 = location.substring(location.find(",")+2,location.length());
+							if (location2.find("null")!=null){
+								location2 = "";
+							}
+						}
+						location = location2;
+					}
+					else if (location.find("null")!=null) {
+						location = "";
 					}
 			        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 					//dc.fitTextToArea(text, font, width, height, truncate)
@@ -698,9 +710,9 @@ class MtbA_functions {
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT); //(centerPoint, angle, handLength, tailLength, width)
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.4, 0, handWidth*(0.055 - offsetWidth))); // thick 
 		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.45, 0, handWidth*0.045)); // thick
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.46, 0, handWidth*0.045)); // thick
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_DK_GRAY);
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / (3.53 - offsetLength) , 0, handWidth*0.035)); // thick
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / (3.575 - offsetLength) , 0, handWidth*0.035)); // thick
 
         // Draw the minute hand.
         var minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
@@ -823,8 +835,36 @@ class MtbA_functions {
 		if (width==390) { // Venu & D2 Air
 			offset = 7;	
 		}	    
-	    
-	    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+
+		var precipitationZone = null;
+		
+		if (precipitation >= 90) { // Very High
+			precipitationZone = 4;
+		} else if (precipitation >= 60) { // High
+			precipitationZone = 3;
+		} else if (precipitation >= 30) { // Moderate
+			precipitationZone = 2;
+		} else if (precipitation > 0) { // Low
+			precipitationZone = 1;			
+		} else { // Not existent
+			precipitationZone = 0;
+		}  
+
+		var precipitationIconColour = Graphics.COLOR_BLACK;
+		
+		if (precipitationZone == 0) { // Not existent
+			precipitationIconColour = Graphics.COLOR_LT_GRAY;
+		} else if (precipitationZone == 1) { // Low
+			precipitationIconColour = 0x00FFFF; // Light blue		
+		} else if (precipitationZone == 2) { // Moderate
+			precipitationIconColour = Graphics.COLOR_BLUE; // Blue
+		} else if (precipitationZone == 3) { // High
+			precipitationIconColour = 0x0055FF; // Dark Blue
+		} else if (precipitationZone == 4) { // Very High
+			precipitationIconColour = 0xAA55FF; // Violet
+		}  	    
+
+	    dc.setColor(precipitationIconColour, Graphics.COLOR_TRANSPARENT);
 		dc.drawText( xIcon, yIcon + offset , IconsFont, "S", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 		dc.drawText( xText - offset , yText , Graphics.FONT_XTINY, Lang.format("$1$%",[precipitation]), Graphics.TEXT_JUSTIFY_LEFT);
@@ -834,23 +874,32 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Humidity Percentage
-	function drawHumidity(dc, xIcon, yIcon, xText, yText, width) {	
+	function drawHumidity(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
 	
 		var IconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
 	    var humidity=0;
 	    
 	    if (CurrentConditions has :getCurrentConditions) {
 	    	humidity = CurrentConditions.getCurrentConditions().relativeHumidity;//.toString();
-	    } else {
-	    	return false;
-		}
-			
+	    } 
+	    
         var offset = 0;
 		if (width==390) { // Venu & D2 Air
 			offset = 7;	
 		}	    
+		
+	    if ((humidity > 0 and humidity < 25) or humidity >=70) { // Poor
+	    	dc.setColor(0xFF5555, Graphics.COLOR_TRANSPARENT); // Red
+	    } else if (humidity < 30 or humidity >= 60) { // Fair
+	    	dc.setColor(0xFFFF55, Graphics.COLOR_TRANSPARENT); // Yellow
+	    } else { // Healthy
+	    	if (accentColor == 0xAAFF00) {
+				dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+			} else {
+				dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); // Green
+			}
+	    }		
 	    
-	    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 		dc.drawText( xIcon, yIcon + offset , IconsFont, "A", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 		dc.drawText( xText - offset , yText , Graphics.FONT_XTINY, Lang.format("$1$%",[humidity]), Graphics.TEXT_JUSTIFY_LEFT);
@@ -1016,7 +1065,7 @@ class MtbA_functions {
 		} else if (solarZone == 4) { // Very High
 			solarIconColour = Graphics.COLOR_RED; 
 		} else if (solarZone == 5){ // Extreme
-			solarIconColour = 0xFF55FF; 
+			solarIconColour = 0xAA55FF; 
 		}        
         
         var offset = 0;
@@ -1051,7 +1100,7 @@ class MtbA_functions {
 		}
 		
 		if (dataPoint == 0) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
-			drawHumidity(dc, xIcon-(xIcon*0.025)-(offsetY/2.6)+offset218, yIcon, xText-(xText*0.01)+offset240+(offsetY/4)+offset218, yText-offset240-(offsetY/8)+offset218, width);
+			drawHumidity(dc, xIcon-(xIcon*0.025)-(offsetY/2.6)+offset218, yIcon, xText-(xText*0.01)+offset240+(offsetY/4)+offset218, yText-offset240-(offsetY/8)+offset218, width, accentColor);
 		} else if (dataPoint == 1) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			drawPrecipitation(dc, xIcon-(xIcon*0.02)-(offsetY/1.6), yIcon-(yIcon*0.005)-offset+(offsetY/2.6), xText-(xText*0.02)-offset240+(offsetY/2.6)+(offset218*2), yText-offset-offset240+offset218, width);
 		} else if (dataPoint == 2) { // Calories(dc, xIcon, yIcon, xText, yText, width)
@@ -1090,7 +1139,7 @@ class MtbA_functions {
 		
 		 	
 		if (dataPoint == 0) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
-			drawHumidity(dc, xIcon, yIcon+(offsetY/10), xText+(xText*0.01)+(offsetY/1.65)+offset218, yText+offset-(offsetY/10)+offset218, width);
+			drawHumidity(dc, xIcon, yIcon+(offsetY/10), xText+(xText*0.01)+(offsetY/1.65)+offset218, yText+offset-(offsetY/10)+offset218, width, accentColor);
 		} else if (dataPoint == 1) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			drawPrecipitation(dc, xIcon, yIcon-(yIcon*0.005)-offset+(offsetY/5), xText+(offsetY/1.41)+(offset218*2), yText-(offsetY/10)+offset218, width);
 		} else if (dataPoint == 2) { // Calories(dc, xIcon, yIcon, xText, yText, width)
@@ -1131,7 +1180,7 @@ class MtbA_functions {
 		} else if (dataPoint == 2) { // windIcon(dc, xIcon, yIcon, xText, yText, width)
 			drawWindSpeed(dc, xIcon+(xIcon*0.03)+(offset*2)-(offsetY/8), yIcon-(yIcon*0.01)-offset218, xText-offset+(offsetY*0.9)+(offset218*2), yText-(yText*0.01)-(offsetY/4)+offset218, width);
 		} else if (dataPoint == 3) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
-			drawHumidity(dc, xIcon, yIcon-(yIcon*0.005)-offset218, xText+(xText*0.01)+(offsetY/1.32)+offset218, yText-(yText*0.01)-(offsetY/4), width);			
+			drawHumidity(dc, xIcon, yIcon-(yIcon*0.005)-offset218, xText+(xText*0.01)+(offsetY/1.32)+offset218, yText-(yText*0.01)-(offsetY/4), width, accentColor);			
 		} else if (dataPoint == 4) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			drawPrecipitation(dc, xIcon, yIcon-(yIcon*0.01)+(offsetY/8)-(offset218*2), xText+(offsetY/1.14)+(offset218*2), yText-(yText*0.01)-(offsetY/4), width);
 		} else if (dataPoint == 5) { // Calories(dc, xIcon, yIcon, xText, yText, width)
@@ -1172,7 +1221,7 @@ class MtbA_functions {
 		} else if (dataPoint == 2) { // windIcon(dc, xIcon, yIcon, xText, yText, width)
 			drawWindSpeed(dc, xIcon+(xIcon*0.03)+offset-(offsetY/5), yIcon-(yIcon*0.01)-(offset/2)-(offsetY/8)-offset218, xText-(offset/2)+(offsetY*0.9)+(offset218*2), yText-(offsetY/2), width);
 		} else if (dataPoint == 3) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
-			drawHumidity(dc, xIcon, yIcon, xText+(xText*0.01)+(offsetY/1.32)+offset218, yText-(offsetY/2.6), width);			
+			drawHumidity(dc, xIcon, yIcon, xText+(xText*0.01)+(offsetY/1.32)+offset218, yText-(offsetY/2.6), width, accentColor);			
 		} else if (dataPoint == 4) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			drawPrecipitation(dc, xIcon, yIcon-(yIcon*0.005)+(offsetY/8)-(offset218*2), xText+(offsetY/1.14)+(offset218*2), yText-(offsetY/2.6)-offset218, width);
 		} else if (dataPoint == 5) { // Calories(dc, xIcon, yIcon, xText, yText, width)
