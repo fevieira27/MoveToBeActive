@@ -14,20 +14,20 @@ Download the compiled version from Garmin's ConnectIQ store:
 * **Current Date** with day of the week and Month;
 * **Garmin Logo** that can be hidden on the watch face's config menu;
 * **Battery percentage** with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 15 and 30%) and Green (greater than 31%);
-* **Notifications** count: Accent color if at least one notification is available or Grey if no unread notifications;
-* **Bluetooth** indicator: Blue (connected to the phone) or Grey (not connected);
-* **Alarm** indicator: Accent color (at least one alarm active) or Grey (no alarms);
+* **Notifications** count: Accent color if at least one notification is available or grey if no unread notifications;
+* **Bluetooth** indicator: Blue (connected to the phone) or grey (not connected);
+* **Alarm** indicator: Accent color (at least one alarm active) or grey (no alarms);
 * **Do not Disturb** indicator (only shown when mode is activate);
 * **Location name** of the source of weather data (if available), that can be hidden on the watch face's config menu;
 * **Current weather** condition icon;
 * **Temperature** indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
 * **Heart Rate** data, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On). Color palette for each zone: Resting / Light Load = grey, Moderate Effort = blue, Weight Control = green, Aerobic = yellow, Anaerobic = orange, High effort = light red and Speed = bright red;
 * **Calories** burned;
-* **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in Grey until steps goal has been met, changing to the Accent color of choice;
+* **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in grey until steps goal has been met, changing to the Accent color of choice;
 * **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
 * **Wind speed**: Current wind speed in km/h or mph (depending on watch's pace unit settings), or m/s if selected on the watch face's settings;
 * **Blood oxygen** percentage: will display the current pulse ox if the sensor is active all the time. However, if sensor is activated only while sleeping or on ad-hoc measurements, data point will show last available value. Color palette doesn't follow accent color and is based on 5 zones: Healthy = green, Normal = blue, Low = yellow, Brain Dysfunction = orange, Cyanosis = red;
-* **Floors climbed** count: Icon will be displayed in Grey until floors climbed goal has been met, changing to the Accent color of choice;
+* **Floors climbed** count: Icon will be displayed in grey until floors climbed goal has been met, changing to the Accent color of choice;
 * **Precipitation** percentage: The current chance of rain/snow precipitation (0-100%), with blue tones color palette based on 4 zones: Low = light blue, Moderate = blue, High = dark blue, Very High = purple;
 * **Humidity** percentage: The current relative humidity (0-100%), with color palette based on 3 levels: Healthy = green, Fair = yellow, Poor = red;
 * **Solar intensity** percentage: Describes the solar sensor's charge efficiency, only available on Solar Charged watches. It will change colors based on 5 different UV intensity zones: Low = green, Moderate = yellow, High = orange, Very High = red, Extreme = violet.
