@@ -25,7 +25,7 @@ Download the compiled version from Garmin's ConnectIQ store:
 * **Calories** burned;
 * **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in Grey until steps goal has been met, changing to the Accent color of choice;
 * **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
-* **Wind speed**: Current wind speed in km/h or mph (depending on watch's pace unit settings);
+* **Wind speed**: Current wind speed in km/h or mph (depending on watch's pace unit settings), or m/s if selected on the watch face's settings;
 * **Blood oxygen** percentage: will display the current pulse ox if the sensor is active all the time. However, if sensor is activated only while sleeping or on ad-hoc measurements, data point will show last available value. Color palette doesn't follow accent color and is based on 5 zones: Healthy = green, Normal = blue, Low = yellow, Brain Dysfunction = orange, Cyanosis = red;
 * **Floors climbed** count: Icon will be displayed in Grey until floors climbed goal has been met, changing to the Accent color of choice;
 * **Precipitation** percentage: The current chance of rain/snow precipitation (0-100%), with blue tones color palette based on 4 zones: Low = light blue, Moderate = blue, High = dark blue, Very High = purple;
@@ -95,6 +95,15 @@ Download the compiled version from Garmin's ConnectIQ store:
 
 **1.3.0** (4/Apr/21)
 - [X] Added color zones for Precipitation percentage (Low, Moderate, High and Very High) and Humidity percentage (Poor, Fair and Healthy).
+
+**1.4.0** (13/Apr/21)
+- [X] Added condition to remove City or Country name when Garmin is incorrectly reporting any of those as "null".
+
+**1.5.0** (15/Apr/21)
+- [X] Added new toggle inside the data points menu to show Wind Speed in m/s.
+
+**1.5.5** (20/Apr/21)
+- [X] Improved quality of Garmin Logo.
 
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
