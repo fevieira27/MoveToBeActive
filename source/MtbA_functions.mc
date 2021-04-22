@@ -914,10 +914,12 @@ class MtbA_functions {
 		var IconsFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
 		var WindMetric = System.getDeviceSettings().paceUnits;
 		var windSpeed=null;
+		var windBearing=null;
 		var unit;
         
         if (CurrentConditions has :getCurrentConditions) {
 	    	windSpeed = CurrentConditions.getCurrentConditions().windSpeed;//.toString();
+	    	windBearing = CurrentConditions.getCurrentConditions().windBearing;//.toString();
 	    }
         
         var offset = 0;
@@ -957,11 +959,11 @@ class MtbA_functions {
 		}  
 		
 		if (beaufortZone == 0) { // Calm
-			windIconColour = 0x00AAFF;
+			windIconColour = 0x55AAAA;
 		} else if (beaufortZone == 1) { // Light Air
 			windIconColour = 0x55FFFF;
 		} else if (beaufortZone == 2) { // Light Breeze
-			windIconColour = 0x55AAAA; 
+			windIconColour = 0x00AAFF; 
 		} else if (beaufortZone == 3) { // Gentle Breeze
 			windIconColour = 0x55AA00; 
 		} else if (beaufortZone == 4) { // Moderate Breeze
@@ -984,11 +986,12 @@ class MtbA_functions {
 			windIconColour = 0xFF0000; 						
 		}        
         
-       	dc.setColor(windIconColour, Graphics.COLOR_TRANSPARENT); 
+       	dc.setColor(windIconColour, Graphics.COLOR_TRANSPARENT);
+       	//System.println(windBearing);
         dc.drawText( xIcon, yIcon + offset, IconsFont, "P", Graphics.TEXT_JUSTIFY_CENTER); // Icon Using Font
         
         // Wind Speed Text	
-		if (windSpeed != null) {
+		if (windSpeed != null and Storage.getValue(15)!=false) {
         	if (WindMetric == System.UNIT_METRIC) {
 				windSpeed = windSpeed * 3.6; //converting from m/s to km/h
 				if (width==218) {
@@ -1007,8 +1010,7 @@ class MtbA_functions {
         } else {
         	unit = " m/s";
         }
-        
-       	var windStr = Lang.format("$1$", [windSpeed.format("%.0d")] );
+       	var windStr = Lang.format("$1$", [Math.round(windSpeed).format("%.0f")] );
         
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(xText - offset , yText, Graphics.FONT_XTINY, windStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Wind Speed in km/h or mph

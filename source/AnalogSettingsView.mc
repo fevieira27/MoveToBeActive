@@ -149,6 +149,13 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    	boolean = true;
 		    }
 		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Activ. Length Type", {:enabled=>"Distance", :disabled=>"Step Count"}, 14, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		   	if (Storage.getValue(15) != null ){
+		    	boolean = Storage.getValue(15);
+		    } else {
+		    	boolean = true;
+		    }
+		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Wind Speed Unit", {:enabled=>"km/h or mph", :disabled=>"m/s"}, 15, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    
 		    
 		    WatchUi.pushView(dataMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );			        	    
 	    } else {

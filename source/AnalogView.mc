@@ -28,6 +28,20 @@ class AnalogView extends WatchUi.WatchFace
         partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
     }
 
+	function bufferedBitmapFactory(options as {
+	            :width as Number,
+	            :height as Number,
+	            :palette as Array<ColorType>,
+	            :colorDepth as Number,
+	            :bitmapResource as WatchUi.BitmapResource
+	        }) as BufferedBitmapReference or BufferedBitmap {
+	    if (Graphics has :createBufferedBitmap) {
+	        return Graphics.createBufferedBitmap(options);
+	    } else {
+	        return new Graphics.BufferedBitmap(options);
+	    }
+	}   
+
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
 		
@@ -36,11 +50,12 @@ class AnalogView extends WatchUi.WatchFace
 		}
 		
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
-        if(Toybox.Graphics has :BufferedBitmap) {
+        if(Toybox.Graphics has :BufferedBitmap or :BufferedBitmapReference) {
             // Allocate a full screen size buffer with a palette of only 4 colors to draw
             // the background image of the watchface.  This is used to facilitate blanking
             // the second hand during partial updates of the display
-            offscreenBuffer = new Graphics.BufferedBitmap({
+
+            offscreenBuffer = bufferedBitmapFactory({
                 :width=>dc.getWidth(),
                 :height=>dc.getHeight(),
                 :palette=> [
@@ -59,14 +74,13 @@ class AnalogView extends WatchUi.WatchFace
                     ,0xFF0000 //Red
                     ,0xFF55FF //Pink
                 ]
-             
-            }) as BufferedBitmapReference;
+      		}) ; 
 
             // Allocate a buffer tall enough to draw the date into the full width of the
             // screen. This buffer is also used for blanking the second hand. This full
             // color buffer is needed because anti-aliased fonts cannot be drawn into
             // a buffer with a reduced color palette
-            dateBuffer = new Graphics.BufferedBitmap({
+            dateBuffer = bufferedBitmapFactory({
                 :width=>dc.getWidth(),
                 :height=>Graphics.getFontHeight(Graphics.FONT_MEDIUM)
             });
@@ -125,11 +139,6 @@ class AnalogView extends WatchUi.WatchFace
         drawBackground(dc);
 		
 		
-		// Draw the 3, 6, 9, and 12 hour labels.
-        if (Storage.getValue(5) == null or Storage.getValue(5) == true) {
-            MtbA.drawHourLabels(dc, width, height);
-        }
-		
 		//Draw Weather Icon (dc, x, y, x2, width)
 		if (Toybox has :Weather) {
 			if (Storage.getValue(3)==false){ // Hide Garmin Logo
@@ -187,8 +196,13 @@ class AnalogView extends WatchUi.WatchFace
 		
         // Garmin Logo check
         if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
-			MtbA.drawGarminLogo(dc, width / 2 - 50, height / 6);
+			MtbA.drawGarminLogo(dc, width / 2 - 55, height / 6);
 		}
+		
+		// Draw the 3, 6, 9, and 12 hour labels.
+        if (Storage.getValue(5) == null or Storage.getValue(5) == true) {
+            MtbA.drawHourLabels(dc, width, height);
+        }
                       
 		//Bluetooth icon
         if (Storage.getValue(4) == null or Storage.getValue(4) == true) {
