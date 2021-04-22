@@ -6,6 +6,6 @@
             <color>AAAAAA</color>
         </palette>
     </bitmap>
-    <bitmap id="GarminLogo" filename="images/garmin.png" dithering="none">
+    <bitmap id="GarminLogo" filename="images/garmin5.png" dithering="none">
     </bitmap>
 </resources>
