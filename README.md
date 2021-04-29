@@ -11,7 +11,7 @@ Check all our watch faces on Garmin's ConnectIQ store:
 
 |MtbA White Version|
 | --- |
-|[<img src="https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home4.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home4.png)|
+|[<img src="https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home4.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for standard or thick (30% larger) hands;
