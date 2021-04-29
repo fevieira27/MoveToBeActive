@@ -7,7 +7,11 @@ Garmin Watch Face that was initially meant for the VivoActive 4 series, as I wan
 
 Check all our watch faces on Garmin's ConnectIQ store:
 
-[<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
+[<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" height="270" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
+
+|MtbA White Version|
+| --- |
+|[<img src="https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home4.png" width="350" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home4.png)|
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for standard or thick (30% larger) hands;
