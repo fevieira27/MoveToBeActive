@@ -1,5 +1,5 @@
 # MoveToBeActive Garmin Watch Face
-![MoveToBeActive Banner](https://movetobeactive.github.io/img/banner2.jpg)
+![MoveToBeActive Banner](https://movetobeactive.github.io/img/banner3.jpg)
 
 Garmin Watch Face that was initially meant for the VivoActive 4 series, as I want to replace my current Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of a hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to start developing a watch face inspired by the design of the Vivomove series, but adding extra features that will be very useful for my daily type of usage (more health related than activity tracking), but still focusing on maximizing battery life.
 
