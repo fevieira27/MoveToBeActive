@@ -3,7 +3,7 @@
 
 Garmin Watch Face that was initially meant for the VivoActive 4 series, as I want to replace my current Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of a hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to start developing a watch face inspired by the design of the Vivomove series, but adding extra features that will be very useful for my daily type of usage (more health related than activity tracking), but still focusing on maximizing battery life.
 
-<img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270"> ![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home5.png?raw=true)
+<img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270"> ![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home4.png?raw=true)
 
 Check all our watch faces on Garmin's ConnectIQ store:
 
@@ -11,7 +11,7 @@ Check all our watch faces on Garmin's ConnectIQ store:
 
 |MtbA White Version|
 | --- |
-|[<img src="https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home4.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|
+|[<img src="https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home5.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for standard or thick (30% larger) hands;
