@@ -5,7 +5,7 @@ Garmin Watch Face that was initially meant for the VivoActive 4 series, as I wan
 
 <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270"> ![MoveToBeActive](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Home4.png?raw=true)
 
-Check all our watch faces on Garmin's ConnectIQ store:
+Check all our other watch faces on Garmin's ConnectIQ store:
 
 [<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
 
