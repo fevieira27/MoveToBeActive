@@ -113,6 +113,7 @@ Check all our other watch faces on Garmin's ConnectIQ store:
 - [ ] Improved design of hour and minute hands.
 - [ ] Always-On-Display low-power mode for AMOLED screens (Venu and D2 Air).
 - [ ] Replaced Wind Speed icon by wind direction (N, NE, E, SE, S, SW, W, NW).
+- [ ] Added smaller data field icons for smaller resolutions, as well as bigger icons for AMOLED screens.
 
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
