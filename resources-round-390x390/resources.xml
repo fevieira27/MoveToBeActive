@@ -1,0 +1,6 @@
+<resources>
+    <fonts>
+        <font id="IconsFont" filename="fonts/crystal-icons-large.fnt"
+        	antialias="true" filter="013568:;@A" />
+    </fonts>
+</resources>
