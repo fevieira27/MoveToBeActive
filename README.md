@@ -121,9 +121,9 @@ Check our other watch faces on Garmin's ConnectIQ store:
 
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
-![Features](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%201.jpg)
-![Config Menu](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%202.jpg)
 ![Features Location](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%203.jpg)
+![Config Menu](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%202.jpg)
+![Features](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%201.jpg)
 ![Watch Examples](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%204.jpg)
 
 # Inspiration:
