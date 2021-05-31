@@ -121,11 +121,10 @@ Check all our other watch faces on Garmin's ConnectIQ store:
 
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
-![Design Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%201.jpg)
-![Data Points Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%202.jpg)
-![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%203.jpg)
+![Features](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%201.jpg)
+![Config Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%202.jpg)
+![Features Location](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%203.jpg)
 ![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%204.jpg)
-![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%205.jpg)
 
 # Inspiration:
 * https://github.com/wwarby/walker
