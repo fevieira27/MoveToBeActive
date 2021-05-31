@@ -119,7 +119,7 @@ Check our other watch faces on Garmin's ConnectIQ store:
 **2.1.0** (26/May/21)
 - [X] Corrected bug on the color of hour hand and on the always celsius temperature unit option.
 
-## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
+## Watchface examples:
 
 ![Features Location](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%203.jpg)
 ![Config Menu](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%202.jpg)
