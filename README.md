@@ -11,6 +11,7 @@ Check all our other watch faces on Garmin's ConnectIQ store:
 |MtbA White Analog|MtbA Iconic Stripes|
 | --- | --- |
 |[<img src="https://raw.githubusercontent.com/MoveToBeActive/movetobeactive.github.io/main/img/Home-MtbA%20White%20v2.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|[<img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA_Stripes%20v3.png" height="270" href="https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802">](https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802)|
+
 [<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
 
 ## Feature listing:
