@@ -10,7 +10,7 @@ Check our other watch faces on Garmin's ConnectIQ store:
 
 |MtbA White Analog|MtbA Iconic Stripes|
 | --- | --- |
-|[<img src="https://raw.githubusercontent.com/MoveToBeActive/MtbA-White/main/GitHub/Home-MtbA%20White%20v2.png?token=AOREMS4YYFDVYIX34SNACN3AWUTBY" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|[<img src="https://raw.githubusercontent.com/MoveToBeActive/MtbA-Stripes/main/GitHub/Home-MtbA_Stripes%20v4.png?token=AOREMS7B4U6UNSILR7ONMHTAWUTDM" height="270" href="https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802">](https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802)|
+|[<img src="https://github.com/MoveToBeActive/MtbA-White/blob/660b7f6232c2ec6a98937e09ec7464ea1eba054c/GitHub/Home-MtbA%20White%20v2.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|[<img src="https://github.com/MoveToBeActive/MtbA-Stripes/blob/0a64a0341609b4214f9cef08617db421e40da70e/GitHub/Home-MtbA_Stripes%20v4.png" height="270" href="https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802">](https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802)|
 
 [<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
 
