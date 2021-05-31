@@ -1,0 +1,8 @@
+<resources>
+  <jsonData id="mColorStrings">["Bright Green", "Vivomove", "Yellow", "Sky Blue", "Aqua", "Medium Purple", "Orange", "Red", "Pink Flamingo", "White"]</jsonData>
+  <jsonData id="mColors">[5635840, 11206400, 16776960, 43775, 65535, 11163135, 16755200, 16711680, 16733695, 16777215]</jsonData>
+  <jsonData id="mIcons12">["0", ";", "P", "A", "S", "6", "1", "@", "3", "5", "R", ""]</jsonData>
+  <jsonData id="mIcons9">["A", "S", "6", "1", "@", "3", "5", "R", ""]</jsonData>
+  <jsonData id="mStrings">["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]</jsonData>
+  <jsonData id="json260">2</jsonData>
+</resources>

@@ -5,6 +5,7 @@
         	antialias="true" filter="013568:;@A" />
         <font id="WeatherFont" filename="fonts/weather-icons-24.fnt"
         	antialias="true"></font>
-        <font id="HumidityFont" filename="fonts/humidity-icon.fnt" antialias="true"></font>
+        <font id="HumidityFont" filename="fonts/humidity-icon.fnt" antialias="true" filter="RSP"></font>
+        <font id="Checkerboard" filename="fonts/Checker.fnt" filter="@" />
     </fonts>
 </resources>
