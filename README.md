@@ -6,7 +6,7 @@ Garmin Watch Face that was initially meant for the VivoActive 4 series, as I wan
 <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270">
 <img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA%20v5.png" height="270">
 
-Check all our other watch faces on Garmin's ConnectIQ store:
+Check our other watch faces on Garmin's ConnectIQ store:
 
 |MtbA White Analog|MtbA Iconic Stripes|
 | --- | --- |
