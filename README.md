@@ -121,11 +121,11 @@ Check all our other watch faces on Garmin's ConnectIQ store:
 
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
-![Design Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img4.png?raw=true)
-![Data Points Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img5.png?raw=true)
-![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img1.png?raw=true)
-![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img2.png?raw=true)
-![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Img3.png?raw=true)
+![Design Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%201.jpg)
+![Data Points Menu](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%202.jpg)
+![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%203.jpg)
+![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%204.jpg)
+![Watch Examples](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/CIQ%20Img%205.jpg)
 
 # Inspiration:
 * https://github.com/wwarby/walker
