@@ -4,10 +4,10 @@
 // Application Developer Agreement.
 //
 
-using Toybox.WatchUi;
-using Toybox.Graphics;
-using Toybox.System;
-using Toybox.Application.Storage;
+import Toybox.WatchUi;
+import Toybox.Graphics;
+import Toybox.System;
+import Toybox.Application.Storage;
 
 var count=0;
 
@@ -59,8 +59,8 @@ class AnalogSettingsDelegate extends WatchUi.BehaviorDelegate {
     // Generate a new Menu with a drawable Title
     var menu = new WatchUi.Menu2({:title=>new DrawableMenuTitle()});
 
-    menu.addItem(new WatchUi.MenuItem("Design Options", null, "design", null));
-    menu.addItem(new WatchUi.MenuItem("Data Points", null, "datapoints", null));
+    menu.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
+    menu.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
     WatchUi.pushView(menu, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
 
 	}
@@ -148,14 +148,19 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    } else {
 		    	boolean = true;
 		    }
-		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Activ. Length Type", {:enabled=>"Distance", :disabled=>"Step Count"}, 14, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Act. Length Type", {:enabled=>"Distance", :disabled=>"Step Count"}, 14, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		   	if (Storage.getValue(15) != null ){
 		    	boolean = Storage.getValue(15);
 		    } else {
 		    	boolean = true;
 		    }
 		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Wind Speed Unit", {:enabled=>"km/h or mph", :disabled=>"m/s"}, 15, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    
+            if (Storage.getValue(16) != null ){
+                boolean = Storage.getValue(16);
+            } else {
+                boolean = false;
+            }
+            dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperat. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
 		    
 		    WatchUi.pushView(dataMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );			        	    
 	    } else {
@@ -174,7 +179,7 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 class DrawableMenuTitle extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, Graphics.COLOR_BLUE, 0x00FFFF, 0xAA55FF, 0xFFAA00/*0xFF5500*/, 0xFF0000, 0xFF55FF, Graphics.COLOR_WHITE];
+    //const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, 0x00AAFF, 0x00FFFF, 0xAA55FF, 0xFFAA00, 0xFF0000, 0xFF55FF, 0xFFFFFF];
 
     function initialize() {
         Drawable.initialize({});
@@ -182,7 +187,7 @@ class DrawableMenuTitle extends WatchUi.Drawable {
 
     // Draw the application icon and main menu title
     function draw(dc) {
-        var spacing = 2;
+        //var spacing = 2;
         var mIndex;
         
         if (Storage.getValue(2) == false or Storage.getValue(2) == null){ 
@@ -191,21 +196,25 @@ class DrawableMenuTitle extends WatchUi.Drawable {
         	mIndex=Storage.getValue(2);
         }        
         
-        var appIcon = WatchUi.loadResource(Rez.Drawables.LauncherIcon);        
+        var appIcon = Application.loadResource(Rez.Drawables.LauncherIcon);        
         var bitmapWidth = appIcon.getWidth();
         var labelWidth = dc.getTextWidthInPixels("Config", Graphics.FONT_SMALL);
 
-        var bitmapX = (dc.getWidth() - (bitmapWidth + spacing + labelWidth)) / 3;
+        var bitmapX = (dc.getWidth() - (bitmapWidth + 2 + labelWidth)) / 3; // 2 = spacing
         var bitmapY = (dc.getHeight() - appIcon.getHeight()) / 2;
-        var labelX = bitmapX + bitmapWidth + spacing;
+        var labelX = bitmapX + bitmapWidth + 2; // 2 = spacing
         var labelY = dc.getHeight() / 2;
 
-		var color = mColors[mIndex];
-        dc.setColor(color, color);
+		//var color = mColors[mIndex];
+        //dc.setColor(color, color);
+
+        var mColors = Application.loadResource(Rez.JsonData.mColors);
+
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.clear();               
         
         dc.drawBitmap(bitmapX, bitmapY, appIcon);
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(mColors[mIndex], Graphics.COLOR_BLACK);
         dc.drawText(labelX, labelY, Graphics.FONT_SMALL, "Config", Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 }
@@ -217,8 +226,8 @@ class DrawableMenuTitle extends WatchUi.Drawable {
 class CustomAccent extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, Graphics.COLOR_BLUE, 0x00FFFF, 0xAA55FF, 0xFFAA00/*0xFF5500*/, 0xFF0000, 0xFF55FF, Graphics.COLOR_WHITE];
-    const mColorStrings = ["Green", "Vivomove", "Yellow", "Blue", "Cyan", "Violet", "Orange", "Red", "Pink", "White"];
+    //const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, Graphics.COLOR_BLUE, 0x00FFFF, 0xAA55FF, 0xFFAA00/*0xFF5500*/, 0xFF0000, 0xFF55FF, Graphics.COLOR_WHITE];
+    //const mColorStrings = ["Bright Green", "Vivomove", "Yellow", "Sky Blue", "Aqua", "Medium Purple", "Orange", "Red", "Pink Flamingo", "White"];
     var mIndex;
 
     function initialize() {
@@ -232,18 +241,21 @@ class CustomAccent extends WatchUi.Drawable {
 
     // Return the color string for the menu to use as it's sublabel
     function getString() {
+        var mColorStrings = Application.loadResource(Rez.JsonData.mColorStrings);
         return mColorStrings[mIndex];
     }
     
     // Return the color code to save in Storage
     function getColor() {
+        var mColors = Application.loadResource(Rez.JsonData.mColors);
         return mColors[mIndex];
     }
 
     // Advance to the next color state for the drawable
     function nextState(id) {
+        var mColorStrings = Application.loadResource(Rez.JsonData.mColorStrings);
         mIndex++;
-        if(mIndex >= mColors.size()) {
+        if(mIndex >= mColorStrings.size()) {
             mIndex = 0;
         }
 		Storage.setValue(1, getColor());
@@ -254,8 +266,8 @@ class CustomAccent extends WatchUi.Drawable {
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
     function draw(dc) {
-    
-	var color = mColors[mIndex];
+        var mColors = Application.loadResource(Rez.JsonData.mColors);
+	    var color = mColors[mIndex];
         dc.setColor(color, color);
         dc.clear();        
        
@@ -270,8 +282,8 @@ class CustomAccent extends WatchUi.Drawable {
 class CustomLeftTopDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/, "" /*none*/];
-    const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
+    //const mIcons = ["0" /*stepsIcon*/, ";" /*elevationIcon*/, "P" /*windIcon*/, "A" /*humidityIcon*/, "S" /*precipitationIcon*/, "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/, "" /*none*/];
+    //const mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
     var mIndex; // 0=stepsIcon, 1=elevationIcon, 2=windSpeed, 3=humidityIcon, 4=precipitationIcon, 5=caloriesIcon, 6=floorsClimbIcon, 7=pulseOxIcon, 8=heartRateIcon, 9=notificationIcon, 10=solarIcon, 11=none
 	
     function initialize() {
@@ -283,14 +295,16 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
 
     // Return the icon string for the menu to use as its label
     function getString() {
+        var mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
         return mIconStrings[mIndex];
     }
     
 
     // Advance to the next color state for the drawable
     function nextState(id) {
+        var mIconStrings = ["Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notification",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
         mIndex++;
-        if(mIndex >= mIcons.size()) {
+        if(mIndex >= mIconStrings.size()) {
             mIndex = 0;
         }
 		Storage.setValue(id, mIndex);
@@ -300,11 +314,11 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
     function draw(dc) {
-    
+        var mIcons = Application.loadResource(Rez.JsonData.mIcons12);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		if (mIndex < mIcons.size()-1){
-			var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
-			var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);		
+			var iconsFont = Application.loadResource(Rez.Fonts.IconsFont);
+			var humidityFont = Application.loadResource(Rez.Fonts.HumidityFont);		
 			var icon = mIcons[mIndex];
 			if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
 				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);
@@ -323,8 +337,8 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
 class CustomLeftBottomDataPoint extends WatchUi.Drawable {
 
     // This constant data stores the color state list.
-    const mIcons = ["A" /*humidityIcon*/, "S" /*precipitationIcon*/,  "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/ , "" /*none*/];
-    const mIconStrings = ["Humidity", "Precipitation", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notification", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
+    //const mIcons = ["A" /*humidityIcon*/, "S" /*precipitationIcon*/,  "6" /*caloriesIcon*/, "1" /*floorsClimbIcon*/, "@" /*pulseOxIcon*/, "3" /*heartRateIcon*/, "5" /*notificationIcon*/, "R" /*solarIcon*/ , "" /*none*/];
+    //const mIconStrings = ["Humidity", "Precipitation", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notification", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
     var mIndex; // 0=humidityIcon, 1=precipitationIcon, 2=caloriesIcon, 3=floorsClimbIcon, 4=pulseOxIcon, 5=heartRateIcon, 6=notificationIcon, 7=solarIcon, 8=none
 
     function initialize() {
@@ -336,13 +350,15 @@ class CustomLeftBottomDataPoint extends WatchUi.Drawable {
 
     // Return the icon string for the menu to use as its label
     function getString() {
+        var mIconStrings = ["Humidity", "Precipitation", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notification", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
         return mIconStrings[mIndex];
     }
     
     // Advance to the next color state for the drawable
     function nextState(id) {
+        var mIconStrings = ["Humidity", "Precipitation", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notification", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "None"];
         mIndex++;
-        if(mIndex >= mIcons.size()) {
+        if(mIndex >= mIconStrings.size()) {
             mIndex = 0;
         }
 		Storage.setValue(id, mIndex);
@@ -352,11 +368,11 @@ class CustomLeftBottomDataPoint extends WatchUi.Drawable {
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
     function draw(dc) {
-    
+        var mIcons = Application.loadResource(Rez.JsonData.mIcons9);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		if (mIndex < mIcons.size()-1){			
-			var iconsFont = WatchUi.loadResource(Rez.Fonts.IconsFont);
-			var humidityFont = WatchUi.loadResource(Rez.Fonts.HumidityFont);
+			var iconsFont = Application.loadResource(Rez.Fonts.IconsFont);
+			var humidityFont = Application.loadResource(Rez.Fonts.HumidityFont);
 			var icon = mIcons[mIndex];
 			if (icon.find("R")!=null or icon.find("S")!=null or icon.find("P")!=null){
 				dc.drawText( dc.getWidth()/2, dc.getHeight()/3, humidityFont, icon , Graphics.TEXT_JUSTIFY_CENTER);

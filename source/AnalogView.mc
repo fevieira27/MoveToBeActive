@@ -4,50 +4,63 @@
 // Application Developer Agreement.
 // 
 
-using Toybox.Graphics;
-using Toybox.System;
-using Toybox.WatchUi;
-using Toybox.Application.Storage;
+import Toybox.Graphics;
+import Toybox.System;
+import Toybox.WatchUi;
+import Toybox.Application.Storage;
 
-var partialUpdatesAllowed = false;
+//var partialUpdatesAllowed = false;
 
 // This implements an analog watch face
 // Original design by Austen Harbour
 class AnalogView extends WatchUi.WatchFace
 {
     var offscreenBuffer;
-    var dateBuffer;
-    var fullScreenRefresh;
-	var accentColor = 0x55FF00;
+    //var fullScreenRefresh;
+	var accentColor;
 	var MtbA = null;
+    var inLowPower=false;
+    var canBurnIn=false;
+    var upTop=true;    
 
     // Initialize variables for this view
     function initialize() {
         WatchFace.initialize();
-        fullScreenRefresh = true;
-        partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
+        //fullScreenRefresh = true;
+        //partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
+        var sSettings=System.getDeviceSettings();
+        //first check if the setting is availe on the current device
+        if(sSettings has :requiresBurnInProtection) {
+            //get the state of the setting      
+        	canBurnIn=sSettings.requiresBurnInProtection;
+        }
     }
 
-	function bufferedBitmapFactory(options as {
-	            :width as Number,
-	            :height as Number,
-	            :palette as Array<ColorType>,
-	            :colorDepth as Number,
-	            :bitmapResource as WatchUi.BitmapResource
-	        }) as BufferedBitmapReference or BufferedBitmap {
-	    if (Graphics has :createBufferedBitmap) {
-	        return Graphics.createBufferedBitmap(options);
-	    } else {
-	        return new Graphics.BufferedBitmap(options);
-	    }
-	}   
+    //! Factory function to create buffered bitmap
+    function bufferedBitmapFactory(options as {
+                :width as Number,
+                :height as Number,
+                :palette as Array<ColorType>
+    //            ,:colorDepth as Number,
+    //            :bitmapResource as WatchUi.BitmapResource
+            }) as BufferedBitmapReference or BufferedBitmap {
+        if (Graphics has :createBufferedBitmap) {
+            return Graphics.createBufferedBitmap(options);
+        } else {
+            return new Graphics.BufferedBitmap(options);
+        }
+    }
 
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
 		
 		if (Storage.getValue(1) != null) {
 			accentColor = Storage.getValue(1);
-		}
+		} else {
+            accentColor = 0x55FF00;
+        }
+
+        //System.println(accentColor);
 		
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
         if(Toybox.Graphics has :BufferedBitmap or :BufferedBitmapReference) {
@@ -55,7 +68,8 @@ class AnalogView extends WatchUi.WatchFace
             // the background image of the watchface.  This is used to facilitate blanking
             // the second hand during partial updates of the display
 
-            offscreenBuffer = bufferedBitmapFactory({
+            //offscreenBuffer = new Graphics.BufferedBitmap({
+            offscreenBuffer = bufferedBitmapFactory({ // SDK 4.0
                 :width=>dc.getWidth(),
                 :height=>dc.getHeight(),
                 :palette=> [
@@ -63,7 +77,8 @@ class AnalogView extends WatchUi.WatchFace
                     Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_BLACK,
                     Graphics.COLOR_WHITE
-                    ,Graphics.COLOR_BLUE
+                    ,accentColor
+/*                    ,Graphics.COLOR_BLUE
                     ,Graphics.COLOR_TRANSPARENT
                     ,0xAAFF00 //Vivomove Green
                     ,0x55FF00 //Green
@@ -72,21 +87,17 @@ class AnalogView extends WatchUi.WatchFace
                     ,0xAA55FF //Violet
                     ,0xFFAA00 //Orange
                     ,0xFF0000 //Red
-                    ,0xFF55FF //Pink
+                    ,0xFF55FF //Pink */
                 ]
       		}) ; 
 
-            // Allocate a buffer tall enough to draw the date into the full width of the
-            // screen. This buffer is also used for blanking the second hand. This full
-            // color buffer is needed because anti-aliased fonts cannot be drawn into
-            // a buffer with a reduced color palette
-            dateBuffer = bufferedBitmapFactory({
-                :width=>dc.getWidth(),
-                :height=>Graphics.getFontHeight(Graphics.FONT_MEDIUM)
-            });
+            if (Graphics has :createBufferedBitmap) {
+            	//System.println("test1");
+		        //targetDc = offscreenBuffer.get();//.getDc()
+                offscreenBuffer = offscreenBuffer.get();
+		    }
         } else {
             offscreenBuffer = null;
-            dateBuffer = null;
         }
 
     }
@@ -94,9 +105,6 @@ class AnalogView extends WatchUi.WatchFace
 
     // Handle the update event
     function onUpdate(dc) {
-    	if (dc has :setAntiAlias) {
-    		dc.setAntiAlias(true);
-    	}
         var width;
         var height;
         var targetDc = null;
@@ -105,7 +113,7 @@ class AnalogView extends WatchUi.WatchFace
         MtbA = new MtbA_functions();
         		
         // We always want to refresh the full screen when we get a regular onUpdate call.
-        fullScreenRefresh = true;
+        //fullScreenRefresh = true;
 
         if(null != offscreenBuffer) {
             dc.clearClip();
@@ -126,18 +134,53 @@ class AnalogView extends WatchUi.WatchFace
 			Xoffset = 0;
 		}
 
+    if(inLowPower and canBurnIn) {
+        	if (dc has :setAntiAlias) {
+        		dc.setAntiAlias(false);
+        	}
+            
+            upTop=!upTop;
+            targetDc.clearClip();
+            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK); // removing the background color and all the data points from the background, leaving just the hour hands and hashmarks
+            targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight()); //width & height?
+
+            // Draw the tick marks around the edges of the screen
+            MtbA.drawHashMarks(targetDc, accentColor, Storage.getValue(5), width, height, inLowPower and canBurnIn); //dc
+
+            dc.drawBitmap(0, 0, offscreenBuffer);
+    } else {
+
+    	if (dc has :setAntiAlias) {
+    		dc.setAntiAlias(true);
+    	}
 
         // Fill the entire background with Black.
-        targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
+        targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
-        
-        // Draw a grey triangle over the upper right half of the screen.
-        //targetDc.fillPolygon([[0, 0], [targetDc.getWidth(), 0], [targetDc.getWidth(), targetDc.getHeight()], [0, 0]]);
-                                    
 
+        // Draw the tick marks around the edges of the screen
+        MtbA.drawHashMarks(targetDc, accentColor, Storage.getValue(5), width, height, inLowPower and canBurnIn); //dc
+        
         // Output the offscreen buffers to the main display if required.
-        drawBackground(dc);
-		
+        //drawBackground(dc);
+        if( null != offscreenBuffer ) {
+            dc.drawBitmap(0, 0, offscreenBuffer);
+        }
+
+		// Draw the 3, 6, 9, and 12 hour labels.
+        if (Storage.getValue(5) == null or Storage.getValue(5) == true) {
+            MtbA.drawHourLabels(dc, width, height); 
+        }
+
+        if (width==390) { // Venu & D2 Air
+			Xoffset = 10;
+        } else if (width==416) {
+			Xoffset = 13;
+		} else if (width==218) {
+			Xoffset = 1;
+		} else if (width==240 or width==260 or width==280 or width==360) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
+			Xoffset = 0;
+		}
 		
 		//Draw Weather Icon (dc, x, y, x2, width)
 		if (Toybox has :Weather) {
@@ -164,17 +207,18 @@ class AnalogView extends WatchUi.WatchFace
 		
 		//Data Points
 		var dataPoint = Storage.getValue(12);
+        
 		// (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset, dataPoint)
 		MtbA.drawRightBottom(dc, width*0.73, height*0.557, width * 0.776, height * 0.57, accentColor, width, Xoffset, dataPoint);
 	
 		// Xoffset for the 3 left data points: heart rate, steps and floor climb
-		if (width==390) { // Venu & D2 Air
-			Xoffset = 15;
-		} else if (width==240) { // Fenix 6S & Vivoactive 3 Music & MARQ Athlete
+		if (width==240) { // Fenix 6S & Vivoactive 3 Music & MARQ Athlete
 			Xoffset = -2;
 		} else if (width==218) { // Vivoactive 4S
 			Xoffset = -4;
-		}
+		} else if (width>=360) { // Venu & D2 Air
+			Xoffset = 15;
+		}  
 
 		dataPoint = Storage.getValue(9); //(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 		MtbA.drawLeftTop(dc, width/5.3-Xoffset, height/2.988, width/4.127-Xoffset, height/2.86, accentColor, width, dataPoint);
@@ -196,13 +240,12 @@ class AnalogView extends WatchUi.WatchFace
 		
         // Garmin Logo check
         if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
-			MtbA.drawGarminLogo(dc, width / 2 - 55, height / 6);
+            if (width==218 or width==240){
+                MtbA.drawGarminLogo(dc, width / 2 - 47, height / 6); 
+            } else {
+			    MtbA.drawGarminLogo(dc, width / 2 - 54, height / 6); 
+            }
 		}
-		
-		// Draw the 3, 6, 9, and 12 hour labels.
-        if (Storage.getValue(5) == null or Storage.getValue(5) == true) {
-            MtbA.drawHourLabels(dc, width, height);
-        }
                       
 		//Bluetooth icon
         if (Storage.getValue(4) == null or Storage.getValue(4) == true) {
@@ -224,33 +267,33 @@ class AnalogView extends WatchUi.WatchFace
         }
  
 				
-        // If we have an offscreen buffer that we are using for the date string,
-        // Draw the date into it. If we do not, the date will get drawn every update
-        // after blanking the second hand.
-        if( null != dateBuffer ) {
-            var dateDc = dateBuffer.getDc();
-
-            //Draw the background image buffer into the date buffer to set the background
-            dateDc.drawBitmap(0, -(height / 4), offscreenBuffer); //Graphics.Dc.drawBitmap(x, y, bitmap)
-
-            //Draw the date string into the buffer.
-            MtbA.drawDateString( dateDc, width / 2, 0 );
-
-		    // Draw the tick marks around the edges of the screen
-		    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
-		    MtbA.drawHashMarks(dc, accentColor, Storage.getValue(5), width, height);
-		            
-            //drawBatt( dc, width, height);
+        //Draw the date string
+        var offset = 0;
+        if (width==218) { // Vivoactive 4S
+			offset = -3;
+		} else if (width==240) { // Fenix 6S and MARQ
+			offset = -2;
+		} else if (width==260) { // Vivoactive 4
+			offset = 1;
+		} else if (width>=360) { // Venu 1 & 2 & 2s
+			offset = 13;
         }
-        
+        // Garmin Logo check
+        if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
+            MtbA.drawDateString( dc, width / 2, height * 0.725 + offset );
+        } else {
+            MtbA.drawDateString( dc, width / 2, height / 5.1 );
+        }
+    } 
+
 		//Draw Hour and Minute hands
 		if (Storage.getValue(13) == null or Storage.getValue(13) == false){
-			MtbA.drawHands(dc, width, height, accentColor, false);
+			MtbA.drawHands(dc, width, height, accentColor, false, inLowPower, upTop);
 		} else {
-			MtbA.drawHands(dc, width, height, accentColor, true);
-		}        
+			MtbA.drawHands(dc, width, height, accentColor, true, inLowPower, upTop);
+		}               
         
-        fullScreenRefresh = false;
+        //fullScreenRefresh = false;
     }
           
 
@@ -267,7 +310,7 @@ class AnalogView extends WatchUi.WatchFace
     // to the main display.
     // onPartialUpdate uses this to blank the second hand from the previous
     // second before outputing the new one.
-    function drawBackground(dc) {
+ /*   function drawBackground(dc) {
         var width = dc.getWidth();
         var height = dc.getHeight();
 
@@ -314,19 +357,30 @@ class AnalogView extends WatchUi.WatchFace
 		          
         }
         //drawBatt( dc, width, height);
+    }*/
+
+    // Called when this View is removed from the screen. Save the
+    // state of this View here. This includes freeing resources from
+    // memory.
+    function onHide() as Void {
     }
-    
+
+
     // This method is called when the device re-enters sleep mode.
     // Set the isAwake flag to let onUpdate know it should stop rendering the second hand.
     function onEnterSleep() {
 //        isAwake = false;
 //        WatchUi.requestUpdate();
+        inLowPower=true;
+    	WatchUi.requestUpdate(); 
     }
 
     // This method is called when the device exits sleep mode.
     // Set the isAwake flag to let onUpdate know it should render the second hand.
     function onExitSleep() {
 //        isAwake = true;
+        inLowPower=false;
+    	WatchUi.requestUpdate(); 
     }
 }
 

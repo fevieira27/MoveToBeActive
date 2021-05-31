@@ -32,9 +32,9 @@ class AnalogWatch extends Application.AppBase
     }
 
     // This method runs when a goal is triggered and the goal view is started.
-    function getGoalView(goal) {
-        return [new AnalogGoalView(goal)];
-    }
+//    function getGoalView(goal) {
+//        return [new AnalogGoalView(goal)];
+//    }
 
     function getSettingsView() {
         return [new Menu2AnalogView(), new AnalogSettingsDelegate()];
