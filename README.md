@@ -109,11 +109,14 @@ Check all our other watch faces on Garmin's ConnectIQ store:
 **1.5.5** (20/Apr/21)
 - [X] Improved quality of Garmin Logo.
 
-**2.0.0** (Coming soon)
+**2.0.0** (25/May/21)
 - [X] Improved design of hour and minute hands.
 - [X] Always-On-Display low-power mode for AMOLED screens (Venu and D2 Air).
 - [X] Replaced Wind Speed icon by wind direction (N, NE, E, SE, S, SW, W, NW).
 - [X] Added smaller data field icons for smaller resolutions, as well as bigger icons for AMOLED screens.
+
+**2.1.0** (26/May/21)
+- [X] Corrected bug on the color of hour hand and on the always celsius temperature unit option.
 
 ## Watchface examples: (Not real photos, just taken from Garmin's Watch Simulator)
 
