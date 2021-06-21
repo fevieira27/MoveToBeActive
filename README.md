@@ -122,7 +122,7 @@ Check our other watch faces on Garmin's ConnectIQ store:
 **2.2.0** (Coming soon)
 - [ ] Add option to have battery always following the accent color.
 - [ ] Add option to have the hour numbers and hask marks in white for MIP displays.
-- [ ] Keep the 3,6,9 and 12 hour hash marks colored when in AOD mode (for better readability).
+- [ ] Keep the 3,6,9 and 12 hour hash marks colored when in AOD mode and user has the hour numbers hidden (for better readability, since all tickmarks have the same size).
 
 ## Watchface examples:
 
