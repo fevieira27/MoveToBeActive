@@ -119,6 +119,11 @@ Check our other watch faces on Garmin's ConnectIQ store:
 **2.1.0** (26/May/21)
 - [X] Corrected bug on the color of hour hand and on the always celsius temperature unit option.
 
+**2.2.0** (Coming soon)
+- [] Add option to have battery always following the accent color.
+- [] Add option to have the hour numbers and hask marks in white for MIP displays.
+- [] Keep the 3,6,9 and 12 hour hash marks colored when in AOD mode (for better readability).
+
 ## Watchface examples:
 
 ![Features Location](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%203.jpg)
