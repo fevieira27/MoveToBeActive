@@ -124,6 +124,12 @@ Check our other watch faces on Garmin's ConnectIQ store:
 - [ ] Add option to have the hour numbers and hask marks in white for MIP displays.
 - [ ] Keep the 3,6,9 and 12 hour hash marks colored when in AOD mode and user has the hour numbers hidden (for better readability, since all tickmarks have the same size).
 
+**2.3.0** (Coming soon)
+- [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
+
+**3.0.0** (?)
+- [ ] Second's hand as optional feature (feasibility being investigated) 
+
 ## Watchface examples:
 
 ![Features Location](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%203.jpg)
