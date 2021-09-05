@@ -121,10 +121,11 @@ Check our other watch faces on Garmin's ConnectIQ store:
 
 **2.2.0** (Coming soon)
 - [ ] Add option to have battery always following the accent color.
-- [ ] Add option to have the hour numbers and hask marks in white for MIP displays.
-- [ ] Keep the 3,6,9 and 12 hour hash marks colored when in AOD mode and user has the hour numbers hidden (for better readability, since all tickmarks have the same size).
+- [ ] Add option to have the hour numbers and hask marks in white for MIP displays (for better readability).
+- [ ] Keep the 6,12 hour hash marks colored when in AOD mode, keeping the numbers hidden (for better readability, since all tickmarks have the same size).
+- [ ] Add an option for thinner hands.
 
-**2.3.0** (Coming soon)
+**2.3.0** (?)
 - [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
 
 **3.0.0** (?)
