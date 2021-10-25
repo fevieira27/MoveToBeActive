@@ -119,17 +119,20 @@ Check our other watch faces on Garmin's ConnectIQ store:
 **2.1.0** (26/May/21)
 - [X] Corrected bug on the color of hour hand and on the always celsius temperature unit option.
 
-**2.2.0** (Coming soon)
-- [ ] Add option to have battery always following the accent color.
-- [ ] Add option to have the hour numbers and hask marks in white for MIP displays (for better readability).
-- [ ] Keep the 6,12 hour hash marks colored when in AOD mode, keeping the numbers hidden (for better readability, since all tickmarks have the same size).
-- [ ] Add an option for thinner hands.
+**2.2.0** (25/Oct/21)
+- [X] Testing a new design of the AOD mode on AMOLED displays to further reduce battery consumption.
+- [X] Change the hour numbers and hask marks to a lighter grey (or maybe white?) for better readability on MIP displays only.
+- [X] Keep the 6 and 12 hour hash marks in a lighter tone when in AOD mode (AMOLED) for better readability (since all tickmarks have the same size).
+- [X] Added an option for thinner hands.
 
-**2.3.0** (?)
-- [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
+**2.5.0** (Coming soon)
+- [ ] Add option to have battery following the accent color when > 30% (instead of green).
+- [ ] Improvements on position of data fields (reduction of memory usage and code length).
+- [ ] Add an extra data field by moving alarm and bluetooth icons to another position on the watch face.
 
 **3.0.0** (?)
 - [ ] Second's hand as optional feature (feasibility being investigated) 
+- [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
 
 ## Watchface examples:
 
