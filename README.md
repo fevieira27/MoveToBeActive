@@ -127,8 +127,10 @@ Check our other watch faces on Garmin's ConnectIQ store:
 
 **2.5.0** (Coming soon)
 - [ ] Add option to have battery following the accent color when > 30% (instead of green).
-- [ ] Improvements on position of data fields (reduction of memory usage and code length).
-- [ ] Add an extra data field by moving alarm and bluetooth icons to another position on the watch face.
+- [X] Improvements on position of all icons and data fields (reduction of memory usage and code length), making it easier for future adjustments.
+- [X] Added an extra data field by moving alarm and bluetooth icons to another position on the watch face (now next to DnD icon).
+- [X] Removed a bug that would show "null" when the temperature was not being returned by Garmin Weather API.
+- [X] Removed useless initial settings screen based that was based on Garmin's Analog Sample code. Now it will go directly to MtbA settings and then back to watch face.
 
 **3.0.0** (?)
 - [ ] Second's hand as optional feature (feasibility being investigated) 
