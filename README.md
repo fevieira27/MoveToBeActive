@@ -131,6 +131,7 @@ Check our other watch faces on Garmin's ConnectIQ store:
 - [X] Added an extra data field by moving alarm and bluetooth icons to another position on the watch face (now next to DnD icon).
 - [X] Removed a bug that would show "null" when the temperature was not being returned by Garmin Weather API.
 - [X] Removed useless initial settings screen based that was based on Garmin's Analog Sample code. Now it will go directly to MtbA settings and then back to watch face.
+- [X] Corrected issue where AMOLED watches would not see the data field icon on the settings menu.
 
 **3.0.0** (?)
 - [ ] Second's hand as optional feature (feasibility being investigated) 
