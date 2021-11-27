@@ -125,7 +125,7 @@ Check our other watch faces on Garmin's ConnectIQ store:
 - [X] Keep the 6 and 12 hour hash marks in a lighter tone when in AOD mode (AMOLED) for better readability (since all tickmarks have the same size).
 - [X] Added an option for thinner hands.
 
-**2.5.0** (Coming in early 2022)
+**2.5.0** (Coming early 2022)
 - [X] Added an extra data field by moving alarm and bluetooth icons to another position on the watch face (now next to DnD icon).
 - [X] Steps and Distance are now 2 distinct data fields with their own icons, so both can now be added together on the watch face.
 - [X] Added Weekly Intensity Minutes and Seconds as new data fields available in any of the 5 locations.
@@ -136,8 +136,10 @@ Check our other watch faces on Garmin's ConnectIQ store:
 - [X] Adjusted colors of the Wind Speed icon to better reflect the Beaufort Scale.
 - [X] Reverted AOD to something similar to the previous version, as no battery improvements were perceived when using extremely low brightness.
 
+**2.6.0** (?)
+- [ ] Seconds data field to update every second even when display is on low-power mode (MIP displays only).
+
 **3.0.0** (?)
-- [ ] Seconds data field to update every second even when display is on low-power mode.
 - [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
 
 ## Watchface examples:
