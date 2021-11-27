@@ -125,17 +125,18 @@ Check our other watch faces on Garmin's ConnectIQ store:
 - [X] Keep the 6 and 12 hour hash marks in a lighter tone when in AOD mode (AMOLED) for better readability (since all tickmarks have the same size).
 - [X] Added an option for thinner hands.
 
-**2.5.0** (Coming soon)
-- [ ] Add option to have battery following the accent color when > 30% (instead of green).
-- [X] Steps and Distance are now 2 distinct data fields with their own icons, so both can now be added together on the watch face.
-- [X] Improvements on position of all icons and data fields (reduction of memory usage and code length), making it easier for future adjustments.
+**2.5.0** (Coming in early 2022)
 - [X] Added an extra data field by moving alarm and bluetooth icons to another position on the watch face (now next to DnD icon).
+- [X] Steps and Distance are now 2 distinct data fields with their own icons, so both can now be added together on the watch face.
+- [X] Added Weekly Intensity Minutes and Seconds as new data fields available in any of the 5 locations.
+- [ ] Improvements on the positioniong of all icons and data fields (reduction of memory usage and code length), making it easier for future adjustments.
 - [X] Removed a bug that would show "null" when the temperature was not being returned by Garmin Weather API.
 - [X] Removed useless initial settings screen that was based on Garmin's Analog Sample code. Now it will go directly to MtbA settings and then back to watch face.
 - [X] Corrected issue where AMOLED watches would not see the data field icon on the settings menu.
+- [X] Adjusted colors of the Wind Speed icon to better reflect the Beaufort Scale.
 
 **3.0.0** (?)
-- [ ] Second's hand as optional feature (feasibility being investigated) 
+- [ ] Seconds data field to update every second even when display is on low-power mode.
 - [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
 
 ## Watchface examples:
