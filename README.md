@@ -134,6 +134,7 @@ Check our other watch faces on Garmin's ConnectIQ store:
 - [X] Removed useless initial settings screen that was based on Garmin's Analog Sample code. Now it will go directly to MtbA settings and then back to watch face.
 - [X] Corrected issue where AMOLED watches would not see the data field icon on the settings menu.
 - [X] Adjusted colors of the Wind Speed icon to better reflect the Beaufort Scale.
+- [X] Reverted AOD to something similar to the previous version, as no battery improvements were perceived when using extremely low brightness.
 
 **3.0.0** (?)
 - [ ] Seconds data field to update every second even when display is on low-power mode.
