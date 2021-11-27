@@ -1,16 +1,10 @@
 # MoveToBeActive Watch Faces for Garmin
 ![MoveToBeActive Banner](https://movetobeactive.github.io/img/banner%20v2.png)
 
-Garmin Watch Face that was initially meant for the VivoActive 4 series, as I want to replace my current Vivomove HR soon. Even though I'm now going to move (no pun intended) to a more smartwatch kind of device instead of a hybrid, I do prefer the regular/classic look of an analog watch. So that's when I decided to start developing a watch face inspired by the design of the Vivomove series, but adding extra features that will be very useful for my daily type of usage (more health related than activity tracking), but still focusing on maximizing battery life.
+Garmin Watch Face that was inspired by the design of the Vivomove series, adding extra features that will be very useful for my daily type of usage (more health related than activity tracking) and focusing on maximizing battery life.
 
 <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270">
 <img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA%20v5.png" height="270">
-
-Check our other watch faces on Garmin's ConnectIQ store:
-
-|MtbA White Analog|MtbA Iconic Stripes|
-| --- | --- |
-|[<img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA%20White%20v2.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|[<img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA_Stripes%20v4.png" height="270" href="https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802">](https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802)|
 
 [<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
 
@@ -148,6 +142,12 @@ Check our other watch faces on Garmin's ConnectIQ store:
 ![Config Menu](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%202.jpg)
 ![Features](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%201.jpg)
 ![Watch Examples](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%204.jpg)
+
+## Check our other watch faces on Garmin's ConnectIQ store:
+
+|MtbA White Analog|MtbA Iconic Stripes|
+| --- | --- |
+|[<img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA%20White%20v2.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|[<img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA_Stripes%20v4.png" height="270" href="https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802">](https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802)|
 
 # Inspiration:
 * https://github.com/wwarby/walker
