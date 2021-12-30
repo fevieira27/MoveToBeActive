@@ -119,19 +119,21 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Keep the 6 and 12 hour hash marks in a lighter tone when in AOD mode (AMOLED) for better readability (since all tickmarks have the same size).
 - [X] Added an option for thinner hands.
 
-**3.0.0** (Coming early 2022)
+**3.0.0** (30/Dec/21)
 - [X] Added an extra data field by moving alarm and bluetooth icons to another position on the watch face (now next to DnD icon).
 - [X] Steps and Distance are now 2 distinct data fields with their own icons, so both can now be added together on the watch face.
 - [X] Added Weekly Intensity Minutes and Seconds as new data fields available in any of the 5 locations.
-- [ ] Improvements on the positioniong of all icons and data fields (reduction of memory usage and code length), making it easier for future adjustments.
+- [X] Improvements on the positioniong of all icons and data fields, which reduced memory usage, code length and will make future adjustments easier.
 - [X] Removed a bug that would show "null" when the temperature was not being returned by Garmin Weather API.
 - [X] Removed useless initial settings screen that was based on Garmin's Analog Sample code. Now it will go directly to MtbA settings and then back to watch face.
 - [X] Corrected issue where AMOLED watches would not see the data field icon on the settings menu.
 - [X] Adjusted colors of the Wind Speed icon to better reflect the Beaufort Scale.
 - [X] Reverted AOD to something similar to the previous version, as no battery improvements were perceived when using extremely low brightness.
+- [X] Added support for Venu Mercedes-Benz Edition and Descent MK2
 
-**3.1.0** (?)
-- [ ] Seconds data field to update every second even when display is on low-power mode (MIP displays only).
+**3.1.0** (Coming Soon)
+- [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
+- [ ] Add support for Fenix 5 Plus, 5S Plus and ForeRunner 645 Music
 
 **4.0.0** (?)
 - [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
