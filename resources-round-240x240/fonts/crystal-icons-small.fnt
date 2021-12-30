@@ -4,7 +4,7 @@ page id=0 file="crystal-icons-small.png"
 chars count=17
 char id=48   x=0     y=0     width=20    height=20    xoffset=0     yoffset=0    xadvance=20    page=0  chnl=15
 char id=49   x=21    y=0     width=20    height=20    xoffset=0     yoffset=0    xadvance=20    page=0  chnl=15
-char id=50   x=42    y=0     width=20    height=20    xoffset=0     yoffset=0    xadvance=20    page=0  chnl=15
+char id=50   x=47    y=0     width=15    height=20    xoffset=0     yoffset=0    xadvance=15    page=0  chnl=15
 char id=51   x=63    y=0     width=20    height=20    xoffset=0     yoffset=0    xadvance=20    page=0  chnl=15
 char id=53   x=109   y=0     width=20    height=20    xoffset=0     yoffset=0    xadvance=20    page=0  chnl=15
 char id=54   x=130   y=0     width=12    height=20    xoffset=4     yoffset=0    xadvance=20    page=0  chnl=15
@@ -19,3 +19,4 @@ char id=62   x=0     y=21    width=23    height=20    xoffset=0     yoffset=0   
 char id=63   x=24    y=21    width=23    height=20    xoffset=0     yoffset=0    xadvance=23    page=0  chnl=15
 char id=64   x=48    y=21    width=17    height=20    xoffset=0     yoffset=0    xadvance=17    page=0  chnl=15
 char id=65   x=66    y=21    width=14    height=20    xoffset=0     yoffset=0    xadvance=14    page=0  chnl=15
+char id=66   x=42    y=0     width=20    height=20    xoffset=0     yoffset=0    xadvance=20    page=0  chnl=15

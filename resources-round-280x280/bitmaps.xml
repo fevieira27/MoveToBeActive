@@ -1,0 +1,4 @@
+<resources>
+    <bitmap id="GarminLogo" filename="images/garmin5.png" dithering="none">
+    </bitmap>
+</resources>

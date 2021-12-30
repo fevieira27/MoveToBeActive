@@ -1,6 +1,8 @@
 <resources>
     <fonts>
         <font id="IconsFont" filename="fonts/crystal-icons-small.fnt"
-        	antialias="true" filter="013568:;@A" />
+        	antialias="true" filter="01235678:;@AB" />
+        <font id="WeatherFont" filename="fonts/weather-icons-20.fnt"
+        	antialias="true" />
     </fonts>
 </resources>
