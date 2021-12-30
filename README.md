@@ -123,7 +123,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added an extra data field by moving alarm and bluetooth icons to another position on the watch face (now next to DnD icon).
 - [X] Steps and Distance are now 2 distinct data fields with their own icons, so both can now be added together on the watch face.
 - [X] Added Weekly Intensity Minutes and Seconds as new data fields available in any of the 5 locations.
-- [X] Improvements on the positioniong of all icons and data fields, which reduced memory usage, code length and will make future adjustments easier.
+- [X] Improvements on the positioning of all icons and data fields, which reduced memory usage, code length and will make future adjustments easier.
 - [X] Removed a bug that would show "null" when the temperature was not being returned by Garmin Weather API.
 - [X] Removed useless initial settings screen that was based on Garmin's Analog Sample code. Now it will go directly to MtbA settings and then back to watch face.
 - [X] Corrected issue where AMOLED watches would not see the data field icon on the settings menu.
