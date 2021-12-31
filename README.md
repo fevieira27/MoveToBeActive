@@ -34,7 +34,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * **Humidity** percentage: The current relative humidity (0-100%), with color palette based on 3 levels: Healthy = green, Fair = yellow, Poor = red;
 * **Solar intensity** percentage: Describes the solar sensor's charge efficiency, only available on Solar Charged watches. It will change colors based on 5 different UV intensity zones: Low = green, Moderate = yellow, High = orange, Very High = red, Extreme = violet.
 * **Intensity Minutes** per week: The current number of intensity minutes (moderate + 2x vigorous) during the current week. Symbol will turn from grey to the accent color as soon as the weekly intensity minutes goal is reached.
-* **Seconds**: Available as a data field, will display current second count of the current time.
+* **Seconds**: Available as a data field, will display seconds count of the current time.
 
 ## Support this project:
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" href="https://www.paypal.com/donate/?hosted_button_id=XVZXEH5RVBCZ6">](https://www.paypal.com/donate/?hosted_button_id=XVZXEH5RVBCZ6)
