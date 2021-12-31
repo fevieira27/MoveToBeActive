@@ -9,13 +9,13 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 [<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
 
 ## Feature listing:
-* Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for standard or thick (30% larger) hands;
+* Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for thinner, standard or thicker hands (around 20-30% difference between each);
 * **Current Date** with day of the week and Month;
 * **Garmin Logo** that can be hidden on the watch face's config menu;
-* **Battery percentage** with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 15 and 30%) and Green (greater than 31%);
+* **Battery percentage** with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 16 and 30%) and Green (greater than 31%);
 * **Bluetooth** indicator: Blue (connected to the phone) or grey (not connected);
 * **Alarm** indicator: Accent color (at least one alarm active) or grey (no alarms);
-* **Do not Disturb** indicator (only shown when mode is activate);
+* **Do not Disturb** indicator (only shown when mode is activate, also activated during sleep hours);
 * **Location name** of the source of weather data (if available), that can be hidden on the watch face's config menu;
 * **Current weather** condition icon;
 * **Temperature** indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
