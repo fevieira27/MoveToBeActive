@@ -1,5 +1,5 @@
 # MoveToBeActive Watch Faces for Garmin
-![MoveToBeActive Banner](https://movetobeactive.github.io/img/banner%20v2.png)
+![MoveToBeActive Banner](https://movetobeactive.github.io/img/banner%20v3.png)
 
 Garmin Watch Face that was inspired by the design of the Vivomove series, adding extra features that will be very useful for my daily type of usage (more health related than activity tracking) and focusing on maximizing battery life.
 
