@@ -314,26 +314,24 @@ class MtbA_functions {
 				if (TempMetric == System.UNIT_METRIC) { 
 					units = "°C";
 					temp = weather.feelsLikeTemperature;
-				}
-				else {
+				}	else {
 					temp = (weather.feelsLikeTemperature * 9/5) + 32; 
-					temp = Lang.format("$1$", [temp.format("%d")] );
+					//temp = Lang.format("$1$", [temp.format("%d")] );
 					units = "°F";
 				}				
 			} else if(weather has :temperature) {  // real temperature
 					if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { 
 						units = "°C";
 						temp = weather.temperature;
-					}
-					else {
+					}	else {
 						temp = (weather.temperature * 9/5) + 32; 
-						temp = Lang.format("$1$", [temp.format("%d")] );
+						//temp = Lang.format("$1$", [temp.format("%d")] );
 						units = "°F";
 					}
 			}
 			
 			if (temp != null and (temp instanceof Number)){
-				dc.drawText(x, y+offset, Graphics.FONT_XTINY, temp + units, Graphics.TEXT_JUSTIFY_LEFT);
+				dc.drawText(x, y+offset, Graphics.FONT_XTINY, temp + units, Graphics.TEXT_JUSTIFY_LEFT); // + units
 			}
 		}
 	}
