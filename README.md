@@ -131,6 +131,9 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Reverted AOD to something similar to the previous version, as no battery improvements were perceived when using extremely low brightness.
 - [X] Added support for Venu Mercedes-Benz Edition and Descent MK2
 
+**3.0.1** (31/Dec/21)
+- [X] Corrected bug with the conversion of temperature to Fahrenheit.
+
 **3.1.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
 - [ ] Add support for Fenix 5 Plus, 5S Plus and ForeRunner 645 Music
