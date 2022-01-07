@@ -168,3 +168,4 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * https://github.com/OliverHannover/Formula_1
 * https://github.com/tumb1er/ElPrimero
 * https://github.com/douglasr/connectiq-logo-analog
+* https://github.com/douglasr/connectiq-samples
