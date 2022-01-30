@@ -139,9 +139,32 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 **3.0.1** (31/Dec/21)
 - [X] Corrected bug with the conversion of temperature to Fahrenheit.
 
+**3.0.2** (3/Jan/22)
+- [X] Corrected bug that allowed the Alarm icon to be displayed even when it was disabled on the watch face settings.
+- [X] Minor improvements that reduced memory usage by removing unnecessary code and rewriting some calculations.
+
+**3.0.3** (4/Jan/22)
+- [X] Added support to the newly launched watch Venu 2 Plus.
+
+**3.0.4** (5/Jan/22)
+- [X] Fixed issue on button-based (non-touch) watches which caused a crash on the settings menu when the user reached end of list on a submenu (either layout or data).
+
+**3.0.5** (19/Jan/22)
+- [X] Added support for Venu Sq, Venu Sq Music Edition, Fenix 7, Fenix 7S, Fenix 7X, Epix 2.
+- [X] Corrected bug that would crash the watch face when the elevation data field was selected, but watch doesn't have a barometer sensor and no GPS data is available.
+
+**3.0.6** (21/Jan/22)
+- [X] Updated to SDK 4.0.8 with Garmin bug fixes.
+- [X] Improved code to prevent the unlikely chance of no weather information being provided to the watch would cause an error.
+- [X] Fixed bug that was not showing the weather location on Venu Sq watches.
+
+**3.0.7** (30/Jan/22)
+- [X] Added support for Fenix 5 Plus, Fenix 5S Plus and Fenix 5X Plus (don't support weather, location and temperature);
+- [X] Updated to SDK 4.0.9 with Garmin bug fixes.
+
 **3.1.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
-- [ ] Add support for Fenix 5 Plus, 5S Plus and ForeRunner 645 Music
+- [ ] Add support for ForeRunner 645 Music
 
 **4.0.0** (?)
 - [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
