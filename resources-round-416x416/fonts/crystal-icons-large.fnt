@@ -4,7 +4,7 @@ page id=0 file="crystal-icons-large.png"
 chars count=17
 char id=48   x=0     y=0     width=25    height=28    xoffset=0     yoffset=0    xadvance=25    page=0  chnl=15
 char id=49   x=25    y=0     width=28    height=28    xoffset=0     yoffset=0    xadvance=28    page=0  chnl=15
-char id=50   x=60    y=0     width=21    height=28    xoffset=0     yoffset=0    xadvance=21    page=0  chnl=15
+char id=50   x=53    y=0     width=28    height=28    xoffset=0     yoffset=0    xadvance=28    page=0  chnl=15
 char id=51   x=81    y=0     width=28    height=28    xoffset=0     yoffset=0    xadvance=28    page=0  chnl=15
 char id=53   x=109   y=0     width=28    height=28    xoffset=0     yoffset=0    xadvance=28    page=0  chnl=15
 char id=54   x=137   y=0     width=17    height=28    xoffset=5     yoffset=0    xadvance=28    page=0  chnl=15
@@ -19,4 +19,3 @@ char id=62   x=49    y=28    width=32    height=28    xoffset=0     yoffset=0   
 char id=63   x=81    y=28    width=32    height=28    xoffset=0     yoffset=0    xadvance=32    page=0  chnl=15
 char id=64   x=113   y=28    width=24    height=28    xoffset=0     yoffset=0    xadvance=24    page=0  chnl=15
 char id=65   x=137   y=28    width=19    height=28    xoffset=0     yoffset=0    xadvance=19    page=0  chnl=15
-char id=66   x=53    y=0     width=28    height=28    xoffset=0     yoffset=0    xadvance=28    page=0  chnl=15

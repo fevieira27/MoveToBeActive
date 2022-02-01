@@ -1,0 +1,6 @@
+<resources>
+    <fonts>
+        <font id="IconsFont" filename="fonts/crystal-icons-small.fnt"
+        	antialias="true" filter="01235678:;@AB" />
+    </fonts>
+</resources>
