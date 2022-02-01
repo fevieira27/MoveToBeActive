@@ -108,7 +108,6 @@ class AnalogView extends WatchUi.WatchFace
         var width;
         var height;
         var targetDc = null;
-        var Xoffset = 0;
         
         MtbA = new MtbA_functions();
         		
@@ -126,13 +125,8 @@ class AnalogView extends WatchUi.WatchFace
 
         width = targetDc.getWidth();
         height = targetDc.getHeight();
-        if (width==390) { // Venu & D2 Air
-			Xoffset = 10;
-		} else if (width==218) {
-			Xoffset = 1;
-		} else if (width==240 or width==260 or width==280) { // Fenix 6S e Vivoactive 3 Music & MARQ Athlete
-			Xoffset = 0;
-		}
+
+        //System.println(width);
 
         if(inLowPower and canBurnIn) {
         	if (dc has :setAntiAlias) {
@@ -181,25 +175,24 @@ class AnalogView extends WatchUi.WatchFace
             }
 
             // Draw the 3, 6, 9, and 12 hour labels.
-            if (Storage.getValue(5) == null or Storage.getValue(5) == true) {
+            if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape and (Storage.getValue(5) == null or Storage.getValue(5) == true)) {
                 MtbA.drawHourLabels(dc, width, height); 
             }
 
             //Draw Weather Icon (dc, x, y, x2, width)
             if (Toybox has :Weather) {
                 if (Storage.getValue(3)==false){ // Hide Garmin Logo
-                    //System.println(Xoffset);
                     MtbA.drawWeatherIcon(dc, position[18], position[22], position[19], width);
                     //Draw Temperature Text
                     MtbA.drawTemperature(dc, position[21], position[7], Storage.getValue(6), width);
                     //Draw Location Name
-                    MtbA.drawLocation(dc, width/2, position[6], width*0.60, height*0.10, Storage.getValue(7));
+                    MtbA.drawLocation(dc, width/2, position[6], width*0.60, height*0.20, Storage.getValue(7));
                 } else { // Show Garmin Logo
                     MtbA.drawWeatherIcon(dc, position[18], position[20], position[19], width);
                     //Draw Temperature Text
                     MtbA.drawTemperature(dc, position[21], position[20], Storage.getValue(6), width);
                     //Draw Location Name
-                    MtbA.drawLocation(dc, width/2, position[23], width*0.60, height*0.10, Storage.getValue(7));
+                    MtbA.drawLocation(dc, width/2, position[23], width*0.60, height*0.20, Storage.getValue(7));
                 }
             }
             
@@ -217,18 +210,13 @@ class AnalogView extends WatchUi.WatchFace
             dataPoint = Storage.getValue(10); // left middle
             MtbA.drawLeftTop(dc, position[12], position[16], position[13], position[17], accentColor, width, dataPoint);	
             //MtbA.drawLeftMiddle(dc, position[12], position[16], position[13], position[17], accentColor, width, dataPoint);	
-            dataPoint = Storage.getValue(11); // left botom
+            dataPoint = Storage.getValue(11); // left bottom
             MtbA.drawLeftBottom(dc, position[12], position[14], position[13], position[15], accentColor, width, dataPoint);
             
-            // Notifications (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)	
-            //MtbA.drawNotification(dc, width*0.74, height*0.56, width *0.8, height*0.57, accentColor, width, Xoffset);
-            //MtbA.drawPrecipitation(dc, width*0.71, height*0.565, width *0.75, height*0.57, width);
-
             // Draw Battery
             MtbA.drawBatteryIcon(dc, width*0.69, height / 2.11, width*0.82, height / 2.06+(width==218 ? 1 : 0), width, height, accentColor);
             MtbA.drawBatteryText(dc, width*0.76, height / 2.14 - 1, width);
-                       
-                        
+                                              
             // Bluetooth, Alarm and Dnd Icons
             if (System.getDeviceSettings() has :doNotDisturb and System.getDeviceSettings().doNotDisturb) { // Dnd exists and is turned on
                 if ((Storage.getValue(8) == null or Storage.getValue(8) == true) and (Storage.getValue(4) == null or Storage.getValue(4) == true)){ // all 3 icons
@@ -260,7 +248,7 @@ class AnalogView extends WatchUi.WatchFace
                     MtbA.drawBluetoothIcon(dc, (position[2]+position[0])/2, position[1]);
                 } else if(Storage.getValue(8) == false and (Storage.getValue(4) == null or Storage.getValue(4) == true)){ // alarm icon is hidden
                     MtbA.drawBluetoothIcon(dc, (width/2)-1, position[1]);
-                } else{
+                } else if(Storage.getValue(8) == null or Storage.getValue(8) == true){
                     MtbA.drawAlarmIcon(dc, width/2, position[1], accentColor, width);
                 }
             }
@@ -270,14 +258,14 @@ class AnalogView extends WatchUi.WatchFace
             if (Storage.getValue(3) == null or Storage.getValue(3) == true) { // Garmin Logo check
                 MtbA.drawDateString( dc, width / 2, position[6] ); 
             } else { // No Garmin Logo
-                MtbA.drawDateString( dc, width / 2, position[5] + (width<=240 ? 5 : 0 ) + (width==218 ? 3 : 0 ));
+                MtbA.drawDateString( dc, width / 2, position[5] + (width<=240 ? 5 : 0 ) + (width==218 ? 3 : 0 )); // offsets needed because of size of Garmin Logo compared to Date Font
             }
         } 
 
 		//Draw Hour and Minute hands
-        if (Storage.getValue(13) == 1 or Storage.getValue(13) == true){ // thicker
+        if (Storage.getValue(13) == 1){ // thicker
 			MtbA.drawHands(dc, width, height, accentColor, 1, inLowPower, upTop);
-		} else if (Storage.getValue(13) == 0 or Storage.getValue(13) == false or Storage.getValue(13) == null) { // standard
+		} else if (Storage.getValue(13) == 0 or Storage.getValue(13) == null) { // standard
 			MtbA.drawHands(dc, width, height, accentColor, 0, inLowPower, upTop);
 		} else { // thinner
             MtbA.drawHands(dc, width, height, accentColor, 2, inLowPower, upTop);

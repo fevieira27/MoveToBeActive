@@ -11,41 +11,10 @@ import Toybox.Application.Storage;
 
 var count=0;
 
-class AnalogSettingsView extends WatchUi.Menu2InputDelegate { // main menu
-
- 	function initialize() {
-        Menu2InputDelegate.initialize();
-    }
-	
-	function onSelect(item) {
-        // For IconMenuItems, we will change to the next icon state.
-        // This demonstates a custom toggle operation using icons.
-        // Static icons can also be used in this layout.
-        if(item instanceof IconMenuItem) {
-            item.setSubLabel(item.getIcon().nextState(item.getId()));
-        } else {
-            Storage.setValue(item.getId(), item.isEnabled());       
-        }
-        
-        WatchUi.requestUpdate();
-    }
-    
-    function onBack() { 
-        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-        return false;
-    }
-
-    function onDone() {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
-    }
-      
-}
-
 class AnalogSettingsViewTest extends WatchUi.Menu2 {
 
     function initialize() {
         Menu2.initialize(null);
-//    }
 
 
 //    function onMenu() {
@@ -63,14 +32,37 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
 
     Menu2.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
     Menu2.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
+    
     //WatchUi.pushView(Menu2, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
 
 	}
+
+	function onSelect(item) {
+        // For IconMenuItems, we will change to the next icon state.
+        // This demonstates a custom toggle operation using icons.
+        // Static icons can also be used in this layout.
+
+        if(item instanceof IconMenuItem) {
+            item.setSubLabel(item.getIcon().nextState(item.getId()));
+        } else {
+            Storage.setValue(item.getId(), item.isEnabled());       
+        }
+        
+        WatchUi.requestUpdate();
+    }    
 
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         return false;
     }  
+
+    function onDone() {
+        WatchUi.popView(WatchUi.SLIDE_DOWN);
+    }
+
+    function onWrap(key as WatchUi.Key) {
+        return true;
+    }    
 
 }
 
@@ -82,7 +74,9 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
     }
 
 	function onSelect(item) {
+
 		var boolean;
+
         if( item.getId().equals("design") ) {
 		    // Generate a new Menu with a Text Title
 		    
@@ -109,18 +103,23 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    	boolean = true;
 		    }
 		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Alarm Icon", {:enabled=>"ON", :disabled=>"OFF"}, 8, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
-		    if (Storage.getValue(5) != null ){
-		    	boolean = Storage.getValue(5);
-		    } else {
-		    	boolean = true;
-		    }
-		    iconMenu.addItem(new WatchUi.ToggleMenuItem("3,6,9,12 Numbers", {:enabled=>"ON", :disabled=>"OFF"}, 5, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    if (Storage.getValue(7) != null ){
-		    	boolean = Storage.getValue(7);
-		    } else {
-		    	boolean = true;
-		    }
-		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+            if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) {
+                if (Storage.getValue(5) != null ){
+                    boolean = Storage.getValue(5);
+                } else {
+                    boolean = true;
+                }
+		        iconMenu.addItem(new WatchUi.ToggleMenuItem("Hour Labels", {:enabled=>"ON", :disabled=>"OFF"}, 5, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+            }
+            //if (width==240 and dc.getTextDimensions("100",0)[1]>=26){
+            if (Toybox has :Weather){ // Doesn't show for Fenix 5 Plus
+                if (Storage.getValue(7) != null ){
+                    boolean = Storage.getValue(7);
+                } else {
+                    boolean = true;
+                }
+                iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+            }
             var drawableT = new CustomThickness();
 /*		    if (Storage.getValue(13) != null ){
 		    	boolean = Storage.getValue(13);
@@ -129,7 +128,7 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    }*/
 		    iconMenu.addItem(new WatchUi.IconMenuItem("Hands Thickness", drawableT.getString(), 13, drawableT, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 
-		    WatchUi.pushView(iconMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );
+		    WatchUi.pushView(iconMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_UP );
         } else if( item.getId().equals("datapoints") ) {
 		    var dataMenu = new WatchUi.Menu2({:title=>"Data"});
 		    count=0;
@@ -144,36 +143,38 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Bottom", drawable4.getString(), 11, drawable4, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             dataMenu.addItem(new WatchUi.IconMenuItem("Right Top", drawable6.getString(), 17, drawable6, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    dataMenu.addItem(new WatchUi.IconMenuItem("Right Bottom", drawable5.getString(), 12, drawable5, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    if (Storage.getValue(6) != null ){
-		    	boolean = Storage.getValue(6);
-		    } else {
-		    	boolean = true;
-		    }	    		    		    
-		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Type", {:enabled=>"Real Temperature", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    if (Toybox has :Weather){
+                if (Storage.getValue(6) != null ){
+                    boolean = Storage.getValue(6);
+                } else {
+                    boolean = true;
+                }	    		    		    
+                dataMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Type", {:enabled=>"Real Temperature", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                if (Storage.getValue(15) != null ){
+                    boolean = Storage.getValue(15);
+                } else {
+                    boolean = true;
+                }
+                dataMenu.addItem(new WatchUi.ToggleMenuItem("Wind Speed Unit", {:enabled=>"km/h or mph", :disabled=>"m/s"}, 15, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                if (Storage.getValue(16) != null ){
+                    boolean = Storage.getValue(16);
+                } else {
+                    boolean = false;
+                }
+                dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperat. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
+            }
 /*		   	if (Storage.getValue(14) != null ){
 		    	boolean = Storage.getValue(14);
 		    } else {
-		    	boolean = true;
+		    	boolean = false;
 		    }
-		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Act. Length Type", {:enabled=>"Distance", :disabled=>"Step Count"}, 14, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-*/            
-		   	if (Storage.getValue(15) != null ){
-		    	boolean = Storage.getValue(15);
-		    } else {
-		    	boolean = true;
-		    }
-		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Wind Speed Unit", {:enabled=>"km/h or mph", :disabled=>"m/s"}, 15, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-            if (Storage.getValue(16) != null ){
-                boolean = Storage.getValue(16);
-            } else {
-                boolean = false;
-            }
-            dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperat. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
-		    
-		    WatchUi.pushView(dataMenu, new AnalogSettingsView(), WatchUi.SLIDE_UP );			        	    
+		    dataMenu.addItem(new WatchUi.ToggleMenuItem("Font Size", {:enabled=>"Bigger", :disabled=>"Standard"}, 14, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));      
+*/		    
+		    WatchUi.pushView(dataMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_UP );			        	    
 	    } else {
             WatchUi.requestUpdate();
         }  
+
 	}
 
     function onBack() {
@@ -196,7 +197,6 @@ class DrawableMenuTitle extends WatchUi.Drawable {
 
     // Draw the application icon and main menu title
     function draw(dc) {
-        //var spacing = 2;
         var mIndex;
         
         if (Storage.getValue(2) == false or Storage.getValue(2) == null){ 
@@ -205,9 +205,11 @@ class DrawableMenuTitle extends WatchUi.Drawable {
         	mIndex=Storage.getValue(2);
         }        
         
+        System.println(dc.getWidth());
+
         var appIcon = Application.loadResource(Rez.Drawables.LauncherIcon);        
         var bitmapWidth = appIcon.getWidth();
-        var labelWidth = dc.getTextWidthInPixels("Config", Graphics.FONT_SMALL);
+        var labelWidth = dc.getTextWidthInPixels("Config", Graphics.FONT_SMALL); // Aqui pra corrigir background?
 
         var bitmapX = (dc.getWidth() - (bitmapWidth + 2 + labelWidth)) / 3; // 2 = spacing
         var bitmapY = (dc.getHeight() - appIcon.getHeight()) / 2;
@@ -219,15 +221,15 @@ class DrawableMenuTitle extends WatchUi.Drawable {
 
         var mColors = Application.loadResource(Rez.JsonData.mColors);
 
-        //dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        //dc.clear();               
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.clear();               
 
-        dc.clearClip();
+        //dc.clearClip(); //clear instead?
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK); // removing the background color and all the data points from the background, leaving just the hour hands and hashmarks
         dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight()); //width & height?
         
         dc.drawBitmap(bitmapX, bitmapY, appIcon);
-        dc.setColor(mColors[mIndex], Graphics.COLOR_BLACK);
+        dc.setColor(mColors[mIndex], Graphics.COLOR_TRANSPARENT);
         dc.drawText(labelX, labelY, Graphics.FONT_SMALL, "Config", Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 }
@@ -273,6 +275,7 @@ class CustomAccent extends WatchUi.Drawable {
         }
 		Storage.setValue(1, getColor());
 		Storage.setValue(2, mIndex);
+
         return mColorStrings[mIndex];
     }
 
@@ -308,19 +311,19 @@ class CustomLeftTopDataPoint extends WatchUi.Drawable {
 
     // Return the icon string for the menu to use as its label
     function getString() {
-        var mIconStrings = ["Steps", "Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
+        var mIconStrings = ["Steps", "Distance", "Elevation", (Toybox has :Weather)?"Wind Speed":"Not Available", (Toybox has :Weather)?"Humidity":"Not Available", (Toybox has :Weather)?"Precipitation":"Not Available", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
         return mIconStrings[mIndex];
     }
     
 
     // Advance to the next color state for the drawable
     function nextState(id) {
-        var mIconStrings = ["Steps", "Distance", "Elevation", "Wind Speed", "Humidity", "Precipitation", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
+        var mIconStrings = ["Steps", "Distance", "Elevation", (Toybox has :Weather)?"Wind Speed":"Not Available", (Toybox has :Weather)?"Humidity":"Not Available", (Toybox has :Weather)?"Precipitation":"Not Available", "Calories",  (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
         mIndex++;
         if(mIndex >= mIconStrings.size()) {
             mIndex = 0;
         }
-		Storage.setValue(id, mIndex);
+		Storage.setValue(id, mIndex); //Storage 9 or 10
         return mIconStrings[mIndex];
     }
 
@@ -369,13 +372,13 @@ class CustomLeftBottomDataPoint extends WatchUi.Drawable {
 
     // Return the icon string for the menu to use as its label
     function getString() {
-        var mIconStrings = ["Steps", "Humidity", "Precipitation", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
+        var mIconStrings = ["Steps", (Toybox has :Weather)?"Humidity":"Not Available", (Toybox has :Weather)?"Precipitation":"Not Available", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
         return mIconStrings[mIndex];
     }
     
     // Advance to the next color state for the drawable
     function nextState(id) {
-        var mIconStrings = ["Steps", "Humidity", "Precipitation", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
+        var mIconStrings = ["Steps", (Toybox has :Weather)?"Humidity":"Not Available", (Toybox has :Weather)?"Precipitation":"Not Available", "Calories", (ActivityMonitor.getInfo() has :floorsClimbed)?"Floors Climbed":"Not Available", (Activity.getActivityInfo() has :currentOxygenSaturation)?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", "None"];
         mIndex++;
         if(mIndex >= mIconStrings.size()) {
             mIndex = 0;
