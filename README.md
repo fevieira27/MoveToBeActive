@@ -162,6 +162,9 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added support for Fenix 5 Plus, Fenix 5S Plus and Fenix 5X Plus (don't support weather, location and temperature);
 - [X] Updated to SDK 4.0.9 with Garmin bug fixes.
 
+**3.0.8** (31/Jan/22)
+- [X] Fixed bug with battery icon in some watch models.
+
 **3.1.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
 - [ ] Add support for ForeRunner 645 Music
