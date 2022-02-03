@@ -165,11 +165,19 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 **3.0.8** (31/Jan/22)
 - [X] Fixed bug with battery icon in some watch models.
 
+**3.0.9** (2/Feb/22)
+- [X] Added support for ForeRunner 645 Music.
+
 **3.1.0** (Coming Soon)
+- [X] Fixed unlikely case of location name wrapping to a second row on Fenix 6 series watches. Now using truncate when name is too big.
+
+**3.2.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
-- [ ] Add support for ForeRunner 645 Music
 
 **4.0.0** (?)
+- [ ] Add new data fields applicable for System 5 Garmin update (VO2MAX, Body Battery, Sunrise, Sunset, Recovery Time)
+
+**5.0.0** (?)
 - [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
 
 ## Watchface examples:
