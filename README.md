@@ -170,6 +170,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 
 **3.1.0** (Coming Soon)
 - [X] Fixed unlikely case of location name wrapping to a second row on Fenix 6 series watches. Now using truncate when name is too big.
+- [X] Changed notification icon to light grey (same as hashmarks) when the selected accent color is white and there are no notifications pending. (MIP displays only)
 
 **3.2.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
