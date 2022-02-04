@@ -169,17 +169,16 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added support for ForeRunner 645 Music.
 
 **3.1.0** (Coming Soon)
+- [X] Added new option in Layout settings for each 5 min tickmarks to follow the selected accent color.
+- [X] Changed notification icon to grey when there are no notifications pending.
 - [X] Fixed unlikely case of location name wrapping to a second row on Fenix 6 series watches. Now using truncate when name is too big.
-- [X] Changed notification icon to light grey (same as hashmarks) when the selected accent color is white and there are no notifications pending. (MIP displays only)
+- [X] Fixed battery icon that was too big on Venu Sq watches.
 
 **3.2.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
 
 **4.0.0** (?)
 - [ ] Add new data fields applicable for System 5 Garmin update (VO2MAX, Body Battery, Sunrise, Sunset, Recovery Time)
-
-**5.0.0** (?)
-- [ ] Create layout option for different hashmark types based on the Vivomove Luxe series.
 
 ## Watchface examples:
 
