@@ -168,11 +168,13 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 **3.0.9** (2/Feb/22)
 - [X] Added support for ForeRunner 645 Music.
 
-**3.1.0** (Coming Soon)
+**3.1.0** (8/Feb/22)
+- [X] Added support for new D2 Air X10 watch
 - [X] Added new option in Layout settings for each 5 min tickmarks to follow the selected accent color.
 - [X] Changed notification icon to grey when there are no notifications pending.
 - [X] Fixed unlikely case of location name wrapping to a second row on Fenix 6 series watches. Now using truncate when name is too big.
 - [X] Fixed battery icon that was too big on Venu Sq watches.
+- [X] Fixed the Intensity Minutes icon not showing up on Venu 2, 2 Plus and Epix Gen 2
 
 **3.2.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
