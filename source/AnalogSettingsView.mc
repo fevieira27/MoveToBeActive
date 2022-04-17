@@ -120,6 +120,16 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
                 }
                 iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
+            // allow full colors in AOD for AMOLED devices
+            if(System.getDeviceSettings().requiresBurnInProtection == true){
+                if (Storage.getValue(18) != null ){
+                    boolean = Storage.getValue(18);
+                } else {
+                    boolean = true;
+                }
+                iconMenu.addItem(new WatchUi.ToggleMenuItem("Mute AOD Colors", {:enabled=>"Mute Colors", :disabled=>"Full Color"}, 18, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+            }
+                		    
             var drawableT = new CustomThickness();
 /*		    if (Storage.getValue(13) != null ){
 		    	boolean = Storage.getValue(13);
@@ -161,7 +171,7 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
                 } else {
                     boolean = false;
                 }
-                dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperat. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
+                dataMenu.addItem(new WatchUi.ToggleMenuItem("Temperat. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
 /*		   	if (Storage.getValue(14) != null ){
 		    	boolean = Storage.getValue(14);

@@ -984,31 +984,30 @@ class MtbA_functions {
 			}
 		}
 		
-		var borderColor, arborColor;
+		var borderColor = Graphics.COLOR_BLACK;
+		var arborColor=Graphics.COLOR_LT_GRAY;
+		var minuteHandColor = Graphics.COLOR_WHITE;
 		var BurnIn = System.getDeviceSettings().requiresBurnInProtection;
 		if (aod==true and BurnIn==true) {
+			if(Storage.getValue(18) == true){
+				// mute AOD colors
+				accentColor = Graphics.COLOR_LT_GRAY;
+				arborColor = Graphics.COLOR_LT_GRAY;
+				minuteHandColor = Graphics.COLOR_LT_GRAY;
+			}
+
 			//borderColor=Graphics.COLOR_LT_GRAY;
 			//accentColor=Graphics.COLOR_BLACK;
 			//arborColor=Graphics.COLOR_BLACK;
-			borderColor=Graphics.COLOR_BLACK;
 			//borderColor=Graphics.COLOR_DK_GRAY;
-			accentColor=Graphics.COLOR_LT_GRAY;
-			arborColor=Graphics.COLOR_LT_GRAY;			
 			//width=(upTop) ? width-width*.1 : width+width*.1;
-		} else {
-			borderColor=Graphics.COLOR_BLACK;
-			arborColor=Graphics.COLOR_LT_GRAY;
 		}
 
 			//Use white to draw the hour hand, with a dark grey background
 			dc.setColor(borderColor, Graphics.COLOR_TRANSPARENT); //(centerPoint, angle, handLength, tailLength, width, triangle)
 			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.485, 0, Math.ceil(handWidth+(width*0.01)), triangle)); // (width*0.01)
 			//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.45, 0, handWidth*0.045)); // standard
-			if (aod==true and BurnIn==true) {
-				dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
-			} else {
-				dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-			}
+			dc.setColor(minuteHandColor, Graphics.COLOR_TRANSPARENT);
 			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.54 , 0, handWidth, triangle-0.01)); // thick
 			
 			// Draw the minute hand.
