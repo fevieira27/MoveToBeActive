@@ -176,11 +176,19 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Fixed battery icon that was too big on Venu Sq watches.
 - [X] Fixed the Intensity Minutes icon not showing up on Venu 2, 2 Plus and Epix Gen 2
 
-**3.2.0** (Coming Soon)
-- [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
+**4.0.0** (17/Apr/22)
+- [X] Added support for new D2 Mach 1 watch.
+- [X] Updated to SDK 4.1.2 with Garmin bug fixes.
+- [X] Add 5 new data fields applicable for System 5 Garmin update (VO2 Max, Body Battery, Stress, Respiration Rate, Recovery Time).
+- [X] Added Atmospheric pressure and Min/Max Temperature data fields. The former requires the watch to have a barometer, while the latter needs to support the weather API (not available on Fenix 5 Series and ForeRunner 645 Music).
+- [X] It is now possible to select a bigger font size for the data fields (not supported by Venu Sq).
+- [X] Added option to display the remaning battery in estimated number of days (if watch supports it).
+- [X] Added option to show the hands and tickmarks on AOD mode following the same colors of when the AOD mode is OFF (AMOLED and LCD displays only).
+- [X] The on-watch config menu was revamped, now split into 3 categories (instead of 2): Layout, Data Fields and Base Units.
+- [X] Temperature will now become blue in case that is the minimum temperature forecasted for the day, or orange if that is the maximum. All other temperatures will still be displayed in white (as before).
 
-**4.0.0** (?)
-- [ ] Add new data fields applicable for System 5 Garmin update (VO2MAX, Body Battery, Sunrise, Sunset, Recovery Time)
+**4.1.0** (Coming Soon)
+- [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
 
 ## Watchface examples:
 
