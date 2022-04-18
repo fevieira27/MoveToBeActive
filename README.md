@@ -19,6 +19,8 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * **Location name** of the source of weather data (if available), that can be hidden on the watch face's config menu;
 * **Current weather** condition icon;
 * **Temperature** indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display). The temperature number will become blue when that is the minimum temperature for the day, as well as orange when that is the maximum;
+* **Colored Tickmarks** following selected accent color. Can be turned on and off (showing gray tickmarks);
+* **Colored AOD Mode**: gives the user the option of seeing the AOD mode hands and tickmarks in grayscale or full color (thanks filmo003 for the code);
 
 ## Available Data Fields:
 * **Notifications** count: Accent color if at least one notification is available or grey if no unread notifications;
@@ -29,7 +31,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * **Floors climbed** count: Icon will be displayed in grey until floors climbed goal has been met, changing to the Accent color of choice;
 * **Precipitation** percentage: The current chance of rain/snow precipitation (0-100%), with blue tones color palette based on 4 zones: Low = light blue, Moderate = blue, High = dark blue, Very High = purple;
 * **Humidity** percentage: The current relative humidity (0-100%), with color palette based on 3 levels: Healthy = green, Fair = yellow, Poor = red;
-* **Atmospheric Pressure** in hPa: The current barometer read in hPa/millibars or calibrated mean at sea-level, with color palette based on 3 levels: High-pressure = blue, Normal = Gray, Low-pressure = orange;
+* **Atmospheric Pressure**: The current barometer read in hPa/millibars or calibrated mean at sea-level, with color palette based on 3 levels: High-pressure = blue, Normal = Gray, Low-pressure = orange;
 * **Solar intensity** percentage: Describes the solar sensor's charge efficiency, only available on Solar Charged watches. It will change colors based on 5 different UV intensity zones: Low = green, Moderate = yellow, High = orange, Very High = red, Extreme = violet;
 * **Intensity Minutes** per week: The current number of intensity minutes (moderate + 2x vigorous) during the current week. Symbol will turn from grey to the accent color as soon as the weekly intensity minutes goal is reached;
 * **Seconds**: Available as a data field, will display seconds count of the current time;
