@@ -20,7 +20,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * **Current weather** condition icon;
 * **Temperature** indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display). The temperature number will become blue when that is the minimum temperature for the day, as well as orange when that is the maximum;
 * **Colored Tickmarks** following selected accent color. Can be turned on and off (showing gray tickmarks);
-* **Colored AOD Mode**: gives the user the option of seeing the AOD mode hands and tickmarks in grayscale or full color (thanks filmo003 for the code);
+* **Colored AOD Mode**: gives the user the option of seeing the AOD mode hands and tickmarks in grayscale or full color (thanks [filmo003](https://github.com/filmo003) for the code);
 
 ## Available Data Fields:
 * **Notifications** count: Accent color if at least one notification is available or grey if no unread notifications;
