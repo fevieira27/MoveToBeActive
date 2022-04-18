@@ -4,9 +4,9 @@
 // Application Developer Agreement.
 //
 
-using Toybox.Application;
-using Toybox.Time;
-using Toybox.Communications;
+import Toybox.Application;
+import Toybox.Time;
+//using Toybox.Communications;
 
 // This is the primary entry point of the application.
 class AnalogWatch extends Application.AppBase
@@ -17,17 +17,20 @@ class AnalogWatch extends Application.AppBase
         AppBase.initialize();
     }
 
-    function onStart(state) {
+    // onStart() is called on application start up
+    function onStart(state as Dictionary?) as Void {
     }
 
-    function onStop(state) {
+    // onStop() is called when your application is exiting
+    function onStop(state as Dictionary?) as Void {
     }
+
     // This method runs each time the main application starts.
-    function getInitialView() {
+    function getInitialView() as Array<Views or InputDelegates>? {
         if( Toybox.WatchUi has :WatchFaceDelegate ) {
-            return [new AnalogView(), new AnalogDelegate()];
+            return [new AnalogView(), new AnalogDelegate()] as Array<Views or InputDelegates>;
         } else {
-            return [new AnalogView()];
+            return [new AnalogView()] as Array<Views or InputDelegates>;
         }
     }
 

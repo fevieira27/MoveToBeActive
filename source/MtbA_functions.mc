@@ -16,6 +16,7 @@ class MtbA_functions {
   const IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 	const screenShape = System.getDeviceSettings().screenShape;
 	var fontSize = (Storage.getValue(14) == true ? 1 : 0);
+	var check=Storage.getValue(21);
 
 	// This function is used to generate the coordinates of the 4 corners of the polygon
     // used to draw a watch hand. The coordinates are generated with specified length,
@@ -42,141 +43,180 @@ class MtbA_functions {
     /* ------------------------ */
 	
 	// Draws the clock tick marks around the outside edges of the screen.
-    function drawHashMarks(dc, accentColor, showBoolean, width, height, aod) {
+(:round) function drawHashMarks(dc, accentColor, showBoolean, width, height, aod, colorFlag) {
 			var sX, sY;
 			var eX, eY;
 			var outerRad = width / 2;
 			var innerRad = outerRad - 10;			
 		
-        // Draw hashmarks differently depending on screen geometry.
-        if (System.SCREEN_SHAPE_ROUND == screenShape) { //check if round display
+			// Draw hashmarks differently depending on screen geometry.
+			if (System.SCREEN_SHAPE_ROUND == screenShape) { //check if round display					
+				var increment = (aod==true) ? 5 : 1;
 
-						var increment = (aod==true) ? 5 : 1;
-						//increment = (aod==true) ? 5 : 1;
-
-            // Loop through each minute and draw tick marks
-            for (var i = 0; i <= 59; i += increment) {
-            	var angle = i * Math.PI / 30;
-							if (aod==true) {
-								if (i % 5 == 0){
-									if (i == 15 or i == 45) {
-                      //dc.setColor(accentColor, Graphics.COLOR_BLACK);
-											//dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-											dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-                  } else {
-											//dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-											dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-									}
-								}
+				// Loop through each minute and draw tick marks
+				for (var i = 0; i <= 59; i += increment) {
+					var angle = i * Math.PI / 30;
+					if (aod==true) { // AOD mode is ON
+						if (i % 5 == 0){
+							if (colorFlag == true and Storage.getValue(22)==true){ // Tickmark color is ON and AOD Colors is ON
+								dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
+							} else if (i == 15 or i == 45) {
+									//dc.setColor(accentColor, Graphics.COLOR_BLACK);
+									//dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+									dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+							} else {
+									//dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+									dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+							}
+						}
+					} else{ // AOD mode is OFF
+						if ((i == 15) or (i == 45)) {
+							dc.setColor(accentColor, accentColor);
+						} else {
+							if (colorFlag == true and (i % 5 == 0)){
+								dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 							} else{
-                if ((i == 15) or (i == 45)) {
-                	dc.setColor(accentColor, accentColor);
-                } else {
-                    if ((showBoolean == false) and (i == 0 or i == 30)) {
-                        dc.setColor(accentColor, accentColor);
-                    } else {
-											if (width < 360){
-                	    	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_LT_GRAY); // Using lighter tone for MIP displays
-											} else {
-                	    	dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY); // Darker tone for AMOLED
-											}
-                    }
-                }       
-							}     	
-            	// thicker lines at 5 min intervals
-            	if( (i % 5) == 0) {
-                    dc.setPenWidth(3);
-                } else {
-                    dc.setPenWidth(1);            
-                }
-                if(aod==true) { // AOD for AMOLED is on, then only small hashmarks are going to be displayed at each 15 min
-									sY = innerRad * Math.sin(angle);
-									eY = outerRad * Math.sin(angle);
-									sX = innerRad * Math.cos(angle);
-									eX = outerRad * Math.cos(angle);							
-								} else if (showBoolean == false) { // if not showing hour labels, then all 5 minute marks will have same length
-								// longer lines at intermediate 5 min marks
-									if ((i % 5) == 0) {               		
-										sY = (innerRad-10) * Math.sin(angle);
-										eY = outerRad * Math.sin(angle);
-										sX = (innerRad-10) * Math.cos(angle);
-										eX = outerRad * Math.cos(angle);
-									}
-									else {
-										sY = innerRad * Math.sin(angle);
-										eY = outerRad * Math.sin(angle);
-										sX = innerRad * Math.cos(angle);
-										eX = outerRad * Math.cos(angle);
-									}
-								} else if( (i % 5) == 0 && !((i % 15) == 0)) { // when showing hour labels, the marks at each 15 min will be smaller to accomodate labels
-										sY = (innerRad-10) * Math.sin(angle);
-										eY = outerRad * Math.sin(angle);
-										sX = (innerRad-10) * Math.cos(angle);
-										eX = outerRad * Math.cos(angle);
-								} else {
-									sY = innerRad * Math.sin(angle);
-									eY = outerRad * Math.sin(angle);
-									sX = innerRad * Math.cos(angle);
-									eX = outerRad * Math.cos(angle);
-								}
-
-            		sX += outerRad; sY += outerRad;
-                eX += outerRad; eY += outerRad;
-                dc.drawLine(sX, sY, eX, eY);
-            }
-				} else { // rectangle display
-            var coords = [0, width / 4, (3 * width) / 4, width];
-						dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_LT_GRAY); // 
-            for (var i = 0; i < coords.size(); i += 1) {
-							var dx = ((width / 2.0) - coords[i]) / (height / 2.0);
-							var upperX = coords[i] + (dx * 10);
-
-							// Draw the upper hash marks.
-							//dc.fillPolygon([[coords[i] - 1, 2], [upperX - 1, 12], [upperX + 1, 12], [coords[i] + 1, 2]]);
-							dc.fillPolygon([[coords[i] - 1, 1], [upperX - 1, 11], [upperX + 1, 11], [coords[i] + 1, 1]]);
-
-							// Draw the lower hash marks.
-							//dc.fillPolygon([[coords[i] - 1, height-2], [upperX - 1, height - 12], [upperX + 1, height - 12], [coords[i] + 1, height - 2]]);
-							dc.fillPolygon([[coords[i] - 1, height-1], [upperX - 1, height - 11], [upperX + 1, height - 11], [coords[i] + 1, height - 1]]);
-							
-							if(coords[i] == width / 4){	// Draw the middle-upper hash marks.
-								dc.fillPolygon([[1, coords[i] - 1], [11, upperX - 1], [11, upperX + 1], [1, coords[i] + 1]]);
-								dc.fillPolygon([[height-1, coords[i] - 1], [height - 11, upperX - 1], [height - 11, upperX + 1], [height - 1, coords[i] + 1]]);
-								//dc.fillPolygon([[2, 59], [12, 64], [12, 66], [2, 61]]);
-							}
-							
-							if(coords[i] == (3 * width) / 4){	// Draw the middle-lower hash marks.
-								dc.fillPolygon([[1, coords[i] - 1], [11, upperX - 1], [11, upperX + 1], [1, coords[i] + 1]]);
-								dc.fillPolygon([[height-1, coords[i] - 1], [height - 11, upperX - 1], [height - 11, upperX + 1], [height - 1, coords[i] + 1]]);
-								//dc.fillPolygon([[2, 59], [12, 64], [12, 66], [2, 61]]);
-							}
-						}
-						for (var i = 0; i <= 59; i += 15) { //draw the middle hashmarks (each 15 min)
-							var angle = i * Math.PI / 30;
-
-              if ((i == 15) or (i == 45)) {
-                	dc.setColor(accentColor, accentColor);
-              } else {
 								if ((showBoolean == false) and (i == 0 or i == 30)) {
-										dc.setColor(accentColor, accentColor);
+										dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 								} else {
-										dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_LT_GRAY); // Using lighter tone for MIP displays
+									if (width < 360){
+										dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT); // Using lighter tone for MIP displays
+									} else {
+										dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT); // Darker tone for AMOLED
+									}
 								}
-							}       
-
-							if( (i % 15) == 0) {
-								dc.setPenWidth(3);
-								sY = innerRad * Math.sin(angle);
-								eY = outerRad * Math.sin(angle);
-								sX = innerRad * Math.cos(angle);
-								eX = outerRad * Math.cos(angle);
-								sX += outerRad; sY += outerRad;
-								eX += outerRad; eY += outerRad;
-								dc.drawLine(sX, sY, eX, eY);
 							}
+						}       
+					}     	
+
+					// thicker lines at 5 min intervals
+					if( (i % 5) == 0) {
+							dc.setPenWidth(3);
+					} else {
+							dc.setPenWidth(1);            
+					}
+					if(aod==true) { // AOD for AMOLED is ON, so only small hashmarks are going to be displayed at each 15 min
+						sY = innerRad * Math.sin(angle);
+						eY = outerRad * Math.sin(angle);
+						sX = innerRad * Math.cos(angle);
+						eX = outerRad * Math.cos(angle);							
+					} else if (showBoolean == false) { // AOD for AMOLED is OFF and NOT showing hour labels, then all 5 minute marks will have same length
+						// longer lines at intermediate 5 min marks
+						if ((i % 5) == 0) {               		
+							sY = (innerRad-10) * Math.sin(angle);
+							eY = outerRad * Math.sin(angle);
+							sX = (innerRad-10) * Math.cos(angle);
+							eX = outerRad * Math.cos(angle);
 						}
-        }	
+						else {
+							sY = innerRad * Math.sin(angle);
+							eY = outerRad * Math.sin(angle);
+							sX = innerRad * Math.cos(angle);
+							eX = outerRad * Math.cos(angle);
+						}
+					} else if( (i % 5) == 0 && !((i % 15) == 0)) { // AOD for AMOLED is OFF and showing hour labels, then marks at each 15 min will be smaller to accomodate labels
+							sY = (innerRad-10) * Math.sin(angle);
+							eY = outerRad * Math.sin(angle);
+							sX = (innerRad-10) * Math.cos(angle);
+							eX = outerRad * Math.cos(angle);
+					} else {
+						sY = innerRad * Math.sin(angle);
+						eY = outerRad * Math.sin(angle);
+						sX = innerRad * Math.cos(angle);
+						eX = outerRad * Math.cos(angle);
+					}
+
+					sX += outerRad; sY += outerRad;
+					eX += outerRad; eY += outerRad;
+					dc.drawLine(sX, sY, eX, eY);
+				}
+				return true;
+			} else { // rectangle display
+				return false;
+			}	
+
     }
+
+(:square) function drawHashMarks(dc, accentColor, showBoolean, width, height, aod, colorFlag) {
+			var sX, sY;
+			var eX, eY;
+			var outerRad = width / 2;
+			var innerRad = outerRad - 10;			
+		
+			// Draw hashmarks differently depending on screen geometry.
+			if (System.SCREEN_SHAPE_ROUND != screenShape) { //check if square display			
+				var coords = [0, width / 4, (3 * width) / 4, width];
+				if(aod==true and Storage.getValue(22)!=true) {	// AOD ON and AOD colors OFF
+					dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+				} else { // AOD OFF or (AOD ON and AOD colors ON)
+					if (colorFlag == true){
+						dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
+					} else{	
+						dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+					}
+				}
+				for (var i = 0; i < coords.size(); i += 1) {
+					var dx = ((width / 2.0) - coords[i]) / (height / 2.0);
+					var upperX = coords[i] + (dx * 10);
+
+					// Draw the upper hash marks.
+					//dc.fillPolygon([[coords[i] - 1, 2], [upperX - 1, 12], [upperX + 1, 12], [coords[i] + 1, 2]]);
+					dc.fillPolygon([[coords[i] - 1, 1], [upperX - 1, 11], [upperX + 1, 11], [coords[i] + 1, 1]]);
+
+					// Draw the lower hash marks.
+					//dc.fillPolygon([[coords[i] - 1, height-2], [upperX - 1, height - 12], [upperX + 1, height - 12], [coords[i] + 1, height - 2]]);
+					dc.fillPolygon([[coords[i] - 1, height-1], [upperX - 1, height - 11], [upperX + 1, height - 11], [coords[i] + 1, height - 1]]);
+					
+					if(coords[i] == width / 4){	// Draw the middle-upper hash marks.
+						dc.fillPolygon([[1, coords[i] - 1], [11, upperX - 1], [11, upperX + 1], [1, coords[i] + 1]]);
+						dc.fillPolygon([[height-1, coords[i] - 1], [height - 11, upperX - 1], [height - 11, upperX + 1], [height - 1, coords[i] + 1]]);
+						//dc.fillPolygon([[2, 59], [12, 64], [12, 66], [2, 61]]);
+					}
+					
+					if(coords[i] == (3 * width) / 4){	// Draw the middle-lower hash marks.
+						dc.fillPolygon([[1, coords[i] - 1], [11, upperX - 1], [11, upperX + 1], [1, coords[i] + 1]]);
+						dc.fillPolygon([[height-1, coords[i] - 1], [height - 11, upperX - 1], [height - 11, upperX + 1], [height - 1, coords[i] + 1]]);
+						//dc.fillPolygon([[2, 59], [12, 64], [12, 66], [2, 61]]);
+					}
+				}
+				for (var i = 0; i <= 59; i += 15) { //draw the middle hashmarks (each 15 min)
+					var angle = i * Math.PI / 30;
+
+					if(aod==true and Storage.getValue(22)!=true) {	// AOD ON and AOD colors OFF
+						if ((i == 15) or (i == 45)) {
+							dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+						} else {
+							dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+						}
+					} else { // AOD OFF or AOD ON and AOD colors ON
+						if ((i == 15) or (i == 45)) {
+								dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
+						} else {
+								if (colorFlag == true){
+									dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
+								} else{
+									dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT); // Using lighter tone for MIP displays
+								}
+						}
+					}
+
+					if( (i % 15) == 0) {
+						dc.setPenWidth(3);
+						sY = innerRad * Math.sin(angle);
+						eY = outerRad * Math.sin(angle);
+						sX = innerRad * Math.cos(angle);
+						eX = outerRad * Math.cos(angle);
+						sX += outerRad; sY += outerRad;
+						eX += outerRad; eY += outerRad;
+						dc.drawLine(sX, sY, eX, eY);
+					}
+				}
+				return true;
+			}else { // round display
+				return false;
+			}	
+		}
+
     
     /* ------------------------ */
     
@@ -242,7 +282,7 @@ class MtbA_functions {
     function drawHourLabels(dc, width, height) {
     	// Load the custom fonts: used for drawing the 3, 6, 9, and 12 on the watchface
         var font = Application.loadResource(Rez.Fonts.id_font_black_diamond); 
-	
+				
 				if (width < 360){ // Using lighter tone for MIP displays 
 	    		dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);  
 				} else { // Darker tone for AMOLED
@@ -257,168 +297,180 @@ class MtbA_functions {
     
 	/* ------------------------ */
 	
-	function drawWeatherIcon(dc, x, y, x2, width) {
-		var clockTime = System.getClockTime();
+	function drawWeatherIcon(dc, x, y, x2, width, weather) {
+		var clockTime = System.getClockTime().hour;
 		var WeatherFont = Application.loadResource(Rez.Fonts.WeatherFont);
-		
-		if(Toybox has :Weather and Weather has :getCurrentConditions) {
-			if(Weather.getCurrentConditions() != null) {
-				var weather = Weather.getCurrentConditions();
-						
-				// placeholder for SDK 5
-				//var position = weather.observationLocationPosition;
-				//var today = new Time.Moment(Time.today().value());
-				//System.println(Weather.getSunset(position, today));
-				//System.println(Weather.getSunrise(position, today));
+				
+/*				var weather2 = (Weather.getHourlyForecast());
+		System.println(weather2[0].condition);
+		System.println(weather2[1].condition);
+		System.println(weather2[2].condition);
+		System.println(weather2[3].condition);
+*/
+		// placeholder for SDK 5
+		//var position = weather.observationLocationPosition;
+		//var today = new Time.Moment(Time.today().value());
+		//System.println(Weather.getSunset(position, today));
+		//System.println(Weather.getSunrise(position, today));
 
-				if (width<=280){
-					y = y-2;
-					if (width==218) {
-						y = y-1;
-					}
-				} 
-
-				//weather icon test
-				//weather.condition = 6;
-
-				dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-				if (weather.condition == 20) { // Cloudy
-					dc.drawText(x2-1, y-1, WeatherFont, "I", Graphics.TEXT_JUSTIFY_RIGHT); // Cloudy
-				} else if (weather.condition == 0 or weather.condition == 5) { // Clear or Windy
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2-2, y-1, WeatherFont, "f", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Night	
-							} else {
-								dc.drawText(x2, y-2, WeatherFont, "H", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Day
-							}
-				} else if (weather.condition == 1 or weather.condition == 23 or weather.condition == 40 or weather.condition == 52) { // Partly Cloudy or Mostly Clear or fair or thin clouds
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2-1, y-2, WeatherFont, "g", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Night
-							} else {
-								dc.drawText(x2, y-2, WeatherFont, "G", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Day
-							}
-				} else if (weather.condition == 2 or weather.condition == 22) { // Mostly Cloudy or Partly Clear
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2, y, WeatherFont, "h", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Night
-							} else {
-								dc.drawText(x, y, WeatherFont, "B", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Day
-							}
-				} else if (weather.condition == 3 or weather.condition == 14 or weather.condition == 15 or weather.condition == 11 or weather.condition == 13 or weather.condition == 24 or weather.condition == 25 or weather.condition == 26 or weather.condition == 27 or weather.condition == 45) { // Rain or Light Rain or heavy rain or showers or unkown or chance  
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2, y, WeatherFont, "c", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Night
-							} else {
-								dc.drawText(x, y, WeatherFont, "D", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Day
-							}
-				} else if (weather.condition == 4 or weather.condition == 10 or weather.condition == 16 or weather.condition == 17 or weather.condition == 34 or weather.condition == 43 or weather.condition == 46 or weather.condition == 48 or weather.condition == 51) { // Snow or Hail or light or heavy snow or ice or chance or cloudy chance or flurries or ice snow
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2, y, WeatherFont, "e", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Night
-							} else {
-								dc.drawText(x, y, WeatherFont, "F", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Day
-							}
-				} else if (weather.condition == 6 or weather.condition == 12 or weather.condition == 28 or weather.condition == 32 or weather.condition == 36 or weather.condition == 41 or weather.condition == 42) { // Thunder or scattered or chance or tornado or squall or hurricane or tropical storm
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2, y, WeatherFont, "b", Graphics.TEXT_JUSTIFY_RIGHT); // Thunder Night
-							} else {
-								dc.drawText(x, y, WeatherFont, "C", Graphics.TEXT_JUSTIFY_RIGHT); // Thunder Day
-							}
-				} else if (weather.condition == 7 or weather.condition == 18 or weather.condition == 19 or weather.condition == 21 or weather.condition == 44 or weather.condition == 47 or weather.condition == 49 or weather.condition == 50) { // Wintry Mix (Snow and Rain) or chance or cloudy chance or freezing rain or sleet
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2, y, WeatherFont, "d", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Night
-							} else {
-								dc.drawText(x, y, WeatherFont, "E", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Day
-							}
-				} else if (weather.condition == 8 or weather.condition == 9 or weather.condition == 29 or weather.condition == 30 or weather.condition == 31 or weather.condition == 33 or weather.condition == 35 or weather.condition == 37 or weather.condition == 38 or weather.condition == 39) { // Fog or Hazy or Mist or Dust or Drizzle or Smoke or Sand or sandstorm or ash or haze
-					if (clockTime.hour >= 18 or clockTime.hour < 6) { 
-								dc.drawText(x2, y, WeatherFont, "a", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Night
-							} else {
-								dc.drawText(x, y, WeatherFont, "A", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Day
-							}       		
-						}
+		if (width<=280){
+			y = y-2;
+			if (width==218) {
+				y = y-1;
 			}
+		} 
+
+		//weather icon test
+		//weather.condition = 6;
+
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		if (weather == 20) { // Cloudy
+			dc.drawText(x2-1, y-1, WeatherFont, "I", Graphics.TEXT_JUSTIFY_RIGHT); // Cloudy
+		} else if (weather == 0 or weather == 5) { // Clear or Windy
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2-2, y-1, WeatherFont, "f", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Night	
+					} else {
+						dc.drawText(x2, y-2, WeatherFont, "H", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Day
+					}
+		} else if (weather == 1 or weather == 23 or weather == 40 or weather == 52) { // Partly Cloudy or Mostly Clear or fair or thin clouds
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2-1, y-2, WeatherFont, "g", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Night
+					} else {
+						dc.drawText(x2, y-2, WeatherFont, "G", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Day
+					}
+		} else if (weather == 2 or weather == 22) { // Mostly Cloudy or Partly Clear
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2, y, WeatherFont, "h", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Night
+					} else {
+						dc.drawText(x, y, WeatherFont, "B", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Day
+					}
+		} else if (weather == 3 or weather == 14 or weather == 15 or weather == 11 or weather == 13 or weather == 24 or weather == 25 or weather == 26 or weather == 27 or weather == 45) { // Rain or Light Rain or heavy rain or showers or unkown or chance  
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2, y, WeatherFont, "c", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Night
+					} else {
+						dc.drawText(x, y, WeatherFont, "D", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Day
+					}
+		} else if (weather == 4 or weather == 10 or weather == 16 or weather == 17 or weather == 34 or weather == 43 or weather == 46 or weather == 48 or weather == 51) { // Snow or Hail or light or heavy snow or ice or chance or cloudy chance or flurries or ice snow
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2, y, WeatherFont, "e", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Night
+					} else {
+						dc.drawText(x, y, WeatherFont, "F", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Day
+					}
+		} else if (weather == 6 or weather == 12 or weather == 28 or weather == 32 or weather == 36 or weather == 41 or weather == 42) { // Thunder or scattered or chance or tornado or squall or hurricane or tropical storm
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2, y, WeatherFont, "b", Graphics.TEXT_JUSTIFY_RIGHT); // Thunder Night
+					} else {
+						dc.drawText(x, y, WeatherFont, "C", Graphics.TEXT_JUSTIFY_RIGHT); // Thunder Day
+					}
+		} else if (weather == 7 or weather == 18 or weather == 19 or weather == 21 or weather == 44 or weather == 47 or weather == 49 or weather == 50) { // Wintry Mix (Snow and Rain) or chance or cloudy chance or freezing rain or sleet
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2, y, WeatherFont, "d", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Night
+					} else {
+						dc.drawText(x, y, WeatherFont, "E", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Day
+					}
+		} else if (weather == 8 or weather == 9 or weather == 29 or weather == 30 or weather == 31 or weather == 33 or weather == 35 or weather == 37 or weather == 38 or weather == 39) { // Fog or Hazy or Mist or Dust or Drizzle or Smoke or Sand or sandstorm or ash or haze
+			if (clockTime >= 18 or clockTime < 6) { 
+						dc.drawText(x2, y, WeatherFont, "a", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Night
+			} else {
+				dc.drawText(x, y, WeatherFont, "A", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Day
+			}       		
 		}
 	}
 	
 	/* ------------------------ */
 	
-	function drawTemperature(dc, x, y, showBoolean, width) {
-		if(Toybox has :Weather and Weather has :getCurrentConditions) {
-			if(Weather.getCurrentConditions() != null) {
-				var weather = Weather.getCurrentConditions();
-				var TempMetric = System.getDeviceSettings().temperatureUnits;
-				var fahrenheit;
-				var temp = "";
-				var units = "";
+	function drawTemperature(dc, x, y, showBoolean, width, weather) {
+		
+		var TempMetric = System.getDeviceSettings().temperatureUnits;
+		var fahrenheit;
+		var temp = "", units = "", minTemp=0, maxTemp=0;
 
-				var offset=0;
+		if (weather.lowTemperature!=null and weather.highTemperature!=null){
+			minTemp = weather.lowTemperature;
+			maxTemp = weather.highTemperature;
+		}
 
-				if(width==390){ // venu
-					offset=-1;
+		var offset=0;
+
+		if(width==390){ // venu
+			offset=-1;
+		}
+			
+		if (showBoolean == false and check[5] and weather.feelsLikeTemperature!=null) { //feels like
+			if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
+				units = "°C";
+				temp = weather.feelsLikeTemperature;
+			}	else {
+				temp = (weather.feelsLikeTemperature * 9/5) + 32; 
+				minTemp = (minTemp* 9/5) + 32;
+				maxTemp = (maxTemp* 9/5) + 32;
+				//temp = Lang.format("$1$", [temp.format("%d")] );
+				units = "°F";
+			}				
+		} else if(check[6] and weather.temperature!=null) {  // real temperature
+				if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
+					units = "°C";
+					temp = weather.temperature;
+				}	else {
+					temp = (weather.temperature * 9/5) + 32; 
+					minTemp = (minTemp* 9/5) + 32;
+					maxTemp = (maxTemp* 9/5) + 32;
+					//temp = Lang.format("$1$", [temp.format("%d")] );
+					units = "°F";
 				}
-					
-				if (showBoolean == false and weather has :feelsLikeTemperature) { //feels like
-					if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
-						units = "°C";
-						temp = weather.feelsLikeTemperature;
-					}	else {
-						temp = (weather.feelsLikeTemperature * 9/5) + 32; 
-						//temp = Lang.format("$1$", [temp.format("%d")] );
-						units = "°F";
-					}				
-				} else if(weather has :temperature) {  // real temperature
-						if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
-							units = "°C";
-							temp = weather.temperature;
-						}	else {
-							temp = (weather.temperature * 9/5) + 32; 
-							//temp = Lang.format("$1$", [temp.format("%d")] );
-							units = "°F";
-						}
-				}
-				
-				if (temp != null and (temp instanceof Number)){
-					dc.drawText(x, y+offset, Graphics.FONT_XTINY, temp + units, Graphics.TEXT_JUSTIFY_LEFT); // + units
-				}
+		}
+		
+		if (temp != null and (temp instanceof Number)){
+			if (temp<=minTemp){
+				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Light Blue 0x55AAFF
+			} else if (temp>=maxTemp){
+				dc.setColor(0xFFAA55, Graphics.COLOR_TRANSPARENT); // Light Orange
+			} else {
+				dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 			}
+			dc.drawText(x, y+offset, Graphics.FONT_XTINY, temp, Graphics.TEXT_JUSTIFY_LEFT); // + units
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			dc.drawText(x + dc.getTextWidthInPixels(temp.format("%d"),Graphics.FONT_XTINY), y+offset , Graphics.FONT_XTINY, units, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
 		}
 	}
 	
 	/* ------------------------ */
 	
 	// Weather Location Name
-	function drawLocation(dc, x, y, wMax, hMax, showBoolean) {
-		if(Toybox has :Weather and Weather has :getCurrentConditions) {
-			if(Weather.getCurrentConditions() != null) {
-				var weather = Weather.getCurrentConditions();
-				if (showBoolean != false) { // Show Location Name
-					if(weather has :observationLocationName) {
-						var location = weather.observationLocationName;
-						if (location.length()>15 and location.find(",")!=null){
-							location = location.substring(0,location.find(","));
-						}
-						if (location.find("null")!=null and location.find(",")!=null) {
-							var location2 = location.substring(0,location.find(","));
-							if (location2.find("null")!=null) {
-								location2 = location.substring(location.find(",")+2,location.length());
-								if (location2.find("null")!=null){
-									location2 = "";
-								}
-							}
-							location = location2;
-						}
-						else if (location.find("null")!=null) {
-							location = "";
-						}
+	function drawLocation(dc, x, y, wMax, hMax, showBoolean, weather) {
 
-						if(x*2==260 and Storage.getValue(3)==false){
-							y = y+6;
+		if (showBoolean != false) { // Show Location Name
+			if(check[7] and weather.observationLocationName!=null) {
+				var location = weather.observationLocationName;
+				if (location.length()>15 and location.find(",")!=null){
+					location = location.substring(0,location.find(","));
+				}
+				if (location.find("ocation[")!=null){
+					location="null";
+				}				
+				if (location.find("null")!=null and location.find(",")!=null) {
+					var location2 = location.substring(0,location.find(","));
+					if (location2.find("null")!=null) {
+						location2 = location.substring(location.find(",")+2,location.length());
+						if (location2.find("null")!=null){
+							location2 = "";
 						}
-						
-						dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-						//dc.fitTextToArea(text, font, width, height, truncate)
-						dc.drawText(x, y, Graphics.FONT_XTINY, dc.fitTextToArea(location, Graphics.FONT_XTINY, wMax, hMax, true), Graphics.TEXT_JUSTIFY_CENTER);
-					}		        
-				}		
-			}
-		}
+					}
+					location = location2;
+				}
+				else if (location.find("null")!=null) {
+					location = "";
+				}
+
+				if(x*2==260 and Storage.getValue(3)==false){
+					y = y+6;
+				}
+
+				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+				//dc.fitTextToArea(text, font, width, height, truncate)
+				dc.drawText(x, y, Graphics.FONT_XTINY, dc.fitTextToArea(location, Graphics.FONT_XTINY, wMax, hMax, true), Graphics.TEXT_JUSTIFY_CENTER);
+			}		        
+		}		
 	}
 	
 	/* ------------------------ */
@@ -429,7 +481,7 @@ class MtbA_functions {
 		var formattedNotificationAmount = "";
 		var notificationAmount;    
        
-		if (System.getDeviceSettings() has :notificationCount) {
+		if (System.getDeviceSettings().notificationCount!=null) {
 			notificationAmount = System.getDeviceSettings().notificationCount;
 			if(notificationAmount > 99)	{
 				formattedNotificationAmount = "99+";
@@ -453,12 +505,12 @@ class MtbA_functions {
 			}
 
 			// Icon
-			if (formattedNotificationAmount.toNumber() == 0){
-				if (width==360 or width==390 or width==416){ //AMOLED
+			if (formattedNotificationAmount.toNumber() == 0){ // when notification count is zero
+//				if (width>=360){ //AMOLED (2021)
 					dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-				} else { // MIP, for better readability
-					dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-				}
+//				} else { // MIP, for better readability
+//					dc.setColor( (accentColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_WHITE), Graphics.COLOR_TRANSPARENT); // if accent color is white and notification is zero, then icon color is gray
+//				}
 			} else {
 				dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 			}
@@ -471,16 +523,16 @@ class MtbA_functions {
 	// Get heart rate
 	function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
     	var heartRate;
-    	if(Activity has :getActivityInfo) {
+    	if(check[9]) {
     		heartRate = Activity.getActivityInfo().currentHeartRate; 
     		if(heartRate==null) {
-    			if(ActivityMonitor has :getHeartRateHistory) {
+    			if(check[10]) {
 	    			var HRH=ActivityMonitor.getHeartRateHistory(1, true);
-					var HRS=HRH.next();
-					if(HRS!=null && HRS.heartRate!= ActivityMonitor.INVALID_HR_SAMPLE){
-						heartRate = HRS.heartRate;
+						var HRS=HRH.next();
+						if(HRS!=null && HRS.heartRate!= ActivityMonitor.INVALID_HR_SAMPLE){
+							heartRate = HRS.heartRate;
+						}
 					}
-				}
     		}
 	    	if(heartRate==null) {
 				heartRate = 0;
@@ -567,7 +619,7 @@ class MtbA_functions {
 		}	else if(width==260){ // Fenix 6
 			xText = xText-1.5;
 			hrIconY = hrIconY - 4;
-		}	else if(width==240){ // Fenix 6
+		}	else if(width==240){ // Fenix 6s
 				xText = xText-0.5;
 				hrIconY = hrIconY - 5;
 				if (System.SCREEN_SHAPE_ROUND != screenShape){ //rectangle
@@ -582,12 +634,31 @@ class MtbA_functions {
 			xText = xText-1.5;
 			hrIconY = hrIconY - 2;			
 		}
+
+		var FontAdj= 0;
+		if (Storage.getValue(14)==true){
+				if (width==260 and dc.getFontHeight(Graphics.FONT_TINY)==29) { //Fenix 6
+						FontAdj=6;
+				} else if (width==260 and dc.getFontHeight(Graphics.FONT_TINY)==27) { // Vivoactive 4
+						FontAdj=5; 
+				} else if (width==280){
+						FontAdj=7;
+				} else if (width>=400) {
+						FontAdj=5;
+				} else if (width==218) {
+						FontAdj=3;
+				} else if (width==240 and dc.getFontHeight(Graphics.FONT_TINY)==26) { // Fenix 5, 5S and 5X
+						FontAdj=0;                     
+				} else {
+						FontAdj=4;
+				}
+		}
 				
 		// Render heart rate icon and text
 		dc.setColor(heartRateIconColour, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( xIcon + offset/3 , hrIconY - 1, IconsFont, "3", Graphics.TEXT_JUSTIFY_CENTER); // Using Icon
+		dc.drawText( xIcon + offset/3 , hrIconY - 1, IconsFont, "3", Graphics.TEXT_JUSTIFY_CENTER); // Icon
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( xText, hrIconY - offset , fontSize, heartRateText, Graphics.TEXT_JUSTIFY_LEFT);		
+		dc.drawText( xText, hrIconY - offset - FontAdj , fontSize, heartRateText, Graphics.TEXT_JUSTIFY_LEFT);	// Text	
 	}
 
 	/* ------------------------ */
@@ -595,30 +666,19 @@ class MtbA_functions {
 	// Draw Battery Icon and Text	
 	function drawBatteryIcon(dc, xBattery, yBattery, xContact, yContact, width, height, accentColor) {
 	    
-	    var battery = Math.ceil(System.getSystemStats().battery);
-	    var batteryState;
-	    var batteryIconColour;
-	       
-	    // Choose the colour of the battery based on it's state
-        if (battery > 30) {
-			batteryState=0;
-		} else if (battery <= 15) {
-			batteryState=1;
-		} else if (battery <= 30) {
-			batteryState=2;
-		} else {
-			batteryState=3;
-		}
-
-		if (batteryState == 0) {
+		var battery = Math.ceil(System.getSystemStats().battery);
+		var batteryIconColour;
+				
+		// Choose the colour of the battery based on it's state
+		if (battery > 30) {
 			if (accentColor == 0x55FF00 or System.getDeviceSettings().requiresBurnInProtection == false) {
 				batteryIconColour = 0x55FF00; /* GREEN */
 			} else {
 				batteryIconColour = 0xAAFF00; /* Vivomove GREEN */
 			}
-		} else if (batteryState == 1) {
+		} else if (battery <= 20) {
 			batteryIconColour = 0xFF5555 /* pastel red */;
-		} else if (batteryState == 2) {
+		} else if (battery <= 40) {
 			batteryIconColour = 0xFFFF55 /* pastel yellow */;
 		} else {
 			batteryIconColour = Graphics.COLOR_LT_GRAY ; // Not detected
@@ -648,14 +708,22 @@ class MtbA_functions {
 
 		dc.setColor(batteryIconColour, Graphics.COLOR_TRANSPARENT); 
 		//dc.fillRoundedRectangle(x, y, width, height, radius)
-		dc.fillRoundedRectangle(xBattery, yBattery , width*0.135 + (System.SCREEN_SHAPE_ROUND != screenShape ? 14 : 0) + (width==240 and dc.getTextDimensions("100",0)[1]>=26 ? 12 : 0), height*0.0625 - offsetLED, 2);
+		dc.fillRoundedRectangle(xBattery, yBattery , width*0.135 + (System.SCREEN_SHAPE_ROUND != screenShape ? 14 : 0) + (width==240 and dc.getTextDimensions("100",0)[1]>=26 and System.SCREEN_SHAPE_ROUND == screenShape ? 12 : 0), height*0.0625 - offsetLED, 2);
 		dc.fillRoundedRectangle(xContact, yContact , width*0.018, height*0.039 - offset, 2);
 	}
 	
 	// Draw Battery Text (separate because of "too many arguments" error)
 	function drawBatteryText(dc, xText, yText, width) {	
 	
-		var battery = Math.ceil(System.getSystemStats().battery);
+		var estimateFlag = Storage.getValue(19);
+		var battery;
+
+		if (estimateFlag == true and System.getSystemStats().batteryInDays!=null){
+			battery = Math.ceil(System.getSystemStats().batteryInDays);
+		} else {
+			battery = Math.ceil(System.getSystemStats().battery);
+		}
+		
 		
 		var offset = 0, offsetLED = 0;
 		if (width==390) { // Venu & D2 Air
@@ -679,10 +747,10 @@ class MtbA_functions {
 			offsetLED = -1;
 		}
 
-		System.println(width);
+		//System.println(width);
 
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(xText + offsetLED, yText + offset , 0 /* batteryFont */,battery.format("%d") + "%", Graphics.TEXT_JUSTIFY_CENTER ); // Correct battery text on Fenix 5 series (except 5s)
+		dc.drawText(xText + offsetLED, yText + offset , 0 /* batteryFont */,battery.format("%d") + (estimateFlag == true ? "d" : "%"), Graphics.TEXT_JUSTIFY_CENTER ); // Correct battery text on Fenix 5 series (except 5s)
 	}
 	
 	/* ------------------------ */
@@ -692,29 +760,33 @@ class MtbA_functions {
 		
 	    // If this device supports the Do Not Disturb feature,
         // load the associated Icon into memory.
-		var dndIcon;
+		//var dndIcon;
 		        
-		if (System.getDeviceSettings() has :doNotDisturb) {
-				dndIcon = Application.loadResource(Rez.Drawables.DoNotDisturbIcon);
+		if (check[4] and System.getDeviceSettings().doNotDisturb!=null) {
+			//dndIcon = Application.loadResource(Rez.Drawables.DoNotDisturbIcon);
+
+			// Draw the do-not-disturb icon if we support it and the setting is enabled
+			var offsetX = 0, offsetY = 0;
+			if (width>=390) { // Venu & D2 Air
+				offsetX = 7;	
+				offsetY = 2;
+			} else if (width==280 or width==260 or width==240){ // Fenix 6X & Enduro & Fenix 6
+				offsetX = -1;
+			} else if (width==218){ // VA4s
+				offsetY = -2;
+			} else if (width==360){ // Venu 2s
+				offsetY = 2;
+				offsetX = 2;
+			}		
+
+			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			dc.drawText( x + offsetX, y + offsetY , IconsFont, "Y", Graphics.TEXT_JUSTIFY_LEFT);
+			return true;
 		} else {
-				//dndIcon = null;
-				return false;
+			//dndIcon = null;
+			return false;
 		}
 
-    // Draw the do-not-disturb icon if we support it and the setting is enabled
-		var offsetX = 0, offsetY = 0;
-		if (width>=390) { // Venu & D2 Air
-			offsetX = 7;	
-		} else if (width==280 or width==260 or width==240){ // Fenix 6X & Enduro & Fenix 6
-			offsetY = -4;
-		} else if (width==218){ // VA4s
-			offsetY = -3;
-		}
-
-		if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
-				dc.drawBitmap( x + offsetX, y + offsetY , dndIcon);
-		}
-		return true;
 }
     
 	/* ------------------------ */
@@ -722,20 +794,20 @@ class MtbA_functions {
 	// Draw Pulse Ox Icon and Text	
 	function drawPulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
           
-        var pulseOx = null;
-        if (Activity.getActivityInfo() has :currentOxygenSaturation) {
-        	pulseOx = Activity.getActivityInfo().currentOxygenSaturation ;
-        }
-        
-        var offset = 0;
-				if (width>=360) { // Venu & D2 Air
-					offset = 7;	
-				} else if (System.SCREEN_SHAPE_ROUND != screenShape){ // Venu sq
-					offset = -2;
-				}
-        
-        if (pulseOx!= null) {
-        	// Change the colour of the pulse Ox icon based on current value
+		var pulseOx = null;
+		if (check[11]) {
+			pulseOx = Activity.getActivityInfo().currentOxygenSaturation ;
+		}
+		
+		var offset = 0;
+		if (width>=360) { // Venu & D2 Air
+			offset = 7;	
+		} else if (System.SCREEN_SHAPE_ROUND != screenShape){ // Venu sq
+			offset = -2;
+		}
+		
+		if (pulseOx!= null) {
+			// Change the colour of the pulse Ox icon based on current value
 			if (pulseOx >= 95) { // Normal
 				if (accentColor == 0xAAFF00) {
 					dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
@@ -751,13 +823,15 @@ class MtbA_functions {
 			} else { // Cyanosis
 				dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT); /* red */
 			}
-        	dc.drawText( xIcon, yIcon + offset , IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
-        	dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        	dc.drawText( xText, yText , fontSize, Lang.format("$1$%", [pulseOx.format("%.0f")] ), Graphics.TEXT_JUSTIFY_LEFT);
-        	return true;
-        } else {
-        	return false;
-        }
+
+			dc.drawText( xIcon, yIcon + offset , IconsFont, "Q", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			//dc.drawText( xText, yText , fontSize, Lang.format("$1$%", [pulseOx.format("%.0f")] ), Graphics.TEXT_JUSTIFY_LEFT);
+			dc.drawText( xText, yText, fontSize, pulseOx.format("%.0f") + "%", Graphics.TEXT_JUSTIFY_LEFT);
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/* ------------------------ */
@@ -768,13 +842,16 @@ class MtbA_functions {
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 	  var floorsCount=0;
 	    
-	  if (ActivityMonitor.getInfo() has :floorsClimbed) {
+	  if (check[12]) {
 	    	floorsCount = ActivityMonitor.getInfo().floorsClimbed;//.toString();
 	  } else {
 	    	return false;
 		}
 			
-		if (floorsCount>=ActivityMonitor.getInfo().floorsClimbedGoal) {
+		var goal = ActivityMonitor.getInfo().floorsClimbedGoal;
+		if (goal == null) { goal = 0; }
+		
+		if (floorsCount>=goal) {
 			dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 		} else {
 			if (width==360 or width==390 or width==416){ //AMOLED
@@ -806,12 +883,7 @@ class MtbA_functions {
 
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var stepDistance=null;
-		var distStr = "0";
 		var unit = "";
-        
-		if (ActivityMonitor.getInfo() has :steps) {				
-				distStr = ActivityMonitor.getInfo().steps;
-    }
         
     var offsetY = 0;
 		if (width>=360) { // Venu & D2 Air
@@ -823,8 +895,14 @@ class MtbA_functions {
 			yIcon = yIcon-1.5;
 			xIcon = xIcon+1;
 		}
+
+		var distStr = ActivityMonitor.getInfo().steps;
+		if (distStr == null) { distStr = 0; }	
+		
+		var goal = ActivityMonitor.getInfo().stepGoal;
+		if (goal == null) { goal = 0; }	
         
-		if (ActivityMonitor.getInfo().steps>=ActivityMonitor.getInfo().stepGoal) {
+		if (distStr>=goal) {
 			dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 		} else {
 			if (width==360 or width==390 or width==416){ //AMOLED
@@ -848,30 +926,28 @@ class MtbA_functions {
 
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var DistanceMetric = System.getDeviceSettings().distanceUnits;
-		var stepDistance=null;
+		var stepDistance = ActivityMonitor.getInfo().distance;//.toString();
 		var distStr = "0";
 		var unit = "";
         
-		if (ActivityMonitor.getInfo() has :distance) {
-				stepDistance = ActivityMonitor.getInfo().distance;//.toString();
-				if (stepDistance != null) {
-					if (DistanceMetric == System.UNIT_METRIC) {
-							unit = " km";
-							stepDistance = stepDistance * 0.00001;
-					} else{
-							unit = " mi";
-							stepDistance = stepDistance * 0.00001 * 0.621371;
-					}
-				} else {
-					unit = "?";
-				}
-					
-				if (stepDistance >= 10) {
-					distStr = Lang.format("$1$", [stepDistance.format("%.0f")] );
-				} else { //(stepDistance <10)
-					distStr = Lang.format("$1$", [stepDistance.format("%.1f")] );
-				}	    		
-    }
+		if (stepDistance != null) {
+			if (DistanceMetric == System.UNIT_METRIC) {
+					unit = " km";
+					stepDistance = stepDistance * 0.00001;
+			} else{
+					unit = " mi";
+					stepDistance = stepDistance * 0.00001 * 0.621371;
+			}
+		} else {
+			stepDistance=0;
+			unit = "?";
+		}
+			
+		if (stepDistance >= 10) {
+			distStr = stepDistance.format("%.0f");
+		} else { //(stepDistance <10)
+			distStr = stepDistance.format("%.1f");
+		}	    		
         
     var offsetY = 0;
 		if (width>=360) { // Venu & D2 Air
@@ -882,7 +958,10 @@ class MtbA_functions {
 			offsetY = -1;
 		}
         
-		if (ActivityMonitor.getInfo().steps>=ActivityMonitor.getInfo().stepGoal) {
+		var goal = ActivityMonitor.getInfo().stepGoal;
+		if (goal == null) { goal = 0; }	
+
+		if (ActivityMonitor.getInfo().steps!=null and ActivityMonitor.getInfo().steps>=goal) {
 			dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 		} else {
 			if (width==360 or width==390 or width==416){ //AMOLED
@@ -895,7 +974,6 @@ class MtbA_functions {
 		
 		// Distance Text	        
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		//dc.drawText(xText , yText, Graphics.FONT_XTINY, distStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Step Distance
 		dc.drawText(xText , yText, fontSize, distStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Step Distance
 	}
 
@@ -984,49 +1062,37 @@ class MtbA_functions {
 			}
 		}
 		
-		var borderColor = Graphics.COLOR_BLACK;
-		var arborColor=Graphics.COLOR_LT_GRAY;
-		var minuteHandColor = Graphics.COLOR_WHITE;
-		var BurnIn = System.getDeviceSettings().requiresBurnInProtection;
-		if (aod==true and BurnIn==true) {
-			if(Storage.getValue(18) == true){
-				// mute AOD colors
-				accentColor = Graphics.COLOR_LT_GRAY;
-				arborColor = Graphics.COLOR_LT_GRAY;
-				minuteHandColor = Graphics.COLOR_LT_GRAY;
-			}
-
-			//borderColor=Graphics.COLOR_LT_GRAY;
-			//accentColor=Graphics.COLOR_BLACK;
-			//arborColor=Graphics.COLOR_BLACK;
-			//borderColor=Graphics.COLOR_DK_GRAY;
-			//width=(upTop) ? width-width*.1 : width+width*.1;
+		var borderColor=Graphics.COLOR_BLACK, arborColor=Graphics.COLOR_LT_GRAY; // colors for not AOD mode
+		var BurnIn = check[0];
+		if (aod==true and BurnIn==true and Storage.getValue(22) != true) { //AOD mode ON
+			accentColor=Graphics.COLOR_LT_GRAY;
+			//arborColor=Graphics.COLOR_LT_GRAY;
+			//borderColor=Graphics.COLOR_BLACK;
 		}
 
-			//Use white to draw the hour hand, with a dark grey background
-			dc.setColor(borderColor, Graphics.COLOR_TRANSPARENT); //(centerPoint, angle, handLength, tailLength, width, triangle)
-			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.485, 0, Math.ceil(handWidth+(width*0.01)), triangle)); // (width*0.01)
-			//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.45, 0, handWidth*0.045)); // standard
-			dc.setColor(minuteHandColor, Graphics.COLOR_TRANSPARENT);
-			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.54 , 0, handWidth, triangle-0.01)); // thick
-			
-			// Draw the minute hand.
-			//var minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
-			var minuteHandAngle = (clockTime.min / 30.0) * Math.PI;
-			
-			//generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) -- width / (higher means smaller)
-			dc.setColor(borderColor, Graphics.COLOR_TRANSPARENT);
-			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2.225, 0, Math.ceil(handWidth+(width*0.01)), triangle)); // 2.5
-			//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2.22, 0, handWidth*0.045)); // standard
-			dc.setColor(accentColor, Graphics.COLOR_WHITE);
-			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2.25 , 0, handWidth, triangle-0.01)); // thick
+		//Use white to draw the hour hand, with a dark grey background
+		dc.setColor(borderColor, Graphics.COLOR_TRANSPARENT); //(centerPoint, angle, handLength, tailLength, width, triangle)
+		dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.485, 0, Math.ceil(handWidth+(width*0.01)), triangle)); // hour hand border
 
-								
-			// Draw the arbor in the center of the screen.
-			dc.setColor(borderColor,Graphics.COLOR_BLACK);
-			dc.fillCircle(width / 2, height / 2, handWidth*0.65-offsetOuterCircle); // *0.65
-			dc.setColor(arborColor, Graphics.COLOR_WHITE);
-			dc.fillCircle(width / 2, height / 2, handWidth*0.65-offsetInnerCircle); // -4
+		dc.setColor((aod==true and BurnIn==true and Storage.getValue(22) != true) ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
+		dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.54 , 0, handWidth, triangle-0.01)); // hour hand
+		
+		// Draw the minute hand.
+		//var minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
+		var minuteHandAngle = (clockTime.min / 30.0) * Math.PI;
+		
+		//generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) -- width / (higher means smaller)
+		dc.setColor(borderColor, Graphics.COLOR_TRANSPARENT);
+		dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2.225, 0, Math.ceil(handWidth+(width*0.01)), triangle)); // minute hand border
+		dc.setColor(accentColor, Graphics.COLOR_WHITE);
+		dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, width / 2.25 , 0, handWidth, triangle-0.01)); // minute hand
+
+							
+		// Draw the arbor in the center of the screen.
+		dc.setColor(borderColor,Graphics.COLOR_BLACK);
+		dc.fillCircle(width / 2, height / 2, handWidth*0.65-offsetOuterCircle); // *0.65
+		dc.setColor(arborColor, Graphics.COLOR_WHITE);
+		dc.fillCircle(width / 2, height / 2, handWidth*0.65-offsetInnerCircle); // -4
 
 		if (aod==true and BurnIn==true)  {
 			var checkerboard = Application.loadResource(Rez.Fonts.Checkerboard);
@@ -1057,11 +1123,7 @@ class MtbA_functions {
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var calories=0;
 		
-		if (ActivityMonitor.getInfo() has :calories) {
-			calories = ActivityMonitor.getInfo().calories;//.toString();
-		} else {
-			return false;
-		}
+		calories = ActivityMonitor.getInfo().calories;//.toString();
 			
     var offset = 0;
 		if (width>=360) { // Venu & D2 Air
@@ -1083,7 +1145,7 @@ class MtbA_functions {
 		// Text
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 		dc.drawText( xText , yText , fontSize, calories, Graphics.TEXT_JUSTIFY_LEFT);
-		return true;
+
     }
 
 	/* ------------------------ */
@@ -1092,26 +1154,23 @@ class MtbA_functions {
 	function drawElevation(dc, xIcon, yIcon, xText, yText, width) {	
 
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
-		var elevationMetric = null;
+		var elevationMetric = System.getDeviceSettings().elevationUnits;
 		var elevation=null;
 		var elevationStr;
 		var unit;
         
-		if (Activity.getActivityInfo() has :altitude) {
+		if (check[16]) {
 			//elevation = Activity.getActivityInfo().altitude;
 			if(Activity.getActivityInfo().altitude!=null){
 				elevation = Activity.getActivityInfo().altitude.toFloat();
 			}
 		}
-		if (System.getDeviceSettings() has :elevationUnits){
-			elevationMetric = System.getDeviceSettings().elevationUnits;
-		}
 
 		var offsetY = 0;
 		if (width>=360) { // Venu & D2 Air
 			offsetY = 7;	
-		} else if (System.SCREEN_SHAPE_ROUND != screenShape){ // Venu sq
-			offsetY = -1;
+//		} else if (System.SCREEN_SHAPE_ROUND != screenShape){ // Venu sq
+//			offsetY = -1;
 		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ // Fenix 5 Plus
 			offsetY = -1;
 		}
@@ -1154,25 +1213,77 @@ class MtbA_functions {
 		dc.drawText(xText, yText, fontSize, elevationStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Elevation in m or mi
 	}
 
+/* ------------------------ */
+	
+	// Draw Atmospheric Pressure
+	function drawPressure(dc, xIcon, yIcon, xText, yText, width) {	
+
+		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
+		var pressure=null;
+		//var unit= "";
+
+		if (Storage.getValue(20)==true){ //Athmospheric Pressure Type
+			if (check[18]) {
+				if(Activity.getActivityInfo().meanSeaLevelPressure!=null){
+					pressure = Activity.getActivityInfo().meanSeaLevelPressure;
+				}
+			}
+		} else {
+			if (check[19]) {
+				//elevation = Activity.getActivityInfo().altitude;
+				if(Activity.getActivityInfo().ambientPressure!=null){
+					//System.println(Activity.getActivityInfo().ambientPressure);
+					//System.println(Activity.getActivityInfo().meanSeaLevelPressure );
+					pressure = Activity.getActivityInfo().ambientPressure;
+				}
+			}
+		}
+
+		var offset = 0;
+		if (width>=360) { // Venu & D2 Air
+			offset = 7;	
+		} else if (System.SCREEN_SHAPE_ROUND != screenShape){ // Venu sq
+			offset = -2;
+		}
+
+		dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		if (pressure!=null){
+			if(pressure<100914.4) {
+				dc.setColor(0xFFAA55, Graphics.COLOR_TRANSPARENT); // Violet 0xAA55FF
+			} else if (pressure>102268.9){
+				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Light blue	0x00FFFF	0x55AAFF
+			} 
+		}
+		dc.drawText( xIcon, yIcon + offset , IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+
+    // Pressure Text	
+		if (pressure != null) {
+			pressure = pressure / 100;
+			pressure = pressure.format("%.0f");
+			//unit = " hPa";
+		} else{
+			pressure = "";
+		}
+       		
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(xText, yText, fontSize, pressure /*+ unit*/, Graphics.TEXT_JUSTIFY_LEFT); // pressure in hPa
+	}
+
+
 	/* ------------------------ */
 	
 	// Draw Precipitation Percentage
 	function drawPrecipitation(dc, xIcon, yIcon, xText, yText, width) {	
 	
-		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
-		var IconsFont = Application.loadResource(Rez.Fonts.HumidityFont);
+		//var IconsFont = Application.loadResource(Rez.Fonts.HumidityFont);
 	  var precipitation=0;
 	    
-		if (Toybox has :Weather and Weather has :getCurrentConditions) {
-			if (Weather.getCurrentConditions()!=null){
+		if (check[1] and check[2]) {
 				if (Weather.getCurrentConditions().precipitationChance!=null){
 					precipitation = Weather.getCurrentConditions().precipitationChance;//.toString();
 				} else {
 					return false;
 				}
-			} else {
-				return false;
-			}
 		} else {
 			return false;
 		}
@@ -1192,38 +1303,87 @@ class MtbA_functions {
 			offset = 7;	
 		}
 
-		var precipitationZone = null;
+		var precipitationIconColour;
 		
 		if (precipitation >= 90) { // Very High
-			precipitationZone = 4;
-		} else if (precipitation >= 60) { // High
-			precipitationZone = 3;
-		} else if (precipitation >= 30) { // Moderate
-			precipitationZone = 2;
-		} else if (precipitation > 0) { // Low
-			precipitationZone = 1;			
-		} else { // Not existent
-			precipitationZone = 0;
-		}  
-
-		var precipitationIconColour = Graphics.COLOR_BLACK;
-		
-		if (precipitationZone == 0) { // Not existent
-			precipitationIconColour = Graphics.COLOR_LT_GRAY;
-		} else if (precipitationZone == 1) { // Low
-			precipitationIconColour = 0x00FFFF; // Light blue		
-		} else if (precipitationZone == 2) { // Moderate
-			precipitationIconColour = Graphics.COLOR_BLUE; // Blue
-		} else if (precipitationZone == 3) { // High
-			precipitationIconColour = 0x0055FF; // Dark Blue
-		} else if (precipitationZone == 4) { // Very High
 			precipitationIconColour = 0xAA55FF; // Violet
-		}  	    
+		} else if (precipitation >= 60) { // High
+			precipitationIconColour = 0x0055FF; // Dark Blue
+		} else if (precipitation >= 30) { // Moderate
+			precipitationIconColour = Graphics.COLOR_BLUE; // Blue
+		} else if (precipitation > 0) { // Low
+			precipitationIconColour = 0x00FFFF; // Light blue		
+		} else { // Not existent
+			precipitationIconColour = Graphics.COLOR_LT_GRAY;
+		}  
 
 	  dc.setColor(precipitationIconColour, Graphics.COLOR_TRANSPARENT);
 		dc.drawText( xIcon, yIcon + offset , IconsFont, "S", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( xText - offset , yText , fontSize, Lang.format("$1$%",[precipitation]), Graphics.TEXT_JUSTIFY_LEFT);
+		dc.drawText( xText - offset , yText , fontSize, precipitation + "%", Graphics.TEXT_JUSTIFY_LEFT);
+		
+		return true;
+    }
+
+/* ------------------------ */
+	
+	// Draw Min and Max Temperatures
+	function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {	
+	
+		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
+		var minTemp as Number, maxTemp as Number;
+		var TempMetric = System.getDeviceSettings().temperatureUnits;
+		var fahrenheit;
+		var units = "";
+    
+		if (check[1] and check[2]) { 
+			if (Weather.getCurrentConditions()!=null){
+				if (Weather.getCurrentConditions().lowTemperature!=null and Weather.getCurrentConditions().highTemperature!=null){
+					minTemp = Weather.getCurrentConditions().lowTemperature.toString();
+					maxTemp = Weather.getCurrentConditions().highTemperature.toString();
+				} else { return false; }
+			} else { return false; }
+		} else {
+			return false;
+		}
+
+		if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
+			units = "°C";
+		}	else {
+			minTemp = (minTemp * 9/5) + 32; 
+			maxTemp = (maxTemp * 9/5) + 32; 
+			//temp = Lang.format("$1$", [temp.format("%d")] );
+			units = "°F";
+		}
+			
+    var offset = 0;
+		if (width>=360) { // Venu & D2 Air
+			offset = 7;	
+		}	else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
+			offset = -2;	
+		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus
+			offset = -1;
+		}
+
+		//precipitationIconColour = 0x00FFFF; // Light blue		
+		//precipitationIconColour = 0xAA55FF; // Violet
+
+		if (width>=360){ //AMOLED
+			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		} else { // MIP, for better readability
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		}
+		dc.drawText( xIcon, yIcon + offset , IconsFont, ".", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+
+		dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Light Blue 0x00FFFF / 0x55AAFF
+		dc.drawText( xText, yText , fontSize, minTemp, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
+
+		dc.setColor(0xFFAA55, Graphics.COLOR_TRANSPARENT); // Purple 0xAA55FF
+		dc.drawText( xText + dc.getTextWidthInPixels(minTemp+"/",fontSize) , yText , fontSize, maxTemp, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
+
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xText + dc.getTextWidthInPixels(minTemp,fontSize), yText , fontSize, "/", Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
+		dc.drawText( xText + dc.getTextWidthInPixels(minTemp+"/"+maxTemp,fontSize), yText , fontSize, units, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
 		
 		return true;
     }
@@ -1236,19 +1396,15 @@ class MtbA_functions {
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var humidity=0;
 		
-		if (Toybox has :Weather and Weather has :getCurrentConditions) {
-				if (Weather.getCurrentConditions() != null){
-					if (Weather.getCurrentConditions().relativeHumidity != null){
-						humidity = Weather.getCurrentConditions().relativeHumidity;//.toString();
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
+		if (check[1] and check[2]) {
+			if (Weather.getCurrentConditions().relativeHumidity != null){
+				humidity = Weather.getCurrentConditions().relativeHumidity;//.toString();
 			} else {
 				return false;
-			}		
+			}
+		} else {
+			return false;
+		}		
 
 		var offsetY = 0;
 		if (width>=360) { // Venu & D2 Air
@@ -1274,7 +1430,7 @@ class MtbA_functions {
 			dc.setColor(0xFFFF55, Graphics.COLOR_TRANSPARENT); // Yellow
 		} else { // Healthy
 			if (accentColor == 0xAAFF00) {
-			dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+				dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
 			} else {
 				dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); // Green
 			}
@@ -1282,9 +1438,9 @@ class MtbA_functions {
 	    
 		dc.drawText( xIcon, yIcon + offsetY , IconsFont, "A", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( xText , yText , fontSize, Lang.format("$1$%",[humidity]), Graphics.TEXT_JUSTIFY_LEFT);
+		dc.drawText( xText , yText , fontSize, humidity + "%", Graphics.TEXT_JUSTIFY_LEFT);
 		return true;
-    }
+  }
 	
 	/* ------------------------ */	
 
@@ -1299,114 +1455,65 @@ class MtbA_functions {
 		var unit;
     var windIconColour = Graphics.COLOR_DK_GRAY;
 
-		if (Toybox has :Weather and Weather has :getCurrentConditions) {
-			if (Weather.getCurrentConditions() != null){
-				if (Weather.getCurrentConditions().windSpeed != null and Weather.getCurrentConditions().windBearing != null){
-					windSpeed = Weather.getCurrentConditions().windSpeed;//.toString();
-					windBearing = Weather.getCurrentConditions().windBearing;//.toString();
+		if (check[1] and check[2] and Weather.getCurrentConditions() != null and Weather.getCurrentConditions().windSpeed != null and Weather.getCurrentConditions().windBearing != null) {
+			windSpeed = Weather.getCurrentConditions().windSpeed;//.toString();
+			windBearing = Weather.getCurrentConditions().windBearing;//.toString();
 
-					var beaufortZone = null;
-
-					if (windSpeed >= 32.7) { // Hurricane Force
-						beaufortZone = 12;
-					} else if (windSpeed >= 28.5) { // Violent Storm
-						beaufortZone = 11;
-					} else if (windSpeed >= 24.5) { // Storm
-						beaufortZone = 10;
-					} else if (windSpeed >= 20.8) { // Strong Gale
-						beaufortZone = 9;
-					} else if (windSpeed >= 17.2) { // Gale
-						beaufortZone = 8;
-					} else if (windSpeed >= 13.9) { // Near Gale
-						beaufortZone = 7;
-					} else if (windSpeed >= 10.8) { // Strong Breeze
-						beaufortZone = 6;
-					} else if (windSpeed >= 8) { // Fresh Breeze
-						beaufortZone = 5;
-					} else if (windSpeed >= 5.5) { // Moderate Breeze
-						beaufortZone = 4;
-					} else if (windSpeed >= 3.4) { // Gentle Breeze
-						beaufortZone = 3;
-					} else if (windSpeed >= 1.6) { // Light Breeze
-						beaufortZone = 2;
-					} else if (windSpeed >= 0.5) { // Light Air
-						beaufortZone = 1;			
-					} else { // Calm
-						beaufortZone = 0;
-					}  
-					
-					if (beaufortZone == 0) { // Calm
-						//windIconColour = 0x55AAAA;
-						windIconColour = 0xFFFFFF; 
-					} else if (beaufortZone == 1) { // Light Air
-						//windIconColour = 0x55FFFF; 
-						windIconColour = 0xAAFFFF; 
-					} else if (beaufortZone == 2) { // Light Breeze
-						//windIconColour = 0x00AAFF; 
-						windIconColour = 0x55FFFF; 
-					} else if (beaufortZone == 3) { // Gentle Breeze
-						//windIconColour = 0x55AA00; 
-						windIconColour = 0xAAFFAA; 
-					} else if (beaufortZone == 4) { // Moderate Breeze
-						//windIconColour = 0x55FF00; 
-						windIconColour = 0x55FFAA;
-					} else if (beaufortZone == 5){ // Fresh Breeze
-						//windIconColour = 0xAAFF00; 
-						windIconColour = 0x00FF55; 
-					} else if (beaufortZone == 6){ // Strong Breeze
-						//windIconColour = 0xAAFFAA; 
-						windIconColour = 0x55FF00;
-					} else if (beaufortZone == 7){ // Near Gale
-						//windIconColour = 0xFFFFAA; 
-						windIconColour = 0xAAFF00; 
-					} else if (beaufortZone == 8){ // Gale
-						//windIconColour = 0xFFFF00; 
-						windIconColour = 0xFFAA55; 
-					} else if (beaufortZone == 9){ // Strong Gale
-						windIconColour = 0xFFAA00; 
-					} else if (beaufortZone == 10){ // Storm
-						//windIconColour = 0xFFAAAA; 
-						windIconColour = 0xFF5500; 
-					} else if (beaufortZone == 11){ // Violent Storm
-						//windIconColour = 0xFF5500; 
-						windIconColour = 0xFF0000; 
-					} else if (beaufortZone == 12){ // Hurricane Force
-						//windIconColour = 0xFF0000;
-						windIconColour = 0xAA0000;
-					}        
-
-					if (windBearing >= 335 or windBearing < 25) {
-						letter = "N"; 
-					} else if (windBearing >= 25 and windBearing < 65) {
-						letter = "NE"; 
-					} else if (windBearing >= 65 and windBearing < 115) {
-						letter = "E"; 
-					} else if (windBearing >= 115 and windBearing < 155) {
-						letter = "SE"; 
-					} else if (windBearing >= 155 and windBearing < 205) {
-						letter = "S";
-					} else if (windBearing >= 205 and windBearing < 245) {
-						letter = "SW"; 
-					} else if (windBearing >= 245 and windBearing < 295) {
-						letter = "W"; 
-					} else if (windBearing >= 295 and windBearing < 335) {
-						letter = "NW"; 
-					} else {
-						IconsFont = Application.loadResource(Rez.Fonts.HumidityFont);
-						letter = "P";
-					}      
-					if (letter.length()==2 and (width>260 or System.SCREEN_SHAPE_ROUND != screenShape)) {
-						xIcon = xIcon - 2;
-					} 
-				}
-			}
+			if (windSpeed >= 32.7) { // Hurricane Force
+				windIconColour = 0xAA0000;
+			} else if (windSpeed >= 28.5) { // Violent Storm
+				windIconColour = 0xFF0000;
+			} else if (windSpeed >= 24.5) { // Storm
+				windIconColour = 0xFF5500;
+			} else if (windSpeed >= 20.8) { // Strong Gale
+				windIconColour = 0xFFAA00;
+			} else if (windSpeed >= 17.2) { // Gale
+				windIconColour = 0xFFAA55;
+			} else if (windSpeed >= 13.9) { // Near Gale
+				windIconColour = 0xAAFF00;
+			} else if (windSpeed >= 10.8) { // Strong Breeze
+				windIconColour = 0x55FF00;
+			} else if (windSpeed >= 8) { // Fresh Breeze
+				windIconColour = 0x00FF55;
+			} else if (windSpeed >= 5.5) { // Moderate Breeze
+				windIconColour = 0x55FFAA;
+			} else if (windSpeed >= 3.4) { // Gentle Breeze
+				windIconColour = 0xAAFFAA;
+			} else if (windSpeed >= 1.6) { // Light Breeze
+				windIconColour = 0x55FFFF;
+			} else if (windSpeed >= 0.5) { // Light Air
+				windIconColour = 0xAAFFFF; 
+			} else { // Calm
+				windIconColour = 0xFFFFFF; 
+			}  
+			
+			if (windBearing >= 335 or windBearing < 25) {
+				letter = "N"; 
+			} else if (windBearing >= 25 and windBearing < 65) {
+				letter = "NE"; 
+			} else if (windBearing >= 65 and windBearing < 115) {
+				letter = "E"; 
+			} else if (windBearing >= 115 and windBearing < 155) {
+				letter = "SE"; 
+			} else if (windBearing >= 155 and windBearing < 205) {
+				letter = "S";
+			} else if (windBearing >= 205 and windBearing < 245) {
+				letter = "SW"; 
+			} else if (windBearing >= 245 and windBearing < 295) {
+				letter = "W"; 
+			} else if (windBearing >= 295 and windBearing < 335) {
+				letter = "NW"; 
+			} else {
+				letter = "P";
+			}      
+			if (letter.length()==2 and (width>260 or System.SCREEN_SHAPE_ROUND != screenShape)) {
+				xIcon = xIcon - 2;
+			} 
 		}
         
 		dc.setColor(windIconColour, Graphics.COLOR_TRANSPARENT);
 		//System.println(windBearing);
 		//dc.drawText( xIcon, yIcon + offset, IconsFont, "P", Graphics.TEXT_JUSTIFY_CENTER); // Icon Using Font
-
-		IconsFont = Graphics.FONT_TINY;
 
 		if (width==360) { // Venu 2s
 			xIcon = xIcon -1;
@@ -1421,7 +1528,7 @@ class MtbA_functions {
 		}
 
 		if (letter != null){
-			dc.drawText( xIcon , yIcon, IconsFont, letter, Graphics.TEXT_JUSTIFY_CENTER); // Icon Using Font    
+			dc.drawText( xIcon , yIcon, Graphics.FONT_TINY, letter, Graphics.TEXT_JUSTIFY_CENTER); // Icon Using Font    
 		}
 
     // Wind Speed Text	
@@ -1444,11 +1551,10 @@ class MtbA_functions {
 		}
 
 		if (windSpeed != null){
-			var windStr = Lang.format("$1$", [Math.round(windSpeed).format("%.0f")] );
+			var windStr = Math.round(windSpeed).format("%.0f");
 			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 			dc.drawText(xText , yText, fontSize, windStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Wind Speed in km/h or mph
-		}
-        
+		}     
 	}
 
 	/* ------------------------ */
@@ -1456,55 +1562,34 @@ class MtbA_functions {
 	// Draw Solar Intensity
 	function drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
 	
-		var IconsFont = Application.loadResource(Rez.Fonts.HumidityFont);
 		var solarIntensity=0;
 		
-		if (System.getSystemStats() has :solarIntensity) {
-			if (System.getSystemStats().solarIntensity != null) {
-				solarIntensity = System.getSystemStats().solarIntensity;//.toString();
-			} else {
-				return false;
-			}
+		if (check[8] and System.getSystemStats().solarIntensity != null) {
+			solarIntensity = System.getSystemStats().solarIntensity;//.toString();
 		} else {
 			return false;
 		}
 		
-		var solarZone = null;
+		var solarIconColour = null;
 		
 		if (solarIntensity >= 80) { // Extreme
-			solarZone = 5;
+			solarIconColour = 0xAA55FF; 
 		} else if (solarIntensity >= 60) { // Very High
-			solarZone = 4;
+			solarIconColour = Graphics.COLOR_RED; 
 		} else if (solarIntensity >= 40) { // High
-			solarZone = 3;
+			solarIconColour = 0xFFAA00; 
 		} else if (solarIntensity >= 20) { // Moderate
-			solarZone = 2;
+			solarIconColour = 0xFFFF55; 
 		} else if (solarIntensity > 0) { // Low
-			solarZone = 1;			
-		} else { // Not existent
-			solarZone = 0;
-		}  
-
-		var solarIconColour = Graphics.COLOR_DK_GRAY;
-		
-		if (solarZone == 0) { // Not existent
-			solarIconColour = Graphics.COLOR_LT_GRAY;
-		} else if (solarZone == 1) { // Low
 			if (accentColor == 0xAAFF00) {
 				solarIconColour = 0xAAFF00; /* Vivomove GREEN */
 			} else {
 				solarIconColour = 0x55FF00; /* GREEN */
 			}		
-		} else if (solarZone == 2) { // Moderate
-			solarIconColour = 0xFFFF55; 
-		} else if (solarZone == 3) { // High
-			solarIconColour = 0xFFAA00; 
-		} else if (solarZone == 4) { // Very High
-			solarIconColour = Graphics.COLOR_RED; 
-		} else if (solarZone == 5){ // Extreme
-			solarIconColour = 0xAA55FF; 
-		}        
-        
+		} else { // Not existent
+			solarIconColour = Graphics.COLOR_LT_GRAY;
+		}  
+
     var offsetY = 0;
 		if (width==280 or width==240) { // Fenix 6X & Enduro
 			offsetY = -2;
@@ -1515,9 +1600,9 @@ class MtbA_functions {
     dc.setColor(solarIconColour, Graphics.COLOR_TRANSPARENT); 
 		dc.drawText( xIcon, yIcon + offsetY , IconsFont, "R", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( xText , yText , fontSize, Lang.format("$1$%",[solarIntensity]), Graphics.TEXT_JUSTIFY_LEFT);
+		dc.drawText( xText , yText , fontSize, solarIntensity + "%", Graphics.TEXT_JUSTIFY_LEFT);
 		return true;
-    }
+  }
     
 
 	/* ------------------------ */
@@ -1565,7 +1650,7 @@ class MtbA_functions {
 	function drawIntensityMin(dc, xIcon, yIcon, xText, yText, width, accentColor) {
 		var intensity=0;
 
-		if (ActivityMonitor.getInfo() has :activeMinutesWeek) {
+		if (ActivityMonitor.getInfo().activeMinutesWeek.total != null and ActivityMonitor.getInfo().activeMinutesWeekGoal!=null) {
 	    	intensity = ActivityMonitor.getInfo().activeMinutesWeek.total;//.toString();
 	  } else {
 	    	return false;
@@ -1584,10 +1669,11 @@ class MtbA_functions {
 
 		if (width==240 and System.SCREEN_SHAPE_ROUND == screenShape){
 			yIcon = yIcon - 1;
+			if (dc.getTextDimensions("100",0)[1]>=26){
+				yIcon = yIcon - 1;
+			}
 		} else if (width==218){
 			yIcon = yIcon + 1;
-		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){
-			yIcon = yIcon - 1;
 		}
 
 		dc.drawText( xIcon, yIcon, IconsFont, "B", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
@@ -1598,10 +1684,208 @@ class MtbA_functions {
 		return true;
 	}
 
+/* ------------------------ */
+	
+	function drawBodyBattery(dc, xIcon, yIcon, xText, yText, width) {
+
+		var offset = 0;
+		if (width>=360) { // Venu & D2 Air
+			offset = 7;	
+		}	else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
+			offset = -2;	
+		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus
+			offset = -1;
+		}
+
+		// Body Battery
+		if (check[15]){ //check[15]
+			var bbIterator = Toybox.SensorHistory.getBodyBatteryHistory({:period=>1});
+			var sample = bbIterator.next(); 
+
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			if (sample != null) { 
+				dc.drawText(xText, yText,	fontSize, sample.data.format("%d"), Graphics.TEXT_JUSTIFY_LEFT);
+				//dc.drawText(xText, yText,	fontSize, Lang.format("$1$",[sample.data.format("%02d")]), Graphics.TEXT_JUSTIFY_LEFT);
+				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);				
+			} else{
+				dc.drawText(xText, yText,	fontSize, "---", Graphics.TEXT_JUSTIFY_LEFT);
+				if (width==360 or width==390 or width==416){ //AMOLED
+					dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+				} else { // MIP displays, for better readability
+					dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+				}
+			}
+		} else { return false; }
+
+		dc.drawText( xIcon, yIcon + offset , IconsFont, "U", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+		return true;
+
+	}
+
+/* ------------------------ */
+	
+	function drawStress(dc, xIcon, yIcon, xText, yText, width) {
+
+		var offsetY = 0;
+		if (width>=360) { // Fenix 6X & Enduro
+			offsetY = 1;
+		}	else if (width==260){
+			offsetY = -0.5;
+		} 
+
+		// Stress
+		if (check[13]){ //if (check[13]){
+			var stressIterator = Toybox.SensorHistory.getStressHistory({:period=>1});
+			var sample = stressIterator.next(); 
+
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			if (sample != null) { 
+				dc.drawText(xText, yText,	fontSize, sample.data.format("%d"), Graphics.TEXT_JUSTIFY_LEFT);
+				if (sample.data<=25) {
+					dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+				} else if (sample.data<=50){
+					dc.setColor(0xFFFF55, Graphics.COLOR_TRANSPARENT);
+				} else if (sample.data<=75){
+					dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+				} else { //between 76 and 100
+					dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);					
+				}
+			} else{
+				dc.drawText(xText, yText,	fontSize, "---", Graphics.TEXT_JUSTIFY_LEFT);
+				if (width==360 or width==390 or width==416){ //AMOLED
+					dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+				} else { // MIP displays, for better readability
+					dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+				}
+			}
+		} else { return false; }
+
+		dc.drawText( xIcon, yIcon + offsetY , IconsFont, "T", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+		return true;
+	}
+
+/* ------------------------ */
+	// Add Vo2 Max - vo2maxRunning and vo2maxCycling from UserProfile.getProfile()
+
+	function drawVO2Max(dc, xIcon, yIcon, xText, yText, width, cycle) {	
+	
+		var text = null;
+
+		if (check[3]) { 
+				if (UserProfile.getProfile().vo2maxRunning!=null) {
+					text = UserProfile.getProfile().vo2maxRunning;
+				} else if (UserProfile.getProfile().vo2maxCycling!=null) {
+					text = UserProfile.getProfile().vo2maxCycling;
+				}
+		} else { return false; }
+
+		if(width==280 or width==240){ //Fenix 6X & Enduro
+			yIcon=yIcon-5;
+		} else if (width==260){
+			yIcon=yIcon-4;
+		} else if (width==218){
+			yIcon=yIcon-3;
+		} else if (width==360){
+			yIcon=yIcon-1;
+		}
+
+		if (text<=30){ // Very Poor
+			dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+		} else if (text<=34){ // Poor
+			dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+		} else if (text<=39){ // Fair
+			dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT);
+		} else if (text<=44){ // Good
+			if (width>=360) {
+				dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+			} else {
+				dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); /* GREEN */
+			}		
+		} else if (text<=48){ // Excellent
+			dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Blue or Graphics.COLOR_BLUE
+		} else { // Superior
+			dc.setColor(0xAA55FF, Graphics.COLOR_TRANSPARENT); // Purple or 0xAA55FF
+		}
+		dc.drawText( xIcon, yIcon, IconsFont, "X", Graphics.TEXT_JUSTIFY_CENTER);
+		
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xText, yText, fontSize, text.format("%d"), Graphics.TEXT_JUSTIFY_LEFT);
+		
+		return true;
+	}
+
+/* ------------------------ */
+	// Add respiration Rate (breaths per minute) - respirationRate from ActivityMonitor.getInfo()
+	function drawRespiration(dc, xIcon, yIcon, xText, yText, accentColor, width) {
+
+		var text=null;    
+       
+		if (check[14]) {// if (check[14]) {
+			text = ActivityMonitor.getInfo().respirationRate;
+		} else { return false; }
+
+		// Text
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);		
+		dc.drawText( xText, yText, fontSize, text, Graphics.TEXT_JUSTIFY_LEFT);
+		
+		if(width==280 or width==240){ //Fenix 6X & Enduro
+			yIcon=yIcon-5;
+		} else if (width==260){
+			yIcon=yIcon-4;
+		} else if (width==218){
+			yIcon=yIcon-3;
+		}
+
+		// Icon
+		if (width==360 or width==390 or width==416){ //AMOLED
+			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		} else { // MIP displays, for better readability
+			dc.setColor( (accentColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_WHITE), Graphics.COLOR_TRANSPARENT); // if accent color is white and notification is zero, then icon color is gray
+		}
+		dc.drawText( xIcon, yIcon, IconsFont, "W", Graphics.TEXT_JUSTIFY_CENTER);
+		return true;
+
+	}
+
+/* ------------------------ */
+
+	// Add Recovery Time (hours) - timeToRecovery from ActivityMonitor.getInfo()
+	function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {	
+          
+		var recovery = null;
+		if (check[17]){ 
+			recovery = ActivityMonitor.getInfo().timeToRecovery ;
+		}
+		
+		var offset = 0;
+		if (width>=360) { // Venu & D2 Air
+			offset = 6;	
+		} else if (System.SCREEN_SHAPE_ROUND != screenShape) { //check if rectangle display
+			offset = -2;
+		}
+		
+		if (recovery == null) {
+			return false;
+		} else {					
+			if (width==360 or width==390 or width==416){ //AMOLED
+				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			} else { // MIP displays, for better readability
+				dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			}
+
+			dc.drawText( xIcon, yIcon + offset , IconsFont, "V", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			dc.drawText( xText, yText , fontSize, (recovery>=10 ? recovery.format("%.0f") : recovery.format("%.1f")) + " hs", Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$", [recovery.format("%.1f")] )
+			return true;       	
+		}
+
+	}	
+
 	/* ------------------------ */
 	
 	// Draw Right Data Points
-	function drawRightPoints(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset, dataPoint) {	// 0=humidityIcon, 1=precipitationIcon, 2=caloriesIcon, 3=floorsClimbIcon, 4=pulseOxIcon, 5=heartRateIcon, 6=notificationIcon, 7=solarIcon, 8=none
+	function drawRightPoints(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset, dataPoint) {	
 		
 		var offset390=0;
 
@@ -1617,23 +1901,38 @@ class MtbA_functions {
 			drawHumidity(dc, xIcon+(xIcon*0.005), yIcon, xText-(xText*0.002), yText, width, accentColor);
 		} else if (dataPoint == 2) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			drawPrecipitation(dc, xIcon+(xIcon*0.0125)+offset390, yIcon-(xIcon*0.001)+(offset390*2), xText+(xText*0.025)-(offset390*2), yText, width);
-		} else if (dataPoint == 3) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 3) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
+			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+		} else if (dataPoint == 4) { // Calories(dc, xIcon, yIcon, xText, yText, width)
 			drawCalories(dc, xIcon+(offset390*2), yIcon, xText, yText, width);
-		} else if (dataPoint == 4) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 5) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawFloorsClimbed(dc, xIcon-(xIcon*0.002), yIcon-(xIcon*0.001), xText, yText, width, accentColor);
-		} else if (dataPoint == 5) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawPulseOx(dc, xIcon, yIcon+(xIcon*0.002), xText-offset390, yText, width, accentColor);
-		} else if (dataPoint == 6) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
+		} else if (dataPoint == 6) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawPulseOx(dc, xIcon, yIcon, xText-offset390, yText, width, accentColor);
+		} else if (dataPoint == 7) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
 			drawHeartRate(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.03)-offset390, xText, width, accentColor);
-		} else if (dataPoint == 7) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 8) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawNotification(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
-		} else if (dataPoint == 8) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 9) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 9) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width);
 		} else if (dataPoint == 10) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width);
+		} else if (dataPoint == 11) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
 			drawIntensityMin(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width, accentColor);
+		} else if (dataPoint == 12) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);			
+		} else if (dataPoint == 13) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);
+		} else if (dataPoint == 14) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawRespiration(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
+		} else if (dataPoint == 15) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawRecoveryTime(dc, xIcon, yIcon+(xIcon*0.002), xText-offset390, yText, width);
+		} else if (dataPoint == 16) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, false); // run
+		} else if (dataPoint == 17) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, true); //cycling
 		}		
+		
 	}
 
 	/* ------------------------ */
@@ -1653,22 +1952,36 @@ class MtbA_functions {
 			drawHumidity(dc, xIcon+(xIcon*0.02), yIcon, xText-offset390, yText, width, accentColor);
 		} else if (dataPoint == 2) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			drawPrecipitation(dc, xIcon+(xIcon*0.05)+offset390, yIcon+offset390, xText+(xText*0.09)-offset390, yText, width);
-		} else if (dataPoint == 3) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 3) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
+			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+		} else if (dataPoint == 4) { // Calories(dc, xIcon, yIcon, xText, yText, width)
 			drawCalories(dc, xIcon+(offset390*2), yIcon+(xIcon*0.01), xText, yText, width);
-		} else if (dataPoint == 4) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 5) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawFloorsClimbed(dc, xIcon-(xIcon*0.015), yIcon-offset390, xText+(xText*0.015)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 5) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawPulseOx(dc, xIcon, yIcon+(xIcon*0.015), xText+(xText*0.01)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 6) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
+		} else if (dataPoint == 6) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawPulseOx(dc, xIcon+(xIcon*0.015), yIcon, xText+(xText*0.01)-offset390, yText, width, accentColor);
+		} else if (dataPoint == 7) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
 			drawHeartRate(dc, xIcon-(xIcon*0.02), yIcon+(xIcon*0.125), xText+(xText*0.01), width, accentColor);
-		} else if (dataPoint == 7) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 8) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawNotification(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 8) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 9) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 9) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.1)-offset390, xText, yText, width);
 		} else if (dataPoint == 10) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.1)-offset390, xText, yText, width);
+		} else if (dataPoint == 11) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
 			drawIntensityMin(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.1)-offset390, xText, yText, width, accentColor);
+		} else if (dataPoint == 12) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);
+		} else if (dataPoint == 13) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);			
+		} else if (dataPoint == 14) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawRespiration(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
+		} else if (dataPoint == 15) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawRecoveryTime(dc, xIcon, yIcon+(xIcon*0.015), xText+(xText*0.01)-offset390, yText, width);
+		} else if (dataPoint == 16) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, false); // run
+		} else if (dataPoint == 17) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
 		}		
 
 	}
@@ -1692,30 +2005,43 @@ class MtbA_functions {
 			drawElevation(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width);
 		} else if (dataPoint == 3) { // windIcon(dc, xIcon, yIcon, xText, yText, width)
 			drawWindSpeed(dc, xIcon-offset390, yIcon+(xIcon*0.01)-offset390, xText, yText, width);
-		} else if (dataPoint == 4) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 4) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+			drawMinMaxTemp(dc, xIcon+(offset390*2), yIcon, xText+(xText*0.01), yText, width);
+		} else if (dataPoint == 5) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
 			drawHumidity(dc, xIcon+(xIcon*0.02), yIcon-(xIcon*0.01), xText-offset390, yText, width, accentColor);
-		} else if (dataPoint == 5) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 6) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			drawPrecipitation(dc, xIcon+(xIcon*0.05)+offset390, yIcon-(xIcon*0.01)+(offset390*2), xText+(xText*0.09)-offset390, yText, width);
-		} else if (dataPoint == 6) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 7) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
+			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+		} else if (dataPoint == 8) { // Calories(dc, xIcon, yIcon, xText, yText, width)
 			drawCalories(dc, xIcon+(offset390*2), yIcon, xText+(xText*0.01), yText, width);
-		} else if (dataPoint == 7) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 9) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawFloorsClimbed(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.015), xText+(xText*0.015)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 8) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 10) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawPulseOx(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 9) { // HeartRate(dc, xIcon, hrIconY, xText, width, accentColor)
+		} else if (dataPoint == 11) { // HeartRate(dc, xIcon, hrIconY, xText, width, accentColor)
 			drawHeartRate(dc, xIcon-(xIcon*0.02), yIcon+(xIcon*0.115), xText+(xText*0.02), width, accentColor);
-		} else if (dataPoint == 10) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 12) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawNotification(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 11) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 13) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 12) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 14) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
 			drawSeconds(dc, xIcon, yIcon+(xIcon*0.085), xText, yText, width);
-		} else if (dataPoint == 13) { // Intensity (dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 15) { // Intensity (dc, xIcon, yIcon, xText, yText, width)
 			drawIntensityMin(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.085), xText, yText, width, accentColor);
-		}		
-
+		} else if (dataPoint == 16) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);
+		} else if (dataPoint == 17) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);
+		} else if (dataPoint == 18) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawRespiration(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
+		} else if (dataPoint == 19) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawRecoveryTime(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+		} else if (dataPoint == 20) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, false); //run
+		} else if (dataPoint == 21) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
+		}
 	}
-
-
 
 }

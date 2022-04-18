@@ -1,7 +1,7 @@
 <resources>
     <fonts>
-        <font id="IconsFont" filename="fonts/crystal-icons-small.fnt"
-        	antialias="true" filter="01235678:;@AB" />
+        <font id="IconsFont" filename="fonts/mtba-icons-small.fnt"
+        	antialias="true" filter="01235678:;@ABPQRSTUVWXY." />
                 <font id="WeatherFont" filename="fonts/weather-icons-20.fnt"
         	antialias="true" />
     </fonts>

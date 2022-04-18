@@ -1,6 +1,4 @@
 <resources>
     <bitmap id="LauncherIcon" filename="images/MoveToBeActive.png"
     	dithering="none" />
-    <bitmap id="GarminLogo" filename="images/garmin5.png" dithering="none">
-    </bitmap>
 </resources>
