@@ -12,29 +12,36 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for thinner, standard or thicker hands (around 20-30% difference between each);
 * **Current Date** with day of the week and Month;
 * **Garmin Logo** that can be hidden on the watch face's config menu;
-* **Battery percentage** with symbol changing colors depending on battery left: Red (less than 15%), Yellow (between 16 and 30%) and Green (greater than 31%);
+* **Battery indicator** with symbol changing colors depending on battery left: Red (less than or equal to 20%), Yellow (between 21 and 40%) and Green (greater than 40%). The text can be displayed as remaining % or estimated number of days until running out;
 * **Bluetooth** indicator: Blue (connected to the phone) or grey (not connected);
 * **Alarm** indicator: Accent color (at least one alarm active) or grey (no alarms);
 * **Do not Disturb** indicator (only shown when mode is activate, also activated during sleep hours);
 * **Location name** of the source of weather data (if available), that can be hidden on the watch face's config menu;
 * **Current weather** condition icon;
-* **Temperature** indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display);
+* **Temperature** indicator (if available) in Celsius or Fahrenheit (also dependent on watch's selected units display). The temperature number will become blue when that is the minimum temperature for the day, as well as orange when that is the maximum;
 
 ## Available Data Fields:
 * **Notifications** count: Accent color if at least one notification is available or grey if no unread notifications;
 * **Heart Rate** data, showing last available value (not updated every second when not doing an activity, to save battery) and a symbol that is presented with colors from 7 different rate zones, set up by the user on the watch main settings (Settings - User Profile - Heart Rate - Zones - Based On). Color palette for each zone: Resting / Light Load = grey, Moderate Effort = blue, Weight Control = green, Aerobic = yellow, Anaerobic = orange, High effort = light red and Speed = bright red;
 * **Calories** burned;
-* **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in grey until steps goal has been met, changing to the Accent color of choice;
 * **Steps**: Shows the number of steps on the current day and icon color will also change to the selected Accent when steps goal has been met;
-* **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used;
-* **Wind speed**: Current wind speed in km/h or mph (depending on watch's pace unit settings), or m/s if selected on the watch face's settings;
 * **Blood oxygen** percentage: will display the current pulse ox if the sensor is active all the time. However, if sensor is activated only while sleeping or on ad-hoc measurements, data point will show last available value. Color palette doesn't follow accent color and is based on 5 zones: Healthy = green, Normal = blue, Low = yellow, Brain Dysfunction = orange, Cyanosis = red;
 * **Floors climbed** count: Icon will be displayed in grey until floors climbed goal has been met, changing to the Accent color of choice;
 * **Precipitation** percentage: The current chance of rain/snow precipitation (0-100%), with blue tones color palette based on 4 zones: Low = light blue, Moderate = blue, High = dark blue, Very High = purple;
 * **Humidity** percentage: The current relative humidity (0-100%), with color palette based on 3 levels: Healthy = green, Fair = yellow, Poor = red;
-* **Solar intensity** percentage: Describes the solar sensor's charge efficiency, only available on Solar Charged watches. It will change colors based on 5 different UV intensity zones: Low = green, Moderate = yellow, High = orange, Very High = red, Extreme = violet.
-* **Intensity Minutes** per week: The current number of intensity minutes (moderate + 2x vigorous) during the current week. Symbol will turn from grey to the accent color as soon as the weekly intensity minutes goal is reached.
-* **Seconds**: Available as a data field, will display seconds count of the current time.
+* **Atmospheric Pressure** in hPa: The current barometer read in hPa/millibars or calibrated mean at sea-level, with color palette based on 3 levels: High-pressure = blue, Normal = Gray, Low-pressure = orange;
+* **Solar intensity** percentage: Describes the solar sensor's charge efficiency, only available on Solar Charged watches. It will change colors based on 5 different UV intensity zones: Low = green, Moderate = yellow, High = orange, Very High = red, Extreme = violet;
+* **Intensity Minutes** per week: The current number of intensity minutes (moderate + 2x vigorous) during the current week. Symbol will turn from grey to the accent color as soon as the weekly intensity minutes goal is reached;
+* **Seconds**: Available as a data field, will display seconds count of the current time;
+* **VO2 Max** from Running or Cycling (available and 2 separate data fields);
+* **Body Battery**;
+* **Stress** Level;
+* **Respiration** Rate;
+* **Recovery Time** in hours;
+* **Min/Max Temperature** forecasted for the day (*only available on the left top and middle data points*);
+* **Wind speed**: Current wind speed in km/h or mph (depending on watch's pace unit settings), or m/s if selected on the watch face's settings (*only available on the left top and middle data points*);
+* **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used (*only available on the left top and middle data points*);
+* **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in grey until steps goal has been met, changing to the Accent color of choice (*only available on the left top and middle data points*);
 
 ## Support this project:
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" href="https://www.paypal.com/donate/?hosted_button_id=XVZXEH5RVBCZ6">](https://www.paypal.com/donate/?hosted_button_id=XVZXEH5RVBCZ6)
