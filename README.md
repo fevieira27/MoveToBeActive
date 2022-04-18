@@ -189,6 +189,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 
 **4.1.0** (Coming Soon)
 - [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
+- [ ] Add next sun event (Sunrise or Sunset) data field.
 
 ## Watchface examples:
 
