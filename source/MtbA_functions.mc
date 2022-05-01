@@ -223,7 +223,13 @@ class MtbA_functions {
     // Draw the date string into the provided buffer at the specified location
     function drawDateString( dc, x, y ) {
 			var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
-			var dateStr = Lang.format("$1$, $2$ $3$", [info.day_of_week, info.month, info.day]);
+			var dateStr;
+			
+			if (Storage.getValue(24)==true){
+				dateStr = Lang.format("$1$, $3$ $2$", [info.day_of_week, info.month, info.day]);
+			} else {
+				dateStr = Lang.format("$1$, $2$ $3$", [info.day_of_week, info.month, info.day]);
+			}
 
 			if (x*2 == 260){
 				y = y + 3;
@@ -489,8 +495,9 @@ class MtbA_functions {
 			else {
 				formattedNotificationAmount = notificationAmount.format("%d");
 			}
-			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			
 			// Text
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 			dc.drawText( xText, yText, fontSize, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
 			
 			if(width==280 or width==240){ //Fenix 6X & Enduro
@@ -718,12 +725,12 @@ class MtbA_functions {
 		var estimateFlag = Storage.getValue(19);
 		var battery;
 
-		if (estimateFlag == true and System.getSystemStats().batteryInDays!=null){
-			battery = Math.ceil(System.getSystemStats().batteryInDays);
-		} else {
-			battery = Math.ceil(System.getSystemStats().battery);
+		battery = Math.ceil(System.getSystemStats().battery);
+		if (estimateFlag == true){
+			if (System.getSystemStats().batteryInDays!=null and System.getSystemStats().batteryInDays!=0){ //trying to make sure that we don't get an error if batteryInDays not supported by watch
+				battery = System.getSystemStats().batteryInDays;
+			}		
 		}
-		
 		
 		var offset = 0, offsetLED = 0;
 		if (width==390) { // Venu & D2 Air
@@ -943,7 +950,7 @@ class MtbA_functions {
 			unit = "?";
 		}
 			
-		if (stepDistance >= 10) {
+		if (stepDistance >= 100) {
 			distStr = stepDistance.format("%.0f");
 		} else { //(stepDistance <10)
 			distStr = stepDistance.format("%.1f");
@@ -1231,9 +1238,9 @@ class MtbA_functions {
 		} else {
 			if (check[19]) {
 				//elevation = Activity.getActivityInfo().altitude;
-				if(Activity.getActivityInfo().ambientPressure!=null){
-					//System.println(Activity.getActivityInfo().ambientPressure);
-					//System.println(Activity.getActivityInfo().meanSeaLevelPressure );
+				if(Activity.getActivityInfo().rawAmbientPressure!=null){
+					pressure = Activity.getActivityInfo().rawAmbientPressure;
+				} else if (Activity.getActivityInfo().ambientPressure!=null){
 					pressure = Activity.getActivityInfo().ambientPressure;
 				}
 			}
@@ -1266,7 +1273,7 @@ class MtbA_functions {
 		}
        		
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(xText, yText, fontSize, pressure /*+ unit*/, Graphics.TEXT_JUSTIFY_LEFT); // pressure in hPa
+		dc.drawText(xText, yText, fontSize, pressure, Graphics.TEXT_JUSTIFY_LEFT); // pressure in hPa
 	}
 
 

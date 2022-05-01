@@ -76,7 +76,6 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
     }
 
 	function onSelect(item) {
-
 		var boolean;
 
         if( item.getId().equals("design") ) {
@@ -165,46 +164,50 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
         } else if( item.getId().equals("units") ) { 
             var checkWeather=Storage.getValue(21)[1]; // has :Weather
             var unitsMenu = new WatchUi.Menu2({:title=>"Units"});
-		    if (checkWeather or System.getSystemStats() has :batteryInDays){
-                if (System.getSystemStats() has :batteryInDays){
-                    if (Storage.getValue(19) != null ){
-                        boolean = Storage.getValue(19);
-                    } else {
-                        boolean = false;
-                    }
-                    unitsMenu.addItem(new WatchUi.ToggleMenuItem("Battery Estimate", {:enabled=>"ON", :disabled=>"OFF"}, 19, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-                }                
-                if (checkWeather){
-                    if (Storage.getValue(6) != null ){
-                        boolean = Storage.getValue(6);
-                    } else {
-                        boolean = true;
-                    }	    		    		    
-                    unitsMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Type", {:enabled=>"Real Temperature", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-                    if (Storage.getValue(16) != null ){
-                        boolean = Storage.getValue(16);
-                    } else {
-                        boolean = false;
-                    }
-                    unitsMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
-                    if (Storage.getValue(15) != null ){
-                        boolean = Storage.getValue(15);
-                    } else {
-                        boolean = true;
-                    }
-                    unitsMenu.addItem(new WatchUi.ToggleMenuItem("Wind Speed Unit", {:enabled=>"km/h or mph", :disabled=>"m/s"}, 15, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-                    if (Storage.getValue(21)[19]){
-                        if (Storage.getValue(20) != null ){
-                                boolean = Storage.getValue(20);
-                        } else {
-                                boolean = true;
-                        }	    		    		    
-                        unitsMenu.addItem(new WatchUi.ToggleMenuItem("Atm. Pres. Type", {:enabled=>"Mean Sea-Level", :disabled=>"Standard"}, 20, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		                  
-                    }
+            if (System.getSystemStats() has :batteryInDays){
+                if (Storage.getValue(19) != null ){
+                    boolean = Storage.getValue(19);
+                } else {
+                    boolean = false;
                 }
-            } else {
-                unitsMenu.addItem(new WatchUi.ToggleMenuItem("None available", {:enabled=>"None", :disabled=>"None"}, null, null, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
+                unitsMenu.addItem(new WatchUi.ToggleMenuItem("Battery Estimate", {:enabled=>"ON", :disabled=>"OFF"}, 19, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
+            if (checkWeather){
+                if (Storage.getValue(6) != null ){
+                    boolean = Storage.getValue(6);
+                } else {
+                    boolean = true;
+                }	    		    		    
+                unitsMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Type", {:enabled=>"Real Temperature", :disabled=>"Feels Like"}, 6, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                if (Storage.getValue(16) != null ){
+                    boolean = Storage.getValue(16);
+                } else {
+                    boolean = false;
+                }
+                unitsMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
+                if (Storage.getValue(15) != null ){
+                    boolean = Storage.getValue(15);
+                } else {
+                    boolean = true;
+                }
+                unitsMenu.addItem(new WatchUi.ToggleMenuItem("Wind Speed Unit", {:enabled=>"km/h or mph", :disabled=>"m/s"}, 15, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                if (Storage.getValue(21)[19]){
+                    if (Storage.getValue(20) != null ){
+                        boolean = Storage.getValue(20);
+                    } else {
+                        boolean = false;
+                    }	    		    		    
+                    unitsMenu.addItem(new WatchUi.ToggleMenuItem("Atm. Pres. Type", {:enabled=>"Mean Sea Level", :disabled=>"Local Pressure"}, 20, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		                  
+                }
+            }
+            if (Storage.getValue(24) != null ){
+                boolean = Storage.getValue(24);
+            } else {
+                boolean = false;
+            }
+            var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
+            unitsMenu.addItem(new WatchUi.ToggleMenuItem("Date Format", {:enabled=>Lang.format("$2$ $1$", [info.month, info.day]), :disabled=>Lang.format("$1$ $2$", [info.month, info.day])}, 24, boolean, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
+
             WatchUi.pushView(unitsMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_BLINK );	
 	    } else {
             WatchUi.requestUpdate();

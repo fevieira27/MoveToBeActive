@@ -29,11 +29,13 @@ class AnalogView extends WatchUi.WatchFace
     function initialize() {
 
         WatchFace.initialize();
+        var currentVersion=401;
 
-        //var checks as Array<Boolean> = Storage.getValue(21);
-        //if (checks==null or checks.size()<20) { 
-        if (Storage.getValue(21)==null or Storage.getValue(21).size()<20) { 
-            var checks as Array<Boolean> = Storage.getValue(21);
+        if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
+            Storage.setValue(23,currentVersion);
+//        if (Storage.getValue(21)==null or Storage.getValue(21).size()<20) { 
+            //var checks as Array<Boolean> = Storage.getValue(21);
+            var checks as Array<Boolean>;
             checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
             if (System.getDeviceSettings() has :requiresBurnInProtection){
                 checks[0]=System.getDeviceSettings().requiresBurnInProtection;
@@ -56,7 +58,7 @@ class AnalogView extends WatchUi.WatchFace
                 if (Activity.getActivityInfo() has :currentOxygenSaturation){ checks[11]=true; }
                 if (Activity.getActivityInfo() has :altitude) { checks[16]=true; }
                 if (Activity.getActivityInfo() has :meanSeaLevelPressure) { checks[18]=true; }
-                if (Activity.getActivityInfo() has :ambientPressure) { checks[19]=true; }
+                if (Activity.getActivityInfo() has :rawAmbientPressure) { checks[19]=true; }
             }
             if (ActivityMonitor has :getHeartRateHistory) { checks[10]=true; }
             if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) { checks[15]=true; }
@@ -100,7 +102,7 @@ class AnalogView extends WatchUi.WatchFace
         var accentColor = Storage.getValue(1);
 		
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
-        if(Toybox.Graphics has :BufferedBitmap or :BufferedBitmapReference) {
+        if(Graphics has :BufferedBitmap or :BufferedBitmapReference) {
             // Allocate a full screen size buffer with a palette of only 4 colors to draw
             // the background image of the watchface.  This is used to facilitate blanking
             // the second hand during partial updates of the display
@@ -131,7 +133,7 @@ class AnalogView extends WatchUi.WatchFace
 
 
     // Handle the update event
-    function onUpdate(dc) {
+    function onUpdate(dc as Dc) as Void {
         var targetDc = null;        
         var width;
         var height;
@@ -241,10 +243,6 @@ class AnalogView extends WatchUi.WatchFace
             // Draw Battery
             MtbA.drawBatteryIcon(dc, width*0.69, height / 2.11, width*0.82, height / 2.06+(width==218 ? 1 : 0), width, height, accentColor);
             MtbA.drawBatteryText(dc, width*0.76, height / 2.14 - 1, width);
-
-System.println(width);
-System.println(dc.getFontHeight(Graphics.FONT_TINY)); //29-19 F6 / 27-19 VA4 / 
-System.println(dc.getFontHeight(Graphics.FONT_XTINY));
 
             //Data Points
             var FontAdj= 0;
