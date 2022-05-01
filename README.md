@@ -196,9 +196,16 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] The on-watch config menu was revamped, now split into 3 categories (instead of 2): Layout, Data Fields and Base Units.
 - [X] Temperature will now become blue in case that is the minimum temperature forecasted for the day, or orange if that is the maximum. All other temperatures will still be displayed in white (as before).
 
+**4.0.1** (1/May/22)
+- [X] Added option on the "Base Units" menu to change date format
+- [X] Changed the source of atmospheric pressure data, now using the raw data from the barometer instead of a smoothed value (slower to show changes)
+- [X] Changed code of the "battery in days" option, trying to fix the zero days bug
+- [X] Added one decimal case in the distance data field, even after the user has gone above 10 km/mi in a day
+- [X] Code change that will allow better compatibility of new features on future updates (avoiding need to reinstall issue that happened on 4.0.0)
+
 **4.1.0** (Coming Soon)
-- [ ] Seconds data field to update every second (1Hz) even when display is on low-power mode (MIP displays only).
 - [ ] Add next sun event (Sunrise or Sunset) data field.
+- [ ] Add option to remove battery, date and weather info.
 
 ## Watchface examples:
 
