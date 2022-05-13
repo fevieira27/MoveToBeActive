@@ -203,9 +203,14 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added one decimal case in the distance data field, even after the user has gone above 10 km/mi in a day
 - [X] Code change that will allow better compatibility of new features on future updates (avoiding need to reinstall issue that happened on 4.0.0)
 
+**4.0.2** (12/May/22)
+- [X] Corrected battery estimation unit
+- [X] Added extra checks to prevent data type errors when the weather station is reporting unexpected data (happening in a few cities every once in a while)
+- [X] Updated to SDK 4.1.3 with Garmin bug fixes.
+
 **4.1.0** (Coming Soon)
-- [ ] Add next sun event (Sunrise or Sunset) data field.
 - [ ] Add option to remove battery, date and weather info.
+- [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
 
 ## Watchface examples:
 
