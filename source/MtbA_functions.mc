@@ -389,9 +389,9 @@ class MtbA_functions {
 		
 		var TempMetric = System.getDeviceSettings().temperatureUnits;
 		var fahrenheit;
-		var temp = "", units = "", minTemp=0, maxTemp=0;
+		var temp=null, units = "", minTemp=null, maxTemp=null;
 
-		if (weather.lowTemperature!=null and weather.highTemperature!=null){
+		if ((weather.lowTemperature!=null and weather.lowTemperature instanceof Number) and (weather.highTemperature!=null and weather.highTemperature instanceof Number)){ //extra checks to avoid CIQ error
 			minTemp = weather.lowTemperature;
 			maxTemp = weather.highTemperature;
 		}
@@ -402,41 +402,46 @@ class MtbA_functions {
 			offset=-1;
 		}
 			
-		if (showBoolean == false and check[5] and weather.feelsLikeTemperature!=null) { //feels like
+		if (showBoolean == false and check[5] and (weather.feelsLikeTemperature!=null and weather.feelsLikeTemperature instanceof Number)) { //feels like
 			if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
 				units = "°C";
 				temp = weather.feelsLikeTemperature;
 			}	else {
 				temp = (weather.feelsLikeTemperature * 9/5) + 32; 
-				minTemp = (minTemp* 9/5) + 32;
-				maxTemp = (maxTemp* 9/5) + 32;
+				if (minTemp!=null and maxTemp!=null){
+					minTemp = (minTemp* 9/5) + 32;
+					maxTemp = (maxTemp* 9/5) + 32;
+				}
 				//temp = Lang.format("$1$", [temp.format("%d")] );
 				units = "°F";
 			}				
-		} else if(check[6] and weather.temperature!=null) {  // real temperature
+		} else if(check[6] and (weather.temperature!=null and weather.temperature instanceof Number)) {  // real temperature
 				if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
 					units = "°C";
 					temp = weather.temperature;
 				}	else {
 					temp = (weather.temperature * 9/5) + 32; 
-					minTemp = (minTemp* 9/5) + 32;
-					maxTemp = (maxTemp* 9/5) + 32;
+					if (minTemp!=null and maxTemp!=null){
+						minTemp = (minTemp* 9/5) + 32;
+						maxTemp = (maxTemp* 9/5) + 32;
+					}
 					//temp = Lang.format("$1$", [temp.format("%d")] );
 					units = "°F";
 				}
 		}
 		
-		if (temp != null and (temp instanceof Number)){
-			if (temp<=minTemp){
-				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Light Blue 0x55AAFF
-			} else if (temp>=maxTemp){
-				dc.setColor(0xFFAA55, Graphics.COLOR_TRANSPARENT); // Light Orange
-			} else {
-				dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		if (temp != null and temp instanceof Number){
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+			if ((minTemp != null and minTemp instanceof Number) and (maxTemp != null and maxTemp instanceof Number)) {
+				if (temp<=minTemp){
+					dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Light Blue 0x55AAFF
+				} else if (temp>=maxTemp){
+					dc.setColor(0xFFAA55, Graphics.COLOR_TRANSPARENT); // Light Orange
+				}				
 			}
 			dc.drawText(x, y+offset, Graphics.FONT_XTINY, temp, Graphics.TEXT_JUSTIFY_LEFT); // + units
 			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-			dc.drawText(x + dc.getTextWidthInPixels(temp.format("%d"),Graphics.FONT_XTINY), y+offset , Graphics.FONT_XTINY, units, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
+			dc.drawText(x + dc.getTextWidthInPixels(temp.format("%d"),Graphics.FONT_XTINY), y+offset , Graphics.FONT_XTINY, units, Graphics.TEXT_JUSTIFY_LEFT); 
 		}
 	}
 	
@@ -724,10 +729,12 @@ class MtbA_functions {
 	
 		var estimateFlag = Storage.getValue(19);
 		var battery;
+		var batteryDays=0;
 
 		battery = Math.ceil(System.getSystemStats().battery);
 		if (estimateFlag == true){
-			if (System.getSystemStats().batteryInDays!=null and System.getSystemStats().batteryInDays!=0){ //trying to make sure that we don't get an error if batteryInDays not supported by watch
+			batteryDays = System.getSystemStats().batteryInDays;
+			if (batteryDays!=null and batteryDays!=0){ //trying to make sure that we don't get an error if batteryInDays not supported by watch
 				battery = System.getSystemStats().batteryInDays;
 			}		
 		}
@@ -754,10 +761,8 @@ class MtbA_functions {
 			offsetLED = -1;
 		}
 
-		//System.println(width);
-
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(xText + offsetLED, yText + offset , 0 /* batteryFont */,battery.format("%d") + (estimateFlag == true ? "d" : "%"), Graphics.TEXT_JUSTIFY_CENTER ); // Correct battery text on Fenix 5 series (except 5s)
+		dc.drawText(xText + offsetLED, yText + offset , 0 /* batteryFont */,battery.format("%d") + (estimateFlag == true and batteryDays!=0 ? "d" : "%"), Graphics.TEXT_JUSTIFY_CENTER ); // Correct battery text on Fenix 5 series (except 5s)
 	}
 	
 	/* ------------------------ */
@@ -1265,9 +1270,16 @@ class MtbA_functions {
 
     // Pressure Text	
 		if (pressure != null) {
-			pressure = pressure / 100;
-			pressure = pressure.format("%.0f");
-			//unit = " hPa";
+			if (System.getDeviceSettings().temperatureUnits == System.UNIT_METRIC or Storage.getValue(16)==true) { // Always Celsius
+				pressure = pressure / 100;
+				pressure = pressure.format("%.0f");				
+				//unit = " hPa";
+			} else {
+				pressure = pressure / 100 * 0.02953; // inches of mercury
+				pressure = pressure.format("%.1f");
+				//unit = " inHg";
+			}
+			
 		} else{
 			pressure = "";
 		}
@@ -1286,7 +1298,7 @@ class MtbA_functions {
 	  var precipitation=0;
 	    
 		if (check[1] and check[2]) {
-				if (Weather.getCurrentConditions().precipitationChance!=null){
+				if (Weather.getCurrentConditions()!=null and Weather.getCurrentConditions().precipitationChance!=null){
 					precipitation = Weather.getCurrentConditions().precipitationChance;//.toString();
 				} else {
 					return false;
@@ -1342,12 +1354,13 @@ class MtbA_functions {
 		var TempMetric = System.getDeviceSettings().temperatureUnits;
 		var fahrenheit;
 		var units = "";
+		var weather = Weather.getCurrentConditions();
     
 		if (check[1] and check[2]) { 
-			if (Weather.getCurrentConditions()!=null){
-				if (Weather.getCurrentConditions().lowTemperature!=null and Weather.getCurrentConditions().highTemperature!=null){
-					minTemp = Weather.getCurrentConditions().lowTemperature.toString();
-					maxTemp = Weather.getCurrentConditions().highTemperature.toString();
+			if (weather!=null){
+				if ((weather.lowTemperature!=null and weather.lowTemperature instanceof Number) and (weather.highTemperature!=null and weather.highTemperature instanceof Number)){
+					minTemp = weather.lowTemperature;
+					maxTemp = weather.highTemperature;
 				} else { return false; }
 			} else { return false; }
 		} else {
@@ -1386,11 +1399,11 @@ class MtbA_functions {
 		dc.drawText( xText, yText , fontSize, minTemp, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
 
 		dc.setColor(0xFFAA55, Graphics.COLOR_TRANSPARENT); // Purple 0xAA55FF
-		dc.drawText( xText + dc.getTextWidthInPixels(minTemp+"/",fontSize) , yText , fontSize, maxTemp, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
+		dc.drawText( xText + dc.getTextWidthInPixels(minTemp.toString()+"/",fontSize) , yText , fontSize, maxTemp, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
 
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( xText + dc.getTextWidthInPixels(minTemp,fontSize), yText , fontSize, "/", Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
-		dc.drawText( xText + dc.getTextWidthInPixels(minTemp+"/"+maxTemp,fontSize), yText , fontSize, units, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
+		dc.drawText( xText + dc.getTextWidthInPixels(minTemp.toString(),fontSize), yText , fontSize, "/", Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
+		dc.drawText( xText + dc.getTextWidthInPixels(minTemp.toString()+"/"+maxTemp.toString(),fontSize), yText , fontSize, units, Graphics.TEXT_JUSTIFY_LEFT); //Lang.format("$1$%",[precipitation])
 		
 		return true;
     }
@@ -1404,7 +1417,7 @@ class MtbA_functions {
 		var humidity=0;
 		
 		if (check[1] and check[2]) {
-			if (Weather.getCurrentConditions().relativeHumidity != null){
+			if (Weather.getCurrentConditions()!= null and Weather.getCurrentConditions().relativeHumidity != null){
 				humidity = Weather.getCurrentConditions().relativeHumidity;//.toString();
 			} else {
 				return false;
@@ -1462,64 +1475,65 @@ class MtbA_functions {
 		var unit;
     var windIconColour = Graphics.COLOR_DK_GRAY;
 
-		if (check[1] and check[2] and Weather.getCurrentConditions() != null and Weather.getCurrentConditions().windSpeed != null and Weather.getCurrentConditions().windBearing != null) {
-			windSpeed = Weather.getCurrentConditions().windSpeed;//.toString();
-			windBearing = Weather.getCurrentConditions().windBearing;//.toString();
+		if (check[1] and check[2] and Weather.getCurrentConditions() != null){
+			if (Weather.getCurrentConditions().windSpeed != null and (Weather.getCurrentConditions().windBearing != null and Weather.getCurrentConditions().windBearing instanceof Number)){
+				windSpeed = Weather.getCurrentConditions().windSpeed;//.toString();
+				windBearing = Weather.getCurrentConditions().windBearing;//.toString();
 
-			if (windSpeed >= 32.7) { // Hurricane Force
-				windIconColour = 0xAA0000;
-			} else if (windSpeed >= 28.5) { // Violent Storm
-				windIconColour = 0xFF0000;
-			} else if (windSpeed >= 24.5) { // Storm
-				windIconColour = 0xFF5500;
-			} else if (windSpeed >= 20.8) { // Strong Gale
-				windIconColour = 0xFFAA00;
-			} else if (windSpeed >= 17.2) { // Gale
-				windIconColour = 0xFFAA55;
-			} else if (windSpeed >= 13.9) { // Near Gale
-				windIconColour = 0xAAFF00;
-			} else if (windSpeed >= 10.8) { // Strong Breeze
-				windIconColour = 0x55FF00;
-			} else if (windSpeed >= 8) { // Fresh Breeze
-				windIconColour = 0x00FF55;
-			} else if (windSpeed >= 5.5) { // Moderate Breeze
-				windIconColour = 0x55FFAA;
-			} else if (windSpeed >= 3.4) { // Gentle Breeze
-				windIconColour = 0xAAFFAA;
-			} else if (windSpeed >= 1.6) { // Light Breeze
-				windIconColour = 0x55FFFF;
-			} else if (windSpeed >= 0.5) { // Light Air
-				windIconColour = 0xAAFFFF; 
-			} else { // Calm
-				windIconColour = 0xFFFFFF; 
-			}  
-			
-			if (windBearing >= 335 or windBearing < 25) {
-				letter = "N"; 
-			} else if (windBearing >= 25 and windBearing < 65) {
-				letter = "NE"; 
-			} else if (windBearing >= 65 and windBearing < 115) {
-				letter = "E"; 
-			} else if (windBearing >= 115 and windBearing < 155) {
-				letter = "SE"; 
-			} else if (windBearing >= 155 and windBearing < 205) {
-				letter = "S";
-			} else if (windBearing >= 205 and windBearing < 245) {
-				letter = "SW"; 
-			} else if (windBearing >= 245 and windBearing < 295) {
-				letter = "W"; 
-			} else if (windBearing >= 295 and windBearing < 335) {
-				letter = "NW"; 
-			} else {
-				letter = "P";
-			}      
-			if (letter.length()==2 and (width>260 or System.SCREEN_SHAPE_ROUND != screenShape)) {
-				xIcon = xIcon - 2;
-			} 
+				if (windSpeed >= 32.7) { // Hurricane Force
+					windIconColour = 0xAA0000;
+				} else if (windSpeed >= 28.5) { // Violent Storm
+					windIconColour = 0xFF0000;
+				} else if (windSpeed >= 24.5) { // Storm
+					windIconColour = 0xFF5500;
+				} else if (windSpeed >= 20.8) { // Strong Gale
+					windIconColour = 0xFFAA00;
+				} else if (windSpeed >= 17.2) { // Gale
+					windIconColour = 0xFFAA55;
+				} else if (windSpeed >= 13.9) { // Near Gale
+					windIconColour = 0xAAFF00;
+				} else if (windSpeed >= 10.8) { // Strong Breeze
+					windIconColour = 0x55FF00;
+				} else if (windSpeed >= 8) { // Fresh Breeze
+					windIconColour = 0x00FF55;
+				} else if (windSpeed >= 5.5) { // Moderate Breeze
+					windIconColour = 0x55FFAA;
+				} else if (windSpeed >= 3.4) { // Gentle Breeze
+					windIconColour = 0xAAFFAA;
+				} else if (windSpeed >= 1.6) { // Light Breeze
+					windIconColour = 0x55FFFF;
+				} else if (windSpeed >= 0.5) { // Light Air
+					windIconColour = 0xAAFFFF; 
+				} else { // Calm
+					windIconColour = 0xFFFFFF; 
+				}  
+				
+				if (windBearing >= 335 or windBearing < 25) {
+					letter = "N"; 
+				} else if (windBearing >= 25 and windBearing < 65) {
+					letter = "NE"; 
+				} else if (windBearing >= 65 and windBearing < 115) {
+					letter = "E"; 
+				} else if (windBearing >= 115 and windBearing < 155) {
+					letter = "SE"; 
+				} else if (windBearing >= 155 and windBearing < 205) {
+					letter = "S";
+				} else if (windBearing >= 205 and windBearing < 245) {
+					letter = "SW"; 
+				} else if (windBearing >= 245 and windBearing < 295) {
+					letter = "W"; 
+				} else if (windBearing >= 295 and windBearing < 335) {
+					letter = "NW"; 
+				} else {
+					letter = "P";
+				}      
+				if (letter.length()==2 and (width>260 or System.SCREEN_SHAPE_ROUND != screenShape)) {
+					xIcon = xIcon - 2;
+				} 
+			}
 		}
         
 		dc.setColor(windIconColour, Graphics.COLOR_TRANSPARENT);
-		//System.println(windBearing);
 		//dc.drawText( xIcon, yIcon + offset, IconsFont, "P", Graphics.TEXT_JUSTIFY_CENTER); // Icon Using Font
 
 		if (width==360) { // Venu 2s

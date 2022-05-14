@@ -29,7 +29,7 @@ class AnalogView extends WatchUi.WatchFace
     function initialize() {
 
         WatchFace.initialize();
-        var currentVersion=401;
+        var currentVersion=403;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
@@ -158,8 +158,6 @@ class AnalogView extends WatchUi.WatchFace
         width = targetDc.getWidth();
         height = targetDc.getHeight();
 
-        //System.println(width);
-
         if(inLowPower and canBurnIn) {
         	if (dc has :setAntiAlias) {
         		dc.setAntiAlias(false);
@@ -217,7 +215,7 @@ class AnalogView extends WatchUi.WatchFace
                 if(Toybox.Weather.getCurrentConditions() != null) {
                     var cond = Toybox.Weather.getCurrentConditions();
                     if (Storage.getValue(3)==false){ // Hide Garmin Logo
-                        if (cond.condition!=null){
+                        if (cond.condition!=null and cond.condition instanceof Number){
                             MtbA.drawWeatherIcon(dc, position[18], position[22], position[19], width, cond.condition);
                         }
                         //Draw Temperature Text
@@ -227,7 +225,7 @@ class AnalogView extends WatchUi.WatchFace
                             MtbA.drawLocation(dc, width/2, position[6], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7), cond);
                         }
                     } else { // Show Garmin Logo
-                        if (cond.condition!=null){
+                        if (cond.condition!=null and cond.condition instanceof Number){
                             MtbA.drawWeatherIcon(dc, position[18], position[20], position[19], width, cond.condition);
                         }
                         //Draw Temperature Text

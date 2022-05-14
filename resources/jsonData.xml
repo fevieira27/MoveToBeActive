@@ -58,6 +58,8 @@
     20= atmospheric pressure type
     21= has checks
     22= AOD color for minute hand
+    23= WatchFace Version check
+    24= Date Format toggle
     
     **Icons**
 

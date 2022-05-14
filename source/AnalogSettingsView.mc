@@ -242,8 +242,6 @@ class DrawableMenuTitle extends WatchUi.Drawable {
         } else {
         	mIndex=Storage.getValue(2);
         }        
-        
-        //System.println(dc.getWidth());
 
         var appIcon = Application.loadResource(Rez.Drawables.LauncherIcon);        
         var bitmapWidth = appIcon.getWidth();
