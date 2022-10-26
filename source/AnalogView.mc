@@ -5,11 +5,12 @@
 // 
 
 import Toybox.Activity;
-import Toybox.Graphics;
 import Toybox.Weather;
 import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Application.Storage;
+import Toybox.Graphics;
+import Toybox.Lang;
 
 //var partialUpdatesAllowed = false;
 
@@ -29,16 +30,33 @@ class AnalogView extends WatchUi.WatchFace
     function initialize() {
 
         WatchFace.initialize();
-        var currentVersion=403;
+
+        if (Storage.getValue(3) == null ){ Storage.setValue(3, true); } // Garmin Logo
+        if (Storage.getValue(4) == null ){ Storage.setValue(4, true); } // Bluetooth Logo
+        if (Storage.getValue(6) == null ){ Storage.setValue(6, true); } // Temperature Type
+        if (Storage.getValue(7) == null ){ Storage.setValue(7, true); } // Location Name
+        if (Storage.getValue(8) == null ){ Storage.setValue(8, true); } // Alarm Icon
+        if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit        
+        if (Storage.getValue(16) == null ){ Storage.setValue(16, false); } // Temperature Unit
+        if (Storage.getValue(18) == null ){ Storage.setValue(18, false); } // Tickmark Color
+        if (Storage.getValue(19) == null ){ Storage.setValue(19, false); } // Battery Estimate
+        if (Storage.getValue(20) == null ){ Storage.setValue(20, false); } // Pressure Type        
+        if (Storage.getValue(22) == null ){ Storage.setValue(22, false); } // AOD Colors
+        if (Storage.getValue(24) == null ){ Storage.setValue(24, false); } // Date Format
+        if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { // If not square display
+            if (Storage.getValue(5) == null ){ Storage.setValue(5, true); } // Hour Labels
+            if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
+        }
+
+        var currentVersion=410;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
 //        if (Storage.getValue(21)==null or Storage.getValue(21).size()<20) { 
             //var checks as Array<Boolean> = Storage.getValue(21);
-            var checks as Array<Boolean>;
-            checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-            if (System.getDeviceSettings() has :requiresBurnInProtection){
-                checks[0]=System.getDeviceSettings().requiresBurnInProtection;
+            var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+            if (System.getSystemStats() has :batteryInDays){
+                checks[0]=true;
             }
             if (System.getDeviceSettings() has :doNotDisturb) { checks[4]=true; }
             if (System.getSystemStats() has :solarIntensity) { checks[8]=true; }
@@ -48,17 +66,17 @@ class AnalogView extends WatchUi.WatchFace
                 checks[1]=true;
                 if (Toybox.Weather has :getCurrentConditions){ 
                     checks[2]=true; 
-                    if (Toybox.Weather.getCurrentConditions() has :feelsLikeTemperature){ checks[5]=true; }
-                    if (Toybox.Weather.getCurrentConditions() has :temperature){ checks[6]=true; }
-                    if (Toybox.Weather.getCurrentConditions() has :observationLocationName){ checks[7]=true; }
+                    // if (Toybox.Weather.getCurrentConditions() has :feelsLikeTemperature){ checks[5]=true; } // and Toybox.Weather.getCurrentConditions().feelsLikeTemperature!=null and Toybox.Weather.getCurrentConditions().feelsLikeTemperature instanceof Number
+                    // if (Toybox.Weather.getCurrentConditions() has :temperature){ checks[6]=true; }
+                    // if (Toybox.Weather.getCurrentConditions() has :observationLocationName){ checks[7]=true; }
                 }
             }
             if (Activity has :getActivityInfo) { 
                 checks[9]=true; 
                 if (Activity.getActivityInfo() has :currentOxygenSaturation){ checks[11]=true; }
                 if (Activity.getActivityInfo() has :altitude) { checks[16]=true; }
-                if (Activity.getActivityInfo() has :meanSeaLevelPressure) { checks[18]=true; }
-                if (Activity.getActivityInfo() has :rawAmbientPressure) { checks[19]=true; }
+                if (Activity.getActivityInfo() has :meanSeaLevelPressure) { checks[6]=true; } // old 18
+                if (Activity.getActivityInfo() has :rawAmbientPressure) { checks[5]=true; } // old 19
             }
             if (ActivityMonitor has :getHeartRateHistory) { checks[10]=true; }
             if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) { checks[15]=true; }
@@ -66,7 +84,7 @@ class AnalogView extends WatchUi.WatchFace
             
             if (ActivityMonitor.getInfo() has :floorsClimbed) { checks[12]=true; }
             if (ActivityMonitor.getInfo() has :respirationRate) { checks[14]=true; }
-            if (ActivityMonitor.getInfo() has :timeToRecovery) { checks[17]=true; }
+            if (ActivityMonitor.getInfo() has :timeToRecovery) { checks[7]=true; } // old 17
             
             Storage.setValue(21,checks);
         }
@@ -139,7 +157,6 @@ class AnalogView extends WatchUi.WatchFace
         var height;
         var MtbA = new MtbA_functions();
         var check = Storage.getValue(21);
-        var canBurnIn=check[0];
         //var canBurnIn=false;
         var accentColor = Storage.getValue(1);
 
@@ -157,6 +174,11 @@ class AnalogView extends WatchUi.WatchFace
 
         width = targetDc.getWidth();
         height = targetDc.getHeight();
+
+        //System.println(width);
+        //System.println(height);
+
+        var canBurnIn=System.getDeviceSettings().requiresBurnInProtection;
 
         if(inLowPower and canBurnIn) {
         	if (dc has :setAntiAlias) {
@@ -220,7 +242,7 @@ class AnalogView extends WatchUi.WatchFace
                         }
                         //Draw Temperature Text
                         MtbA.drawTemperature(dc, position[21], position[7], Storage.getValue(6), width, cond);
-                        if (check[7] and cond.observationLocationName!=null){
+                        if (cond.observationLocationName!=null){
                             //Draw Location Name
                             MtbA.drawLocation(dc, width/2, position[6], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7), cond);
                         }
@@ -230,7 +252,7 @@ class AnalogView extends WatchUi.WatchFace
                         }
                         //Draw Temperature Text
                         MtbA.drawTemperature(dc, position[21], (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape)?position[15]:position[20], Storage.getValue(6), width, cond);
-                        if (check[7] and cond.observationLocationName!=null){
+                        if (cond.observationLocationName!=null){
                             //Draw Location Name
                             MtbA.drawLocation(dc, width/2, position[23], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7), cond);
                         }                        
@@ -254,7 +276,11 @@ class AnalogView extends WatchUi.WatchFace
                 } else if (width>=400) {
                     FontAdj=5;
                 } else if (width==218) {
-                    FontAdj=3;
+                    if (dc.getFontHeight(Graphics.FONT_TINY)==23){
+                        FontAdj=2;
+                    } else {
+                        FontAdj=3;
+                    }
                 } else if (width==240 and dc.getFontHeight(Graphics.FONT_TINY)==26) { // Fenix 5, 5S and 5X
                     FontAdj=0;                     
                 } else {
