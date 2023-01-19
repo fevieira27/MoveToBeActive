@@ -5,8 +5,9 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 
 <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Vivomove.jpg?raw=true" height="270"> <img src="https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/Arrow.png?raw=true" height="270">
 <img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA%20v6.png" height="270">
-
+<!--
 [<img src="https://raw.githubusercontent.com/wwarby/walker/master/supporting-files/available-connect-iq-badge.svg" width="350" href="https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps">](https://apps.garmin.com/en-US/developer/f959cfb4-acb7-4db5-8dfd-92749316d762/apps)
+-->
 
 ## Feature listing:
 * Analog hands for Hour and Minutes, but not for Seconds to mimic Vivomove HR (and save battery). Design menu has a toggle for thinner, standard or thicker hands (around 20-30% difference between each);
@@ -208,9 +209,12 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added extra checks to prevent data type errors when the weather station is reporting unexpected data (happening in a few cities every once in a while)
 - [X] Updated to SDK 4.1.3 with Garmin bug fixes.
 
-**4.1.0** (Coming Soon)
-- [ ] Add option to remove battery, date and weather info.
+**4.1.0** (27/Oct/22)
+- [X] Add option to remove battery, date and weather info.
+
+**4.1.1** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
+- [ ] Add color categories to body battery icon, depending on value
 
 ## Watchface examples:
 
@@ -218,12 +222,6 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 ![Config Menu](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%202%20v3.jpg)
 ![Features](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%201%20v2.jpg)
 ![Watch Examples](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%204%20v2.jpg)
-
-## Check our other watch faces on Garmin's ConnectIQ store:
-
-|MtbA White Analog|MtbA Iconic Stripes|
-| --- | --- |
-|[<img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA%20White%20v3.png" height="270" href="https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4">](https://apps.garmin.com/en-US/apps/90be8a59-284b-4ed2-a052-6cca9d7d5bf4)|[<img src="https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/Home-MtbA_Stripes%20v4.png" height="270" href="https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802">](https://apps.garmin.com/en-US/apps/1d3209d4-af81-444f-859c-b97375e09802)|
 
 # Inspiration:
 * https://github.com/wwarby/walker
