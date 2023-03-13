@@ -214,7 +214,9 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 
 **4.1.1** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
+- [ ] Give the user the possibility to chose the wind speed to be displayed in knots
 - [ ] Add color categories to body battery icon, depending on value
+- [ ] Add option to show the battery icon in grayscale or following the accent color (instead of green/yellow/red)
 
 ## Watchface examples:
 
