@@ -31,30 +31,23 @@ class AnalogView extends WatchUi.WatchFace
 
         WatchFace.initialize();
 
-        if (Storage.getValue(3) == null ){ Storage.setValue(3, true); } // Garmin Logo
-        if (Storage.getValue(4) == null ){ Storage.setValue(4, true); } // Bluetooth Logo
-        if (Storage.getValue(6) == null ){ Storage.setValue(6, true); } // Temperature Type
-        if (Storage.getValue(7) == null ){ Storage.setValue(7, true); } // Location Name
-        if (Storage.getValue(8) == null ){ Storage.setValue(8, true); } // Alarm Icon
-        if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit        
-        if (Storage.getValue(16) == null ){ Storage.setValue(16, false); } // Temperature Unit
-        if (Storage.getValue(18) == null ){ Storage.setValue(18, false); } // Tickmark Color
-        if (Storage.getValue(19) == null ){ Storage.setValue(19, false); } // Battery Estimate
-        if (Storage.getValue(20) == null ){ Storage.setValue(20, false); } // Pressure Type        
-        if (Storage.getValue(22) == null ){ Storage.setValue(22, false); } // AOD Colors
-        if (Storage.getValue(24) == null ){ Storage.setValue(24, false); } // Date Format
-        if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { // If not square display
-            if (Storage.getValue(5) == null ){ Storage.setValue(5, true); } // Hour Labels
-            if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
+		if (Storage.getValue(1) == null or Storage.getValue(2) == null) {
+            if (System.getDeviceSettings().screenWidth >= 360){ // AMOLED
+//                accentColor = 0xAAFF00; 
+                Storage.setValue(2, 1);
+                Storage.setValue(1, 0xAAFF00); // Vivomove Green
+            } else {
+//                accentColor = 0x55FF00; 
+                Storage.setValue(2, 0);
+                Storage.setValue(1, 0x55FF00); // Bright Green
+            }
         }
 
-        var currentVersion=410;
+        var currentVersion=421;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
-//        if (Storage.getValue(21)==null or Storage.getValue(21).size()<20) { 
-            //var checks as Array<Boolean> = Storage.getValue(21);
-            var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+            var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
             if (System.getSystemStats() has :batteryInDays){
                 checks[0]=true;
             }
@@ -66,20 +59,17 @@ class AnalogView extends WatchUi.WatchFace
                 checks[1]=true;
                 if (Toybox.Weather has :getCurrentConditions){ 
                     checks[2]=true; 
-                    // if (Toybox.Weather.getCurrentConditions() has :feelsLikeTemperature){ checks[5]=true; } // and Toybox.Weather.getCurrentConditions().feelsLikeTemperature!=null and Toybox.Weather.getCurrentConditions().feelsLikeTemperature instanceof Number
-                    // if (Toybox.Weather.getCurrentConditions() has :temperature){ checks[6]=true; }
-                    // if (Toybox.Weather.getCurrentConditions() has :observationLocationName){ checks[7]=true; }
                 }
+                if (Weather has :getSunset and Weather has :getSunrise) { checks[15]=true; }
             }
             if (Activity has :getActivityInfo) { 
                 checks[9]=true; 
                 if (Activity.getActivityInfo() has :currentOxygenSaturation){ checks[11]=true; }
-                if (Activity.getActivityInfo() has :altitude) { checks[16]=true; }
+                // if (Activity.getActivityInfo() has :altitude) { checks[16]=true; }
                 if (Activity.getActivityInfo() has :meanSeaLevelPressure) { checks[6]=true; } // old 18
                 if (Activity.getActivityInfo() has :rawAmbientPressure) { checks[5]=true; } // old 19
             }
-            if (ActivityMonitor has :getHeartRateHistory) { checks[10]=true; }
-            if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) { checks[15]=true; }
+            if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) { checks[10]=true; } // old 15
             if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getStressHistory)) { checks[13]=true; }
             
             if (ActivityMonitor.getInfo() has :floorsClimbed) { checks[12]=true; }
@@ -108,19 +98,21 @@ class AnalogView extends WatchUi.WatchFace
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
 		
-		if (Storage.getValue(1) == null) {
+/*        var accentColor = ;
+
+		if (accentColor == null) {
             if (dc.getWidth()>=360){
-                Storage.setValue(1, 0xAAFF00); // Vivomove Green
+                accentColor = 0xAAFF00; // Vivomove Green
                 Storage.setValue(2, 1);
             } else {
-                Storage.setValue(1, 0x55FF00); // Bright Green
+                accentColor = 0x55FF00; // Bright Green
                 Storage.setValue(2, 0);
             }
-        }
-        var accentColor = Storage.getValue(1);
-		
+            Storage.setValue(1, accentColor); 
+        }*/
+
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
-        if(Graphics has :BufferedBitmap or :BufferedBitmapReference) {
+        if(Toybox.Graphics has :BufferedBitmap or Toybox.Graphics has :BufferedBitmapReference) {
             // Allocate a full screen size buffer with a palette of only 4 colors to draw
             // the background image of the watchface.  This is used to facilitate blanking
             // the second hand during partial updates of the display
@@ -133,8 +125,8 @@ class AnalogView extends WatchUi.WatchFace
                     Graphics.COLOR_DK_GRAY,
                     Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_BLACK,
-                    Graphics.COLOR_WHITE
-                    ,accentColor
+                    Graphics.COLOR_WHITE,
+                    Storage.getValue(1)
                 ]
       		}) ; 
 
@@ -153,11 +145,9 @@ class AnalogView extends WatchUi.WatchFace
     // Handle the update event
     function onUpdate(dc as Dc) as Void {
         var targetDc = null;        
-        var width;
-        var height;
         var MtbA = new MtbA_functions();
         var check = Storage.getValue(21);
-        //var canBurnIn=false;
+        var canBurnIn=System.getDeviceSettings().requiresBurnInProtection;
         var accentColor = Storage.getValue(1);
 
         // We always want to refresh the full screen when we get a regular onUpdate call.
@@ -172,13 +162,13 @@ class AnalogView extends WatchUi.WatchFace
             targetDc = dc;
         }
 
-        width = targetDc.getWidth();
-        height = targetDc.getHeight();
+        var width = targetDc.getWidth();
+        var height = targetDc.getHeight();
 
         //System.println(width);
         //System.println(height);
 
-        var canBurnIn=System.getDeviceSettings().requiresBurnInProtection;
+        var labels=Storage.getValue(5);
 
         if(inLowPower and canBurnIn) {
         	if (dc has :setAntiAlias) {
@@ -191,7 +181,7 @@ class AnalogView extends WatchUi.WatchFace
             targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight()); //width & height?
 
             // Draw the tick marks around the edges of the screen
-            MtbA.drawHashMarks(targetDc, accentColor, Storage.getValue(5), width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc
+            MtbA.drawHashMarks(targetDc, accentColor, labels, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc
 
             dc.drawBitmap(0, 0, offscreenBuffer);
         } else {
@@ -208,7 +198,7 @@ class AnalogView extends WatchUi.WatchFace
 
             // Draw the tick marks around the edges of the screen
             if(width>=360){ // No anti-alias for hashmarks on AMOLED screens
-                MtbA.drawHashMarks(dc, accentColor, Storage.getValue(5), width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc        
+                MtbA.drawHashMarks(dc, accentColor, labels, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc        
                 if (dc has :setAntiAlias) {
                     dc.setAntiAlias(true);
                 }
@@ -216,18 +206,19 @@ class AnalogView extends WatchUi.WatchFace
                 if (dc has :setAntiAlias) {
                     dc.setAntiAlias(true);
                 }
-                MtbA.drawHashMarks(dc, accentColor, Storage.getValue(5), width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc                        
+                MtbA.drawHashMarks(dc, accentColor, labels, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc                        
             }
 
-            var position = Application.loadResource(Rez.JsonData.mPosition);
+            var position = Application.loadResource(Rez.JsonData.mPosition);            
          
             // Garmin Logo check
-            if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
+            var logo=Storage.getValue(3);
+            if (logo == null or logo == true) {
                 MtbA.drawGarminLogo(dc, position[4], position[5]); 
             }
 
             // Draw the 3, 6, 9, and 12 hour labels.
-            if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape and (Storage.getValue(5) == null or Storage.getValue(5) == true)) {
+            if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape and labels != false) {
                 MtbA.drawHourLabels(dc, width, height); 
             }
 
@@ -235,56 +226,66 @@ class AnalogView extends WatchUi.WatchFace
             //if (Toybox has :Weather and Weather has :getCurrentConditions) {
             if (check[1] and check[2]) {
                 if(Toybox.Weather.getCurrentConditions() != null) {
-                    var cond = Toybox.Weather.getCurrentConditions();
-                    if (Storage.getValue(3)==false){ // Hide Garmin Logo
-                        if (cond.condition!=null and cond.condition instanceof Number){
-                            MtbA.drawWeatherIcon(dc, position[18], position[22], position[19], width, cond.condition);
+                    //var cond = Toybox.Weather.getCurrentConditions();
+                    if (logo==false){ // Hide Garmin Logo
+                        if (Storage.getValue(25)!=false){ // Show current weather condition and temperature
+                            //if (cond.condition!=null and cond.condition instanceof Number){
+                                MtbA.drawWeatherIcon(dc, position[18], position[22], position[19], width);
+                            //}
+                            //Draw Temperature Text
+                            MtbA.drawTemperature(dc, position[21], position[7], Storage.getValue(6), width);
                         }
-                        //Draw Temperature Text
-                        MtbA.drawTemperature(dc, position[21], position[7], Storage.getValue(6), width, cond);
-                        if (cond.observationLocationName!=null){
+                        //if (cond.observationLocationName!=null){
                             //Draw Location Name
-                            MtbA.drawLocation(dc, width/2, position[6], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7), cond);
-                        }
+                            MtbA.drawLocation(dc, width/2, position[6], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7));
+                        //}
                     } else { // Show Garmin Logo
-                        if (cond.condition!=null and cond.condition instanceof Number){
-                            MtbA.drawWeatherIcon(dc, position[18], position[20], position[19], width, cond.condition);
+                        if (Storage.getValue(25)!=false){ // Show current weather condition and temperature
+                            //if (cond.condition!=null and cond.condition instanceof Number){
+                                MtbA.drawWeatherIcon(dc, position[18], position[20], position[19], width);
+                            //}
+                            //Draw Temperature Text
+                            MtbA.drawTemperature(dc, position[21], (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape)?position[15]:position[20], Storage.getValue(6), width);
                         }
-                        //Draw Temperature Text
-                        MtbA.drawTemperature(dc, position[21], (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape)?position[15]:position[20], Storage.getValue(6), width, cond);
-                        if (cond.observationLocationName!=null){
+                        //if (cond.observationLocationName!=null){
                             //Draw Location Name
-                            MtbA.drawLocation(dc, width/2, position[23], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7), cond);
-                        }                        
+                            MtbA.drawLocation(dc, width/2, position[23], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7));
+                        //}                        
                     }
                 }
             }
             
             // Draw Battery
-            MtbA.drawBatteryIcon(dc, width*0.69, height / 2.11, width*0.82, height / 2.06+(width==218 ? 1 : 0), width, height, accentColor);
-            MtbA.drawBatteryText(dc, width*0.76, height / 2.14 - 1, width);
+            if (Storage.getValue(26)!=false){ // Show Battery Icon
+                MtbA.drawBatteryIcon(dc, width*0.69, height / 2.11, width*0.82, height / 2.06+(width==218 ? 1 : 0), width, height, accentColor);
+                MtbA.drawBatteryText(dc, width*0.76, height / 2.14 - 1, width, check[0]);
+            }
 
             //Data Points
-            var FontAdj= 0;
-            if (Storage.getValue(14)==true){
+            var FontAdj=0;
+            if (Storage.getValue(14)==true){ // fontSize height adjustment
                 if (width==260 and dc.getFontHeight(Graphics.FONT_TINY)==29) { //Fenix 6
                     FontAdj=6;
                 } else if (width==260 and dc.getFontHeight(Graphics.FONT_TINY)==27) { // Vivoactive 4
                     FontAdj=5; 
                 } else if (width==280){
                     FontAdj=7;
-                } else if (width>=400) {
+                } else if (width==416) { // Venu 2 and 2 Plus
                     FontAdj=5;
+                } else if (width==360 or width==390) { //Venu and 2s
+                    FontAdj=4;
+                } else if (width>=454) {
+                    FontAdj=6;
                 } else if (width==218) {
                     if (dc.getFontHeight(Graphics.FONT_TINY)==23){
                         FontAdj=2;
                     } else {
                         FontAdj=3;
                     }
-                } else if (width==240 and dc.getFontHeight(Graphics.FONT_TINY)==26) { // Fenix 5, 5S and 5X
-                    FontAdj=0;                     
-                } else {
+                } else if (width==240 and dc.getFontHeight(Graphics.FONT_TINY)==26) { // Fenix 6s
                     FontAdj=4;
+                } else { // Fenix 5 Plus
+                    FontAdj=2;
                 }
             }
 
@@ -324,45 +325,46 @@ class AnalogView extends WatchUi.WatchFace
             }
 
             // Bluetooth, Alarm and Dnd Icons
+            var alarm = Storage.getValue(8), blue = Storage.getValue(4);
             if (check[4] and System.getDeviceSettings().doNotDisturb) { // Dnd exists and is turned on
-                if ((Storage.getValue(8) == null or Storage.getValue(8) == true) and (Storage.getValue(4) == null or Storage.getValue(4) == true)){ // all 3 icons
+                if ((alarm == true and blue == true) or (alarm == null and blue == null)){ // all 3 icons
                     // Draw the Do Not Disturb Icon in the middle
-                    MtbA.drawDndIcon(dc, position[0], position[1], width);
+                    MtbA.drawDndIcon(dc, position[0], position[1], width, check[4]);
                     // Draw alarm icon on the right
                     MtbA.drawAlarmIcon(dc, position[3], position[1], accentColor, width);
                     //Draw bluetooth icon on the left
                     MtbA.drawBluetoothIcon(dc, position[2], position[1]);
-                } else if(Storage.getValue(8) == false and (Storage.getValue(4) == null or Storage.getValue(4) == true)) { // alarm icon is hidden
+                } else if(alarm == false and (blue == true)) { // alarm icon is hidden
                     // Draw the Do Not Disturb Icon on the right
-                    MtbA.drawDndIcon(dc, (position[0]+position[3])/2, position[1], width);
+                    MtbA.drawDndIcon(dc, (position[0]+position[3])/2, position[1], width, check[4]);
                     //Draw bluetooth icon on the left
                     MtbA.drawBluetoothIcon(dc, (position[2]+position[0])/2, position[1]);
-                } else if((Storage.getValue(8) == null or Storage.getValue(8) == true) and Storage.getValue(4) == false){ // bluetooth icon is hidden
+                } else if(alarm == true and blue == false){ // bluetooth icon is hidden
                     // Draw the Do Not Disturb Icon on the left
-                    MtbA.drawDndIcon(dc, (position[3]+position[0])/2, position[1], width);
+                    MtbA.drawDndIcon(dc, (position[3]+position[0])/2, position[1], width, check[4]);
                     // Draw alarm icon on the right
                     MtbA.drawAlarmIcon(dc, (position[0]+position[2])/2, position[1], accentColor, width);                    
                 } else{ // only Dnd
                     // Draw the Do Not Disturb Icon in the middle
-                    MtbA.drawDndIcon(dc, position[0], position[1], width);
+                    MtbA.drawDndIcon(dc, position[0], position[1], width, check[4]);
                 }
             } else { // Dnd does not exist or is turned off
-                if ((Storage.getValue(8) == null or Storage.getValue(8) == true) and (Storage.getValue(4) == null or Storage.getValue(4) == true)){ // all 2 icons
+                if (alarm == true and (blue == true)){ // all 2 icons
                     // Draw alarm icon on the right
                     //MtbA.drawAlarmIcon(dc, (position[3]+(position[3]+position[0])/2)/2, position[1], accentColor, width);
                     MtbA.drawAlarmIcon(dc, ((position[3]+position[0])/2)+iconSize, position[1], accentColor, width);
                     //Draw bluetooth icon on the left
                     MtbA.drawBluetoothIcon(dc, (position[2]+position[0])/2, position[1]);
-                } else if(Storage.getValue(8) == false and (Storage.getValue(4) == null or Storage.getValue(4) == true)){ // alarm icon is hidden
+                } else if(alarm == false and (blue == true)){ // alarm icon is hidden
                     MtbA.drawBluetoothIcon(dc, (width/2)-1, position[1]);
-                } else if(Storage.getValue(8) == null or Storage.getValue(8) == true){
+                } else if(alarm == true){
                     MtbA.drawAlarmIcon(dc, width/2, position[1], accentColor, width);
                 }
             }
 
 
             //Draw the date string
-            if (Storage.getValue(3) == null or Storage.getValue(3) == true) { // Garmin Logo check
+            if (logo == null or logo == true) { // Garmin Logo check
                 MtbA.drawDateString( dc, width / 2, position[6] ); 
             } else { // No Garmin Logo
                 MtbA.drawDateString( dc, width / 2, position[5] + (width<=240 ? 5 : 0 ) + (width==218 ? 3 : 0 )); // offsets needed because of size of Garmin Logo compared to Date Font
@@ -470,8 +472,11 @@ class AnalogView extends WatchUi.WatchFace
 
 class AnalogDelegate extends WatchUi.WatchFaceDelegate {
 
-    function initialize() {
+    private var _view as AnalogView;
+
+    function initialize(view as AnalogView) {
         WatchFaceDelegate.initialize();
+        _view = view;
     }
 
     // The onPowerBudgetExceeded callback is called by the system if the

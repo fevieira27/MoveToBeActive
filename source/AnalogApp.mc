@@ -13,26 +13,26 @@ import Toybox.WatchUi;
 // This is the primary entry point of the application.
 class AnalogWatch extends Application.AppBase
 {
-    var temperature = null;
-
-    function initialize() {
+    public function initialize() {
         AppBase.initialize();
     }
 
     // onStart() is called on application start up
-    function onStart(state as Dictionary?) as Void {
+    public function onStart(state as Dictionary?) as Void {
     }
 
     // onStop() is called when your application is exiting
-    function onStop(state as Dictionary?) as Void {
+    public function onStop(state as Dictionary?) as Void {
     }
 
     // This method runs each time the main application starts.
-    function getInitialView() as Array<Views or InputDelegates>? {
+    public function getInitialView() as Array<Views or InputDelegates>? {
+        var mainView = new AnalogView();
         if( Toybox.WatchUi has :WatchFaceDelegate ) {
-            return [new AnalogView(), new AnalogDelegate()] as Array<Views or InputDelegates>;
+            var inputDelegate = new $.AnalogDelegate(mainView);
+            return [mainView, inputDelegate] as Array<Views or InputDelegates>;
         } else {
-            return [new AnalogView()] as Array<Views or InputDelegates>;
+            return [mainView] as Array<Views>;
         }
     }
 
@@ -42,7 +42,7 @@ class AnalogWatch extends Application.AppBase
 //    }
 
     function getSettingsView() {
-        return [new AnalogSettingsViewTest(), new Menu2TestMenu2Delegate()];
+        return [new $.AnalogSettingsViewTest(), new $.Menu2TestMenu2Delegate()] as Array<Views or InputDelegates>;
     }
 }
 

@@ -16,54 +16,33 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        if (Storage.getValue(3) == null ){ Storage.setValue(3, true); } // Garmin Logo
-        if (Storage.getValue(4) == null ){ Storage.setValue(4, true); } // Bluetooth Logo
-        if (Storage.getValue(6) == null ){ Storage.setValue(6, true); } // Temperature Type
-        if (Storage.getValue(7) == null ){ Storage.setValue(7, true); } // Location Name
-        if (Storage.getValue(8) == null ){ Storage.setValue(8, true); } // Alarm Icon
-        if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit
-        if (Storage.getValue(16) == null ){ Storage.setValue(16, false); } // Temperature Unit
-        if (Storage.getValue(18) == null ){ Storage.setValue(18, false); } // Tickmark Color
-        if (Storage.getValue(19) == null ){ Storage.setValue(19, false); } // Battery Estimate
-        if (Storage.getValue(20) == null ){ Storage.setValue(20, false); } // Pressure Type
-        if (Storage.getValue(22) == null ){ Storage.setValue(22, false); } // AOD Colors
-        if (Storage.getValue(24) == null ){ Storage.setValue(24, false); } // Date Format
-        if (Storage.getValue(25) == null ){ Storage.setValue(25, true); } // Display Weather
-        if (Storage.getValue(26) == null ){ Storage.setValue(26, true); } // Battery Icon 
-        if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { // If not square display
-            if (Storage.getValue(5) == null ){ Storage.setValue(5, true); } // Hour Labels
-            if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
-        }
 
-        //function onMenu() {
-        
-        // Add menu items for demonstrating toggles, checkbox and icon menu items
-        //menu.addItem(new WatchUi.MenuItem("Toggles", "sublabel", "toggle", null));
-        //menu.addItem(new WatchUi.MenuItem("Checkboxes", null, "check", null));
-        //menu.addItem(new WatchUi.MenuItem("Icons", null, "icon", null));
-        //menu.addItem(new WatchUi.MenuItem("Custom", null, "custom", null));
-        //WatchUi.pushView(menu, new AnalogSettingsDelegate(), WatchUi.SLIDE_UP );
+//    function onMenu() {
+    
+	// Add menu items for demonstrating toggles, checkbox and icon menu items
+    //menu.addItem(new WatchUi.MenuItem("Toggles", "sublabel", "toggle", null));
+    //menu.addItem(new WatchUi.MenuItem("Checkboxes", null, "check", null));
+    //menu.addItem(new WatchUi.MenuItem("Icons", null, "icon", null));
+    //menu.addItem(new WatchUi.MenuItem("Custom", null, "custom", null));
+    //WatchUi.pushView(menu, new AnalogSettingsDelegate(), WatchUi.SLIDE_UP );
 
-        // Generate a new Menu with a drawable Title
-        //var menu = new WatchUi.Menu2({:title=>new DrawableMenuTitle()});
-        Menu2.setTitle(new DrawableMenuTitle());
-
-        var drawable1 = new CustomAccent();
-        Menu2.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-
-        Menu2.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
-        Menu2.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
-        if (Storage.getValue(21)[1] or Storage.getValue(21)[0]){ // 
-            Menu2.addItem(new WatchUi.MenuItem("Base Units", null, "units", null));
-        }
-        //WatchUi.pushView(Menu2, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
+    // Generate a new Menu with a drawable Title
+    //var menu = new WatchUi.Menu2({:title=>new DrawableMenuTitle()});
+    Menu2.setTitle(new DrawableMenuTitle());
+    Menu2.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
+    Menu2.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
+    if (Storage.getValue(21)[1] or Storage.getValue(21)[0]){
+        Menu2.addItem(new WatchUi.MenuItem("Base Units", null, "units", null));
+    }
+    //WatchUi.pushView(Menu2, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
 
 	}
 
-/*	function onSelect(item) {
+	function onSelect(item) {
         // For IconMenuItems, we will change to the next icon state.
         // This demonstates a custom toggle operation using icons.
         // Static icons can also be used in this layout.
+
         if(item instanceof IconMenuItem) {
             item.setSubLabel(item.getIcon().nextState(item.getId()));
         } else {
@@ -71,7 +50,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
         }
         
         WatchUi.requestUpdate();
-    }    */
+    }    
 
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
@@ -91,39 +70,28 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
 
 class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu Design
 
-	public function initialize() {
+	function initialize() {
         Menu2InputDelegate.initialize();
     }
 
-	public function onSelect(item) as Void {
-
-        if (item instanceof WatchUi.IconMenuItem) {
-            //System.println("icon");
-            item.setSubLabel((item.getIcon() as CustomAccent).nextState(item.getId()));
-        } else if (item instanceof WatchUi.ToggleMenuItem) {
-            Storage.setValue(item.getId(), item.isEnabled());       
-        }
-
-        WatchUi.requestUpdate(); // really needed?
+	function onSelect(item) {
 
         if( item.getId().equals("design") ) {
 		    // Generate a new Menu with a Text Title
 		    
-		    var iconMenu = new WatchUi.Menu2({:title=>"Layout"});
-		    //var drawable1 = new CustomAccent();
-		    //iconMenu.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    var iconMenu = new WatchUi.Menu2({:title=>"Design"});
+		    var drawable1 = new CustomAccent();
+		    iconMenu.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    
 		    //ToggleMenuItem(label, subLabel, identifier, enabled, options)
 		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Garmin Logo", {:enabled=>"ON", :disabled=>"OFF"}, 3, Storage.getValue(3), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Bluetooth Logo", {:enabled=>"ON", :disabled=>"OFF"}, 4, Storage.getValue(4), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		    iconMenu.addItem(new WatchUi.ToggleMenuItem("Alarm Icon", {:enabled=>"ON", :disabled=>"OFF"}, 8, Storage.getValue(8), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
-            iconMenu.addItem(new WatchUi.ToggleMenuItem("Battery Icon", {:enabled=>"ON", :disabled=>"OFF"}, 26, Storage.getValue(26), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
             if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) {
 		        iconMenu.addItem(new WatchUi.ToggleMenuItem("Hour Labels", {:enabled=>"ON", :disabled=>"OFF"}, 5, Storage.getValue(5), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
             iconMenu.addItem(new WatchUi.ToggleMenuItem("Tickmark Color", {:enabled=>"Accent", :disabled=>"Default"}, 18, Storage.getValue(18), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-            if (Storage.getValue(21)[2]){ // has weather, doesn't show these for Fenix 5 Plus series
-                iconMenu.addItem(new WatchUi.ToggleMenuItem("Current Weather", {:enabled=>"ON", :disabled=>"OFF"}, 25, Storage.getValue(25), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+            if (Storage.getValue(21)[2]){ // has weather
                 iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, Storage.getValue(7), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
             // allow full colors in AOD for AMOLED devices
@@ -131,9 +99,8 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
                 iconMenu.addItem(new WatchUi.ToggleMenuItem("AOD Colors", {:enabled=>"Accent", :disabled=>"Grayscale"}, 22, Storage.getValue(22), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
             var drawableT = new CustomThickness();
-		    iconMenu.addItem(new WatchUi.IconMenuItem("Hands Thickness", drawableT.nextState(-1), 13, drawableT, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    //WatchUi.pushView(iconMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_BLINK );
-            WatchUi.pushView(iconMenu, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );
+		    iconMenu.addItem(new WatchUi.IconMenuItem("Hands Thickness", drawableT.getString(), 13, drawableT, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    WatchUi.pushView(iconMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_BLINK );
         } else if( item.getId().equals("datapoints") ) {
 		    var dataMenu = new WatchUi.Menu2({:title=>"Data"});
 		    count=0;
@@ -143,16 +110,15 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 		    var drawable4 = new CustomSmallDataPoint();
 		    var drawable5 = new CustomSmallDataPoint();
             var drawable6 = new CustomSmallDataPoint();
-		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Top", drawable2.nextState(-1), 9, drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Middle", drawable3.nextState(-1), 10, drawable3, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Bottom", drawable4.nextState(-1), 11, drawable4, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-            dataMenu.addItem(new WatchUi.IconMenuItem("Right Top", drawable6.nextState(-1), 17, drawable6, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-		    dataMenu.addItem(new WatchUi.IconMenuItem("Right Bottom", drawable5.nextState(-1), 12, drawable5, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Top", drawable2.getString(), 9, drawable2, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Middle", drawable3.getString(), 10, drawable3, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    dataMenu.addItem(new WatchUi.IconMenuItem("Left Bottom", drawable4.getString(), 11, drawable4, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+            dataMenu.addItem(new WatchUi.IconMenuItem("Right Top", drawable6.getString(), 17, drawable6, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+		    dataMenu.addItem(new WatchUi.IconMenuItem("Right Bottom", drawable5.getString(), 12, drawable5, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
 		   	if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { //check if rounded display
                 dataMenu.addItem(new WatchUi.ToggleMenuItem("Font Size", {:enabled=>"Bigger", :disabled=>"Standard"}, 14, Storage.getValue(14), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));      
             }
-		    //WatchUi.pushView(dataMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_BLINK );
-            WatchUi.pushView(dataMenu, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );
+		    WatchUi.pushView(dataMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_BLINK );
         } else if( item.getId().equals("units") ) { 
             var checkWeather=Storage.getValue(21)[1]; // has :Weather
             var unitsMenu = new WatchUi.Menu2({:title=>"Units"});
@@ -172,8 +138,7 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
             var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
             unitsMenu.addItem(new WatchUi.ToggleMenuItem("Date Format", {:enabled=>Lang.format("$2$ $1$", [info.month, info.day]), :disabled=>Lang.format("$1$ $2$", [info.month, info.day])}, 24, Storage.getValue(24), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
 
-            //WatchUi.pushView(unitsMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_BLINK );	
-            WatchUi.pushView(unitsMenu, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
+            WatchUi.pushView(unitsMenu, new AnalogSettingsViewTest(), WatchUi.SLIDE_BLINK );	
 	    } else {
             WatchUi.requestUpdate();
         }  
@@ -182,7 +147,7 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
 
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-        //return false;
+        return false;
     }  
 
 }
@@ -244,9 +209,9 @@ class CustomAccent extends WatchUi.Drawable {
     // This constant data stores the color state list.
     //const mColors = [0x55FF00, 0xAAFF00, 0xFFFF00, Graphics.COLOR_BLUE, 0x00FFFF, 0xAA55FF, 0xFFAA00/*0xFF5500*/, 0xFF0000, 0xFF55FF, Graphics.COLOR_WHITE];
     //const mColorStrings = ["Bright Green", "Vivomove", "Yellow", "Sky Blue", "Aqua", "Medium Purple", "Orange", "Red", "Pink Flamingo", "White"];
-    private var mIndex;
+    var mIndex;
 
-    public function initialize() {
+    function initialize() {
         Drawable.initialize({});
         if (Storage.getValue(2) == false or Storage.getValue(2) == null){ 
         	mIndex = 0;
@@ -256,14 +221,20 @@ class CustomAccent extends WatchUi.Drawable {
     }
 
     // Return the color string for the menu to use as it's sublabel
-    public function getString() {
+    function getString() {
         var mColorStrings = Application.loadResource(Rez.JsonData.mColorStrings);
         return mColorStrings[mIndex];
     }
+    
+    // Return the color code to save in Storage
+/*    function getColor() {
+        var mColors = Application.loadResource(Rez.JsonData.mColors);
+        return mColors[mIndex];
+    }
+*/
 
     // Advance to the next color state for the drawable
-    public function nextState(id) {
-        //var mColorStrings = Application.loadResource(Rez.JsonData.mColorStrings);
+    function nextState(id) {
         var mColors = Application.loadResource(Rez.JsonData.mColors);
         mIndex++;
         if(mIndex >= mColors.size()) {
@@ -272,17 +243,16 @@ class CustomAccent extends WatchUi.Drawable {
 		Storage.setValue(1, mColors[mIndex]);
 		Storage.setValue(2, mIndex);
 
-        //return mColorStrings[mIndex];
         return getString();
     }
 
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
-    public function draw(dc) {
+    function draw(dc) {
         var mColors = Application.loadResource(Rez.JsonData.mColors);
 	    var color = mColors[mIndex];
         dc.setColor(color, color);
-        dc.clear();        
+        dc.clear();
     }
 }
 
@@ -299,32 +269,30 @@ class CustomBigDataPoint extends WatchUi.Drawable {
 	
     function initialize() {
         Drawable.initialize({});
-        var mArray=[Storage.getValue(9) == null ? 23 : Storage.getValue(9), Storage.getValue(10) == null ? 23 : Storage.getValue(10)]; // if values are null, then "none"
+        var mArray=[Storage.getValue(9) == null ? 22 : Storage.getValue(9), Storage.getValue(10) == null ? 22 : Storage.getValue(10)]; // if values are null, then "none"
         mIndex=mArray[count];   
         count++;
     }
 
     // Return the icon string for the menu to use as its label
-/*    function getString() {
+    function getString() {
         //var checkWeather = (Toybox has :Weather);
         var checkWeather = Storage.getValue(21)[2];
         var mIconStrings = ["Steps", "Distance", "Elevation", (checkWeather)?"Wind Speed":"Not Available", (checkWeather)?"Min/Max Temp.":"Not Available", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories",  (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", "None"];
         return mIconStrings[mIndex];
-    } */
+    }
     
 
-    // Advance to the next color state for the drawable, or return the icon string for the menu to use as its label if id=-1
+    // Advance to the next color state for the drawable
     function nextState(id) {
         var checkWeather = Storage.getValue(21)[2];
-        var mIconStrings = ["Steps", "Distance", "Elevation", (checkWeather)?"Wind Speed":"Not Available", (checkWeather)?"Min/Max Temp.":"Not Available", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories",  (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
-        if (id!=-1){ // -1 means to return only the name, while any other value means skip to next step
-            mIndex++;
-            if(mIndex >= mIconStrings.size()) {
-                mIndex = 0;
-            }
-            Storage.setValue(id, mIndex); //Storage 9 or 10
+        var mIconStrings = ["Steps", "Distance", "Elevation", (checkWeather)?"Wind Speed":"Not Available", (checkWeather)?"Min/Max Temp.":"Not Available", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories",  (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", "None"];
+        mIndex++;
+        if(mIndex >= mIconStrings.size()) {
+            mIndex = 0;
         }
-        return mIconStrings[mIndex]; // Return the icon string for the menu to use as its label
+		Storage.setValue(id, mIndex); //Storage 9 or 10
+        return mIconStrings[mIndex];
     }
 
     // Set the color for the current state and use dc.clear() to fill
@@ -360,30 +328,28 @@ class CustomSmallDataPoint extends WatchUi.Drawable {
 
     function initialize() {
         Drawable.initialize({});
-        var mArray=[Storage.getValue(11) == null ? 19 : Storage.getValue(11), Storage.getValue(12) == null ? 19 : Storage.getValue(12), Storage.getValue(17) == null ? 19 : Storage.getValue(17)]; // if null, then "none"
+        var mArray=[Storage.getValue(11) == null ? 18 : Storage.getValue(11), Storage.getValue(12) == null ? 18 : Storage.getValue(12), Storage.getValue(17) == null ? 18 : Storage.getValue(17)]; // if null, then "none"
         mIndex=mArray[count];   
         count++;
     }
 
     // Return the icon string for the menu to use as its label
-    /* function getString() {
+    function getString() {
         var checkWeather = Storage.getValue(21)[2];
         var mIconStrings = ["Steps", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories", (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", "None"];
         return mIconStrings[mIndex];
-    } */
+    }
     
     // Advance to the next color state for the drawable
     function nextState(id) {
         var checkWeather = Storage.getValue(21)[2];
-        var mIconStrings = ["Steps", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories", (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
-        if (id!=-1){ // -1 means to return only the name, while any other value means skip to next step
-            mIndex++;
-            if(mIndex >= mIconStrings.size()) {
-                mIndex = 0;
-            }
-            Storage.setValue(id, mIndex);
+        var mIconStrings = ["Steps", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories", (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", "None"];
+        mIndex++;
+        if(mIndex >= mIconStrings.size()) {
+            mIndex = 0;
         }
-        return mIconStrings[mIndex]; // Return the icon string for the menu to use as its label
+		Storage.setValue(id, mIndex);
+        return mIconStrings[mIndex];
     }
 
     // Set the color for the current state and use dc.clear() to fill
@@ -430,30 +396,28 @@ class CustomThickness extends WatchUi.Drawable {
     }
 
     // Return the icon string for the menu to use as its label
-    /* function getString() {
+    function getString() {
         var mHandStrings = ["Standard", "Thicker", "Thinner"];
         return mHandStrings[mIndex];
-    } */
+    }
     
 
     // Advance to the next color state for the drawable
     function nextState(id) {
         var mHandStrings = ["Standard", "Thicker", "Thinner"];
-        if (id!=-1){ // -1 means to return only the name, while any other value means skip to next step
-            mIndex++;
-            if(mIndex >= mHandStrings.size()) {
-                mIndex = 0;
-            }
-            Storage.setValue(id, mIndex);
+        mIndex++;
+        if(mIndex >= mHandStrings.size()) {
+            mIndex = 0;
         }
+		Storage.setValue(id, mIndex);
         return mHandStrings[mIndex];
     }
 
 
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
-/*    function draw(dc) {
+    /*function draw(dc) {
 		dc.setColor(Graphics.COLOR_TRANSPARENT, Graphics.COLOR_TRANSPARENT);
         dc.clear();
-    } */
+    }*/
 }
