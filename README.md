@@ -213,8 +213,8 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Add option to remove battery, date and weather info.
 
 **4.2.0** (17/Mar/23)
-- [X] New data field added: Next Sun Event (12 or 24h format)
-- [X] Add color categories to body battery icon, depending on value
+- [X] New data field: Next Sun Event (12 or 24h format)
+- [X] Added color categories to body battery icon, depending on value
 - [X] Code improvements to reduce memory usage of the config/customization menu and watch face
 - [X] Adapting code to SDK 4.2.2
 - [X] Added support for newly released Forerunners: 265, 265s and 965
