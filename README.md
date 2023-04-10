@@ -212,14 +212,19 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 **4.1.0** (27/Oct/22)
 - [X] Add option to remove battery, date and weather info.
 
-**4.2.0** (17/Mar/23)
+**4.2.1** (18/Mar/23)
 - [X] New data field: Next Sun Event (12 or 24h format)
 - [X] Added color categories to body battery icon, depending on value
 - [X] Code improvements to reduce memory usage of the config/customization menu and watch face
 - [X] Adapting code to SDK 4.2.2
 - [X] Added support for newly released Forerunners: 265, 265s and 965
 
-**4.2.1** (Coming Soon)
+**4.2.2** (Coming Soon)
+- [X] Adjusted one color of the body battery icon, as the previous orange color was too close to red
+- [ ] Add an extra option for the user to select the hour labels to follow accent color instead of always grey
+- [ ] Settings menu improvements to further reduce memory usage
+
+**4.3.1** (Coming Soon)
 - [ ] Add option to show the battery icon in grayscale or following the accent color (instead of green/yellow/red)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
 - [ ] Give the user the possibility to chose the wind speed to be displayed in knots
