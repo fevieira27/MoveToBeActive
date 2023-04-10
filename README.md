@@ -220,12 +220,12 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added support for newly released Forerunners: 265, 265s and 965
 
 **4.2.2** (Coming Soon)
-- [X] Adjusted one color of the body battery icon, as the previous orange color was too close to red
-- [ ] Add an extra option for the user to select the hour labels to follow accent color instead of always grey
-- [ ] Settings menu improvements to further reduce memory usage
+- [X] Adjusted the orange tone of the body battery icon, as the previous color was too close to red
+- [X] Added an extra layout option allowing the user to select the hour labels to follow accent color or keep default (gray)
+- [X] Added option to show the battery icon always in gray or default (green/yellow/red)
+- [X] Settings menu improvements to further reduce memory usage
 
-**4.3.1** (Coming Soon)
-- [ ] Add option to show the battery icon in grayscale or following the accent color (instead of green/yellow/red)
+**4.3.0** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
 - [ ] Give the user the possibility to chose the wind speed to be displayed in knots
 
