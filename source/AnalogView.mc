@@ -43,7 +43,7 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=421;
+        var currentVersion=422;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
@@ -219,7 +219,7 @@ class AnalogView extends WatchUi.WatchFace
 
             // Draw the 3, 6, 9, and 12 hour labels.
             if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape and labels != false) {
-                MtbA.drawHourLabels(dc, width, height); 
+                MtbA.drawHourLabels(dc, width, height, accentColor); 
             }
 
             //Draw Weather Icon (dc, x, y, x2, width)
@@ -472,11 +472,11 @@ class AnalogView extends WatchUi.WatchFace
 
 class AnalogDelegate extends WatchUi.WatchFaceDelegate {
 
-    private var _view as AnalogView;
+    //private var _view as AnalogView;
 
     function initialize(view as AnalogView) {
         WatchFaceDelegate.initialize();
-        _view = view;
+//        _view = view;
     }
 
     // The onPowerBudgetExceeded callback is called by the system if the
