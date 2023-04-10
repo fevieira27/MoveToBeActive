@@ -219,10 +219,11 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Adapting code to SDK 4.2.2
 - [X] Added support for newly released Forerunners: 265, 265s and 965
 
-**4.2.2** (Coming Soon)
-- [X] Adjusted the orange tone of the body battery icon, as the previous color was too close to red
+**4.2.5** (Coming Soon)
+- [X] Added a new data source to show only active calories burned (still testing the formula, feedback needed)
 - [X] Added an extra layout option allowing the user to select the hour labels to follow accent color or keep default (gray)
 - [X] Added option to show the battery icon always in gray or default (green/yellow/red)
+- [X] Adjusted the orange tone of the body battery icon, as the previous color was too close to red
 - [X] Settings menu improvements to further reduce memory usage
 
 **4.3.0** (Coming Soon)
