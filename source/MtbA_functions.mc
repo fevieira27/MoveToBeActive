@@ -714,7 +714,7 @@ class MtbA_functions {
 				
 		// Choose the colour of the battery based on it's state
 		batteryIconColour = Graphics.COLOR_LT_GRAY;
-		System.println(Storage.getValue(28));
+		//System.println(Storage.getValue(28));
 		if (Storage.getValue(28)!=false){
 			if (battery <= 20) {
 				batteryIconColour = 0xFF5555 /* pastel red */;
@@ -1176,14 +1176,16 @@ class MtbA_functions {
 			var profile = UserProfile.getProfile();
 			var age = today.year - profile.birthYear;
 			var weight = profile.weight / 1000.0;
-			var restCalories=0;
+			var restCalories=0, adj=0.5;
 
 			if (profile.gender == UserProfile.GENDER_MALE) {
 				restCalories = 5.2 - 6.116*age + 7.628*profile.height + 12.2*weight;
 			} else {// female
 				restCalories = -197.6 - 6.116*age + 7.628*profile.height + 12.2*weight;
 			}
-			restCalories = Math.round(((today.hour*60+today.min) * restCalories / 1440 )- 0.5).toNumber();
+
+			if(today.hour>=18){ adj=0; }
+			restCalories = Math.round(((today.hour*60+today.min) * restCalories / 1440 ) - adj).toNumber();
 			calories = ActivityMonitor.getInfo().calories - restCalories; // active = total - rest
 		} else {
 			calories = ActivityMonitor.getInfo().calories; // Total
@@ -1677,9 +1679,24 @@ class MtbA_functions {
 
 	/* ------------------------ */
 	
-	function drawSeconds(dc, xIcon, yIcon, xText, yText, width) {
+	function drawSeconds(dc, xIcon, yIcon, xText, yText, width, type) {
 		var clockTime = System.getClockTime();
 		var seconds = clockTime.sec.format("%02d");
+		var am_pm="";
+
+		if (type==2){ //digital clock
+			if (System.getDeviceSettings().is24Hour==false){
+				am_pm="AM";
+				if (clockTime.hour >= 12){
+					clockTime.hour = clockTime.hour-12;
+					am_pm="PM";
+				}
+				if (clockTime.hour == 0){
+					clockTime.hour = 12;
+				}
+			}
+			seconds = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
+		}
 
 		// placeholder for implementation of Partial Update
 		/*
@@ -1692,11 +1709,11 @@ class MtbA_functions {
 		dc.setColor(gThemeColour, Graphics.COLOR_RED);
 		dc.clear();
 		*/
-		if (width==360 or width==390 or width==416){ //AMOLED
+		if (width>=360){ //AMOLED
 			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 		} else { // MIP displays, for better readability
 			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-			yIcon = yIcon-5;
+			yIcon = yIcon-5; // 3?
 		}
 
 		if (width==240 and System.SCREEN_SHAPE_ROUND == screenShape){
@@ -1712,6 +1729,10 @@ class MtbA_functions {
 
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 		dc.drawText(xText, yText,	fontSize, seconds, Graphics.TEXT_JUSTIFY_LEFT);
+
+		if (type==2){ //digital clock
+			dc.drawText(xText + dc.getTextWidthInPixels(seconds,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width>=360 ? 1 : 0)),	0, am_pm, Graphics.TEXT_JUSTIFY_LEFT);
+		}
 
 	}
 
@@ -2028,7 +2049,13 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		dc.drawText( xIcon, yIcon + offset , IconsFont, icon, Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 		
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-		dc.drawText( xText, yText , fontSize, Lang.format("$1$:$2$$3$",[time.hour.format("%02u"), time.min.format("%02u"), am_pm]), Graphics.TEXT_JUSTIFY_LEFT);
+		//dc.drawText( xText, yText , fontSize, Lang.format("$1$:$2$$3$",[time.hour.format("%02u"), time.min.format("%02u"), am_pm]), Graphics.TEXT_JUSTIFY_LEFT);
+
+		var text=Lang.format("$1$:$2$",[time.hour.format("%02u"), time.min.format("%02u")]);
+		dc.drawText( xText, yText , fontSize, text, Graphics.TEXT_JUSTIFY_LEFT);
+		if (am_pm!=""){
+			dc.drawText(xText + dc.getTextWidthInPixels(text,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 ? 1 : 0)),	0, am_pm, Graphics.TEXT_JUSTIFY_LEFT);
+		}
 
 		return true;
 	}
@@ -2069,23 +2096,25 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			drawNotification(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
 		} else if (dataPoint == 10) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 11) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width);
-		} else if (dataPoint == 12) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 11) { // Seconds
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width, 1);
+		} else if (dataPoint == 12) { // Digital Clock
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width, 2);
+		} else if (dataPoint == 13) { // Intensity Minutes
 			drawIntensityMin(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width, accentColor);
-		} else if (dataPoint == 13) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 14) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);			
-		} else if (dataPoint == 14) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 15) { // Calories(dc, xIcon, yIcon, xText, yText, width)
 			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);
-		} else if (dataPoint == 15) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 16) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawRespiration(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
-		} else if (dataPoint == 16) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 17) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawRecoveryTime(dc, xIcon, yIcon+(xIcon*0.002), xText-offset390, yText, width);
-		} else if (dataPoint == 17) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 18) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, false); // run
-		} else if (dataPoint == 18) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 19) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, true); //cycling
-		}	else if (dataPoint == 19) { // Next Sun Event
+		}	else if (dataPoint == 20) { // Next Sun Event
 			drawSunriseSunset(dc, xIcon, yIcon+(xIcon*0.002), xText-offset390, yText, width);
 		}		
 		
@@ -2124,23 +2153,25 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			drawNotification(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
 		} else if (dataPoint == 10) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 11) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.1)-offset390, xText, yText, width);
-		} else if (dataPoint == 12) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 11) { // Seconds
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.1)-offset390, xText, yText, width, 1);
+		} else if (dataPoint == 12) { // Digital Clock
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.1)-offset390, xText, yText, width, 2);
+		} else if (dataPoint == 13) { // Intensity Minutes
 			drawIntensityMin(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.1)-offset390, xText, yText, width, accentColor);
-		} else if (dataPoint == 13) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 14) { // Body Battery
 			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);
-		} else if (dataPoint == 14) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 15) { // Calories(dc, xIcon, yIcon, xText, yText, width)
 			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);			
-		} else if (dataPoint == 15) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 16) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawRespiration(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 16) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 17) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawRecoveryTime(dc, xIcon, yIcon+(xIcon*0.015), xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 17) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 18) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, false); // run
-		} else if (dataPoint == 18) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 19) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
-		} else if (dataPoint == 19) { // Next Sun Event
+		} else if (dataPoint == 20) { // Next Sun Event
 			drawSunriseSunset(dc, xIcon, yIcon+(xIcon*0.015), xText+(xText*0.01)-offset390, yText, width);
 		}		
 
@@ -2187,23 +2218,25 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			drawNotification(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
 		} else if (dataPoint == 14) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 15) { // Seconds (dc, xIcon, yIcon, xText, yText, width)
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.085), xText, yText, width);
-		} else if (dataPoint == 16) { // Intensity (dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 15) { // Seconds
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.085), xText, yText, width, 1);
+		} else if (dataPoint == 16) { // Digital Clock
+			drawSeconds(dc, xIcon, yIcon+(xIcon*0.085), xText, yText, width, 2);
+		} else if (dataPoint == 17) { // Intensity Minutes(dc, xIcon, yIcon, xText, yText, width)
 			drawIntensityMin(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.085), xText, yText, width, accentColor);
-		} else if (dataPoint == 17) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+		} else if (dataPoint == 18) { // Body Battery
 			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);
-		} else if (dataPoint == 18) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 19) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);
-		} else if (dataPoint == 19) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 20) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawRespiration(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 20) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 21) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawRecoveryTime(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 21) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 22) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, false); //run
-		} else if (dataPoint == 22) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+		} else if (dataPoint == 23) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
-		} else if (dataPoint == 23) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
+		} else if (dataPoint == 24) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSunriseSunset(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
 		}
 	}

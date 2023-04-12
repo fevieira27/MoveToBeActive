@@ -43,10 +43,10 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=422;
+        var currentVersion=425;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
-            Storage.setValue(23,currentVersion);
+            //Storage.setValue(23,currentVersion);
             var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
             if (System.getSystemStats() has :batteryInDays){
                 checks[0]=true;
@@ -78,6 +78,8 @@ class AnalogView extends WatchUi.WatchFace
             
             Storage.setValue(21,checks);
         }
+
+        if (Storage.getValue(19) == null ){ Storage.setValue(19, false); } // Battery Estimate, added on the initialize to try and correct an error that 26 users had
     }
 
     //! Factory function to create buffered bitmap
