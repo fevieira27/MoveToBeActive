@@ -8,6 +8,7 @@ import Toybox.WatchUi;
 import Toybox.Graphics;
 import Toybox.System;
 import Toybox.Lang;
+import Toybox.Application;
 import Toybox.Application.Storage;
 
 var count=0;
@@ -17,40 +18,36 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        if (Storage.getValue(3) == null ){ Storage.setValue(3, true); } // Garmin Logo
-        if (Storage.getValue(4) == null ){ Storage.setValue(4, true); } // Bluetooth Logo
-        if (Storage.getValue(6) == null ){ Storage.setValue(6, true); } // Temperature Type
-        if (Storage.getValue(7) == null ){ Storage.setValue(7, true); } // Location Name
-        if (Storage.getValue(8) == null ){ Storage.setValue(8, true); } // Alarm Icon
-        if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit
-        if (Storage.getValue(16) == null ){ Storage.setValue(16, false); } // Temperature Unit
-        if (Storage.getValue(18) == null ){ Storage.setValue(18, false); } // Tickmark Color
-        if (Storage.getValue(19) == null ){ Storage.setValue(19, false); } // Battery Estimate
-        if (Storage.getValue(20) == null ){ Storage.setValue(20, false); } // Pressure Type
-        if (Storage.getValue(22) == null ){ Storage.setValue(22, false); } // AOD Colors
-        if (Storage.getValue(24) == null ){ Storage.setValue(24, false); } // Date Format
-        if (Storage.getValue(25) == null ){ Storage.setValue(25, true); } // Display Weather
-        if (Storage.getValue(26) == null ){ Storage.setValue(26, true); } // Battery Icon 
-        if (Storage.getValue(28) == null ){ Storage.setValue(28, true); } // Battery Color 
-        if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { // If not square display
-            if (Storage.getValue(5) == null ){ Storage.setValue(5, true); } // Hour Labels
-            if (Storage.getValue(27) == null ){ Storage.setValue(27, false); } // Labels Color
-            if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
-        }
-        if (Storage.getValue(9) == null) { Storage.setValue(9, 24); } //big
-        if (Storage.getValue(10) == null) { Storage.setValue(10, 24); } //big
-        if (Storage.getValue(11) == null) { Storage.setValue(11, 20); } //small
-        if (Storage.getValue(12) == null) { Storage.setValue(12, 20); } //small
-        if (Storage.getValue(17) == null) { Storage.setValue(17, 20); } //small
+        var currentVersion=425;
+        if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
+            Storage.setValue(23,currentVersion);
 
-        //function onMenu() {
-        
-        // Add menu items for demonstrating toggles, checkbox and icon menu items
-        //menu.addItem(new WatchUi.MenuItem("Toggles", "sublabel", "toggle", null));
-        //menu.addItem(new WatchUi.MenuItem("Checkboxes", null, "check", null));
-        //menu.addItem(new WatchUi.MenuItem("Icons", null, "icon", null));
-        //menu.addItem(new WatchUi.MenuItem("Custom", null, "custom", null));
-        //WatchUi.pushView(menu, new AnalogSettingsDelegate(), WatchUi.SLIDE_UP );
+            if (Storage.getValue(3) == null ){ Storage.setValue(3, true); } // Garmin Logo
+            if (Storage.getValue(4) == null ){ Storage.setValue(4, true); } // Bluetooth Logo
+            if (Storage.getValue(6) == null ){ Storage.setValue(6, true); } // Temperature Type
+            if (Storage.getValue(7) == null ){ Storage.setValue(7, true); } // Location Name
+            if (Storage.getValue(8) == null ){ Storage.setValue(8, true); } // Alarm Icon
+            if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit
+            if (Storage.getValue(16) == null ){ Storage.setValue(16, false); } // Temperature Unit
+            if (Storage.getValue(18) == null ){ Storage.setValue(18, false); } // Tickmark Color
+            //if (Storage.getValue(19) == null ){ Storage.setValue(19, false); } // Battery Estimate
+            if (Storage.getValue(20) == null ){ Storage.setValue(20, false); } // Pressure Type
+            if (Storage.getValue(22) == null ){ Storage.setValue(22, false); } // AOD Colors
+            if (Storage.getValue(24) == null ){ Storage.setValue(24, false); } // Date Format
+            if (Storage.getValue(25) == null ){ Storage.setValue(25, true); } // Display Weather
+            if (Storage.getValue(26) == null ){ Storage.setValue(26, true); } // Battery Icon 
+            if (Storage.getValue(28) == null ){ Storage.setValue(28, true); } // Battery Color 
+            if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { // If not square display
+                if (Storage.getValue(5) == null ){ Storage.setValue(5, true); } // Hour Labels
+                if (Storage.getValue(27) == null ){ Storage.setValue(27, false); } // Labels Color
+                if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
+            }
+            if (Storage.getValue(9) == null) { Storage.setValue(9, 25); } //big
+            if (Storage.getValue(10) == null) { Storage.setValue(10, 25); } //big
+            if (Storage.getValue(11) == null) { Storage.setValue(11, 21); } //small
+            if (Storage.getValue(12) == null) { Storage.setValue(12, 21); } //small
+            if (Storage.getValue(17) == null) { Storage.setValue(17, 21); } //small
+        }
 
         // Generate a new Menu with a drawable Title
         Menu2.setTitle(new DrawableMenuTitle());
@@ -66,19 +63,6 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
         //WatchUi.pushView(Menu2, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
 
 	}
-
-/*	function onSelect(item) {
-        // For IconMenuItems, we will change to the next icon state.
-        // This demonstates a custom toggle operation using icons.
-        // Static icons can also be used in this layout.
-        if(item instanceof IconMenuItem) {
-            item.setSubLabel(item.getIcon().nextState(item.getId()));
-        } else {
-            Storage.setValue(item.getId(), item.isEnabled());       
-        }
-        
-        WatchUi.requestUpdate();
-    }    */
 
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
@@ -113,10 +97,12 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
                 } else {
                     item.setSubLabel((item.getIcon() as CustomDataPoint).nextState(item.getId(),2)); //small
                 }
-            //item.setSubLabel(item.getIcon().nextState(item.getId()));
+                //item.setSubLabel(item.getIcon().nextState(item.getId()));
+            } else if (item.getIcon() instanceof CustomThickness){ // Custom Thickness
+                item.setSubLabel((item.getIcon() as CustomThickness).nextState(item.getId()));
             }
         } else if (item instanceof WatchUi.ToggleMenuItem) {
-            Storage.setValue(item.getId(), item.isEnabled());       
+            Storage.setValue(item.getId(), item.isEnabled());
         }
 
         WatchUi.requestUpdate(); // really needed?
@@ -331,9 +317,9 @@ class CustomDataPoint extends WatchUi.Drawable {
         var mIconStrings;
 
         if (size==2){ // Data field locations with length limitation = "small"
-            mIconStrings = ["Steps", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active", (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
+            mIconStrings = ["Steps", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active", (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Digital Clock", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
         } else { // No limitations on data field length
-            mIconStrings = ["Steps", "Distance", "Elevation", (checkWeather)?"Wind Speed":"Not Available", (checkWeather)?"Min/Max Temp.":"Not Available", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active",  (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
+            mIconStrings = ["Steps", "Distance", "Elevation", (checkWeather)?"Wind Speed":"Not Available", (checkWeather)?"Min/Max Temp.":"Not Available", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active",  (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Digital Clock", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
         }
 
         if (id!=-1){ // -1 means to return only the name, while any other value means to skip to next step
@@ -360,7 +346,7 @@ class CustomDataPoint extends WatchUi.Drawable {
 
         if (Storage.getValue(1) != null) {
 			iColor = Storage.getValue(1);
-            if (iColor==Graphics.COLOR_WHITE){ iColor=Graphics.COLOR_LT_GRAY }
+            if (iColor==Graphics.COLOR_WHITE){ iColor=Graphics.COLOR_LT_GRAY; }
         }
 		
         dc.setColor(iColor, Graphics.COLOR_TRANSPARENT);
