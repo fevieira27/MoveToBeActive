@@ -217,7 +217,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added color categories to body battery icon, depending on value
 - [X] Code improvements to reduce memory usage of the config/customization menu and watch face
 - [X] Adapting code to SDK 4.2.2
-- [X] Added support for newly released Forerunners: 265, 265s and 965
+- [X] Added support for newly released MARQ gen 2 and Forerunner (265, 265s and 965)
 
 **4.3.0** (12/Aug/23)
 - [X] Added a new data source to show only active calories burned (instead of only the total calories)
@@ -229,7 +229,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Fixed an issue with the hands thickness selector (layout menu)
 - [X] Settings menu improvements to further reduce memory usage
 - [X] Now using Garmin SDK 6.2.2
-- [X] Added suppport for new watches recently released by Garmin: Fenix 7 PRO series, Epix gen 2 PRO series, Approach S70 (42 & 47mm) and MARQ gen 2.
+- [X] Added suppport for new watches recently released by Garmin: Fenix 7 PRO series, Epix gen 2 PRO series and Approach S70 (42 & 47mm).
 
 **4.4.0** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
