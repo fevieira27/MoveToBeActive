@@ -229,6 +229,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Fixed an issue with the hands thickness selector (layout menu)
 - [X] Settings menu improvements to further reduce memory usage
 - [X] Now using Garmin SDK 6.2.2
+- [X] Added suppport for new watches recently released by Garmin: Fenix 7 PRO series, Epix gen 2 PRO series, Approach S70 (42 & 47mm) and MARQ gen 2.
 
 **4.4.0** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
