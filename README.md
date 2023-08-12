@@ -228,7 +228,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] AM/PM for 12h format now showing on smaller size when bigger data field font is selected (both for digital clock and next sun event)
 - [X] Fixed an issue with the hands thickness selector (layout menu)
 - [X] Settings menu improvements to further reduce memory usage
-- [X] Now using Garmin SDK 4.2.4
+- [X] Now using Garmin SDK 6.2.2
 
 **4.4.0** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
