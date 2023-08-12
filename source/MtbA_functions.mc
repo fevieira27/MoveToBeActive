@@ -1695,7 +1695,12 @@ class MtbA_functions {
 					clockTime.hour = 12;
 				}
 			}
-			seconds = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
+			seconds = clockTime.hour.format("%2d") + ":" + clockTime.min.format("%02d");
+			if (clockTime.hour < 10 and clockTime.hour > 0 and width>=240){
+				xText=xText-(dc.getTextDimensions(clockTime.hour.format("%2d"),fontSize)[0])/2;
+			} else {
+				xText=xText-(dc.getTextDimensions("1",fontSize)[0])/2;
+			}
 		}
 
 		// placeholder for implementation of Partial Update
@@ -1731,6 +1736,7 @@ class MtbA_functions {
 		dc.drawText(xText, yText,	fontSize, seconds, Graphics.TEXT_JUSTIFY_LEFT);
 
 		if (type==2){ //digital clock
+			//dc.drawText(xText + dc.getTextWidthInPixels(seconds,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width>=360 ? 1 : 0)),	0, am_pm, Graphics.TEXT_JUSTIFY_LEFT);
 			dc.drawText(xText + dc.getTextWidthInPixels(seconds,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width>=360 ? 1 : 0)),	0, am_pm, Graphics.TEXT_JUSTIFY_LEFT);
 		}
 

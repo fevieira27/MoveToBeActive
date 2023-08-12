@@ -18,7 +18,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        var currentVersion=425;
+        var currentVersion=430;
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
 
@@ -101,8 +101,8 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
             } else if (item.getIcon() instanceof CustomThickness){ // Custom Thickness
                 item.setSubLabel((item.getIcon() as CustomThickness).nextState(item.getId()));
             }
-        } else if (item instanceof WatchUi.ToggleMenuItem) {
-            Storage.setValue(item.getId(), item.isEnabled());
+        } else if (item instanceof WatchUi.ToggleMenuItem and item.getId() instanceof Number) {
+            Storage.setValue(item.getId() as Number, item.isEnabled());
         }
 
         WatchUi.requestUpdate(); // really needed?

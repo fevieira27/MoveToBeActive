@@ -43,7 +43,7 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=425;
+        var currentVersion=430;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             //Storage.setValue(23,currentVersion);
