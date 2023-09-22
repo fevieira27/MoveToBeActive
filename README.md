@@ -231,9 +231,17 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Now using Garmin SDK 6.2.2
 - [X] Added suppport for new watches recently released by Garmin: Fenix 7 PRO series, Epix gen 2 PRO series and Approach S70 (42 & 47mm).
 
+**4.3.1** (Coming Soon)
+- [X] Adjustments to Battery Text position on high resolution watches
+- [X] Now using Garmin SDK 6.3.0
+- [X] Added suppport for new watches recently released by Garmin: Venu 3, Venu 3S and Vivoactive 5
+
 **4.4.0** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
 - [ ] Give the user the possibility to chose the wind speed to be displayed in knots
+
+**5.0.0** (No estimated date yet, likely Q1 2024)
+- [ ] Light and Dark theme selector
 
 
 ## Watchface examples:
