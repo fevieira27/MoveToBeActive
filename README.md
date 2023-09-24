@@ -231,27 +231,28 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Now using Garmin SDK 6.2.2
 - [X] Added suppport for new watches recently released by Garmin: Fenix 7 PRO series, Epix gen 2 PRO series and Approach S70 (42 & 47mm).
 
-**4.3.1** (Coming Soon)
+**4.3.1** (24/Sep/23)
 - [X] Adjustments to Battery Text position on high resolution watches
 - [X] Now using Garmin SDK 6.3.0
 - [X] Added suppport for new watches recently released by Garmin: Venu 3, Venu 3S and Vivoactive 5
 
 **4.4.0** (Coming Soon)
-- [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units.
-- [ ] Give the user the possibility to chose the wind speed to be displayed in knots
+- [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units
+- [ ] Give the user the option to chose wind speed to be displayed in knots
 
 **5.0.0** (No estimated date yet, likely Q1 2024)
 - [ ] Light and Dark theme selector
+- [ ] Seconds Hand
 
 
-## Watchface examples:
+## MtbA Watchface examples:
 
 ![Features Location](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%203%20v2.jpg)
 ![Config Menu](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%202%20v3.jpg)
 ![Features](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%201%20v2.jpg)
 ![Watch Examples](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%204%20v2.jpg)
 
-# Inspiration:
+# Open-source projects used as inspiration for the MtbA Watch Face:
 * https://github.com/wwarby/walker
 * https://github.com/pshriwise/connectiqanalog
 * https://github.com/Laverlin/Yet-Another-WatchFace
