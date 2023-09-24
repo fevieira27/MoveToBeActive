@@ -773,9 +773,16 @@ class MtbA_functions {
 			battery = Math.ceil(System.getSystemStats().battery);
 		}
 		
+		//System.println(dc.getTextDimensions("100",0)[1]);
+		//System.println(width);
+
 		var offset = 0, offsetLED = 0;
 		if (width==390) { // Venu & D2 Air
-			offset = -2;	
+			if (dc.getTextDimensions("100",0)[1]==33){ // Venu, D2 Air & Approach S70 42mm
+				offset = -2;
+			} else { // epix Pro Gen 2 42mm & MARQ Gen 2
+				offset = -1;
+			}
 		} else if (width==280) { // Enduro & Fenix 6X Pro
 			offset = 0.75;	
 		}  else if (width==218 or width==240) { // Vivoactive 4S & Fenix 6S & Vivoactive 3 Music
@@ -793,7 +800,9 @@ class MtbA_functions {
 		} else if (width==360) { // Venu 2 & 2s
 			offset = -1;	
 		} else if (width>=416) {
-			offset = -1;	
+			if (width==454 and dc.getTextDimensions("100",0)[1]==35){ // Venu 3
+				offset = 1;
+			}
 			offsetLED = -1;
 		}
 
@@ -1170,7 +1179,7 @@ class MtbA_functions {
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var calories=0;
 		
-		if (type==2){ // Active Calories formula by markdotai and topcaser (https://forums.garmin.com/developer/connect-iq/f/discussion/208338/active-calories/979052), with small adjustments
+		if (type==2){ // Active Calories formula by markdotai and topcaser (https://forums.garmin.com/developer/connect-iq/f/discussion/208338/active-calories/979052), with small adjustments by MtbA
 
 			var today = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);		
 			var profile = UserProfile.getProfile();
@@ -2018,19 +2027,15 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 
 		var icon, time;
 		if (myTime.hour > sunrise.hour and myTime.hour < sunset.hour){ 
-			//System.println("sunset ?"); 
 			icon = "?";
 			time = sunset;
 		} else if (myTime.hour == sunrise.hour and myTime.min > sunrise.min){ 
-			//System.println("sunset ?"); 
 			icon = "?";
 			time = sunset;
 		} else if (myTime.hour == sunset.hour and myTime.min > sunset.min){ 
-			//System.println("sunrise >"); 
 			icon = ">";
 			time = sunrise;
 		}	else {
-			//System.println("sunrise >");
 			icon = ">";
 			time = sunrise;
 		}

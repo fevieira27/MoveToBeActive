@@ -43,10 +43,10 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=430;
+        var currentVersion=431;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
-            //Storage.setValue(23,currentVersion);
+            Storage.setValue(23,currentVersion);
             var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
             if (System.getSystemStats() has :batteryInDays){
                 checks[0]=true;
@@ -114,6 +114,7 @@ class AnalogView extends WatchUi.WatchFace
         }*/
 
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
+        //if(Graphics has :BufferedBitmap or :BufferedBitmapReference) {
         if(Toybox.Graphics has :BufferedBitmap or Toybox.Graphics has :BufferedBitmapReference) {
             // Allocate a full screen size buffer with a palette of only 4 colors to draw
             // the background image of the watchface.  This is used to facilitate blanking
@@ -172,7 +173,7 @@ class AnalogView extends WatchUi.WatchFace
 
         var labels=Storage.getValue(5);
 
-        if(inLowPower and canBurnIn) {
+        if(inLowPower and canBurnIn) { // aod on
         	if (dc has :setAntiAlias) {
         		dc.setAntiAlias(false);
         	}

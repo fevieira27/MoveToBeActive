@@ -1,0 +1,4 @@
+<resources>
+    <bitmap id="LauncherIcon" filename="images/MoveToBeActive.png"
+    	dithering="none" />
+</resources>

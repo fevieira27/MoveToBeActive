@@ -1,0 +1,31 @@
+<resources>
+  <!-- <ata id="mPosition">[189, 106, 168, 246, 154, 58, 317, 82, 298, 142, 322, 147, 62, 86, 232, 237, 187, 192, 213, 208, 241, 208, 237, 274]</jsonData> -->
+  <!--     Venu              0    1    2    3    4   5    6    7    8    9   10   11 , 12, 13, 14 , 15 , 16 , 17 , 18 , 19 , 20 , 21 , 22 , 23 -->
+  <jsonData id="mPosition">[177, 100, 157, 231, 141, 54, 297, 260, 280, 129, 298, 133, 66, 84, 216, 221, 174, 179, 187, 185, 222, 191, 259, 257]</jsonData> <!-- default for Venu 2s or 360x360 -->
+  <!-- 
+    0= DnD Icon X
+    1= DnD, Bluetooth and Alarm Icons Y
+    2= Bluetooth Icon X
+    3= Alarm Icon X
+    4= Garmin Logo X
+    5= Garmin Logo Y
+    6= Date Y with Logo / Location Y no Logo
+    7= Temperature Y no Logo
+    8= Right icon X
+    9= Top icon Y
+    10= Right text X
+    11= Top text Y
+    12= Left icon X
+    13= Left text X
+    14= Bottom icon Y
+    15= Bottom text Y
+    16= Middle icon Y
+    17= Middle text Y
+    18= Weather icon X
+    19= Weather icon X2 // used by some bigger weather icons (eg. partly cloudy day)
+    20= Weather icon Y + Temperature Y
+    21= Temperature X
+    22= Weather icon Y no Logo
+    23= Location Y with Logo   
+    -->
+</resources>
