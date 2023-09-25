@@ -46,7 +46,6 @@ class AnalogView extends WatchUi.WatchFace
         var currentVersion=431;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
-            Storage.setValue(23,currentVersion);
             var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
             if (System.getSystemStats() has :batteryInDays){
                 checks[0]=true;
