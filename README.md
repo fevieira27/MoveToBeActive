@@ -231,7 +231,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Now using Garmin SDK 6.2.2
 - [X] Added suppport for new watches recently released by Garmin: Fenix 7 PRO series, Epix gen 2 PRO series and Approach S70 (42 & 47mm).
 
-**4.3.1** (24/Sep/23)
+**4.3.2** (25/Sep/23)
 - [X] Adjustments to Battery Text position on high resolution watches
 - [X] Now using Garmin SDK 6.3.0
 - [X] Added suppport for new watches recently released by Garmin: Venu 3, Venu 3S and Vivoactive 5
