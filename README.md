@@ -236,7 +236,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Now using Garmin SDK 6.3.0
 - [X] Added suppport for new watches recently released by Garmin: Venu 3, Venu 3S and Vivoactive 5
 
-**4.3.3** (4/Nov/23)
+**4.3.3** (5/Nov/23)
 - [X] Adjustments to Garmin Logo position on 280x280 MIP watches
 - [X] Next Sun Event logic was corrected to prevent the next event from showing up before the previous event was over
 - [X] Now using Garmin SDK 6.3.1
