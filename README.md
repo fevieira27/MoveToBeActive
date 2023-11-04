@@ -236,6 +236,12 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Now using Garmin SDK 6.3.0
 - [X] Added suppport for new watches recently released by Garmin: Venu 3, Venu 3S and Vivoactive 5
 
+**4.3.3** (4/Nov/23)
+- [X] Adjustments to Garmin Logo position on 280x280 MIP watches
+- [X] Next Sun Event logic was corrected to prevent the next event from showing up before the previous event was over
+- [X] Now using Garmin SDK 6.3.1
+- [X] Added suppport for new watch: Fenix 7X Pro Solar (no wifi)
+
 **4.4.0** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units
 - [ ] Give the user the option to chose wind speed to be displayed in knots
