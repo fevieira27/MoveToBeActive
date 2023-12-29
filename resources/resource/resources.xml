@@ -2,7 +2,7 @@
     <fonts>
         <font id="id_font_black_diamond" filename="fonts/blackdiamond.fnt" filter="12369" antialias="true"/>
         <font id="IconsFont" filename="fonts/mtba-icons.fnt"
-        	antialias="true" filter="01235678:;@ABPQRSTUVWXY.?>" />
+        	antialias="true" filter="012345678:;@ABPQRSTUVWXY.?>" />
         <font id="WeatherFont" filename="fonts/weather-icons-24.fnt"
         	antialias="true"></font>
         <font id="Checkerboard" filename="fonts/Checker.fnt" filter="@" />
