@@ -1,6 +1,6 @@
 <resources>
     <fonts>
         <font id="IconsFont" filename="fonts/mtba-icons-large.fnt"
-        	antialias="true" filter="01235678:;@ABPQRSTUVWXY.?>" />
+        	antialias="true" filter="012345678:;@ABPQRSTUVWXY.?>" />
     </fonts>
 </resources>
