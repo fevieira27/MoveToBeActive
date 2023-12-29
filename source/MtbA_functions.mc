@@ -331,10 +331,18 @@ class MtbA_functions {
 				var position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
 				var today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
 				if (position!=null and today!=null){
-					sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
-					if (sunset!=null) { sunset = sunset.hour; } else { sunset = 18; }
-					sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
-					if (sunrise!=null) { sunrise = sunrise.hour; } else { sunrise = 6; }
+					if (Weather.getSunset(position, today)!=null) {
+						sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
+						sunset = sunset.hour; 
+					} else {
+						sunset = 18; 
+					}
+					if (Weather.getSunrise(position, today)!=null) {
+						sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
+						sunrise = sunrise.hour;
+					} else {
+						sunrise = 6;
+					}
 				} else {
 					sunset = 18;
 					sunrise = 6;
@@ -511,8 +519,14 @@ class MtbA_functions {
 				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 				//dc.fitTextToArea(text, font, width, height, truncate)
 				dc.drawText(x, y, Graphics.FONT_XTINY, dc.fitTextToArea(location, Graphics.FONT_XTINY, wMax, hMax, true), Graphics.TEXT_JUSTIFY_CENTER);
-			}		        
-		}		
+				return true;
+			}
+			else { // Dealing with an error when currentConditions exist but location name still returns null
+				return false;
+			}
+		}	else {
+			return false;
+		}	
 	}
 	
 	/* ------------------------ */
@@ -761,18 +775,37 @@ class MtbA_functions {
 	function drawBatteryText(dc, xText, yText, width, check) {	
 	
 		var estimateFlag = Storage.getValue(19);
-		var battery;
+		var battery = Math.ceil(System.getSystemStats().battery);
+		var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+
+		if (System.getSystemStats().charging==true or (Storage.getValue(30)!=null and battery>Storage.getValue(30) or (battery==Storage.getValue(30) and battery==100))){
+			var test = [
+        today.hour,
+        today.min,
+        today.day,
+        today.month,
+        today.year
+    	];
+			Storage.setValue(29, test); // last time seen charging
+			Storage.setValue(30, battery); // max percentage when charging
+			//Storage.setValue(20, null); // reset last battery estimate
+			Storage.setValue(31, null); // reset last estimated consumption data field
+			//Storage.setValue(22, null); // reset last hourDiff calculation
+		}
 
 		if (estimateFlag == true and check == true){ // user requested and watch supports
 			if (System.getSystemStats().batteryInDays!=null and System.getSystemStats().batteryInDays!=0){ //trying to make sure that we don't get an error if batteryInDays not supported by watch
 				battery = System.getSystemStats().batteryInDays;
-			} else {
+			} 
+			/*
+			else {
 				battery = Math.ceil(System.getSystemStats().battery);
 			}
 		} else {
 			battery = Math.ceil(System.getSystemStats().battery);
+			*/
 		}
-		
+
 		//System.println(dc.getTextDimensions("100",0)[1]);
 		//System.println(width);
 
@@ -808,6 +841,125 @@ class MtbA_functions {
 
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		dc.drawText(xText + offsetLED, yText + offset , 0 /* batteryFont */,battery.format("%d") + (estimateFlag == true and battery!=0 ? "d" : "%"), Graphics.TEXT_JUSTIFY_CENTER ); // Correct battery text on Fenix 5 series (except 5s)
+	}
+
+
+	/* ------------------------ */
+
+	function calcHourDiff(today) { // calculate hourDiff
+		var lastCharge=Storage.getValue(29);
+		var hourDiff = 0;
+		
+		hourDiff = (((today.hour - lastCharge[0])*60 + ((today.min - lastCharge[1])))/60d); 
+
+		if (today.day != lastCharge[2]){ // different day
+			hourDiff = ((today.day-lastCharge[2])*24) + hourDiff;
+		}
+
+		if (today.month != lastCharge[3]){ // different month
+			var month_days=0;
+			if (lastCharge[3]==2) {
+				if ((lastCharge[4] % 400 == 0) or ( (lastCharge[4] % 4 == 0) and (lastCharge[4] % 100 != 0) )){ //leap year check
+					month_days=29;
+				} else {
+					month_days=28;
+				}
+			} else if ((lastCharge[3]<=7 and lastCharge[3] % 3 == 0) or (lastCharge[3]>7 and lastCharge[3] % 2 == 0)){ //odd months before Aug or even months on/after Aug = 31 days
+				month_days=31;
+			} else{
+				month_days=30;
+			}
+			hourDiff = ((today.month-lastCharge[3])*month_days*24)+hourDiff;
+		}
+
+		if (today.year != lastCharge[4]){ // different year
+			var year_days=0;
+			if ((lastCharge[4] % 400 == 0) or ( (lastCharge[4] % 4 == 0) and (lastCharge[4] % 100 != 0) )){ //leap year check
+				year_days=366;
+			} else {
+				year_days=365;
+			}
+			hourDiff = ((today.year-lastCharge[4])*year_days*24)+hourDiff;
+		}
+		//Storage.setValue(32,hourDiff);
+		return hourDiff;
+	}
+
+
+	/* ------------------------ */
+
+	function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {	
+	
+		var battery = Math.ceil(System.getSystemStats().battery);
+		var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+		var text = null;
+
+		if (System.getSystemStats().charging==true){
+			text = "chrng.";
+		} else if (System.getSystemStats().charging==false and today.sec % 30 == 0){ // 3 times per minute // or every 15 minutes -> and today.sec==0 and (today.min % 15 == 0)
+			if (Storage.getValue(30)==null){ // need to charge for the first time
+				text = "charge"; // show percentage?
+				Storage.setValue(31, "charge");
+			}	else if (battery==Storage.getValue(30) or Storage.getValue(30)-battery<=1){ // still waiting for battery percentage to drop in order to calculate estimation
+				text = "estim."; //text = "calc"; // show percentage?
+				Storage.setValue(31, "estim.");
+			} else{ // battery has dropped, so estimate is going to be calculated here
+				// calculate hourDiff
+				var hourDiff;
+				hourDiff = calcHourDiff(today); //calculate hourDiff
+						
+				if(hourDiff==0){ //error, not expected
+					return false;
+				}
+
+				//Lang.format("$1$", [stepDistance.format("%.1f")] );
+				text = ((Storage.getValue(30)-battery)/hourDiff)*24; //text = battery*(hourdiff)/(battDiff)
+				if (text<1){
+					text = text.format("%.1f") ; // + "%/d" 
+				} else if (text>=100){
+					text = "100"; // "%/d"
+				} else{
+					text = text.format("%.0f") ; // + "%/d"
+				}
+				Storage.setValue(31, text);
+				// text = Lang.format("$1$", [text.format("%.1f")] )  + "d";
+			}
+		} else {
+			text = Storage.getValue(31);
+			if (text == null){
+				text = "estim."; // not able to calculate yet
+			}
+		}
+
+		if(width==280 or width==240){ 
+			yIcon=yIcon-6;
+/*			if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus & Venu Sq
+				yIcon=yIcon-0.5;
+			}*/
+		} else if (width==260){
+			yIcon=yIcon-5;
+		} else if (width==218){
+			yIcon=yIcon-4;
+		} else if (width>416){
+			yIcon=yIcon-2;
+		}
+
+		if (width>=360){ //AMOLED (2021)
+			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		} else { // MIP, for better readability
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // if accent color is white and notification is zero, then icon color is gray
+		}
+		dc.drawText( xIcon, yIcon, IconsFont, "4", Graphics.TEXT_JUSTIFY_CENTER);
+		
+		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+		dc.drawText( xText, yText, fontSize, text, Graphics.TEXT_JUSTIFY_LEFT);
+		
+		//if (System.getSystemStats().charging==false and Storage.getValue(21)!=null){
+		if (text.toNumber() instanceof Number) {
+			dc.drawText(xText + dc.getTextWidthInPixels(text,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 ? 1 : 0)),	0, "%/d", Graphics.TEXT_JUSTIFY_LEFT);
+		}		
+		
+		return true;
 	}
 	
 	/* ------------------------ */
@@ -2011,8 +2163,10 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			var position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
 			var today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
 			if (position!=null and today!=null){
-				sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
-				sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
+				// sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
+				// sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
+				sunset = Weather.getSunset(position, today);
+				sunrise = Weather.getSunrise(position, today);
 			} else {
 			return false;
 			}
@@ -2023,33 +2177,40 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		var offset = 0;
 		if (width>=360) { // Venu & D2 Air
 			offset = 7;	
-		}
+		}		
 
-		var icon, time;
-		if (myTime.hour > sunrise.hour and myTime.hour < sunset.hour){ 
-			icon = "?";
-			time = sunset;
-		} else if (myTime.hour == sunrise.hour and myTime.min > sunrise.min){ 
-			icon = "?";
-			time = sunset;
-		} else if (myTime.hour == sunset.hour and myTime.min > sunset.min){ 
-			icon = ">";
-			time = sunrise;
-		}	else {
-			icon = ">";
-			time = sunrise;
-		}
+		var icon, time, text="", am_pm="";
+		if (sunset!=null and sunrise!=null){
+			sunset = Time.Gregorian.info(sunset, Time.FORMAT_SHORT);
+			sunrise = Time.Gregorian.info(sunrise, Time.FORMAT_SHORT);
+			if (myTime.hour > sunrise.hour and myTime.hour < sunset.hour){ 
+				icon = "?";
+				time = sunset;
+			} else if (myTime.hour == sunrise.hour and myTime.min > sunrise.min){ 
+				icon = "?";
+				time = sunset;
+			} else if (myTime.hour == sunset.hour and myTime.min <= sunset.min){ 
+				icon = "?";
+				time = sunset;
+			}	else {
+				icon = ">";
+				time = sunrise;
+			}
 
-		var am_pm="";
-		if (System.getDeviceSettings().is24Hour==false){
-			am_pm="AM";
-			if (time.hour >= 12){
-				time.hour = time.hour-12;
-				am_pm="PM";
+			if (System.getDeviceSettings().is24Hour==false){
+				am_pm="AM";
+				if (time.hour >= 12){
+					time.hour = time.hour-12;
+					am_pm="PM";
+				}
+				if (time.hour == 0){
+					time.hour = 12;
+				}
 			}
-			if (time.hour == 0){
-				time.hour = 12;
-			}
+		} else {
+			icon = ">";
+			time = null;
+			text="--";
 		}
 
 		if (icon != null && icon.equals(">")){
@@ -2061,8 +2222,11 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		
 		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 		//dc.drawText( xText, yText , fontSize, Lang.format("$1$:$2$$3$",[time.hour.format("%02u"), time.min.format("%02u"), am_pm]), Graphics.TEXT_JUSTIFY_LEFT);
-
-		var text=Lang.format("$1$:$2$",[time.hour.format("%02u"), time.min.format("%02u")]);
+		
+		if (time!=null){
+			text=Lang.format("$1$:$2$",[time.hour.format("%02u"), time.min.format("%02u")]);
+		}
+		
 		dc.drawText( xText, yText , fontSize, text, Graphics.TEXT_JUSTIFY_LEFT);
 		if (am_pm!=""){
 			dc.drawText(xText + dc.getTextWidthInPixels(text,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 ? 1 : 0)),	0, am_pm, Graphics.TEXT_JUSTIFY_LEFT);
@@ -2127,6 +2291,8 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, true); //cycling
 		}	else if (dataPoint == 20) { // Next Sun Event
 			drawSunriseSunset(dc, xIcon, yIcon+(xIcon*0.002), xText-offset390, yText, width);
+		} else if (dataPoint == 21) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.035)-offset390, xText, yText, width);
 		}		
 		
 	}
@@ -2184,6 +2350,8 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
 		} else if (dataPoint == 20) { // Next Sun Event
 			drawSunriseSunset(dc, xIcon, yIcon+(xIcon*0.015), xText+(xText*0.01)-offset390, yText, width);
+		} else if (dataPoint == 21) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawBatteryConsumption(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width);
 		}		
 
 	}
@@ -2249,6 +2417,8 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
 		} else if (dataPoint == 24) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSunriseSunset(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+		} else if (dataPoint == 25) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawBatteryConsumption(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width);
 		}
 	}
 

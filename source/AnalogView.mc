@@ -43,7 +43,7 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=431;
+        var currentVersion=435;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -284,8 +284,10 @@ class AnalogView extends WatchUi.WatchFace
                     } else {
                         FontAdj=3;
                     }
-                } else if (width==240 and dc.getFontHeight(Graphics.FONT_TINY)==26) { // Fenix 6s
-                    FontAdj=4;
+                } else if (width==240) { 
+                    if (dc.getFontHeight(Graphics.FONT_TINY)==26 and dc.getFontHeight(Graphics.FONT_XTINY)!=26) { // Fenix 6s
+                        FontAdj=4;
+                    }
                 } else { // Fenix 5 Plus
                     FontAdj=2;
                 }

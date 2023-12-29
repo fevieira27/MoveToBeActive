@@ -18,7 +18,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        var currentVersion=431;
+        var currentVersion=435;
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
 
@@ -42,11 +42,11 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
                 if (Storage.getValue(27) == null ){ Storage.setValue(27, false); } // Labels Color
                 if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
             }
-            if (Storage.getValue(9) == null) { Storage.setValue(9, 25); } //big
-            if (Storage.getValue(10) == null) { Storage.setValue(10, 25); } //big
-            if (Storage.getValue(11) == null) { Storage.setValue(11, 21); } //small
-            if (Storage.getValue(12) == null) { Storage.setValue(12, 21); } //small
-            if (Storage.getValue(17) == null) { Storage.setValue(17, 21); } //small
+            if (Storage.getValue(9) == null) { Storage.setValue(9, 26); } //big
+            if (Storage.getValue(10) == null) { Storage.setValue(10, 26); } //big
+            if (Storage.getValue(11) == null) { Storage.setValue(11, 22); } //small
+            if (Storage.getValue(12) == null) { Storage.setValue(12, 22); } //small
+            if (Storage.getValue(17) == null) { Storage.setValue(17, 22); } //small
         }
 
         // Generate a new Menu with a drawable Title
@@ -334,9 +334,9 @@ class CustomDataPoint extends WatchUi.Drawable {
         var mIconStrings;
 
         if (size==2){ // Data field locations with length limitation = "small"
-            mIconStrings = ["Steps", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active", (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Digital Clock", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
+            mIconStrings = ["Steps", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active", (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available" , "Heart Rate", "Notifications", (Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Digital Clock", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "Battery %/day", "None"];
         } else { // No limitations on data field length
-            mIconStrings = ["Steps", "Distance", "Elevation", (checkWeather)?"Wind Speed":"Not Available", (checkWeather)?"Min/Max Temp.":"Not Available", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active",  (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Digital Clock", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "None"];
+            mIconStrings = ["Steps", "Distance", "Elevation", (checkWeather)?"Wind Speed":"Not Available", (checkWeather)?"Min/Max Temp.":"Not Available", (checkWeather)?"Humidity":"Not Available", (checkWeather)?"Precipitation":"Not Available", (Storage.getValue(21)[5]) ? "Atm. Pressure" : "Not available", "Calories Total", "Calories Active",  (Storage.getValue(21)[12])?"Floors Climbed":"Not Available", (Storage.getValue(21)[11])?"Pulse Ox":"Not available", "Heart Rate", "Notifications",(Storage.getValue(21)[8] and System.getSystemStats().solarIntensity != null) ? "Solar Intensity" : "Not available", "Seconds", "Digital Clock", "Intensity Min.", (Storage.getValue(21)[10])?"Body Battery":"Not Available", (Storage.getValue(21)[13])?"Stress":"Not Available", (Storage.getValue(21)[14])?"Respiration Rate":"Not Available", (Storage.getValue(21)[7])?"Recovery Time":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Run":"Not Available", (Storage.getValue(21)[3])?"VO2 Max Cycle":"Not Available", (Storage.getValue(21)[15])?"Next Sun Event":"Not Available", "Battery %/day", "None"];
         }
 
         if (id!=-1){ // -1 means to return only the name, while any other value means to skip to next step
