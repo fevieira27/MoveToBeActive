@@ -242,7 +242,13 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Now using Garmin SDK 6.3.1
 - [X] Added suppport for new watch: Fenix 7X Pro Solar (no wifi)
 
-**4.4.0** (Coming Soon)
+**4.4.0** (30/Dec/2023)
+- [X] Added new data field to show average battery consumption percentage per day on the current cycle (since last charge)
+- [X] Next Sun Event logic was again corrected to prevent users above the polar artic circle to face IQ errors due to not having sunrise during the winter
+- [X] Small corrections on the positioning of data fields' icons and texts on several watches
+- [X] Now using Garmin SDK 6.4.1
+
+**4.4.5** (Coming Soon)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units
 - [ ] Give the user the option to chose wind speed to be displayed in knots
 
