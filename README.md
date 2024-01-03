@@ -45,7 +45,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * **Wind speed**: Current wind speed in km/h or mph (depending on watch's pace unit settings), or m/s if selected on the watch face's settings (*only available on the left top and middle data points*);
 * **Elevation** (altitude above mean sea level in meters): Derived from the most accurate source (Barometer or GPS) in order of descending accuracy. If no GPS is present, then barometer readings will be used (*only available on the left top and middle data points*);
 * **Distance** walked/ran on the day (km or miles, dependent on watch's selected unit on general config): Icon will be displayed in grey until steps goal has been met, changing to the Accent color of choice (*only available on the left top and middle data points*);
-* **Battery Consumption** per day after the last charge, displayed in average%/day. For this to work, you need to be using the MoveToBeActive watch face when charging your watch, or else the displayed consumption percentage might be incorrect (with impossible figures) or not shown.
+* **Battery Consumption** per day since last charge, displayed in average%/day. For this to work, you need to be using the MoveToBeActive watch face when charging your watch, or else the displayed consumption percentage might be incorrect (with impossible figures) or not shown.
 
 ## Support this project:
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" href="https://www.paypal.com/donate/?hosted_button_id=XVZXEH5RVBCZ6">](https://www.paypal.com/donate/?hosted_button_id=XVZXEH5RVBCZ6)
