@@ -1,3 +1,11 @@
+[![Version](https://img.shields.io/github/release/fevieira27/MoveToBeActive)](https://github.com/fevieira27/MoveToBeActive/releases/latest)
+[![Release date](https://img.shields.io/github/release-date/fevieira27/MoveToBeActive)](https://github.com/fevieira27/MoveToBeActive/releases/latest)
+![GitHub all releases](https://img.shields.io/github/downloads/fevieira27/MoveToBeActive/total)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/y/fevieira27/MoveToBeActive)
+![GitHub Repo stars](https://img.shields.io/github/stars/fevieira27/MoveToBeActive)
+![GitHub forks](https://img.shields.io/github/forks/fevieira27/MoveToBeActive)
+![GitHub watchers](https://img.shields.io/github/watchers/fevieira27/MoveToBeActive)
+
 # MoveToBeActive Watch Faces for Garmin
 ![MoveToBeActive Banner](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/banner%20v3.png?raw=true)
 
@@ -275,3 +283,13 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * https://github.com/tumb1er/ElPrimero
 * https://github.com/douglasr/connectiq-logo-analog
 * https://github.com/douglasr/connectiq-samples
+
+# Search Hit Counter
+![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/garmin)
+![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/ciq)
+![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/connectiq)
+![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/watchface)
+![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/analog)
+![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/movetobeactive)
+![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/mtba)
+
