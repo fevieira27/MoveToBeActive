@@ -273,7 +273,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 ![Features](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%201%20v2.jpg)
 ![Watch Examples](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%204%20v2.jpg)
 
-# Open-source projects used as inspiration for the MtbA Watch Face:
+# Open-source projects used as inspiration for MtbA Watch Face:
 * https://github.com/wwarby/walker
 * https://github.com/pshriwise/connectiqanalog
 * https://github.com/Laverlin/Yet-Another-WatchFace
@@ -284,6 +284,15 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 * https://github.com/douglasr/connectiq-logo-analog
 * https://github.com/douglasr/connectiq-samples
 
+# Credits
+- "[Distance](https://thenounproject.com/term/distance/1514833/)" icon by Becris from [the Noun Project](https://thenounproject.com).
+- "[Fire](https://thenounproject.com/term/fire/24187/)" icon by Jenny Amer from [the Noun Project](https://thenounproject.com).
+- "[Steps](https://thenounproject.com/term/steps/87667/)" icon by Eugen Belyakoff from [the Noun Project](https://thenounproject.com).
+- "[Upstairs](https://thenounproject.com/term/upstairs/304907/)" icon by Arthur Shlain from [the Noun Project](https://thenounproject.com).
+- "[Stopwatch](https://thenounproject.com/term/stopwatch/319102/)" icon by Rohith M S from [the Noun Project](https://thenounproject.com).
+- "[Mountains](https://thenounproject.com/term/mountains/1468194/)" icon by Deemak Daksina from [the Noun Project](https://thenounproject.com).
+- "[Humidity](https://thenounproject.com/term/humidity/1554816/)" icon by Akriti Bhusal from [the Noun Project](https://thenounproject.com).
+
 # Search Hit Counter
 ![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/garmin)
 ![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/ciq)
@@ -292,4 +301,3 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 ![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/analog)
 ![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/movetobeactive)
 ![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/MoveToBeActive/mtba)
-
