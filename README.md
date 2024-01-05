@@ -5,6 +5,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/fevieira27/MoveToBeActive)
 ![GitHub forks](https://img.shields.io/github/forks/fevieira27/MoveToBeActive)
 ![GitHub watchers](https://img.shields.io/github/watchers/fevieira27/MoveToBeActive)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XVZXEH5RVBCZ6)
 
 # MoveToBeActive Watch Faces for Garmin
 ![MoveToBeActive Banner](https://github.com/fevieira27/MoveToBeActive/blob/main/GitHub/banner%20v3.png?raw=true)
