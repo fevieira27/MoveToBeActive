@@ -3,6 +3,8 @@
   <jsonData id="mColors">[5635840, 11206400, 16776960, 43775, 65535, 11163135, 16755200, 16711680, 16733695, 16777215]</jsonData>
   <!-- <jsonData id="mColorStringsWhite">["Cobalt", "Mosque", "Green", "Citrus", "Orange", "Purple", "Free Speech", "Red", "Cerise", "Matterhorn"]</jsonData> -->
   <!-- <jsonData id="mColorsWhite">[21930, 21845, 43520, 11184640, 16733440, 11141375, 11141120, 16711680, 16711850, 5592405]</jsonData> -->
+  <jsonData id="mColorStringsWhite">["Green", "Mosque", "Citrus", "Cobalt", "Free Speech", "Purple", "Orange", "Red", "Cerise", "Matterhorn"]</jsonData>
+  <jsonData id="mColorsWhite">[43520, 21845, 11184640, 21930, 11141120, 11141375, 16733440, 16711680, 16711850, 5592405]</jsonData>
   <jsonData id="mIcons12">["0", "7", ";", "P", ".", "A", "S", "@", "6", "6", "1", "Q", "3", "5", "R", "2", "2", "B", "U", "T", "W", "V", "X", "X", "?", "4", ""]</jsonData>
   <jsonData id="mIcons9">["0", "A", "S", "@", "6", "6", "1", "Q", "3", "5", "R", "2", "2", "B", "U", "T", "W", "V", "X", "X", "?", "4", ""]</jsonData>
   <!--      Venu 2s          0 , 1 ,  2 ,  3 ,  4 , 5 ,  6 ,  7 ,  8 ,  9 , 10 , 11 , 12, 13,  14 ,  15 , 16 , 17 , 18 , 19 , 20 , 21 , 22 , 23 -->
@@ -66,9 +68,10 @@
     26= Disable Battery Icon toggle
     27= Enable Labels Color toggle
     28= Enable Gray Battery Icon toggle
-    18/29= var1 battery estimate (last time seen charging)
-    19/30= var2 battery estimate (max battery during charging)
-    21/31= battery consumption data field, storing last battery consumption to save battery and only run calculation every 30 seconds
+    29= var1 battery estimate (last time seen charging) - old 18
+    30= var2 battery estimate (max battery during charging) - old 19
+    31= battery consumption data field, storing last battery consumption to save battery and only run calculation every 30 seconds - old 21
+    32= Theme Dark/Light
     
     **Icons**
 

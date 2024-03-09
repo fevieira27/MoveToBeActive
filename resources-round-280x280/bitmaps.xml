@@ -1,4 +1,6 @@
 <resources>
-    <bitmap id="GarminLogo" filename="images/garmin5.png" dithering="none">
-    </bitmap>
+    <bitmap id="GarminLogo" filename="images/garmin5.png" 
+        dithering="none" />
+    <bitmap id="GarminLogoWhite" filename="images/garmin-logo-big.png" 
+        dithering="none" />        
 </resources>
