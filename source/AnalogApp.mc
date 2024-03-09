@@ -26,13 +26,15 @@ class AnalogWatch extends Application.AppBase
     }
 
     // This method runs each time the main application starts.
+    //public function getInitialView() as [Views] or [Views, InputDelegates] { // SDK 7
     public function getInitialView() {
-        var mainView = new AnalogView();
+        //var mainView = new AnalogView(); // old way
         if( Toybox.WatchUi has :WatchFaceDelegate ) {
-            var inputDelegate = new $.AnalogDelegate(mainView);
-            return [mainView, inputDelegate];
+            //var inputDelegate = new $.AnalogDelegate(mainView); // old way
+            //return [mainView, inputDelegate]; // old way
+            return [new AnalogView(), new AnalogDelegate()];
         } else {
-            return [mainView];
+            return [new AnalogView()];
         }
     }
 
@@ -41,7 +43,7 @@ class AnalogWatch extends Application.AppBase
 //        return [new AnalogGoalView(goal)];
 //    }
 
-    function getSettingsView() {
+    function getSettingsView() { // as [Views] or [Views, InputDelegates] {
         return [new $.AnalogSettingsViewTest(), new $.Menu2TestMenu2Delegate()];  // as Array[InputDelegate];
     }
 }

@@ -18,7 +18,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        var currentVersion=440;
+        var currentVersion=500;
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
 
@@ -37,6 +37,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
             if (Storage.getValue(25) == null ){ Storage.setValue(25, true); } // Display Weather
             if (Storage.getValue(26) == null ){ Storage.setValue(26, true); } // Battery Icon 
             if (Storage.getValue(28) == null ){ Storage.setValue(28, true); } // Battery Color 
+            if (Storage.getValue(32) == null ){ Storage.setValue(32, false); } // Theme - Default Dark
             if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { // If not square display
                 if (Storage.getValue(5) == null ){ Storage.setValue(5, true); } // Hour Labels
                 if (Storage.getValue(27) == null ){ Storage.setValue(27, false); } // Labels Color
@@ -54,7 +55,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
 
         var drawable1 = new CustomAccent();
         Menu2.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-
+        Menu2.addItem(new WatchUi.ToggleMenuItem("Theme", {:enabled=>"Light", :disabled=>"Dark"}, 32, Storage.getValue(32), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
         Menu2.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
         Menu2.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
         if (Storage.getValue(21)[1] or Storage.getValue(21)[0]){ // 
@@ -163,9 +164,9 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
                 unitsMenu.addItem(new WatchUi.ToggleMenuItem("Battery Estimate", {:enabled=>"ON", :disabled=>"OFF"}, 19, Storage.getValue(19), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
             if (checkWeather and Storage.getValue(21)[2] and Toybox.Weather.getCurrentConditions()!=null){
-                if (Toybox.Weather.getCurrentConditions().feelsLikeTemperature!=null and Toybox.Weather.getCurrentConditions().feelsLikeTemperature instanceof Number){
+                //if (Toybox.Weather.getCurrentConditions().feelsLikeTemperature!=null and Toybox.Weather.getCurrentConditions().feelsLikeTemperature instanceof Number){
                     unitsMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Type", {:enabled=>"Real Temperature", :disabled=>"Feels Like"}, 6, Storage.getValue(6), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-                }
+                //}
                 unitsMenu.addItem(new WatchUi.ToggleMenuItem("Temp. Unit", {:enabled=>"Always Celsius", :disabled=>"User Settings"}, 16, Storage.getValue(16), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));		    
                 unitsMenu.addItem(new WatchUi.ToggleMenuItem("Wind Speed Unit", {:enabled=>"km/h or mph", :disabled=>"m/s"}, 15, Storage.getValue(15), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
                 if (Storage.getValue(21)[5]){
@@ -231,14 +232,24 @@ class DrawableMenuTitle extends WatchUi.Drawable {
         //dc.setColor(color, color);
         //System.println(width);
         //System.println(labelWidth);
-
-        var mColors = Application.loadResource(Rez.JsonData.mColors);
+        var mColors;
+        if (Storage.getValue(32) == null or Storage.getValue(32) == false){
+            mColors = Application.loadResource(Rez.JsonData.mColors);
+        } else {
+            mColors = Application.loadResource(Rez.JsonData.mColorsWhite);
+        }
 
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.clear();               
 
         //dc.clearClip(); //clear instead?
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK); // removing the background color and all the data points from the background, leaving just the hour hands and hashmarks
+        var Color;
+        if (Storage.getValue(32) == null or Storage.getValue(32) == false){ // Dark
+            Color = Graphics.COLOR_BLACK;
+        } else { // Light
+            Color = Graphics.COLOR_WHITE;
+        }
+        dc.setColor(Color, Color); // removing the background color and all the data points from the background, leaving just the hour hands and hashmarks
         dc.fillRectangle(0, 0, width, dc.getHeight()); //width & height?
         
         if(labelWidth==117 and dc has :drawScaledBitmap){ // Venu 3s
@@ -251,6 +262,10 @@ class DrawableMenuTitle extends WatchUi.Drawable {
 
         dc.setColor(mColors[mIndex], Graphics.COLOR_TRANSPARENT);
         dc.drawText(labelX, labelY, Graphics.FONT_SMALL, "Config", Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+        if(mColors[mIndex] != Storage.getValue(1)){
+            Storage.setValue(2, mIndex);
+            Storage.setValue(1, mColors[mIndex]);
+        }
     }
 }
 
@@ -276,14 +291,28 @@ class CustomAccent extends WatchUi.Drawable {
 
     // Return the color string for the menu to use as it's sublabel
     public function getString() {
-        var mColorStrings = Application.loadResource(Rez.JsonData.mColorStrings);
+        var mColorStrings;
+        //if (Storage.getValue(32) == null or Storage.getValue(32) == false){
+        if (Storage.getValue(32) == true){
+            mColorStrings = Application.loadResource(Rez.JsonData.mColorStringsWhite);
+        } else {
+            mColorStrings = Application.loadResource(Rez.JsonData.mColorStrings);
+        }
+         
         return mColorStrings[mIndex];
     }
 
     // Advance to the next color state for the drawable
     public function nextState(id) {
         //var mColorStrings = Application.loadResource(Rez.JsonData.mColorStrings);
-        var mColors = Application.loadResource(Rez.JsonData.mColors);
+        
+        var mColors;
+        if (Storage.getValue(32) == true){
+            mColors = Application.loadResource(Rez.JsonData.mColorsWhite);
+        } else {
+            mColors = Application.loadResource(Rez.JsonData.mColors);
+        }
+
         mIndex++;
         if(mIndex >= mColors.size()) {
             mIndex = 0;
@@ -298,7 +327,12 @@ class CustomAccent extends WatchUi.Drawable {
     // Set the color for the current state and use dc.clear() to fill
     // the drawable area with that color
     public function draw(dc) {
-        var mColors = Application.loadResource(Rez.JsonData.mColors);
+        var mColors;
+        if (Storage.getValue(32) == true){
+            mColors = Application.loadResource(Rez.JsonData.mColorsWhite);
+        } else {
+            mColors = Application.loadResource(Rez.JsonData.mColors);
+        }
 	    var color = mColors[mIndex];
         dc.setColor(color, color);
         dc.clear();        
@@ -326,7 +360,6 @@ class CustomDataPoint extends WatchUi.Drawable {
         count++;
     }
  
-
 
     // Advance to the next color state for the drawable, or return the icon string for the menu to use as its label if id=-1
     function nextState(id, size) {

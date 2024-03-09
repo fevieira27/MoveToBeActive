@@ -43,7 +43,7 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=440;
+        var currentVersion=500;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -127,8 +127,8 @@ class AnalogView extends WatchUi.WatchFace
                     Graphics.COLOR_DK_GRAY,
                     Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_BLACK,
-                    Graphics.COLOR_WHITE,
-                    Storage.getValue(1)
+                    Graphics.COLOR_WHITE
+                    ,Storage.getValue(1)
                 ]
       		}) ; 
 
@@ -170,7 +170,7 @@ class AnalogView extends WatchUi.WatchFace
         //System.println(width);
         //System.println(height);
 
-        var labels=Storage.getValue(5);
+        //var labels=Storage.getValue(5);
 
         if(inLowPower and canBurnIn) { // aod on
         	if (dc has :setAntiAlias) {
@@ -183,13 +183,17 @@ class AnalogView extends WatchUi.WatchFace
             targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight()); //width & height?
 
             // Draw the tick marks around the edges of the screen
-            MtbA.drawHashMarks(targetDc, accentColor, labels, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc
+            MtbA.drawHashMarks(targetDc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc
 
             dc.drawBitmap(0, 0, offscreenBuffer);
         } else {
 
             // Fill the entire background with Black.
-            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+            if (Storage.getValue(32) == true){ // Light Theme
+                targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            } else { // Dark Theme
+                targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+            }
             targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
 
             // Output the offscreen buffers to the main display if required.
@@ -200,7 +204,7 @@ class AnalogView extends WatchUi.WatchFace
 
             // Draw the tick marks around the edges of the screen
             if(width>=360){ // No anti-alias for hashmarks on AMOLED screens
-                MtbA.drawHashMarks(dc, accentColor, labels, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc        
+                MtbA.drawHashMarks(dc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc        
                 if (dc has :setAntiAlias) {
                     dc.setAntiAlias(true);
                 }
@@ -208,7 +212,7 @@ class AnalogView extends WatchUi.WatchFace
                 if (dc has :setAntiAlias) {
                     dc.setAntiAlias(true);
                 }
-                MtbA.drawHashMarks(dc, accentColor, labels, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc                        
+                MtbA.drawHashMarks(dc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc                        
             }
 
             var position = Application.loadResource(Rez.JsonData.mPosition);            
@@ -220,7 +224,7 @@ class AnalogView extends WatchUi.WatchFace
             }
 
             // Draw the 3, 6, 9, and 12 hour labels.
-            if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape and labels != false) {
+            if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape and Storage.getValue(5) != false) {
                 MtbA.drawHourLabels(dc, width, height, accentColor); 
             }
 
@@ -295,22 +299,22 @@ class AnalogView extends WatchUi.WatchFace
 
             // (dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset, dataPoint)            
             var dataPoint = Storage.getValue(12); //right bottom
-            MtbA.drawRightPoints(dc, position[8], position[14], position[10], position[15]-FontAdj, accentColor, width, 0, dataPoint);
+            MtbA.drawPoints(dc, position[8], position[14], position[10], position[15]-FontAdj, accentColor, width, dataPoint, 4);
             //MtbA.drawRightPoints(dc, position[8], position[14], position[10], position[15], accentColor, width, 0, dataPoint);
 
             dataPoint = Storage.getValue(17); //right top
-            MtbA.drawRightPoints(dc, position[8], position[9], position[10], position[11]-FontAdj, accentColor, width, 0, dataPoint); 
+            MtbA.drawPoints(dc, position[8], position[9], position[10], position[11]-FontAdj, accentColor, width, dataPoint, 4); 
 
             //(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
             dataPoint = Storage.getValue(9); // left top
-            MtbA.drawLeftTop(dc, position[12], position[9], position[13], position[11]-FontAdj, accentColor, width, dataPoint);
+            MtbA.drawPoints(dc, position[12], position[9], position[13], position[11]-FontAdj, accentColor, width, dataPoint, 1);
 
             dataPoint = Storage.getValue(10); // left middle
-            MtbA.drawLeftTop(dc, position[12], position[16], position[13], position[17]-FontAdj, accentColor, width, dataPoint);	
+            MtbA.drawPoints(dc, position[12], position[16], position[13], position[17]-FontAdj, accentColor, width, dataPoint, 2);	
             //MtbA.drawLeftMiddle(dc, position[12], position[16], position[13], position[17], accentColor, width, dataPoint);	
 
             dataPoint = Storage.getValue(11); // left bottom
-            MtbA.drawLeftBottom(dc, position[12], position[14], position[13], position[15]-FontAdj, accentColor, width, dataPoint);
+            MtbA.drawPoints(dc, position[12], position[14], position[13], position[15]-FontAdj, accentColor, width, dataPoint, 3);
 
             var iconSize = 0;
 
@@ -478,7 +482,8 @@ class AnalogDelegate extends WatchUi.WatchFaceDelegate {
 
     //private var _view as AnalogView;
 
-    function initialize(view as AnalogView) {
+    //function initialize(view as AnalogView) {
+    function initialize() {
         WatchFaceDelegate.initialize();
 //        _view = view;
     }
