@@ -258,13 +258,17 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Small corrections on the positioning of data fields' icons and texts on several watches
 - [X] Now using Garmin SDK 6.4.1
 
-**4.4.5** (Coming Soon)
+**5.0.0** (09/March/2024)
+- [X] Light and Dark theme selector
+- [X] Added several code changes to accomodate the new theme selector on older watches, which now have a memory limitation on the MtbA watch face (Fenix 5 Plus, Fenix 6S, FR *45, Descent MK2, MARQ gen 1, Venu SQ)
+- [X] Workaround to correct a bug introduced by recent Garmin firmwares, where temperature is now being reported as a Float instead of a Number (as it has always been and as it's also documented on the API Docs)
+- [X] Now using Garmin SDK 6.4.2
+- [X] Added suppport for new watches: ForeRunner 165 and 165 music
+
+**5.5.0** (No estimated date yet, likely Q3 2024)
 - [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units
 - [ ] Give the user the option to chose wind speed to be displayed in knots
-
-**5.0.0** (No estimated date yet, likely Q1 2024)
-- [ ] Light and Dark theme selector
-- [ ] Seconds Hand
+- [ ] Seconds Hand for AMOLED watches
 
 
 ## MtbA Watchface examples:
