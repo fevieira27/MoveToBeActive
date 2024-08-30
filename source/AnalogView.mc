@@ -18,7 +18,11 @@ import Toybox.Lang;
 // Original design by Austen Harbour
 class AnalogView extends WatchUi.WatchFace
 {
-    var offscreenBuffer;
+    //var offscreenBuffer;
+    private var _offscreenBuffer as BufferedBitmap?;
+    //private var _fullScreenRefresh as Boolean;
+    //private var _partialUpdatesAllowed as Boolean;
+
     //var fullScreenRefresh;
 	//var accentColor;
 	//var MtbA = null;
@@ -30,6 +34,8 @@ class AnalogView extends WatchUi.WatchFace
     function initialize() {
 
         WatchFace.initialize();
+        //_fullScreenRefresh = true;
+        //_partialUpdatesAllowed = (WatchUi.WatchFace has :onPartialUpdate);
 
 		if (Storage.getValue(1) == null or Storage.getValue(2) == null) {
             if (System.getDeviceSettings().screenWidth >= 360){ // AMOLED
@@ -43,7 +49,7 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=500;
+        var currentVersion=510;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -81,46 +87,10 @@ class AnalogView extends WatchUi.WatchFace
         if (Storage.getValue(19) == null ){ Storage.setValue(19, false); } // Battery Estimate, added on the initialize to try and correct an error that 26 users had
     }
 
-    //! Factory function to create buffered bitmap
-    function bufferedBitmapFactory(options as {
-                :width as Number,
-                :height as Number,
-                :palette as Array<ColorType>
-    //            ,:colorDepth as Number,
-    //            :bitmapResource as WatchUi.BitmapResource
-            }) as BufferedBitmapReference or BufferedBitmap {
-        if (Graphics has :createBufferedBitmap) {
-            return Graphics.createBufferedBitmap(options);
-        } else {
-            return new Graphics.BufferedBitmap(options);
-        }
-    }
-
     // Configure the layout of the watchface for this device
-    function onLayout(dc) {
+    public function onLayout(dc as Dc) as Void {
 		
-/*        var accentColor = ;
-
-		if (accentColor == null) {
-            if (dc.getWidth()>=360){
-                accentColor = 0xAAFF00; // Vivomove Green
-                Storage.setValue(2, 1);
-            } else {
-                accentColor = 0x55FF00; // Bright Green
-                Storage.setValue(2, 0);
-            }
-            Storage.setValue(1, accentColor); 
-        }*/
-
-        // If this device supports BufferedBitmap, allocate the buffers we use for drawing
-        //if(Graphics has :BufferedBitmap or :BufferedBitmapReference) {
-        if(Toybox.Graphics has :BufferedBitmap or Toybox.Graphics has :BufferedBitmapReference) {
-            // Allocate a full screen size buffer with a palette of only 4 colors to draw
-            // the background image of the watchface.  This is used to facilitate blanking
-            // the second hand during partial updates of the display
-
-            //offscreenBuffer = new Graphics.BufferedBitmap({
-            offscreenBuffer = bufferedBitmapFactory({ // SDK 4.0
+        var offscreenBufferOptions = {
                 :width=>dc.getWidth(),
                 :height=>dc.getHeight(),
                 :palette=> [
@@ -128,24 +98,27 @@ class AnalogView extends WatchUi.WatchFace
                     Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_BLACK,
                     Graphics.COLOR_WHITE
-                    ,Storage.getValue(1)
+                    //,Storage.getValue(1)
                 ]
-      		}) ; 
+            };
 
-            if (Graphics has :createBufferedBitmap) {
-            	//System.println("test1");
-		        //targetDc = offscreenBuffer.get();//.getDc()
-                offscreenBuffer = offscreenBuffer.get();
-		    }
+        if (Graphics has :createBufferedBitmap) {
+            // get() used to return resource as Graphics.BufferedBitmap
+            _offscreenBuffer = Graphics.createBufferedBitmap(offscreenBufferOptions).get() as BufferedBitmap;
+
+        } else if (Graphics has :BufferedBitmap) { // If this device supports BufferedBitmap, allocate the buffers we use for drawing
+            // Allocate a full screen size buffer with a palette of only 4 colors to draw
+            // the background image of the watchface.  This is used to facilitate blanking
+            // the second hand during partial updates of the display
+            _offscreenBuffer = new Graphics.BufferedBitmap(offscreenBufferOptions);
         } else {
-            offscreenBuffer = null;
+            _offscreenBuffer = null;
         }
-
     }
 
 
     // Handle the update event
-    function onUpdate(dc as Dc) as Void {
+    public function onUpdate(dc as Dc) as Void {
         var targetDc = null;        
         var MtbA = new MtbA_functions();
         var check = Storage.getValue(21);
@@ -153,13 +126,12 @@ class AnalogView extends WatchUi.WatchFace
         var accentColor = Storage.getValue(1);
 
         // We always want to refresh the full screen when we get a regular onUpdate call.
-        //fullScreenRefresh = true;
-
-        if(null != offscreenBuffer) {
-            dc.clearClip();
+        //_fullScreenRefresh = true;
+        if (null != _offscreenBuffer) {
             // If we have an offscreen buffer that we are using to draw the background,
             // set the draw context of that buffer as our target.
-            targetDc = offscreenBuffer.getDc();
+            targetDc = _offscreenBuffer.getDc();
+            dc.clearClip();
         } else {
             targetDc = dc;
         }
@@ -178,47 +150,52 @@ class AnalogView extends WatchUi.WatchFace
         	}
             
             upTop=!upTop;
-            targetDc.clearClip();
+            //targetDc.clearClip();
             targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK); // removing the background color and all the data points from the background, leaving just the hour hands and hashmarks
             targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight()); //width & height?
 
-            // Draw the tick marks around the edges of the screen
-            MtbA.drawHashMarks(targetDc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc
+            if(Storage.getValue(18)){
+                drawBackground(dc);
+                MtbA.drawHashMarks(dc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc
+            } else {
+                MtbA.drawHashMarks(targetDc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc
+                drawBackground(dc);
+            }
 
-            dc.drawBitmap(0, 0, offscreenBuffer);
+            // Draw the tick marks around the edges of the screen
+            
+            //drawBackground(dc);
+            //dc.drawBitmap(0, 0, _offscreenBuffer);
         } else {
 
-            // Fill the entire background with Black.
+            // Fill the entire background
             if (Storage.getValue(32) == true){ // Light Theme
-                targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+                targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
             } else { // Dark Theme
                 targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
             }
-            targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
+            targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight()); //width & height?
 
             // Output the offscreen buffers to the main display if required.
-            //drawBackground(dc);
-            if( null != offscreenBuffer ) {
-                dc.drawBitmap(0, 0, offscreenBuffer);
+            drawBackground(dc);
+
+            // Draw the tick marks around the edges of the screen
+            if(width>=360){ // No need for anti-alias on hashmarks of AMOLED screens
+                MtbA.drawHashMarks(dc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc        
+            }
+
+            if (dc has :setAntiAlias) {
+                dc.setAntiAlias(true);
             }
 
             // Draw the tick marks around the edges of the screen
-            if(width>=360){ // No anti-alias for hashmarks on AMOLED screens
-                MtbA.drawHashMarks(dc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc        
-                if (dc has :setAntiAlias) {
-                    dc.setAntiAlias(true);
-                }
-            } else { // With anti-alias for MIP displays
-                if (dc has :setAntiAlias) {
-                    dc.setAntiAlias(true);
-                }
+            if(width<360){ // With anti-alias for MIP displays
                 MtbA.drawHashMarks(dc, accentColor, width, height, inLowPower and canBurnIn, Storage.getValue(18)); //dc                        
             }
 
-            var position = Application.loadResource(Rez.JsonData.mPosition);            
-         
             // Garmin Logo check
             var logo=Storage.getValue(3);
+            var position = Application.loadResource(Rez.JsonData.mPosition);
             if (logo == null or logo == true) {
                 MtbA.drawGarminLogo(dc, position[4], position[5]); 
             }
@@ -357,7 +334,7 @@ class AnalogView extends WatchUi.WatchFace
                     MtbA.drawDndIcon(dc, position[0], position[1], width, check[4]);
                 }
             } else { // Dnd does not exist or is turned off
-                if (alarm == true and (blue == true)){ // all 2 icons
+                if ((alarm == true or alarm == null) and (blue == true or blue == null)){ // all 2 icons
                     // Draw alarm icon on the right
                     //MtbA.drawAlarmIcon(dc, (position[3]+(position[3]+position[0])/2)/2, position[1], accentColor, width);
                     MtbA.drawAlarmIcon(dc, ((position[3]+position[0])/2)+iconSize, position[1], accentColor, width);
@@ -370,112 +347,97 @@ class AnalogView extends WatchUi.WatchFace
                 }
             }
 
-
             //Draw the date string
             if (logo == null or logo == true) { // Garmin Logo check
                 MtbA.drawDateString( dc, width / 2, position[6] ); 
             } else { // No Garmin Logo
                 MtbA.drawDateString( dc, width / 2, position[5] + (width<=240 ? 5 : 0 ) + (width==218 ? 3 : 0 )); // offsets needed because of size of Garmin Logo compared to Date Font
             }
-        } 
 
+        } 
+        
 		//Draw Hour and Minute hands
         if (Storage.getValue(13) == 1){ // thicker
 			MtbA.drawHands(dc, width, height, accentColor, 1, inLowPower, upTop);
-		} else if (Storage.getValue(13) == 0 or Storage.getValue(13) == null) { // standard
+		} else if (Storage.getValue(13) == 0) { // standard //or Storage.getValue(13) == null
 			MtbA.drawHands(dc, width, height, accentColor, 0, inLowPower, upTop);
 		} else { // thinner
             MtbA.drawHands(dc, width, height, accentColor, 2, inLowPower, upTop);
         }            
-        //fullScreenRefresh = false;
+
+        /*
+        if (_partialUpdatesAllowed) {
+            // If this device supports partial updates and they are currently
+            // allowed run the onPartialUpdate method to draw the second hand.
+            onPartialUpdate(dc);
+        } else if (inLowPower==false) {
+            // Otherwise, if we are out of sleep mode, draw the second hand
+            // directly in the full update method.
+
+            //call the seconds hand here
+        }
+
+        _fullScreenRefresh = false;
+        */
     }
-          
+
 
   // Handle the partial update event
-    function onPartialUpdate( dc ) {
+    public function onPartialUpdate(dc as Dc) as Void {
         // If we're not doing a full screen refresh we need to re-draw the background
         // before drawing the updated second hand position. Note this will only re-draw
         // the background in the area specified by the previously computed clipping region.
+    //    if (!_fullScreenRefresh) {
+    //        drawBackground(dc);
+    //    }
+
+        //call the seconds hand here
     }
 
 
-    // Draw the watch face background
-    // onUpdate uses this method to transfer newly rendered Buffered Bitmaps
-    // to the main display.
-    // onPartialUpdate uses this to blank the second hand from the previous
-    // second before outputing the new one.
- /*   function drawBackground(dc) {
-        var width = dc.getWidth();
-        var height = dc.getHeight();
-
-        //If we have an offscreen buffer that has been written to
-        //draw it to the screen.
-        if( null != offscreenBuffer ) {
-            dc.drawBitmap(0, 0, offscreenBuffer);
+    //! Draw the watch face background
+    //! onUpdate uses this method to transfer newly rendered Buffered Bitmaps
+    //! to the main display.
+    //! onPartialUpdate uses this to blank the second hand from the previous
+    //! second before outputting the new one.
+    //! @param dc Device context
+    private function drawBackground(dc as Dc) as Void {
+        // If we have an offscreen buffer that has been written to
+        // draw it to the screen.
+        if (null != _offscreenBuffer) {
+            dc.drawBitmap(0, 0, _offscreenBuffer);
         }
 
-        // Draw the date
-        var offset = 0;
-        if (width==218) { // Vivoactive 4S
-			offset = -3;
-		} else if (width==240) { // Fenix 6S and MARQ
-			offset = -2;
-		} else if (width==390) { // Venu
-			offset = 13;
-		} else if (width==260) { // Vivoactive 4
-			offset = 1;
-		}
-		
-        
-        if( null != dateBuffer ) {
-            // If the date is saved in a Buffered Bitmap, just copy it from there.
-            if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
-            	dc.drawBitmap(0, (height * 0.725) + offset, dateBuffer ); //Graphics.Dc.drawBitmap(x, y, bitmap)
-			} else {
-				dc.drawBitmap(0, height / 5.1, dateBuffer ); //Graphics.Dc.drawBitmap(x, y, bitmap)
-			}            	
-        } else {
-            // Otherwise, draw it from scratch. drawDateString( dc, x, y )
-            
-            // Garmin Logo check
-	        if (Storage.getValue(3) == null or Storage.getValue(3) == true) {
-            	MtbA.drawDateString( dc, width / 2, height * 0.725 + offset );
-			} else {
-				MtbA.drawDateString( dc, 0, height / 5.1 );
-			}
-            
-            
-		    // Draw the tick marks around the edges of the screen
-		    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
-		    MtbA.drawHashMarks(dc, accentColor);
-		          
-        }
-        //drawBatt( dc, width, height);
-    }*/
-
+    }
+    
     // Called when this View is removed from the screen. Save the
     // state of this View here. This includes freeing resources from
     // memory.
     function onHide() as Void {
     }
 
-
-    // This method is called when the device re-enters sleep mode.
-    // Set the isAwake flag to let onUpdate know it should stop rendering the second hand.
-    function onEnterSleep() {
-//        isAwake = false;
-//        WatchUi.requestUpdate();
+//! This method is called when the device re-enters sleep mode.
+    //! Set the isAwake flag to let onUpdate know it should stop rendering the second hand.
+    public function onEnterSleep() as Void {
+        //_isAwake = false;
         inLowPower=true;
-    	WatchUi.requestUpdate(); 
+        WatchUi.requestUpdate();
     }
 
-    // This method is called when the device exits sleep mode.
-    // Set the isAwake flag to let onUpdate know it should render the second hand.
-    function onExitSleep() {
-//        isAwake = true;
+
+    //! This method is called when the device exits sleep mode.
+    //! Set the isAwake flag to let onUpdate know it should render the second hand.
+    public function onExitSleep() as Void {
+        //_isAwake = true;
         inLowPower=false;
-    	WatchUi.requestUpdate(); 
+        //WatchUi.requestUpdate();
     }
+
+    //! Turn off partial updates
+    /* public function turnPartialUpdatesOff() as Void {
+        _partialUpdatesAllowed = false;
+    }    
+    */
 }
 
 class AnalogDelegate extends WatchUi.WatchFaceDelegate {

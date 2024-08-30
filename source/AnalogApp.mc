@@ -13,28 +13,31 @@ import Toybox.WatchUi;
 // This is the primary entry point of the application.
 class AnalogWatch extends Application.AppBase
 {
+    //! Constructor
     public function initialize() {
         AppBase.initialize();
     }
 
-    // onStart() is called on application start up
+    //! Handle app startup
+    //! @param state Startup arguments
     public function onStart(state as Dictionary?) as Void {
     }
 
-    // onStop() is called when your application is exiting
+    //! Handle app shutdown
+    //! @param state Shutdown arguments
     public function onStop(state as Dictionary?) as Void {
     }
 
     // This method runs each time the main application starts.
-    //public function getInitialView() as [Views] or [Views, InputDelegates] { // SDK 7
-    public function getInitialView() {
+    public function getInitialView() as [Views] or [Views, InputDelegates] { // SDK 7
+    //public function getInitialView() {
         //var mainView = new AnalogView(); // old way
         if( Toybox.WatchUi has :WatchFaceDelegate ) {
             //var inputDelegate = new $.AnalogDelegate(mainView); // old way
             //return [mainView, inputDelegate]; // old way
-            return [new AnalogView(), new AnalogDelegate()];
+            return [new $.AnalogView(), new $.AnalogDelegate()];
         } else {
-            return [new AnalogView()];
+            return [new $.AnalogView()];
         }
     }
 

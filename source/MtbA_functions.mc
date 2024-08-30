@@ -23,7 +23,7 @@ class MtbA_functions {
     // used to draw a watch hand. The coordinates are generated with specified length,
     // tail length, and width and rotated around the center point at the provided angle.
     // 0 degrees is at the 12 o'clock position, and increases in the clockwise direction.
-    function generateHandCoordinates(centerPoint, angle, handLength, tailLength, width, triangle) {
+    function generateHandCoordinates(centerPoint as Array<Number>, angle as Float, handLength as Number, tailLength as Number, width as Float, triangle as Float) as Array<[Numeric, Numeric]> {
         // Map out the coordinates of the watch hand
         var coords = [[-(width / 2), tailLength], [-(width / 2), -handLength], [0,-handLength*triangle], [width / 2, -handLength], [width / 2, tailLength]];
         var result = new [5];
@@ -261,7 +261,7 @@ class MtbA_functions {
     /* ------------------------ */
     
     // Draw the date string into the provided buffer at the specified location
-    function drawDateString( dc, x, y ) {
+    function drawDateString(dc, x as Number, y as Number) as Void {
 			var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
 			var dateStr;
 			
@@ -275,7 +275,8 @@ class MtbA_functions {
 				y = y + 3;
 			}
 
-			dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+			//dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+			dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 			dc.drawText(x, y, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);   
     }
     
@@ -533,7 +534,6 @@ class MtbA_functions {
 	function drawLocation(dc, x, y, wMax, hMax, showBoolean) {
 
 		var cond = Toybox.Weather.getCurrentConditions();
-
 		if (showBoolean != false) { // Show Location Name
 			if(cond!=null and cond.observationLocationName!=null) {
 				var location = cond.observationLocationName;
@@ -777,6 +777,10 @@ class MtbA_functions {
 						FontAdj=4;
 				}
 		}
+
+		if (heartRateText=="0"){
+			heartRateText="--";
+		}
 				
 		// Render heart rate icon and text
 		dc.setColor(heartRateIconColour, Graphics.COLOR_TRANSPARENT);
@@ -894,10 +898,8 @@ class MtbA_functions {
 		if (width==390) { // Venu & D2 Air
 			if (dc.getTextDimensions("100",0)[1]>=33){ // Venu, D2 Air & Approach S70 42mm (33)
 				offset = -2;
-				//System.println("here");
 			} else if (dc.getTextDimensions("100",0)[1]==30){ // FR165 (30)
 				offset = 0;
-				//System.println("here");
 			} else { // epix Pro Gen 2 42mm & MARQ Gen 2
 				offset = -1;
 			}
@@ -1419,6 +1421,22 @@ class MtbA_functions {
 				}
 			}
 			dc.fillRectangle( 0, 0 , width, 1); // Using Font
+		} else if(BurnIn==true and Storage.getValue(33)==true){
+			// Seconds hand
+			var secondHandAngle = (clockTime.sec / 60.0) * Math.PI * 2;
+			dc.setColor(borderColor,Graphics.COLOR_BLACK);
+			//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, seicondHandAngle, width / 2.225, 22, Math.ceil(handWidth+(width*0.02))/3, triangle)); //pointed triangle
+			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.055, (width/15)+2, Math.ceil(handWidth+(width*0.0255))/2.75, 1.0)); //rectangle
+			dc.setColor(accentColor, Graphics.COLOR_WHITE);
+			//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.25, 20, handWidth/3, triangle-0.01)); //pointed triangle
+			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.075, width / 15, handWidth/2.75, 1.0)); //rectangle
+			// tip in different color
+			if (fontColor == Graphics.COLOR_WHITE) {
+				dc.setColor(borderColor,Graphics.COLOR_BLACK);
+				dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.055, -(width/2.25), Math.ceil(handWidth+(width*0.0255))/2.75, 1.0)); //rectangle
+			}
+			dc.setColor(((aod==true and BurnIn==true and Storage.getValue(22) != true) or (fontColor == Graphics.COLOR_BLACK)) ? arborColor : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
+			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.075, -(width/2.23), Math.ceil(handWidth-(width*0.0035))/2.75, 1.0)); //rectangle
 		}
 
 	}
@@ -1645,12 +1663,11 @@ class MtbA_functions {
 		} else {
 			return false;
 		}
-			
+	
     var offset = 0;
 		if (width<=280){
 			if (System.SCREEN_SHAPE_ROUND == screenShape) {
 				xIcon = xIcon - 1;
-				yIcon = yIcon - 2;
 				xText = xText - 6;
 			} else { // Venu sq
 				yIcon = yIcon - 5;
@@ -2184,7 +2201,7 @@ class MtbA_functions {
 					}						
 				}
 			} else{
-				dc.drawText(xText, yText,	fontSize, "---", Graphics.TEXT_JUSTIFY_LEFT);
+				dc.drawText(xText, yText,	fontSize, "--", Graphics.TEXT_JUSTIFY_LEFT);
 				if (width>=360){ //AMOLED
 					dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
 				} else { // MIP displays, for better readability
@@ -2239,7 +2256,7 @@ class MtbA_functions {
 					}					
 				}
 			} else{
-				dc.drawText(xText, yText,	fontSize, "---", Graphics.TEXT_JUSTIFY_LEFT);
+				dc.drawText(xText, yText,	fontSize, "--", Graphics.TEXT_JUSTIFY_LEFT);
 				if (width>=360){ //AMOLED
 					dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
 				} else { // MIP displays, for better readability
@@ -2327,7 +2344,10 @@ class MtbA_functions {
        
 		if (check[14] and ActivityMonitor.getInfo().respirationRate!=null) {// if (check[14]) {
 			text = ActivityMonitor.getInfo().respirationRate;
-		} else { return false; }
+		} else { 
+			//return false; 
+			text = "--";
+		}
 
 		// Text
 		dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);		
@@ -2497,6 +2517,7 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		} else if ((side>2 and dataPoint == 1) or (side<=2 and dataPoint == 5)) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
 			drawHumidity(dc, xIcon+(xIcon*0.005), yIcon, xText-(xText*0.002), yText, width, accentColor);
 		} else if ((side>2 and dataPoint == 2) or (side<=2 and dataPoint == 6)) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
+			if (side<=3){ xText=xText+width*0.012; }
 			drawPrecipitation(dc, xIcon+(xIcon*0.0125)+offset390, yIcon-(xIcon*0.001)+(offset390*2), xText+(xText*0.025)-(offset390*2), yText, width);
 		} else if ((side>2 and dataPoint == 3) or (side<=2 and dataPoint == 7)) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
 			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
@@ -2546,131 +2567,5 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			drawMinMaxTemp(dc, xIcon+(offset390*2), yIcon, xText+(xText*0.01), yText, width);
 		}
 	}
-
-	/* ------------------------
-	
-	// Draw Left Top Data Point
-	function drawLeftTop(dc, xIcon, yIcon, xText, yText, accentColor, width, dataPoint) {
-	
-		var offset390=0;
-
-		if (width>=390) { // Venu 1 & 2
-			offset390=1;
-		}
-			
-		if (dataPoint == 0) { // stepsIcon(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawSteps(dc, xIcon-(xIcon*0.01), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 1) { 
-			drawDistance(dc, xIcon-offset390, yIcon, xText+(xText*0.015)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 2) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawElevation(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width);
-		} else if (dataPoint == 3) { // windIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawWindSpeed(dc, xIcon-offset390, yIcon+(xIcon*0.01)-offset390, xText, yText, width);
-		} else if (dataPoint == 4) { // Calories(dc, xIcon, yIcon, xText, yText, width)
-			drawMinMaxTemp(dc, xIcon+(offset390*2), yIcon, xText+(xText*0.01), yText, width);
-		} else if (dataPoint == 5) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
-			drawHumidity(dc, xIcon+(xIcon*0.02), yIcon-(xIcon*0.01), xText-offset390, yText, width, accentColor);
-		} else if (dataPoint == 6) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
-			drawPrecipitation(dc, xIcon+(xIcon*0.05)+offset390, yIcon-(xIcon*0.01)+(offset390*2), xText+(xText*0.09)-offset390, yText, width);
-		} else if (dataPoint == 7) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 8) { // Calories Total
-			drawCalories(dc, xIcon+(offset390*2), yIcon, xText+(xText*0.01), yText, width, 1);
-		} else if (dataPoint == 9) { // Calories Active
-			drawCalories(dc, xIcon+(offset390*2), yIcon, xText+(xText*0.01), yText, width, 2);
-		} else if (dataPoint == 10) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawFloorsClimbed(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.015), xText+(xText*0.015)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 11) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawPulseOx(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 12) { // HeartRate(dc, xIcon, hrIconY, xText, width, accentColor)
-			drawHeartRate(dc, xIcon-(xIcon*0.02), yIcon+(xIcon*0.115), xText+(xText*0.02), width, accentColor);
-		} else if (dataPoint == 13) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawNotification(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 14) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 15) { // Seconds
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.085), xText, yText, width, 1);
-		} else if (dataPoint == 16) { // Digital Clock
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.085), xText, yText, width, 2);
-		} else if (dataPoint == 17) { // Intensity Minutes(dc, xIcon, yIcon, xText, yText, width)
-			drawIntensityMin(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.085), xText, yText, width, accentColor);
-		} else if (dataPoint == 18) { // Body Battery
-			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);
-		} else if (dataPoint == 19) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);
-		} else if (dataPoint == 20) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawRespiration(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 21) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawRecoveryTime(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 22) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, false); //run
-		} else if (dataPoint == 23) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
-		} else if (dataPoint == 24) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawSunriseSunset(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 25) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawBatteryConsumption(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width);
-		}
-	}
-
-	 ------------------------ 
-
-	// Draw Left Bottom Data Point
-	function drawLeftBottom(dc, xIcon, yIcon, xText, yText, accentColor, width, dataPoint) {
-		
-		var offset390=0;
-
-		if (width>=390) { // Venu 1 & 2
-			offset390=1;
-		}	
-		 	
-		if (dataPoint == 0) { //Steps
-			drawSteps(dc, xIcon-(xIcon*0.01), yIcon, xText+(xText*0.015)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 1) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
-			drawHumidity(dc, xIcon+(xIcon*0.02), yIcon, xText-offset390, yText, width, accentColor);
-		} else if (dataPoint == 2) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
-			drawPrecipitation(dc, xIcon+(xIcon*0.05)+offset390, yIcon+offset390, xText+(xText*0.09)-offset390, yText, width);
-		} else if (dataPoint == 3) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 4) { // Calories Total
-			drawCalories(dc, xIcon+(offset390*2), yIcon+(xIcon*0.01), xText, yText, width, 1);
-		} else if (dataPoint == 5) { // Calories Active
-			drawCalories(dc, xIcon+(offset390*2), yIcon+(xIcon*0.01), xText, yText, width, 2);
-		} else if (dataPoint == 6) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawFloorsClimbed(dc, xIcon-(xIcon*0.015), yIcon-offset390, xText+(xText*0.015)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 7) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawPulseOx(dc, xIcon+(xIcon*0.015), yIcon, xText+(xText*0.01)-offset390, yText, width, accentColor);
-		} else if (dataPoint == 8) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
-			drawHeartRate(dc, xIcon-(xIcon*0.02), yIcon+(xIcon*0.125), xText+(xText*0.01), width, accentColor);
-		} else if (dataPoint == 9) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawNotification(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 10) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
-		} else if (dataPoint == 11) { // Seconds
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.1)-offset390, xText, yText, width, 1);
-		} else if (dataPoint == 12) { // Digital Clock
-			drawSeconds(dc, xIcon, yIcon+(xIcon*0.1)-offset390, xText, yText, width, 2);
-		} else if (dataPoint == 13) { // Intensity Minutes
-			drawIntensityMin(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.1)-offset390, xText, yText, width, accentColor);
-		} else if (dataPoint == 14) { // Body Battery
-			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);
-		} else if (dataPoint == 15) { // Calories(dc, xIcon, yIcon, xText, yText, width)
-			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);			
-		} else if (dataPoint == 16) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawRespiration(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, accentColor, width);
-		} else if (dataPoint == 17) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawRecoveryTime(dc, xIcon, yIcon+(xIcon*0.015), xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 18) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, false); // run
-		} else if (dataPoint == 19) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawVO2Max(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width, true); // cycling
-		} else if (dataPoint == 20) { // Next Sun Event
-			drawSunriseSunset(dc, xIcon, yIcon+(xIcon*0.015), xText+(xText*0.01)-offset390, yText, width);
-		} else if (dataPoint == 21) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawBatteryConsumption(dc, xIcon-(xIcon*0.01), yIcon+(xIcon*0.12), xText, yText, width);
-		}		
-
-	}
-*/
 
 }
