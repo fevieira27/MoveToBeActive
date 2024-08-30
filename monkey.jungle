@@ -3,33 +3,33 @@ project.manifest = manifest.xml
 # Exclude other settings source directories (default behaviour is to include).
 base.sourcePath = source;settings
 # Include settings source directories specific for some watch models (to save memory and improve performance).
-fenix5plus.sourcePath = source;settings-lowmemory
-fenix5splus.sourcePath = source;settings-lowmemory
-fenix5xplus.sourcePath = source;settings-lowmemory
-fenix6s.sourcePath = source;settings-lowmemory
-fenix6spro.sourcePath = source;settings-lowmemory
-fr245.sourcePath = source;settings-lowmemory
-fr245m.sourcePath = source;settings-lowmemory
-fr745.sourcePath = source;settings-lowmemory
-fr945.sourcePath = source;settings-lowmemory
-fr945lte.sourcePath = source;settings-lowmemory
-descentmk2s.sourcePath = source;settings-lowmemory
-marqadventurer.sourcePath = source;settings-lowmemory
-marqathlete.sourcePath = source;settings-lowmemory
-marqaviator.sourcePath = source;settings-lowmemory
-marqcaptain.sourcePath = source;settings-lowmemory
-marqcommander.sourcePath = source;settings-lowmemory
-marqdriver.sourcePath = source;settings-lowmemory
-marqexpedition.sourcePath = source;settings-lowmemory
-marqgolfer.sourcePath = source;settings-lowmemory
-venusq.sourcePath = source;settings-tinymemory
-venusqm.sourcePath = source;settings-tinymemory
+# fenix5plus.sourcePath = source;settings-lowmemory
+# fenix5splus.sourcePath = source;settings-lowmemory
+# fenix5xplus.sourcePath = source;settings-lowmemory
+# fenix6s.sourcePath = source;settings-lowmemory
+# fenix6spro.sourcePath = source;settings-lowmemory
+# fr245.sourcePath = source;settings-lowmemory
+# fr245m.sourcePath = source;settings-lowmemory
+# fr745.sourcePath = source;settings-lowmemory
+# fr945.sourcePath = source;settings-lowmemory
+# fr945lte.sourcePath = source;settings-lowmemory
+# descentmk2s.sourcePath = source;settings-lowmemory
+# marqadventurer.sourcePath = source;settings-lowmemory
+# marqathlete.sourcePath = source;settings-lowmemory
+# marqaviator.sourcePath = source;settings-lowmemory
+# marqcaptain.sourcePath = source;settings-lowmemory
+# marqcommander.sourcePath = source;settings-lowmemory
+# marqdriver.sourcePath = source;settings-lowmemory
+# marqexpedition.sourcePath = source;settings-lowmemory
+# marqgolfer.sourcePath = source;settings-lowmemory
+# venusq.sourcePath = source;settings-tinymemory
+# venusqm.sourcePath = source;settings-tinymemory
 # enduro.sourcePath = source;settings-mediummemory
 
-# Exclude hashmark logic for square models.
+# Exclude square hashmark logic for most models.
 base.excludeAnnotations = square
-# Include only hashmark logic for square models (to save memory and improve performance).
+# Exclude round hashmark logic for square models (to save memory and improve performance).
 venusq.excludeAnnotations = round
 venusqm.excludeAnnotations = round
-venusq2.excludeAnnotations = round
-venusq2m.excludeAnnotations = round
+# venusq2.excludeAnnotations = round
+# venusq2m.excludeAnnotations = round
