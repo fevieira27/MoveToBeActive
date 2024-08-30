@@ -18,7 +18,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        var currentVersion=500;
+        var currentVersion=510;
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
 
@@ -27,6 +27,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
             if (Storage.getValue(6) == null ){ Storage.setValue(6, true); } // Temperature Type
             if (Storage.getValue(7) == null ){ Storage.setValue(7, true); } // Location Name
             if (Storage.getValue(8) == null ){ Storage.setValue(8, true); } // Alarm Icon
+            if (Storage.getValue(13) == null ){ Storage.setValue(13, 2); } // Hands Thickness - Thinner
             if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit
             if (Storage.getValue(16) == null ){ Storage.setValue(16, false); } // Temperature Unit
             if (Storage.getValue(18) == null ){ Storage.setValue(18, false); } // Tickmark Color
@@ -42,12 +43,13 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
                 if (Storage.getValue(5) == null ){ Storage.setValue(5, true); } // Hour Labels
                 if (Storage.getValue(27) == null ){ Storage.setValue(27, false); } // Labels Color
                 if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
+                if (Storage.getValue(33) == null ){ Storage.setValue(33, false); } // Seconds Hand
             }
-            if (Storage.getValue(9) == null) { Storage.setValue(9, 26); } //big
-            if (Storage.getValue(10) == null) { Storage.setValue(10, 26); } //big
-            if (Storage.getValue(11) == null) { Storage.setValue(11, 22); } //small
-            if (Storage.getValue(12) == null) { Storage.setValue(12, 22); } //small
-            if (Storage.getValue(17) == null) { Storage.setValue(17, 22); } //small
+            if (Storage.getValue(9) == null) { Storage.setValue(9, 26); } //big length data field 1
+            if (Storage.getValue(10) == null) { Storage.setValue(10, 26); } //big length data field 2
+            if (Storage.getValue(11) == null) { Storage.setValue(11, 22); } //small length data field 1
+            if (Storage.getValue(12) == null) { Storage.setValue(12, 22); } //small length data field 2
+            if (Storage.getValue(17) == null) { Storage.setValue(17, 22); } //small length data field 3
         }
 
         // Generate a new Menu with a drawable Title
@@ -130,9 +132,12 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
                 iconMenu.addItem(new WatchUi.ToggleMenuItem("Current Weather", {:enabled=>"ON", :disabled=>"OFF"}, 25, Storage.getValue(25), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
                 iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, Storage.getValue(7), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             }
-            // allow full colors in AOD for AMOLED devices
+            // allow extra features only for LCD and AMOLED devices
             if(System.getDeviceSettings().requiresBurnInProtection){
                 iconMenu.addItem(new WatchUi.ToggleMenuItem("AOD Colors", {:enabled=>"Accent", :disabled=>"Grayscale"}, 22, Storage.getValue(22), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { //check if rounded display
+                    iconMenu.addItem(new WatchUi.ToggleMenuItem("Seconds Hand", {:enabled=>"On", :disabled=>"Off"}, 33, Storage.getValue(33), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                }
             }
             var drawableT = new CustomThickness();
 		    iconMenu.addItem(new WatchUi.IconMenuItem("Hands Thickness", drawableT.nextState(-1), 13, drawableT, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
@@ -230,7 +235,6 @@ class DrawableMenuTitle extends WatchUi.Drawable {
 
 		//var color = mColors[mIndex];
         //dc.setColor(color, color);
-        //System.println(width);
         //System.println(labelWidth);
         var mColors;
         if (Storage.getValue(32) == null or Storage.getValue(32) == false){
@@ -420,13 +424,13 @@ class CustomThickness extends WatchUi.Drawable {
 	
     function initialize() {
         Drawable.initialize({});
-        if (Storage.getValue(13) == false or Storage.getValue(13) == null){ 
+        /*if (Storage.getValue(13) == false or Storage.getValue(13) == null){ 
         	mIndex = 0;
         } else if (Storage.getValue(13) == true) {
             mIndex = 1;
-        } else {
+        } else {*/
         	mIndex=Storage.getValue(13); 
-        }        
+        //}        
     }    
 
     // Advance to the next color state for the drawable
