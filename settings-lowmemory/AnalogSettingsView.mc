@@ -18,7 +18,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        var currentVersion=500;
+        var currentVersion=510;
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
 
@@ -27,6 +27,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
             if (Storage.getValue(6) == null ){ Storage.setValue(6, true); } // Temperature Type
             if (Storage.getValue(7) == null ){ Storage.setValue(7, true); } // Location Name
             if (Storage.getValue(8) == null ){ Storage.setValue(8, true); } // Alarm Icon
+            if (Storage.getValue(13) == null ){ Storage.setValue(13, 2); } // Hands Thickness - Thinner
             if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit
             if (Storage.getValue(16) == null ){ Storage.setValue(16, false); } // Temperature Unit
             if (Storage.getValue(18) == null ){ Storage.setValue(18, false); } // Tickmark Color
@@ -43,11 +44,11 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
                 if (Storage.getValue(27) == null ){ Storage.setValue(27, false); } // Labels Color
                 if (Storage.getValue(14) == null ){ Storage.setValue(14, false); } // Bigger Font
             }
-            if (Storage.getValue(9) == null) { Storage.setValue(9, 26); } //big
-            if (Storage.getValue(10) == null) { Storage.setValue(10, 26); } //big
-            if (Storage.getValue(11) == null) { Storage.setValue(11, 22); } //small
-            if (Storage.getValue(12) == null) { Storage.setValue(12, 22); } //small
-            if (Storage.getValue(17) == null) { Storage.setValue(17, 22); } //small
+            if (Storage.getValue(9) == null) { Storage.setValue(9, 26); } //big length data field 1
+            if (Storage.getValue(10) == null) { Storage.setValue(10, 26); } //big length data field 2
+            if (Storage.getValue(11) == null) { Storage.setValue(11, 22); } //small length data field 1
+            if (Storage.getValue(12) == null) { Storage.setValue(12, 22); } //small length data field 2
+            if (Storage.getValue(17) == null) { Storage.setValue(17, 22); } //small length data field 3
         }
 
         // Generate a new Menu with a drawable Title
@@ -421,13 +422,13 @@ class CustomThickness extends WatchUi.Drawable {
 	
     function initialize() {
         Drawable.initialize({});
-        if (Storage.getValue(13) == false or Storage.getValue(13) == null){ 
+/*        if (Storage.getValue(13) == false or Storage.getValue(13) == null){ 
         	mIndex = 0;
         } else if (Storage.getValue(13) == true) {
             mIndex = 1;
-        } else {
+        } else {*/
         	mIndex=Storage.getValue(13); 
-        }        
+        //}        
     }    
 
     // Advance to the next color state for the drawable
