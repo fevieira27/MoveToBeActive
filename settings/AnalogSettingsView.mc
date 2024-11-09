@@ -18,7 +18,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
     function initialize() {
         Menu2.initialize(null);
 
-        var currentVersion=510;
+        var currentVersion=512;
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             Storage.setValue(23,currentVersion);
 
@@ -129,10 +129,12 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
             }
             iconMenu.addItem(new WatchUi.ToggleMenuItem("Tickmark Color", {:enabled=>"Accent", :disabled=>"Default"}, 18, Storage.getValue(18), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
             if (Storage.getValue(21)[2]){ // has weather, doesn't show these for Fenix 5 Plus series
-                iconMenu.addItem(new WatchUi.ToggleMenuItem("Current Weather", {:enabled=>"ON", :disabled=>"OFF"}, 25, Storage.getValue(25), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-                iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, Storage.getValue(7), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                iconMenu.addItem(new WatchUi.ToggleMenuItem("Weather Condition", {:enabled=>"ON", :disabled=>"OFF"}, 25, Storage.getValue(25), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                iconMenu.addItem(new WatchUi.ToggleMenuItem(Toybox.Weather.getCurrentConditions().observationLocationName!=null?"Location Name":"Condition Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, Storage.getValue(7), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                //iconMenu.addItem(new WatchUi.ToggleMenuItem("Location Name", {:enabled=>"ON", :disabled=>"OFF"}, 7, Storage.getValue(7), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+                
             }
-            // allow extra features only for LCD and AMOLED devices
+            // allow these extra features only for LCD and AMOLED devices
             if(System.getDeviceSettings().requiresBurnInProtection){
                 iconMenu.addItem(new WatchUi.ToggleMenuItem("AOD Colors", {:enabled=>"Accent", :disabled=>"Grayscale"}, 22, Storage.getValue(22), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
                 if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { //check if rounded display
