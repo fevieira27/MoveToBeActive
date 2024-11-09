@@ -11,6 +11,7 @@ import Toybox.WatchUi;
 import Toybox.Application.Storage;
 import Toybox.Graphics;
 import Toybox.Lang;
+//import Toybox.Complications;
 
 //var partialUpdatesAllowed = false;
 
@@ -49,7 +50,7 @@ class AnalogView extends WatchUi.WatchFace
             }
         }
 
-        var currentVersion=510;
+        var currentVersion=512;
 
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){
             var checks = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -232,6 +233,7 @@ class AnalogView extends WatchUi.WatchFace
                         }
                         //if (cond.observationLocationName!=null){
                             //Draw Location Name
+                            //System.println(dc.getFontHeight(Graphics.FONT_TINY));
                             MtbA.drawLocation(dc, width/2, position[23], width*0.60, dc.getFontHeight(Graphics.FONT_TINY), Storage.getValue(7));
                         //}                        
                     }
