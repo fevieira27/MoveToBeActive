@@ -304,6 +304,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 ![Features](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%201%20v2.jpg)
 ![Watch Examples](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/CIQ%20Img%204%20v2.jpg)
 ![Real Watch Venu2s](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/20241105_215026.jpg)
+![Real Watch Fenix7sPro](https://raw.githubusercontent.com/fevieira27/MoveToBeActive/main/GitHub/20241111_221027~3.jpg)
 
 # Open-source projects used as inspiration for MtbA Watch Face:
 * https://github.com/wwarby/walker
