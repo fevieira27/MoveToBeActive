@@ -265,10 +265,36 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Now using Garmin SDK 6.4.2
 - [X] Added suppport for new watches: ForeRunner 165 and 165 music
 
-**5.5.0** (No estimated date yet, likely Q3 2024)
-- [ ] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units
-- [ ] Give the user the option to chose wind speed to be displayed in knots
-- [ ] Seconds Hand for AMOLED watches
+**5.1.0** (30/August/2024)
+- [X] Seconds Hand for AMOLED watches
+- [X] Convert Atmospheric Pressure to Inches of Mercury when user is not using metric-based units
+- [X] Added suppport for new watches: Fenix E, Fenix 8 43/47/51mm, Fenix 8 Solar 47/51mm, Enduro 3
+- [X] Reintroduced the usage of buffered bitmaps for the background color, which reduced memory usage by 10%
+- [X] Updated to Garmin SDK 7.3.0
+
+**5.1.1** (20/September/2024)
+- [X] Fixed date that was not being displayed when using the Light theme; (thanks drkreinig for the bug report)
+- [X] Improved the position of some data fields' icons and texts (i.e. battery consumption/day)
+
+**5.1.2** (07/November/2024)
+- [X] Garmin has deprecated the weather location name feature on newer firmwares. To make use of that space, MoveToBeActive will now show the weather condition description instead
+- [X] Changed Heart Rate data field to display "--" instead of zero when no heart beats are being identified by the watch (like when not wearing it). Thanks to Marek M. for the feedback
+- [X] Corrected some situations where the tip of the seconds hand was not showing the proper color (applicable to AMOLED only)
+- [X] Improved position of icon and text of heart rate, seconds, digital time and intensity minutes data fields on some watches
+- [X] Updated to Garmin SDK 7.3.1
+
+**5.1.3** (09/November/2024)
+- [X] Changed color of disabled bluetooth and no alarms to make it less distracting and easier to recognize when disabled
+- [X] Several under the hood optimizations that aim to reduce battery consumption by using new features from Garmin SDK 7.1
+
+**5.1.4** (10/November/2024)
+- [X] Fixed a bug with the Heart Rate and PulseOx data fields for new installs
+
+**5.2.0** (Estimated End of Q4 2024)
+- [ ] Give the user the option to chose wind speed to also be displayed in knots, in addition to the already existing choice between km/h, mph or m/s.
+- [ ] Memory reductions on Fenix 5 Plus Series
+- [ ] Remove digital seconds for MIP screens when in low-power mode, instead of freezing the numbers
+- [ ] Further optimizations to reduce number of times the watch face needs to access storage for value of variables
 
 
 ## MtbA Watchface examples:
