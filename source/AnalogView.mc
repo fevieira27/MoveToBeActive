@@ -85,7 +85,6 @@ class AnalogView extends WatchUi.WatchFace
             if (Storage.getValue(12) == null) { Storage.setValue(12, 22); } //small length data field 2
             if (Storage.getValue(17) == null) { Storage.setValue(17, 22); } //small length data field 3
             if (Storage.getValue(21) != null) { Storage.deleteValue(21); } // temporary removal of "checks" array, until a new variable is needed
-            if (Storage.getValue(23) != null) { Storage.deleteValue(23); } // temporary removal of MtbA version check, until a new variable is needed
         }
     }
 
