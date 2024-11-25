@@ -17,7 +17,7 @@ class MtbA_functions {
 	const screenShape = System.getDeviceSettings().screenShape;
 	var fontSize = (Storage.getValue(14) == true ? 1 : 0);
 	var fontColor = (Storage.getValue(32) == true ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE);
-	var check=Storage.getValue(21);
+	//var check=Storage.getValue(21);
 
 	// This function is used to generate the coordinates of the 4 corners of the polygon
     // used to draw a watch hand. The coordinates are generated with specified length,
@@ -322,7 +322,7 @@ class MtbA_functions {
         if (settings>0) {
             dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
         } else {
-            dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
+            dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_DK_GRAY : Graphics.COLOR_LT_GRAY), Graphics.COLOR_TRANSPARENT);
         }
         dc.drawText( x - offset - LEDoffset, y - offset, IconsFont, ":", Graphics.TEXT_JUSTIFY_CENTER); 
     }
@@ -350,7 +350,7 @@ class MtbA_functions {
     
 	/* ------------------------ */
 	
-	function drawWeatherIcon(dc, x, y, x2, width) {
+ 	function drawWeatherIcon(dc, x, y, x2, width) {
 		
 		var cond = Toybox.Weather.getCurrentConditions().condition;
 		var sunset, sunrise;
@@ -361,7 +361,7 @@ class MtbA_functions {
 			var WeatherFont = Application.loadResource(Rez.Fonts.WeatherFont);
 
 			// gets the correct symbol (sun/moon) depending on actual sun events
-			if (check[15]) {
+			if (Toybox has :Weather and Weather has :getSunset and Weather has :getSunrise) {
 				var position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
 				var today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
 				if (position!=null and today!=null){
@@ -654,7 +654,7 @@ class MtbA_functions {
 	// Get heart rate
 	function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
     	var heartRate;
-    	if(Storage.getValue(21)[9]) {
+    	if(Activity has :getActivityInfo) {
     		heartRate = Activity.getActivityInfo().currentHeartRate; 
     		if(heartRate==null) {
     			if(ActivityMonitor has :getHeartRateHistory) {
@@ -1087,13 +1087,13 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Do Not Disturb Icon
-	function drawDndIcon(dc, x, y, width, check) {	
+	function drawDndIcon(dc, x, y, width) {	
 		
 	    // If this device supports the Do Not Disturb feature,
         // load the associated Icon into memory.
 		//var dndIcon;
 		        
-		if (check and System.getDeviceSettings().doNotDisturb==true) {
+		if (System.getDeviceSettings() has :doNotDisturb and System.getDeviceSettings().doNotDisturb==true) {
 			//dndIcon = Application.loadResource(Rez.Drawables.DoNotDisturbIcon);
 
 			// Draw the do-not-disturb icon if we support it and the setting is enabled
@@ -1126,7 +1126,7 @@ class MtbA_functions {
 	function drawPulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
           
 		var pulseOx = null;
-		if (Storage.getValue(21)[9] and Storage.getValue(21)[11]) {
+		if (Activity has :getActivityInfo and Activity.getActivityInfo() has :currentOxygenSaturation) {
 			pulseOx = Activity.getActivityInfo().currentOxygenSaturation;
 		}
 		
@@ -1187,7 +1187,7 @@ class MtbA_functions {
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 	  var floorsCount=0;
 	    
-	  if (check[12]) {
+	  if (ActivityMonitor.getInfo() has :floorsClimbed) {
 	    	floorsCount = ActivityMonitor.getInfo().floorsClimbed;//.toString();
 	  } else {
 	    	return false;
@@ -1549,7 +1549,7 @@ class MtbA_functions {
 		var elevationStr;
 		var unit;
         
-		if (check[9] and Activity.getActivityInfo() has :altitude) {
+		if (Activity has :getActivityInfo and Activity.getActivityInfo() has :altitude) {
 			//elevation = Activity.getActivityInfo().altitude;
 			if(Activity.getActivityInfo().altitude!=null){
 				elevation = Activity.getActivityInfo().altitude.toFloat();
@@ -1613,13 +1613,13 @@ class MtbA_functions {
 		//var unit= "";
 
 		if (Storage.getValue(20)==true){ //Athmospheric Pressure Type
-			if (check[9] and check[6]) {
+			if (Activity has :getActivityInfo and Activity.getActivityInfo() has :meanSeaLevelPressure) {
 				if(Activity.getActivityInfo().meanSeaLevelPressure!=null){
 					pressure = Activity.getActivityInfo().meanSeaLevelPressure;
 				}
 			}
 		} else {
-			if (check[9] and check[5]) {
+			if (Activity has :getActivityInfo and Activity.getActivityInfo() has :rawAmbientPressure) {
 				//elevation = Activity.getActivityInfo().altitude;
 				if(Activity.getActivityInfo().rawAmbientPressure!=null){
 					pressure = Activity.getActivityInfo().rawAmbientPressure;
@@ -1684,7 +1684,7 @@ class MtbA_functions {
 		//var IconsFont = Application.loadResource(Rez.Fonts.HumidityFont);
 	  var precipitation=0;
 	    
-		if (check[1] and check[2]) {
+		if (Toybox has :Weather and Toybox.Weather has :getCurrentConditions) {
 				if (Weather.getCurrentConditions()!=null and Weather.getCurrentConditions().precipitationChance!=null){
 					precipitation = Weather.getCurrentConditions().precipitationChance;//.toString();
 				} else {
@@ -1755,7 +1755,7 @@ class MtbA_functions {
 		var weather;
 		var units = "";
     
-		if (check[1] and check[2]) { 
+		if (Toybox has :Weather and Toybox.Weather has :getCurrentConditions) { 
 			weather = Weather.getCurrentConditions();
 			if (weather!=null){
 				if ((weather.lowTemperature!=null) and (weather.highTemperature!=null)){ //  and weather.lowTemperature instanceof Number ;  and weather.highTemperature instanceof Number
@@ -1820,7 +1820,7 @@ class MtbA_functions {
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var humidity=0;
 		
-		if (check[1] and check[2]) {
+		if (Toybox has :Weather and Toybox.Weather has :getCurrentConditions) {
 			if (Weather.getCurrentConditions()!= null and Weather.getCurrentConditions().relativeHumidity != null){
 				humidity = Weather.getCurrentConditions().relativeHumidity;//.toString();
 			} else {
@@ -1887,7 +1887,7 @@ class MtbA_functions {
 		var unit;
     var windIconColour = Graphics.COLOR_DK_GRAY;
 
-		if (check[1] and check[2] and Weather.getCurrentConditions() != null and Weather.getCurrentConditions().windSpeed != null and (Weather.getCurrentConditions().windBearing != null and Weather.getCurrentConditions().windBearing instanceof Number)){
+		if (Toybox has :Weather and Toybox.Weather has :getCurrentConditions and Weather.getCurrentConditions() != null and Weather.getCurrentConditions().windSpeed != null and (Weather.getCurrentConditions().windBearing != null and Weather.getCurrentConditions().windBearing instanceof Number)){
 			windSpeed = Weather.getCurrentConditions().windSpeed;//.toString();
 			windBearing = Weather.getCurrentConditions().windBearing;//.toString();
 
@@ -1993,7 +1993,8 @@ class MtbA_functions {
 		}
 
     // Wind Speed Text	
-		if (windSpeed != null and Storage.getValue(15)!=false) { // not in m/s
+		var WindUnit = Storage.getValue(15);
+		if (windSpeed != null and WindUnit==0) { // not in m/s or knots
       if (WindMetric == System.UNIT_METRIC) {
 				windSpeed = windSpeed * 3.6; //converting from m/s to km/h
 				if (width<=218) {
@@ -2007,7 +2008,10 @@ class MtbA_functions {
 				windSpeed = windSpeed * 2.22369; //converting from m/s to mph
 				unit = " mph";
 			}
-		} else {
+		} else if (windSpeed != null and WindUnit==2){ // knots
+			windSpeed = windSpeed * 1.94384449; //converting from m/s to knots
+			unit = " kts";
+		} else { // m/s
 			unit = " m/s";
 		}
 
@@ -2025,7 +2029,7 @@ class MtbA_functions {
 	
 		var solarIntensity=0;
 		
-		if (check[8] and System.getSystemStats().solarIntensity != null) {
+		if (System.getSystemStats() has :solarIntensity and System.getSystemStats().solarIntensity != null) {
 			solarIntensity = System.getSystemStats().solarIntensity;//.toString();
 		} else {
 			return false;
@@ -2201,7 +2205,7 @@ class MtbA_functions {
 		}
 
 		// Body Battery
-		if (check[10]){ //check[15]
+		if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)){ //check[15]
 			var bbIterator = Toybox.SensorHistory.getBodyBatteryHistory({:period=>1});
 			var sample = bbIterator.next(); 
 
@@ -2258,7 +2262,7 @@ class MtbA_functions {
 		} 
 
 		// Stress
-		if (check[13]){ 
+		if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getStressHistory)){ 
 			var stressIterator = Toybox.SensorHistory.getStressHistory({:period=>1});
 			var sample = stressIterator.next(); 
 
@@ -2307,7 +2311,7 @@ class MtbA_functions {
 	
 		var text = null;
 
-		if (check[3]) { 
+		if (UserProfile.getProfile() has :vo2maxRunning and UserProfile.getProfile() has :vo2maxCycling) { 
 				if (UserProfile.getProfile().vo2maxRunning!=null) {
 					text = UserProfile.getProfile().vo2maxRunning;
 				} else if (UserProfile.getProfile().vo2maxCycling!=null) {
@@ -2373,7 +2377,7 @@ class MtbA_functions {
 
 		var text=null;    
        
-		if (check[14] and ActivityMonitor.getInfo().respirationRate!=null) {// if (check[14]) {
+		if (ActivityMonitor.getInfo() has :respirationRate and ActivityMonitor.getInfo().respirationRate!=null) {// if (check[14]) {
 			text = ActivityMonitor.getInfo().respirationRate;
 		} else { 
 			//return false; 
@@ -2409,7 +2413,7 @@ class MtbA_functions {
 	function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {	
           
 		var recovery = null;
-		if (check[7] and ActivityMonitor.getInfo().timeToRecovery!=null){ 
+		if (ActivityMonitor.getInfo() has :timeToRecovery and ActivityMonitor.getInfo().timeToRecovery!=null){ 
 			recovery = ActivityMonitor.getInfo().timeToRecovery;
 		}
 		
@@ -2439,26 +2443,30 @@ class MtbA_functions {
 	}	
 
 
-/* ------------------------ */
+	/* ------------------------ */
 
-// Draw next Sun Event time
-//(:memory) 
-function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {	
+	// Draw next Sun Event time
+	//(:memory) 
+	function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {	
           
 		// placeholder for SDK 5
 		var myTime = System.getClockTime(); 
 		var sunset, sunrise;
 
-		if (check[15] and Toybox.Weather.getCurrentConditions()!=null) {
-			var position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
-			var today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
-			if (position!=null and today!=null){
-				// sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
-				// sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
-				sunset = Weather.getSunset(position, today);
-				sunrise = Weather.getSunrise(position, today);
+		if (Toybox has :Weather and Weather has :getSunset and Weather has :getSunrise) {
+			if (Toybox.Weather.getCurrentConditions()!=null){
+				var position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
+				var today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
+				if (position!=null and today!=null){
+					// sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
+					// sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
+					sunset = Weather.getSunset(position, today);
+					sunrise = Weather.getSunrise(position, today);
+				} else {
+				return false;
+				}
 			} else {
-			return false;
+				return false;
 			}
 		} else {
 			return false;
@@ -2529,7 +2537,7 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 	/* ------------------------ */
 	
 	// Draw Right Data Points
-	function drawPoints(dc, xIcon, yIcon, xText, yText, accentColor, width, dataPoint, side) {	
+	function drawPoints(dc, xIcon, yIcon, xText, yText, accentColor, width, dataPoint, side) {	// exclude for Fenix 5 plus
 		// side 1 = left top
 		// side 2 = left middle
 		// side 3 = left bottom
@@ -2545,7 +2553,7 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		
 		if (dataPoint == 0) { //Steps 
 			drawSteps(dc, xIcon-(xIcon*0.002), yIcon, xText, yText, width, accentColor);
-		} else if ((side>2 and dataPoint == 1) or (side<=2 and dataPoint == 5)) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
+		} else if (Toybox has :Weather and ((side>2 and dataPoint == 1) or (side<=2 and dataPoint == 5))) { // Humidity(dc, xIcon, yIcon, xText, yText, width)
 			drawHumidity(dc, xIcon+(xIcon*0.005), yIcon, xText-(xText*0.002), yText, width, accentColor);
 		} else if ((side>2 and dataPoint == 2) or (side<=2 and dataPoint == 6)) { // Precipitation(dc, xIcon, yIcon, xText, yText, width)
 			if (side<=3){ xText=xText+width*0.012; }
