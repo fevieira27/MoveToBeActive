@@ -290,11 +290,11 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 **5.1.4** (10/November/2024)
 - [X] Fixed a bug with the Heart Rate and PulseOx data fields for new installs
 
-**5.2.0** (Estimated End of Q4 2024)
+**5.2.0** (Estimated at End of Q4 2024)
 - [X] Give the user the option to chose wind speed to also be displayed in knots, in addition to the already existing choice between km/h, mph or m/s.
-- [ ] Remove digital seconds for MIP screens when in low-power mode, instead of freezing the numbers
+- [X] Remove digital seconds for MIP screens when in low-power mode, instead of freezing the numbers
 - [X] Memory reductions on Fenix 5 Plus series
-- [X] Further optimizations to reduce number of times the watch face needs to access storage to get the value of variables (about 10% improvement in battery life)
+- [X] Further optimizations to reduce number of times the watch face needs to access storage to get the value of variables (about 15% improvement in battery life)
 - [X] Fixed bug with color of hour and minute hands when changing themes
 
 
