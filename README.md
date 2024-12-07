@@ -290,7 +290,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 **5.1.4** (10/November/2024)
 - [X] Fixed a bug with the Heart Rate and PulseOx data fields for new installs
 
-**5.2.0** (Estimated at End of Q4 2024)
+**5.2.1** (Estimated at End of Q4 2024)
 - [X] Finally added support for ForeRunner 55.
 - [X] New data field with weather condition forecast for next 2 or 3 hours (depending on available space)
 - [X] Give the user the option to chose wind speed to also be displayed in knots, in addition to the already existing choice between km/h, mph or m/s.
