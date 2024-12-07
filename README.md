@@ -292,10 +292,11 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 
 **5.2.0** (Estimated at End of Q4 2024)
 - [X] Finally added support for ForeRunner 55.
+- [X] New data field with weather condition forecast for next 2 or 3 hours (depending on available space)
 - [X] Give the user the option to chose wind speed to also be displayed in knots, in addition to the already existing choice between km/h, mph or m/s.
 - [X] Remove digital seconds for MIP screens when in low-power mode, instead of freezing the numbers
 - [X] Memory reductions on Fenix 5 Plus series
-- [X] Further optimizations to reduce number of times the watch face needs to access storage to get the value of variables (about 30% improvement in battery life with MIP and 15% on AMOLED)
+- [X] Further optimizations to reduce number of times the watch face needs to access storage to get the value of variables (about 20-30% improvement in battery life with MIP and 10-15% on AMOLED)
 - [X] Fixed bug with color of hour and minute hands when changing themes
 - [X] Improved Wind Speed bearing position on 42mm MIP watches (no more overlap with wind speed number)
 - [X] Updated to Garmin SDK 7.4.1
