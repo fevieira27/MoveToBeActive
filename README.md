@@ -301,6 +301,8 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Improved Wind Speed bearing position on 42mm MIP watches (no more overlap with wind speed number)
 - [X] Updated to Garmin SDK 7.4.1
 
+**5.2.2** (Estimated at End of Q4 2024)
+- [X] Fixed bug on new data field that happened whenever the weather station is not sending any weather data
 
 ## MtbA Watchface examples:
 
