@@ -297,6 +297,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Memory reductions on Fenix 5 Plus series
 - [X] Further optimizations to reduce number of times the watch face needs to access storage to get the value of variables (about 30% improvement in battery life with MIP and 15% on AMOLED)
 - [X] Fixed bug with color of hour and minute hands when changing themes
+- [X] Improved Wind Speed bearing position on 42mm MIP watches (no more overlap with wind speed number)
 - [X] Updated to Garmin SDK 7.4.1
 
 
