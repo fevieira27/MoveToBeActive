@@ -10,6 +10,7 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 //import Toybox.Complications;
 //using Toybox.Communications;
+using Toybox.Application.Properties as Properties;
 
 // This is the primary entry point of the application.
 class AnalogWatch extends Application.AppBase

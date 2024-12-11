@@ -17,7 +17,22 @@ class MtbA_functions {
 	const screenShape = System.getDeviceSettings().screenShape;
 	var fontSize = (Storage.getValue(14) == true ? 1 : 0);
 	var fontColor = (Storage.getValue(32) == true ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE);
-	//var check=Storage.getValue(21);
+	var condName as String = "";
+	var lowPower as Boolean = false;
+
+    public function enterSleep() as Void {
+        lowPower=true;
+        //WatchUi.requestUpdate();
+    }
+
+
+    //! This method is called when the device exits sleep mode.
+    //! Set the isAwake flag to let onUpdate know it should render the second hand.
+    public function exitSleep() as Void {
+        //_isAwake = true;
+        lowPower=false;
+        //WatchUi.requestUpdate();
+    }
 
 	// This function is used to generate the coordinates of the 4 corners of the polygon
     // used to draw a watch hand. The coordinates are generated with specified length,
@@ -44,24 +59,24 @@ class MtbA_functions {
     /* ------------------------ */
 	
 	// Draws the clock tick marks around the outside edges of the screen.
-(:round) function drawHashMarks(dc, accentColor, width, height, aod, colorFlag) {
+(:round) function drawHashMarks(dc, accentColor, width, aod, colorFlag, accIndex, showBoolean, AODColor) { // 2, 5
 			var sX, sY;
 			var eX, eY;
 			var outerRad = width / 2;
 			var innerRad = outerRad - 10;
-			var showBoolean = Storage.getValue(5);		
+			//var showBoolean = hourLabel;		
 
         if (fontColor == Graphics.COLOR_WHITE){ // Dark Theme
-            var mColors = Application.loadResource(Rez.JsonData.mColors);
-            if(mColors[Storage.getValue(2)] != accentColor){
-                Storage.setValue(1, mColors[Storage.getValue(2)]);
-                accentColor = mColors[Storage.getValue(2)];
+            var mColors = Application.loadResource(Rez.JsonData.mColors) as Array;
+            if(mColors[accIndex] != accentColor){
+                Storage.setValue(1, mColors[accIndex]);
+                accentColor = mColors[accIndex];
             }
         } else { // Light Theme
-            var mColors = Application.loadResource(Rez.JsonData.mColorsWhite);
-            if(mColors[Storage.getValue(2)] != accentColor){
-                Storage.setValue(1, mColors[Storage.getValue(2)]);
-                accentColor = mColors[Storage.getValue(2)];
+            var mColors = Application.loadResource(Rez.JsonData.mColorsWhite) as Array;
+            if(mColors[accIndex] != accentColor){
+                Storage.setValue(1, mColors[accIndex]);
+                accentColor = mColors[accIndex];
             }
         }	
 		
@@ -74,7 +89,7 @@ class MtbA_functions {
 					var angle = i * Math.PI / 30;
 					if (aod==true) { // AOD mode is ON
 						if (i % 5 == 0){
-							if (colorFlag == true and Storage.getValue(22)==true){ // Tickmark color is ON and AOD Colors is ON
+							if (colorFlag == true and AODColor){ // Tickmark color is ON and AOD Colors is ON
 								dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
 							} else if (i == 15 or i == 45) {
 									//dc.setColor(accentColor, Graphics.COLOR_BLACK);
@@ -85,7 +100,7 @@ class MtbA_functions {
 									dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 							}
 						}
-					} else{ // AOD mode is OFF
+					} else{ // AOD mode is OFF or MIP
 						if ((i == 15) or (i == 45)) {
 							dc.setColor(accentColor, accentColor);
 						} else {
@@ -157,18 +172,19 @@ class MtbA_functions {
 
     }
 
-(:square) function drawHashMarks(dc, accentColor, width, height, aod, colorFlag) {
+(:square) function drawHashMarks(dc, accentColor, width, aod, colorFlag, accIndex, showBoolean, AODColor) {
 			var sX, sY;
 			var eX, eY;
 			var outerRad = width / 2;
 			//var innerRad = outerRad - 10;			
 			var innerRad = outerRad - 10;
 			//var showBoolean = Storage.getValue(5);			
+			var height = dc.getHeight();
 		
 			// Draw hashmarks differently depending on screen geometry.
 			if (System.SCREEN_SHAPE_ROUND != screenShape) { //check if square display			
 				var coords = [0, width / 4, (3 * width) / 4, width];
-				if(aod==true and Storage.getValue(22)!=true) {	// AOD ON and AOD colors OFF
+				if(aod==true and AODColor!=true) {	// AOD ON and AOD colors OFF
 					dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
 				} else { // AOD OFF or (AOD ON and AOD colors ON)
 					if (colorFlag == true){
@@ -218,7 +234,7 @@ class MtbA_functions {
 				for (var i = 0; i <= 59; i += 15) { //draw the middle hashmarks (each 15 min)
 					var angle = i * Math.PI / 30;
 
-					if(aod==true and Storage.getValue(22)!=true) {	// AOD ON and AOD colors OFF
+					if(aod==true and AODColor!=true) {	// AOD ON and AOD colors OFF
 						if ((i == 15) or (i == 45)) {
 							dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 						} else {
@@ -261,11 +277,11 @@ class MtbA_functions {
     /* ------------------------ */
     
     // Draw the date string into the provided buffer at the specified location
-    function drawDateString(dc, x as Number, y as Number) as Void {
+    function drawDateString(dc, x as Number, y as Number, format as Boolean) as Void {
 			var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
 			var dateStr;
 			
-			if (Storage.getValue(24)==true){
+			if (format){
 				dateStr = Lang.format("$1$, $3$ $2$", [info.day_of_week, info.month, info.day]);
 			} else {
 				dateStr = Lang.format("$1$, $2$ $3$", [info.day_of_week, info.month, info.day]);
@@ -322,7 +338,11 @@ class MtbA_functions {
         if (settings>0) {
             dc.setColor(accentColor, Graphics.COLOR_TRANSPARENT);
         } else {
-            dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_DK_GRAY : Graphics.COLOR_LT_GRAY), Graphics.COLOR_TRANSPARENT);
+						if (width!=208){
+							dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_DK_GRAY : Graphics.COLOR_LT_GRAY), Graphics.COLOR_TRANSPARENT);
+						} else { // Fr55
+							dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+						}
         }
         dc.drawText( x - offset - LEDoffset, y - offset, IconsFont, ":", Graphics.TEXT_JUSTIFY_CENTER); 
     }
@@ -330,11 +350,11 @@ class MtbA_functions {
 	/* ------------------------ */	
 	
 	// Draw the 3, 6, 9, and 12 hour labels.
-    function drawHourLabels(dc, width, height, accent) {
+    function drawHourLabels(dc, width, height, accent, hourLabel) {
     	// Load the custom fonts: used for drawing the 3, 6, 9, and 12 on the watchface
         var font = Application.loadResource(Rez.Fonts.id_font_black_diamond); 
 				
-				if (Storage.getValue(27)==true) {
+				if (hourLabel) {
 					dc.setColor(accent, Graphics.COLOR_TRANSPARENT);  
 				} else if (width < 360){ // Using lighter tone for MIP displays 
 						dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);  
@@ -342,29 +362,33 @@ class MtbA_functions {
 	    		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);  
 				}
 
-        dc.drawText((width / 2), 14, font, "12", Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(width - 13, (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(width / 2, height - 41, font, "6", Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(13, (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText((width / 2), 14 + (width==208 ? -1 : 0), font, "12", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(width - 13 + (width==208 ? 1 : 0), (height / 2) - 15, font, "3", Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width / 2, height - 41 + (width==208 ? 1 : 0), font, "6", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(13 + (width==208 ? -1 : 0), (height / 2) - 15, font, "9", Graphics.TEXT_JUSTIFY_LEFT);
     }
     
 	/* ------------------------ */
 	
- 	function drawWeatherIcon(dc, x, y, x2, width) {
+	function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 		
-		var cond = Toybox.Weather.getCurrentConditions().condition;
+		//var cond = Toybox.Weather.getCurrentConditions().condition;
 		var sunset, sunrise;
 
 		if (cond!=null and cond instanceof Number){
-		
-			var clockTime = System.getClockTime().hour;
+			//System.println(clockTime);
+			//var clockTime = System.getClockTime().hour;
+//			clockTime = clockTime.hour;
 			var WeatherFont = Application.loadResource(Rez.Fonts.WeatherFont);
 
 			// gets the correct symbol (sun/moon) depending on actual sun events
-			if (Toybox has :Weather and Weather has :getSunset and Weather has :getSunrise) {
-				var position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
-				var today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
-				if (position!=null and today!=null){
+			if (Toybox has :Weather and Weather has :getSunset and Weather has :getSunrise and Toybox.Weather has :getCurrentConditions) {
+				var position=null, today=null;
+				if (Toybox.Weather.getCurrentConditions() has :observationLocationPosition and Toybox.Weather.getCurrentConditions() has :observationTime){ //trying to address errors found on ERA viewer when watch can't get position
+					position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
+					today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
+				}	
+				if ((position!=null and position instanceof Position.Location) and (today!=null and today instanceof Moment)){
 					if (Weather.getSunset(position, today)!=null) {
 						sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
 						sunset = sunset.hour;
@@ -400,49 +424,50 @@ class MtbA_functions {
 			if (cond == 20) { // Cloudy
 				dc.drawText(x2-1, y-1, WeatherFont, "I", Graphics.TEXT_JUSTIFY_RIGHT); // Cloudy
 				if (clockTime >= sunset or clockTime < sunrise) { 
-					Storage.setValue(34, "Cloudy Night");
+					condName="Cloudy Night";
 				} else {
-					Storage.setValue(34, "Cloudy Day");
+					condName="Cloudy Day";
 				}
 			} else if (cond == 0 or cond == 5) { // Clear or Windy
 				if (clockTime >= sunset or clockTime < sunrise) { 
 							dc.drawText(x2-2, y-1, WeatherFont, "f", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Night	
-							Storage.setValue(34, "Starry Night");
+							condName="Starry Night";
 						} else {
 							dc.drawText(x2, y-2, WeatherFont, "H", Graphics.TEXT_JUSTIFY_RIGHT); // Clear Day
-							Storage.setValue(34, "Sunny Day");
+							condName="Sunny Day";
 						}
 			} else if (cond == 1 or cond == 23 or cond == 40 or cond == 52) { // Partly Cloudy or Mostly Clear or fair or thin clouds
 				if (clockTime >= sunset or clockTime < sunrise) { 
 							dc.drawText(x2-1, y-2, WeatherFont, "g", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Night
-							Storage.setValue(34, "Partly Cloudy");
+							condName="Partly Cloudy";
 						} else {
 							dc.drawText(x2, y-2, WeatherFont, "G", Graphics.TEXT_JUSTIFY_RIGHT); // Partly Cloudy Day
-							Storage.setValue(34, "Mostly Sunny");
+							//Storage.setValue(34, "Mostly Sunny");
+							condName="Mostly Sunny";
 						}
 			} else if (cond == 2 or cond == 22) { // Mostly Cloudy or Partly Clear
 				if (clockTime >= sunset or clockTime < sunrise) { 
 							dc.drawText(x2, y, WeatherFont, "h", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Night
-							Storage.setValue(34, "Overcast Night");
+							condName="Overcast Night";
 						} else {
 							dc.drawText(x, y, WeatherFont, "B", Graphics.TEXT_JUSTIFY_RIGHT); // Mostly Cloudy Day
-							Storage.setValue(34, "Mostly Cloudy");
+							condName="Mostly Cloudy";
 						}
 			} else if (cond == 3 or cond == 14 or cond == 15 or cond == 11 or cond == 13 or cond == 24 or cond == 25 or cond == 26 or cond == 27 or cond == 45) { // Rain or Light Rain or heavy rain or showers or unkown or chance  
 				if (clockTime >= sunset or clockTime < sunrise) { 
 							dc.drawText(x2, y, WeatherFont, "c", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Night
-							Storage.setValue(34, "Rainy Night");
+							condName="Rainy Night";
 						} else {
 							dc.drawText(x, y, WeatherFont, "D", Graphics.TEXT_JUSTIFY_RIGHT); // Rain Day
-							Storage.setValue(34, "Rainy Day");
+							condName="Rainy Day";
 						}
 			} else if (cond == 4 or cond == 10 or cond == 16 or cond == 17 or cond == 34 or cond == 43 or cond == 46 or cond == 48 or cond == 51) { // Snow or Hail or light or heavy snow or ice or chance or cloudy chance or flurries or ice snow
 				if (clockTime >= sunset or clockTime < sunrise) { 
 							dc.drawText(x2, y, WeatherFont, "e", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Night
-							Storage.setValue(34, "Snowy Night");
+							condName="Snowy Night";
 						} else {
 							dc.drawText(x, y, WeatherFont, "F", Graphics.TEXT_JUSTIFY_RIGHT); // Snow Day
-							Storage.setValue(34, "Snowy Day");
+							condName="Snowy Day";
 						}
 			} else if (cond == 6 or cond == 12 or cond == 28 or cond == 32 or cond == 36 or cond == 41 or cond == 42) { // Thunder or scattered or chance or tornado or squall or hurricane or tropical storm
 				if (clockTime >= sunset or clockTime < sunrise) { 
@@ -450,22 +475,22 @@ class MtbA_functions {
 						} else {
 							dc.drawText(x, y, WeatherFont, "C", Graphics.TEXT_JUSTIFY_RIGHT); // Thunder Day
 						}
-						Storage.setValue(34, "Thunderstorms");
+						condName="Thunderstorms";
 			} else if (cond == 7 or cond == 18 or cond == 19 or cond == 21 or cond == 44 or cond == 47 or cond == 49 or cond == 50) { // Wintry Mix (Snow and Rain) or chance or cloudy chance or freezing rain or sleet
 				if (clockTime >= sunset or clockTime < sunrise) { 
 							dc.drawText(x2, y, WeatherFont, "d", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Night
-							Storage.setValue(34, "Wintry Mix Night");
+							condName="Wintry Mix Night";
 						} else {
 							dc.drawText(x, y, WeatherFont, "E", Graphics.TEXT_JUSTIFY_RIGHT); // Snow+Rain Day
-							Storage.setValue(34, "Wintry Mix Day");
+							condName="Wintry Mix Day";
 						}
 			} else if (cond == 8 or cond == 9 or cond == 29 or cond == 30 or cond == 31 or cond == 33 or cond == 35 or cond == 37 or cond == 38 or cond == 39) { // Fog or Hazy or Mist or Dust or Drizzle or Smoke or Sand or sandstorm or ash or haze
 				if (clockTime >= sunset or clockTime < sunrise) { 
 							dc.drawText(x2, y, WeatherFont, "a", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Night
-							Storage.setValue(34, "Foggy Night");
+							condName="Foggy Night";
 				} else {
 					dc.drawText(x, y, WeatherFont, "A", Graphics.TEXT_JUSTIFY_RIGHT); // Fog Day
-					Storage.setValue(34, "Foggy Day");
+					condName="Foggy Day";
 				}       		
 			}
 			return true;
@@ -476,7 +501,7 @@ class MtbA_functions {
 	
 	/* ------------------------ */
 	
-	function drawTemperature(dc, x, y, showBoolean, width) {
+	function drawTemperature(dc, x, y, showBoolean, width, unit) {
 		
 		var TempMetric = System.getDeviceSettings().temperatureUnits;
 		var temp=null, units = "", minTemp=null, maxTemp=null;
@@ -494,7 +519,7 @@ class MtbA_functions {
 		}
 			
 		if (showBoolean == false and weather!=null and (weather.feelsLikeTemperature!=null)) { //feels like ;  and weather.feelsLikeTemperature instanceof Number
-			if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
+			if (TempMetric == System.UNIT_METRIC or unit) { //Celsius
 				units = "°C";
 				temp = weather.feelsLikeTemperature;
 			}	else {
@@ -507,7 +532,7 @@ class MtbA_functions {
 				units = "°F";
 			}				
 		} else if(weather!=null and (weather.temperature!=null)) {  // real temperature ;  and weather.temperature instanceof Number
-				if (TempMetric == System.UNIT_METRIC or Storage.getValue(16)==true) { //Celsius
+				if (TempMetric == System.UNIT_METRIC or unit) { //Celsius
 					units = "°C";
 					temp = weather.temperature;
 				}	else {
@@ -551,56 +576,15 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Weather Location Name
-	function drawLocation(dc, x, y, wMax, hMax, showBoolean) {
+	function drawLocation(dc, x, y, showBoolean, logo) {
 
-		var cond = Toybox.Weather.getCurrentConditions();
-		var location;
-		
-		if (showBoolean != false) { // Show Location Name
-			//System.println(cond.precipitationChance);
-			if(cond!=null and cond.observationLocationName!=null) {
-				location = cond.observationLocationName;
-				if (location.length()>15 and location.find(",")!=null){
-					location = location.substring(0,location.find(","));
-				}
-				if (location.find("ocation[")!=null){
-					location="null";
-				}				
-				if (location.find("null")!=null and location.find(",")!=null) {
-					var location2 = location.substring(0,location.find(","));
-					if (location2.find("null")!=null) {
-						location2 = location.substring(location.find(",")+2,location.length());
-						if (location2.find("null")!=null){
-							location2 = "";
-						}
-					}
-					location = location2;
-				}
-				else if (location.find("null")!=null) {
-					location = "";
-				}
-
-			}
-			else { // Dealing with an error when currentConditions exist but location name still returns null - Also deals with new firmwares where the location name has been deprecated
-				var desc=Storage.getValue(34);
-				if (desc!=null) {
-					location = desc;
-				} else {
-					location = "";
-				}
-			}
-
-			if(x*2==260 and Storage.getValue(3)==false){
+			if(x*2==260 and logo){
 				y = y+6;
 			}
 
 			dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
 			//dc.fitTextToArea(text, font, width, height, truncate)
-			dc.drawText(x, y, Graphics.FONT_XTINY, dc.fitTextToArea(location, Graphics.FONT_XTINY, wMax, hMax, true), Graphics.TEXT_JUSTIFY_CENTER);
-			return true;
-		}	else {
-			return false;
-		}	
+			dc.drawText(x, y, Graphics.FONT_XTINY, showBoolean != false ? condName : "", Graphics.TEXT_JUSTIFY_CENTER);
 	}
 	
 	/* ------------------------ */
@@ -626,7 +610,7 @@ class MtbA_functions {
 			
 			if(width==280 or width==240){ //Fenix 6X & Enduro
 				yIcon=yIcon-5;
-				if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus
+				if (width==240 and dc.getFontHeight(0)>=26){ //Fenix 5 Plus
 					yIcon=yIcon-0.5;
 				}
 			} else if (width==260){
@@ -779,14 +763,17 @@ class MtbA_functions {
 					hrIconY = hrIconY + 1;
 					xIcon = xIcon - 1;
 					offset = 4;
-				} else if(dc.getTextDimensions("100",0)[1]>=26){ // Fenix 5 Plus
+				} else if(dc.getFontHeight(0)>=26){ // Fenix 5 Plus
 					xIcon = xIcon - 1;
 					offset = 4;
 				}
 		}	else if(width==218){ // VA4s
 			xText = xText-1.5;
 			hrIconY = hrIconY - 2;			
+		}	else if(width==208){ // FR55
+			offset = 1;
 		}
+
 
 		var FontAdj= 0;
 		if (fontSize==1){ //big
@@ -821,15 +808,16 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Battery Icon and Text	
-	function drawBatteryIcon(dc, xBattery, yBattery, xContact, yContact, width, height, accentColor) {
+	function drawBatteryIcon(dc, xBattery, yBattery, xContact, yContact, width, accentColor, greyIcon) {
 	    
 		var battery = Math.ceil(System.getSystemStats().battery);
 		var batteryIconColour;
+		var height=dc.getHeight();
 				
 		// Choose the colour of the battery based on it's state
 		if (fontColor == Graphics.COLOR_WHITE){ // Dark Theme
 			batteryIconColour = Graphics.COLOR_LT_GRAY;
-			if (Storage.getValue(28)!=false){ // Show battery colors
+			if (greyIcon!=false){ // Show battery colors
 				if (battery <= 20) {
 					batteryIconColour = 0xFF5555 /* pastel red */;
 				} else if (battery <= 40) {
@@ -844,7 +832,7 @@ class MtbA_functions {
 			} 			
 		} else { // Light Theme
 			batteryIconColour = Graphics.COLOR_DK_GRAY;
-			if (Storage.getValue(28)!=false){ // Show battery colors
+			if (greyIcon!=false){ // Show battery colors
 				if (battery <= 20) {
 					batteryIconColour = 0xAA0000; /* red */
 				} else if (battery <= 40) {
@@ -871,28 +859,34 @@ class MtbA_functions {
 			yBattery = yBattery - 3;
 			xContact = xContact + 14;
 			yContact = yContact - 2;
-		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //text height in pixels (Fenix 5 Plus)
+		} else if (width==240 and dc.getFontHeight(0)>=26){ //text height in pixels (Fenix 5 Plus)
 			xBattery = xBattery - 5;
 			offsetLED = -3;
 			offset = -1;
 			xContact = xContact + 7;
 			yContact = yContact + 1;
-		} 
+		} else if (width==208){
+			offsetLED = -2;
+			offset = -1;
+			yBattery = yBattery - 1;
+		}
 
 		dc.setColor(batteryIconColour, Graphics.COLOR_TRANSPARENT); 
 		//dc.fillRoundedRectangle(x, y, width, height, radius)
-		dc.fillRoundedRectangle(xBattery, yBattery , width*0.135 + (System.SCREEN_SHAPE_ROUND != screenShape ? 14 : 0) + (width==240 and dc.getTextDimensions("100",0)[1]>=26 and System.SCREEN_SHAPE_ROUND == screenShape ? 12 : 0), height*0.0625 - offsetLED, 2);
+		dc.fillRoundedRectangle(xBattery, yBattery , width*0.135 + (System.SCREEN_SHAPE_ROUND != screenShape ? 14 : 0) + (width==240 and dc.getFontHeight(0)>=26 and System.SCREEN_SHAPE_ROUND == screenShape ? 12 : 0), height*0.0625 - offsetLED, 2);
 		dc.fillRoundedRectangle(xContact, yContact , width*0.018, height*0.039 - offset, 2);
 	}
 	
-	// Draw Battery Text (separate because of "too many arguments" error)
-	function drawBatteryText(dc, xText, yText, width, check) {	
+		// Draw Battery Text (separate because of "too many arguments" error)
+	function drawBatteryText(dc, xText, yText, width, estimateFlag) {	
 	
-		var estimateFlag = Storage.getValue(19);
+		//var estimateFlag = Storage.getValue(19);
 		var battery = Math.ceil(System.getSystemStats().battery);
 		var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+		var maxCharge = Storage.getValue(30);
+		var check = dc.getFontHeight(0);
 
-		if (System.getSystemStats().charging==true or (Storage.getValue(30)!=null and battery>Storage.getValue(30) or (battery==Storage.getValue(30) and battery==100))){
+		if (System.getSystemStats().charging==true or (maxCharge!=null and battery>maxCharge or (battery==maxCharge and battery==100))){
 			var test = [
         today.hour,
         today.min,
@@ -907,7 +901,7 @@ class MtbA_functions {
 			//Storage.setValue(22, null); // reset last hourDiff calculation
 		}
 
-		if (estimateFlag == true and check == true){ // user requested and watch supports
+		if (estimateFlag == true and System.getSystemStats() has :batteryInDays){ // user requested and watch supports
 			if (System.getSystemStats().batteryInDays!=null and System.getSystemStats().batteryInDays!=0){ //trying to make sure that we don't get an error if batteryInDays not supported by watch
 				battery = System.getSystemStats().batteryInDays;
 			} 
@@ -925,22 +919,24 @@ class MtbA_functions {
 
 		var offset = 0, offsetLED = 0;
 		if (width==390) { // Venu & D2 Air
-			if (dc.getTextDimensions("100",0)[1]>=33){ // Venu, D2 Air & Approach S70 42mm (33)
+			if (check>=33){ // Venu, D2 Air & Approach S70 42mm (33)
 				offset = -2;
-			} else if (dc.getTextDimensions("100",0)[1]==30){ // FR165 (30)
+			} else if (check==30){ // FR165 (30)
 				offset = 0;
 			} else { // epix Pro Gen 2 42mm & MARQ Gen 2
 				offset = -1;
 			}
 		} else if (width==280) { // Enduro & Fenix 6X Pro
 			offset = 0.75;	
-		}  else if (width==218 or width==240) { // Vivoactive 4S & Fenix 6S & Vivoactive 3 Music
-			if (width==218 and dc.getFontHeight(Graphics.FONT_TINY)==23) { // FR255s
+		}  else if (width<=218 or width==240) { // Vivoactive 4S & Fenix 6S & Vivoactive 3 Music
+			if (width==218 and dc.getFontHeight(1)==23) { // FR255s
 				offset = 0;			
 			} else if (System.SCREEN_SHAPE_ROUND == screenShape) { 
 				offset = -0.5;	
-				if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus
+				if (width==240 and check>=26){ //Fenix 5 Plus or FR55
 					offset = -2.5;
+				} else if (width==208){
+					offset = -3;
 				}
 			} else { // Venu sq
 				offset = -4.5;	
@@ -949,7 +945,7 @@ class MtbA_functions {
 		} else if (width==360) { // Venu 2 & 2s
 			offset = -1;	
 		} else if (width>=416) {
-			if (width==454 and dc.getTextDimensions("100",0)[1]==35){ // Venu 3
+			if (width==454 and check==35){ // Venu 3
 				offset = 1;
 			}
 			offsetLED = -1;
@@ -958,7 +954,11 @@ class MtbA_functions {
 		if (fontColor == Graphics.COLOR_WHITE){ // Dark Theme
 			dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		} else { // Light Theme
-			dc.setColor(((battery <= 40 and battery > 20) ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE), Graphics.COLOR_TRANSPARENT);
+			if (width==208 and battery > 40){
+				dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+			} else {
+				dc.setColor(((battery <= 40 and battery > 20) ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE), Graphics.COLOR_TRANSPARENT);
+			}
 			//dc.setColor((Graphics.COLOR_BLACK), Graphics.COLOR_TRANSPARENT);
 		}
 		
@@ -969,7 +969,7 @@ class MtbA_functions {
 	/* ------------------------ */
 
 	function calcHourDiff(today) { // calculate hourDiff
-		var lastCharge=Storage.getValue(29);
+		var lastCharge=Storage.getValue(29) as Array;
 		var hourDiff = 0;
 		
 		hourDiff = (((today.hour - lastCharge[0])*60 + ((today.min - lastCharge[1])))/60d); 
@@ -1015,14 +1015,15 @@ class MtbA_functions {
 		var battery = Math.ceil(System.getSystemStats().battery);
 		var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 		var text = null;
+		var maxCharge = Storage.getValue(30);
 
 		if (System.getSystemStats().charging==true){
 			text = "chrng.";
-		} else if (System.getSystemStats().charging==false and today.sec % 30 == 0){ // 3 times per minute // or every 15 minutes -> and today.sec==0 and (today.min % 15 == 0)
-			if (Storage.getValue(30)==null){ // need to charge for the first time
+		} else if (System.getSystemStats().charging==false and ((width >=360 and today.sec % 30 == 0) or (width <360 and today.sec == 0))){ // 3 times per minute for AMOLED and 1 time per minute for MIP // or every 15 minutes -> and today.sec==0 and (today.min % 15 == 0)
+			if (maxCharge==null){ // need to charge for the first time
 				text = "charge"; // show percentage?
 				Storage.setValue(31, "charge");
-			}	else if (battery==Storage.getValue(30) or Storage.getValue(30)-battery<=1){ // still waiting for battery percentage to drop in order to calculate estimation
+			}	else if (battery==maxCharge or maxCharge-battery<=1){ // still waiting for battery percentage to drop in order to calculate estimation
 				text = "estim."; //text = "calc"; // show percentage?
 				Storage.setValue(31, "estim.");
 			} else{ // battery has dropped, so estimate is going to be calculated here
@@ -1030,12 +1031,12 @@ class MtbA_functions {
 				var hourDiff;
 				hourDiff = calcHourDiff(today); //calculate hourDiff
 						
-				if(hourDiff==0){ //error, not expected
+				if(hourDiff==0){ //error, not expected on a real watch
 					return false;
 				}
 
 				//Lang.format("$1$", [stepDistance.format("%.1f")] );
-				text = ((Storage.getValue(30)-battery)/hourDiff)*24; //text = battery*(hourdiff)/(battDiff)
+				text = ((maxCharge-battery)/hourDiff)*24; //text = battery*(hourdiff)/(battDiff)
 				if (text<1){
 					text = text.format("%.1f") ; // + "%/d" 
 				} else if (text>=100){
@@ -1048,7 +1049,9 @@ class MtbA_functions {
 			}
 		} else {
 			text = Storage.getValue(31);
-			if (text == null){
+			if (text == null and maxCharge == null){
+				text = "charge"; // never charged
+			} else if (text == null and maxCharge != null) {
 				text = "estim."; // not able to calculate yet
 			}
 		}
@@ -1110,7 +1113,12 @@ class MtbA_functions {
 				offsetX = 2;
 			}		
 
-			dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
+			if (width!=208){
+				dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
+			} else { // FR55
+				dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+			}
+
 			dc.drawText( x + offsetX, y + offsetY , IconsFont, "Y", Graphics.TEXT_JUSTIFY_LEFT);
 			return true;
 		} else {
@@ -1298,7 +1306,7 @@ class MtbA_functions {
 			offsetY = 7;	
 		} else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
 			offsetY = -2;
-		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ // Fenix 5 Plus
+		} else if (width==240 and dc.getFontHeight(0)>=26){ // Fenix 5 Plus
 			offsetY = -1;
 		}
         
@@ -1325,7 +1333,7 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Hour and Minute Hands
-	function drawHands(dc, width, height, accentColor, thickInd, aod, upTop) {	
+	function drawHands(dc, width, height, accentColor, thickInd, aod, upTop, AODColor) {	
 		var clockTime = System.getClockTime();
 		var screenCenterPoint = [width/2, height/2];
 
@@ -1344,7 +1352,7 @@ class MtbA_functions {
 		// thickInd = 1 --> Thicker
 		// thickInd = 2 --> Thinner
 
-		var handWidth = width;
+		var handWidth = width as Float;
 		if (handWidth==260){
 			handWidth=10;
 			offsetOuterCircle=-1;			
@@ -1408,7 +1416,7 @@ class MtbA_functions {
 		
 		var borderColor=Graphics.COLOR_BLACK, arborColor=Graphics.COLOR_LT_GRAY; // colors for not AOD mode
 		var BurnIn = System.getDeviceSettings().requiresBurnInProtection;
-		if (aod==true and BurnIn==true and Storage.getValue(22) != true) { //AOD mode ON
+		if (aod==true and BurnIn==true and AODColor != true) { //AOD mode ON
 			accentColor=Graphics.COLOR_LT_GRAY;
 			//arborColor=Graphics.COLOR_LT_GRAY;
 			//borderColor=Graphics.COLOR_BLACK;
@@ -1422,7 +1430,7 @@ class MtbA_functions {
 		dc.setColor(borderColor, Graphics.COLOR_TRANSPARENT); //(centerPoint, angle, handLength, tailLength, width, triangle)
 		dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.485, 0, Math.ceil(handWidth+(width*0.01)), triangle)); // hour hand border
 
-		dc.setColor(((aod==true and BurnIn==true and Storage.getValue(22) != true) or (fontColor == Graphics.COLOR_BLACK)) ? arborColor : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
+		dc.setColor(((aod==true and BurnIn==true and AODColor != true) or (fontColor == Graphics.COLOR_BLACK)) ? arborColor : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
 		dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, width / 3.54 , 0, handWidth, triangle-0.01)); // hour hand
 		
 		// Draw the minute hand.
@@ -1465,7 +1473,7 @@ class MtbA_functions {
 				dc.setColor(borderColor,Graphics.COLOR_BLACK);
 				dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.055, -(width/2.25), Math.ceil(handWidth+(width*0.0255))/2.75, 1.0)); //rectangle
 			}
-			dc.setColor(((aod==true and BurnIn==true and Storage.getValue(22) != true) or (accentColor == Graphics.COLOR_WHITE)) ? arborColor : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
+			dc.setColor(((aod==true and BurnIn==true and AODColor != true) or (accentColor == Graphics.COLOR_WHITE)) ? arborColor : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
 			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.075, -(width/2.23), Math.ceil(handWidth-(width*0.0035))/2.75, 1.0)); //rectangle
 		}
 
@@ -1474,10 +1482,10 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Garmin Logo
-	function drawGarminLogo(dc, x, y) {	    
+	function drawGarminLogo(dc, x as Number, y as Number, theme) {	    
     	var garminIcon = null;
 			
-			if (Storage.getValue(32) == true){ // light theme
+			if (theme){ // light theme
 				garminIcon = Application.loadResource(Rez.Drawables.GarminLogoWhite);
 			} else { // dark theme
 				garminIcon = Application.loadResource(Rez.Drawables.GarminLogo);
@@ -1520,7 +1528,7 @@ class MtbA_functions {
 			offset = 7;	
 		}	else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
 			offset = -2;	
-		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus
+		} else if (width==240 and dc.getFontHeight(0)>=26){ //Fenix 5 Plus
 			offset = -1;	
 		}
 	    
@@ -1561,7 +1569,7 @@ class MtbA_functions {
 			offsetY = 7;	
 //		} else if (System.SCREEN_SHAPE_ROUND != screenShape){ // Venu sq
 //			offsetY = -1;
-		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ // Fenix 5 Plus
+		} else if (width==240 and dc.getFontHeight(0)>=26){ // Fenix 5 Plus
 			offsetY = -1;
 		}
         
@@ -1623,7 +1631,7 @@ class MtbA_functions {
 				//elevation = Activity.getActivityInfo().altitude;
 				if(Activity.getActivityInfo().rawAmbientPressure!=null){
 					pressure = Activity.getActivityInfo().rawAmbientPressure;
-				} else if (Activity.getActivityInfo().ambientPressure!=null){
+				} else if (Activity.getActivityInfo() has :AmbientPressure and Activity.getActivityInfo().ambientPressure!=null){
 					pressure = Activity.getActivityInfo().ambientPressure;
 				}
 			}
@@ -1638,7 +1646,7 @@ class MtbA_functions {
 
 		dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
 
-		if (pressure!=null){
+		if (pressure!=null and pressure instanceof Float){
 			if (fontColor == Graphics.COLOR_WHITE){ // Dark Theme
 				if(pressure<100914.4) {
 					dc.setColor(0xFFAA00, Graphics.COLOR_TRANSPARENT); 
@@ -1652,11 +1660,11 @@ class MtbA_functions {
 					dc.setColor(0x0055AA, Graphics.COLOR_TRANSPARENT); 	
 				} 				
 			}
-		}
-		dc.drawText( xIcon, yIcon + offset , IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+
+			dc.drawText( xIcon, yIcon + offset , IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 
     // Pressure Text	
-		if (pressure != null) {
+//		if (pressure != null and pressure instanceof Float) {
 			if (System.getDeviceSettings().temperatureUnits == System.UNIT_METRIC or Storage.getValue(16)==true) { // Always Celsius
 				pressure = pressure / 100;
 				pressure = pressure.format("%.0f");				
@@ -1679,7 +1687,7 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Precipitation Percentage
-	function drawPrecipitation(dc, xIcon, yIcon, xText, yText, width) {	
+(:tempo) function drawPrecipitation(dc, xIcon, yIcon, xText, yText, width) {	
 	
 		//var IconsFont = Application.loadResource(Rez.Fonts.HumidityFont);
 	  var precipitation=0;
@@ -1747,7 +1755,7 @@ class MtbA_functions {
 /* ------------------------ */
 	
 	// Draw Min and Max Temperatures
-	function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {	
+(:tempo) function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {	
 	
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var minTemp, maxTemp;
@@ -1781,7 +1789,7 @@ class MtbA_functions {
 			offset = 7;	
 		}	else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
 			offset = -2;	
-		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus
+		} else if (width==240 and dc.getFontHeight(0)>=26){ //Fenix 5 Plus
 			offset = -1;
 		}
 
@@ -1815,7 +1823,7 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Humidity Percentage
-	function drawHumidity(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
+(:tempo) function drawHumidity(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
 	
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var humidity=0;
@@ -1875,10 +1883,36 @@ class MtbA_functions {
 		return true;
   }
 	
+	/* ------------------------ */		
+
+(:tempo) function drawForecast(dc, xIcon, yIcon, width, size) {	
+		//var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+
+		if (Toybox has :Weather and Toybox.Weather has :getHourlyForecast) {
+				var forecast = null;
+//			if ((width >=360 and today.sec % 30 == 0) or (width <360 and today.sec == 0)){  // 3 times per minute for AMOLED and 1 time per minute for MIP
+				if(Weather.getHourlyForecast() != null) {
+					forecast = Weather.getHourlyForecast();
+					//forecast[-1].condition;
+					if (forecast[0].forecastTime != null){ // Trying to fix an error when weather data is not available
+						var info = Gregorian.info(forecast[0].forecastTime, Time.FORMAT_SHORT);
+						var x2Icon = xIcon + 1;
+						drawWeatherIcon(dc, xIcon, yIcon, x2Icon, width, forecast[0].condition, info.hour);
+						var adj = xIcon + dc.getTextWidthInPixels("000", 0) + 1;
+						drawWeatherIcon(dc, adj, yIcon, adj, width, forecast[1].condition, info.hour+1);
+						if (size==3 and width>208) { // don't go in if FR55 (not enough space/resolution for 3 hour forecast)
+							adj = adj + dc.getTextWidthInPixels("000", 0) + 1;
+							drawWeatherIcon(dc, adj, yIcon, adj, width, forecast[2].condition, info.hour+2);
+						}					
+					}
+				}
+			}
+	//	}
+	}
 	/* ------------------------ */	
 
 	// Draw Wind Speed
-	function drawWindSpeed(dc, xIcon, yIcon, xText, yText, width) {	
+(:tempo) function drawWindSpeed(dc, xIcon, yIcon, xText, yText, width) {	
 
 		var WindMetric = System.getDeviceSettings().paceUnits;
 		var windSpeed=null;
@@ -1968,7 +2002,7 @@ class MtbA_functions {
 			} else {
 				letter = "P";
 			}      
-			if (letter.length()==2 and (width>260 or System.SCREEN_SHAPE_ROUND != screenShape)) {
+			if (letter.length()==2 and (width>260 or System.SCREEN_SHAPE_ROUND != screenShape or width==240)) {
 				xIcon = xIcon - 2;
 			} 
 		}
@@ -1986,6 +2020,9 @@ class MtbA_functions {
 			} else {
 				yIcon = yIcon - 6;
 			}
+		} else if (width==208) { // FR55
+				yIcon = yIcon - 1;
+				xIcon = xIcon - 1;
 		}
 
 		if (letter != null){
@@ -2106,13 +2143,13 @@ class MtbA_functions {
 			}
 			seconds = clockTime.hour.format("%2d") + ":" + clockTime.min.format("%02d");
 			if (clockTime.hour < 10 and clockTime.hour > 0 and width>=240){
-				xText=xText-(dc.getTextDimensions(clockTime.hour.format("%2d"),fontSize)[0])/2;
+				xText=xText-(dc.getTextWidthInPixels(clockTime.hour.format("%2d"),fontSize))/2;
 			} else {
-				xText=xText-(dc.getTextDimensions("1",fontSize)[0])/2;
+				xText=xText-(dc.getTextWidthInPixels("1",fontSize))/2;
 			}
 		}
 
-		// placeholder for implementation of Partial Update
+		// placeholder for future implementation of Partial Update
 		/*
 		dc.setClip(
 				mSecondsClipRectX + mSecondsClipXAdjust,
@@ -2133,7 +2170,7 @@ class MtbA_functions {
 
 		if (width==240 and System.SCREEN_SHAPE_ROUND == screenShape){
 			yIcon = yIcon - 1.5;
-			if (dc.getTextDimensions("100",0)[1]>=26){
+			if (dc.getFontHeight(0)>=26){
 				yIcon = yIcon + 1;
 			}
 		} else if (width==218){
@@ -2143,7 +2180,9 @@ class MtbA_functions {
 		dc.drawText( xIcon, yIcon, IconsFont, "2", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 
 		dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(xText, yText,	fontSize, seconds, Graphics.TEXT_JUSTIFY_LEFT);
+		if (lowPower==false) {
+			dc.drawText(xText, yText,	fontSize, seconds, Graphics.TEXT_JUSTIFY_LEFT);
+		}
 
 		if (type==2){ //digital clock
 			//dc.drawText(xText + dc.getTextWidthInPixels(seconds,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width>=360 ? 1 : 0)),	0, am_pm, Graphics.TEXT_JUSTIFY_LEFT);
@@ -2176,7 +2215,7 @@ class MtbA_functions {
 
 		if (width==240 and System.SCREEN_SHAPE_ROUND == screenShape){
 			yIcon = yIcon - 1;
-			if (dc.getTextDimensions("100",0)[1]>=26){
+			if (dc.getFontHeight(0)>=26){
 				yIcon = yIcon - 1;
 			}
 		} else if (width==218){
@@ -2200,7 +2239,7 @@ class MtbA_functions {
 			offset = 7;	
 		}	else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
 			offset = -2;	
-		} else if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus
+		} else if (width==240 and dc.getFontHeight(0)>=26){ //Fenix 5 Plus
 			offset = -1;
 		}
 
@@ -2447,7 +2486,7 @@ class MtbA_functions {
 
 	// Draw next Sun Event time
 	//(:memory) 
-	function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {	
+(:tempo) function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {	
           
 		// placeholder for SDK 5
 		var myTime = System.getClockTime(); 
@@ -2536,8 +2575,8 @@ class MtbA_functions {
 
 	/* ------------------------ */
 	
-	// Draw Right Data Points
-	function drawPoints(dc, xIcon, yIcon, xText, yText, accentColor, width, dataPoint, side) {	// exclude for Fenix 5 plus
+	// Draw Data Fields
+(:tempo) function drawPoints(dc, xIcon, yIcon, xText, yText, accentColor, width, dataPoint, side) {	// exclude for Fenix 5 plus
 		// side 1 = left top
 		// side 2 = left middle
 		// side 3 = left bottom
@@ -2598,6 +2637,8 @@ class MtbA_functions {
 		} else if ((side>2 and dataPoint == 21) or (side<=2 and dataPoint == 25)) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			//drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.035)-offset390, xText, yText, width);
 			drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(width*0.025)-offset390, xText, yText, width);
+		} else if (side>2 and dataPoint == 22){
+			drawForecast(dc, xIcon+(width*0.06), yIcon+(width*0.01), width, 2);
 		} else if (side<=2 and dataPoint == 1) { 
 			drawDistance(dc, xIcon-offset390, yIcon, xText+(xText*0.015)-offset390, yText, width, accentColor);
 		} else if (side<=2 and dataPoint == 2) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
@@ -2606,7 +2647,74 @@ class MtbA_functions {
 			drawWindSpeed(dc, xIcon-offset390, yIcon+(xIcon*0.01)-offset390, xText, yText, width);
 		} else if (side<=2 and dataPoint == 4) { // drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width)
 			drawMinMaxTemp(dc, xIcon+(offset390*2), yIcon, xText+(xText*0.01), yText, width);
+		} else if (side<=2 and dataPoint == 26){
+			drawForecast(dc, xIcon+(width*0.06), yIcon+(width*0.01), width, 3);
 		}
 	}
+
+	/* ------------------------ */
+	
+	// Draw Data Fields
+(:noTempo)	function drawPoints(dc, xIcon, yIcon, xText, yText, accentColor, width, dataPoint, side) {	// exclude for Fenix 5 plus
+		// side 1 = left top
+		// side 2 = left middle
+		// side 3 = left bottom
+		// side 4 = right top and bottom
+
+		var offset390=0;
+
+		if (width>=390) { // Venu 1 & 2
+			offset390=1;
+		} else if (System.SCREEN_SHAPE_ROUND != screenShape) { //check if rectangle display
+			offset390=1;
+		}
+		
+		if (dataPoint == 0) { //Steps 
+			drawSteps(dc, xIcon-(xIcon*0.002), yIcon, xText, yText, width, accentColor);
+		} else if ((side>2 and dataPoint == 3) or (side<=2 and dataPoint == 7)) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
+			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+		} else if ((side>2 and dataPoint == 4) or (side<=2 and dataPoint == 8)) { // Calories Total
+			drawCalories(dc, xIcon+(offset390*2), yIcon, xText, yText, width, 1);
+		} else if ((side>2 and dataPoint == 5) or (side<=2 and dataPoint == 9)) { // Calories Active
+			drawCalories(dc, xIcon+(offset390*2), yIcon, xText, yText, width, 2);
+		} else if ((side>2 and dataPoint == 6) or (side<=2 and dataPoint == 10)) { // FloorsClimbed(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawFloorsClimbed(dc, xIcon-(xIcon*0.002), yIcon-(xIcon*0.001), xText, yText, width, accentColor);
+		} else if ((side>2 and dataPoint == 7) or (side<=2 and dataPoint == 11)) { // PulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawPulseOx(dc, xIcon, yIcon, xText-offset390, yText, width, accentColor);
+		} else if ((side>2 and dataPoint == 8) or (side<=2 and dataPoint == 12)) { // HeartRate(dc, xIcon, hrIconY, xText, width, Xoffset, accentColor)
+			//drawHeartRate(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.03)-offset390, xText, width, accentColor);
+			drawHeartRate(dc, xIcon-(xIcon*0.005), yIcon+(width*0.017)-offset390, xText, width, accentColor);
+		} else if ((side>2 and dataPoint == 9) or (side<=2 and dataPoint == 13)) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawNotification(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
+		} else if ((side>2 and dataPoint == 10) or (side<=2 and dataPoint == 14)) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
+		} else if ((side>2 and dataPoint == 11) or (side<=2 and dataPoint == 15)) { // Seconds
+			drawSeconds(dc, xIcon, yIcon+(width*0.02)-(offset390*2), xText, yText, width, 1);
+		} else if ((side>2 and dataPoint == 12) or (side<=2 and dataPoint == 16)) { // Digital Clock
+			drawSeconds(dc, xIcon, yIcon+(width*0.02)-(offset390*2), xText, yText, width, 2);
+		} else if ((side>2 and dataPoint == 13) or (side<=2 and dataPoint == 17)) { // Intensity Minutes
+			drawIntensityMin(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width, accentColor);
+		} else if ((side>2 and dataPoint == 14) or (side<=2 and dataPoint == 18)) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);			
+		} else if ((side>2 and dataPoint == 15) or (side<=2 and dataPoint == 19)) { // Calories(dc, xIcon, yIcon, xText, yText, width)
+			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);
+		} else if ((side>2 and dataPoint == 16) or (side<=2 and dataPoint == 20)) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawRespiration(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
+		} else if ((side>2 and dataPoint == 17) or (side<=2 and dataPoint == 21)) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
+			drawRecoveryTime(dc, xIcon, yIcon+(xIcon*0.002), xText-offset390, yText, width);
+		} else if ((side>2 and dataPoint == 18) or (side<=2 and dataPoint == 22)) { // Vo2 Max Run(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, false); // run
+		} else if ((side>2 and dataPoint == 19) or (side<=2 and dataPoint == 23)) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, true); //cycling
+		} else if ((side>2 and dataPoint == 21) or (side<=2 and dataPoint == 25)) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
+			//drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.035)-offset390, xText, yText, width);
+			drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(width*0.025)-offset390, xText, yText, width);
+		} else if (side<=2 and dataPoint == 1) { 
+			drawDistance(dc, xIcon-offset390, yIcon, xText+(xText*0.015)-offset390, yText, width, accentColor);
+		} else if (side<=2 and dataPoint == 2) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
+			drawElevation(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width);
+		}
+	}
+
 
 }

@@ -27,10 +27,15 @@ fenix5xplus.sourcePath = source;settings-lowmemory
 # enduro.sourcePath = source;settings-mediummemory
 
 # Exclude square hashmark logic for most models.
-base.excludeAnnotations = square
+base.excludeAnnotations = square;lowColors;noTempo
+fr55.excludeAnnotations = square;allColors;noTempo
+# Exclude square hashmark and weather functions for watchs that do not support it
+fenix5plus.excludeAnnotations = square;lowColors;tempo
+fenix5splus.excludeAnnotations = square;lowColors;tempo
+fenix5xplus.excludeAnnotations = square;lowColors;tempo
 # Exclude round hashmark logic for square models (to save memory and improve performance).
-venusq.excludeAnnotations = round
-venusqm.excludeAnnotations = round
+venusq.excludeAnnotations = round;lowColors;noTempo
+venusqm.excludeAnnotations = round;lowColors;noTempo
 # venusq2.excludeAnnotations = round
 # venusq2m.excludeAnnotations = round
 
