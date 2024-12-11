@@ -1,0 +1,22 @@
+<settings>
+
+    <group id="groupHeader" title="@Strings.headerTitle" description="@Strings.headerMsg">
+
+			<setting propertyKey="@Properties.Customize" title="@Strings.headerMsg" >
+					<settingConfig type="alphaNumeric" readonly="true" />
+			</setting>
+
+			<setting propertyKey="@Properties.AppVersion" title="@Strings.settingsTitle" >
+					<settingConfig type="alphaNumeric" readonly="true" />
+			</setting>
+
+    </group>
+
+    <group id="contribHeader" title="@Strings.contribTitle" description="@Strings.contribMsg">
+
+			<setting propertyKey="@Properties.Donate" title="@Strings.donateTitle">
+					<settingConfig type="url" readonly="true" />
+			</setting>			
+
+    </group>
+</settings>

@@ -2,5 +2,10 @@
     <string id="AppName">MoveToBeActive</string>
     <string id="HomeTitle">Settings</string>
     <string id="MainMenuTitle">Main Menu</string>
-    <string id="Prompt">Long press the menu\nbutton to start</string>
+	<string id="settingsTitle">MoveToBeActive Analog</string>
+    <string id="headerTitle">Watch Face Customization</string>
+    <string id="headerMsg">Please use your watch to change settings</string>
+    <string id="contribTitle">Love this watch face?</string>
+    <string id="contribMsg">Thanks for your generosity!</string>
+    <string id="donateTitle">Show some love in return! Donate using this link:</string>
 </resources>
