@@ -307,7 +307,13 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Addressing another error related to the atmospheric pressure not being available
 - [X] Updated to Garmin SDK 7.4.2
 
-**5.5.0** (Estimated Q1 2025)
+**5.3.0** (Estimated Q1 2025)
+- [ ] Not change altitute to km if watch has enough space to show it in meters
+- [ ] Fix bug with the weather forecast data field, which gives an IQ screen if bluetooth connection is lost or data is not being provided by the weather station
+- [ ] Give user the option to reduce font of Date (if watch has a smaller font size)
+- [ ] Add the seconds hand also to MIP screens, but not all the time (only when using gestures, like the digital seconds that is currently available)
+
+**5.5.0** (Estimated Q2 2025)
 - [ ] Starting to change the code to use the new Complications class instead of Activity
 - [ ] Adding new data field to show training readiness (from Complications)
 
