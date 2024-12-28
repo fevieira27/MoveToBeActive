@@ -308,7 +308,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Updated to Garmin SDK 7.4.2
 
 **5.3.0** (Estimated Q1 2025)
-- [ ] For watches that enough have space available, the watch face won't change the altitute to km anymore. But for some low resolution watches this update unfortunately won't be possible, so they will still keep the default behaviour of showing in km after 999m.
+- [X] For watches that enough have space available, the watch face won't change the altitute to km anymore. But for some low resolution watches (especially if using big font size for data fields) this update unfortunately won't be possible, so they will still keep the previous behaviour of showing in km after 999m.
 - [X] Improved positioning of notifications icon across all watches and positions on the watch face
 - [X] Fixed bug with the weather forecast data field, which gives an IQ screen if bluetooth connection is lost or forecast data is not being provided by the weather station for at least 2 hours.
 - [ ] Now giving the user an option to reduce the Date font (if watch has a smaller font size available)
