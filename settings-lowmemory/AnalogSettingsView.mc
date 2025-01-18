@@ -25,9 +25,7 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
         Menu2.addItem(new WatchUi.ToggleMenuItem("Theme", {:enabled=>"Light", :disabled=>"Dark"}, 32, Storage.getValue(32), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
         Menu2.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
         Menu2.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
-        if (Toybox has :Weather or System.getSystemStats() has :batteryInDays){ // 
-            Menu2.addItem(new WatchUi.MenuItem("Base Units", null, "units", null));
-        }
+        Menu2.addItem(new WatchUi.MenuItem("Base Units", null, "units", null));
         //WatchUi.pushView(Menu2, new Menu2TestMenu2Delegate(), WatchUi.SLIDE_UP );	
 
 	}
@@ -137,6 +135,7 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
             }
             var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
             unitsMenu.addItem(new WatchUi.ToggleMenuItem("Date Format", {:enabled=>Lang.format("$2$ $1$", [info.month, info.day]), :disabled=>Lang.format("$1$ $2$", [info.month, info.day])}, 24, Storage.getValue(24), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
+            unitsMenu.addItem(new WatchUi.ToggleMenuItem("Date Size", {:enabled=>"Standard", :disabled=>"Small"}, 21, Storage.getValue(21), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));    
             if (Toybox has :Weather and Toybox.Weather has :getCurrentConditions and Toybox.Weather.getCurrentConditions()!=null){
                 if (Activity.getActivityInfo() has :rawAmbientPressure){
                     unitsMenu.addItem(new WatchUi.ToggleMenuItem("Atm. Pres. Type", {:enabled=>"Mean Sea Level", :disabled=>"Local Pressure"}, 20, Storage.getValue(20), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));

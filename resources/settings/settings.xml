@@ -6,9 +6,11 @@
 					<settingConfig type="alphaNumeric" readonly="true" />
 			</setting>
 
+<!-- 
 			<setting propertyKey="@Properties.AppVersion" title="@Strings.settingsTitle" >
 					<settingConfig type="alphaNumeric" readonly="true" />
 			</setting>
+-->
 
     </group>
 
