@@ -1,15 +1,17 @@
 // All functions used to draw data points and icons in the watch face
-
-import Toybox.System;
+/*
+using Toybox.System;
 //import Toybox.WatchUi;
-import Toybox.Weather;
-import Toybox.ActivityMonitor;
-import Toybox.UserProfile;
-import Toybox.Activity;
-import Toybox.Math;
+using Toybox.Weather;
+using Toybox.ActivityMonitor;
+using Toybox.UserProfile;
+using Toybox.Activity;
+using Toybox.Math;
+using Toybox.Graphics;
+*/
 import Toybox.Lang;
+import Toybox.Application;
 import Toybox.Time;
-import Toybox.Application.Storage;
 
 class MtbA_functions {
 	
@@ -18,21 +20,11 @@ class MtbA_functions {
 	var fontSize = (Storage.getValue(14) == true ? 1 : 0);
 	var fontColor = (Storage.getValue(32) == true ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE);
 	var condName as String = "";
-	var lowPower as Boolean = false;
+	var lowPower as Boolean;
 
-    public function enterSleep() as Void {
-        lowPower=true;
-        //WatchUi.requestUpdate();
-    }
-
-
-    //! This method is called when the device exits sleep mode.
-    //! Set the isAwake flag to let onUpdate know it should render the second hand.
-    public function exitSleep() as Void {
-        //_isAwake = true;
-        lowPower=false;
-        //WatchUi.requestUpdate();
-    }
+	function initialize(inLowPower) {
+		lowPower = inLowPower;
+	}
 
 	// This function is used to generate the coordinates of the 4 corners of the polygon
     // used to draw a watch hand. The coordinates are generated with specified length,
@@ -277,7 +269,7 @@ class MtbA_functions {
     /* ------------------------ */
     
     // Draw the date string into the provided buffer at the specified location
-    function drawDateString(dc, x as Number, y as Number, format as Boolean) as Void {
+    function drawDateString(dc, x as Number, y as Number, format as Boolean, size as Boolean) as Void {
 			var info = Time.Gregorian.info(Time.now(), Time.FORMAT_LONG);
 			var dateStr;
 			
@@ -293,7 +285,7 @@ class MtbA_functions {
 
 			dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
 			//dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-			dc.drawText(x, y, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);   
+			dc.drawText(x, size ? y : y+(dc.getWidth()*0.017), size ? Graphics.FONT_TINY : Graphics.FONT_XTINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);   
     }
     
     /* ------------------------ */	
@@ -370,45 +362,65 @@ class MtbA_functions {
     
 	/* ------------------------ */
 	
+	/**
+	 * Draws the weather icon on the display.
+	 * 
+	 * @param dc The display context.
+	 * @param x The x-coordinate for the icon.
+		if (cond != null && cond instanceof Number) {
+	 * @param x2 The secondary x-coordinate for the icon.
+	 * @param width The width of the display.
+	 * @param cond The weather condition code.
+	 * @param clockTime The current clock time in hours.
+	 * @return Boolean indicating if the icon was drawn successfully.
+	 */
 	function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 		
 		//var cond = Toybox.Weather.getCurrentConditions().condition;
 		var sunset, sunrise;
 
-		if (cond!=null and cond instanceof Number){
+		if (cond != null && cond instanceof Number){
 			//System.println(clockTime);
 			//var clockTime = System.getClockTime().hour;
 //			clockTime = clockTime.hour;
-			var WeatherFont = Application.loadResource(Rez.Fonts.WeatherFont);
 
 			// gets the correct symbol (sun/moon) depending on actual sun events
-			if (Toybox has :Weather and Weather has :getSunset and Weather has :getSunrise and Toybox.Weather has :getCurrentConditions) {
-				var position=null, today=null;
-				if (Toybox.Weather.getCurrentConditions() has :observationLocationPosition and Toybox.Weather.getCurrentConditions() has :observationTime){ //trying to address errors found on ERA viewer when watch can't get position
-					position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
-					today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
-				}	
-				if ((position!=null and position instanceof Position.Location) and (today!=null and today instanceof Moment)){
-					if (Weather.getSunset(position, today)!=null) {
-						sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
-						sunset = sunset.hour;
+			if (Toybox has :Weather && Toybox.Weather != null) {
+				if (Toybox.Weather has :getCurrentConditions && Toybox.Weather.getCurrentConditions() != null) {
+					if (Toybox.Weather has :getSunset && Toybox.Weather has :getSunrise) {
+						var position=null, today=null;
+						if ((Toybox.Weather.getCurrentConditions() has :observationLocationPosition && Toybox.Weather.getCurrentConditions().observationLocationPosition!=null) && (Toybox.Weather.getCurrentConditions() has :observationTime && Toybox.Weather.getCurrentConditions().observationTime!=null)){ //trying to address errors found on ERA viewer when watch can't get position. Not sure if only related to SDK 7.4.2 or overall for system 7
+						//if (Toybox.Weather.getCurrentConditions() has :observationLocationPosition and Toybox.Weather.getCurrentConditions() has :observationTime){ //trying to address errors found on ERA viewer when watch can't get position
+							position = Toybox.Weather.getCurrentConditions().observationLocationPosition; // or Activity.Info.currentLocation if observation is null?
+							today = Toybox.Weather.getCurrentConditions().observationTime; // or new Time.Moment(Time.now().value()); ?
+						}	
+						if ((position!=null and position instanceof Position.Location) && (today != null && today instanceof Moment)){
+							if (Weather.getSunset(position, today)!=null) {
+								sunset = Time.Gregorian.info(Weather.getSunset(position, today), Time.FORMAT_SHORT);
+								sunset = sunset.hour;
+							} else {
+								sunset = 18; 
+							}
+							if (Weather.getSunrise(position, today)!=null) {
+								sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
+								sunrise = sunrise.hour;
+							} else {
+								sunrise = 6;
+							}
+						} else {
+							sunset = 18;
+							sunrise = 6;
+						}
 					} else {
-						sunset = 18; 
-					}
-					if (Weather.getSunrise(position, today)!=null) {
-						sunrise = Time.Gregorian.info(Weather.getSunrise(position, today), Time.FORMAT_SHORT);
-						sunrise = sunrise.hour;
-					} else {
+						sunset = 18;
 						sunrise = 6;
-					}
-				} else {
-					sunset = 18;
-					sunrise = 6;
+					}			
+				} else{
+					return false;
 				}
 			} else {
-				sunset = 18;
-				sunrise = 6;
-			}			
+				return false;
+			}
 					
 			if (width<=280){
 				y = y-2;
@@ -416,9 +428,10 @@ class MtbA_functions {
 					y = y-1;
 				}
 			} 
-
+		
 			//weather icon test
 			//weather.condition = 6;
+			var WeatherFont = Application.loadResource(Rez.Fonts.WeatherFont);			
 
 			dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
 			if (cond == 20) { // Cloudy
@@ -608,15 +621,16 @@ class MtbA_functions {
 			dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
 			dc.drawText( xText, yText, fontSize, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
 			
-			if(width==280 or width==240){ //Fenix 6X & Enduro
-				yIcon=yIcon-5;
-				if (width==240 and dc.getFontHeight(0)>=26){ //Fenix 5 Plus
-					yIcon=yIcon-0.5;
-				}
-			} else if (width==260){
-				yIcon=yIcon-4;
-			} else if (width==218){
-				yIcon=yIcon-3;
+			if (width==240 and dc.getFontHeight(0)>=26){ //Fenix 5 Plus
+				yIcon=yIcon-0.5;
+			} else if(width==360){
+				yIcon=yIcon+(width*0.02);
+			} else if(width>360 and width<440){
+				yIcon=yIcon+(width*0.013);
+			} else if(width>=440){
+				yIcon=yIcon+(width*0.011);
+			} else if(width==218){ // VA 4s
+				yIcon=yIcon+(width*0.012);
 			}
 
 			// Icon
@@ -1459,22 +1473,24 @@ class MtbA_functions {
 				}
 			}
 			dc.fillRectangle( 0, 0 , width, 1); // Using Font
-		} else if(BurnIn==true and Storage.getValue(33)==true){
-			// Seconds hand
-			var secondHandAngle = (clockTime.sec / 60.0) * Math.PI * 2;
-			dc.setColor(borderColor,Graphics.COLOR_BLACK);
-			//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, seicondHandAngle, width / 2.225, 22, Math.ceil(handWidth+(width*0.02))/3, triangle)); //pointed triangle
-			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.055, (width/15)+2, Math.ceil(handWidth+(width*0.0255))/2.75, 1.0)); //tip rectangle
-			dc.setColor(accentColor, Graphics.COLOR_WHITE);
-			//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.25, 20, handWidth/3, triangle-0.01)); //pointed triangle
-			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.075, width / 15, handWidth/2.75, 1.0)); //rectangle
-			// tip in different color
-			if (fontColor == Graphics.COLOR_WHITE) { // Dark Theme
+		} else if(Storage.getValue(33)==true){ // seconds hand true
+			if (BurnIn==true or lowPower==false){ // AMOLED or MIP not in low-power mode
+				// Seconds hand
+				var secondHandAngle = (clockTime.sec / 60.0) * Math.PI * 2;
 				dc.setColor(borderColor,Graphics.COLOR_BLACK);
-				dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.055, -(width/2.25), Math.ceil(handWidth+(width*0.0255))/2.75, 1.0)); //rectangle
+				//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, seicondHandAngle, width / 2.225, 22, Math.ceil(handWidth+(width*0.02))/3, triangle)); //pointed triangle
+				dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.055, (width/15)+2, Math.ceil(handWidth+(width*0.0255))/2.75, 1.0)); //tip rectangle
+				dc.setColor(accentColor, Graphics.COLOR_WHITE);
+				//dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.25, 20, handWidth/3, triangle-0.01)); //pointed triangle
+				dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.075, width / 15, handWidth/2.75, 1.0)); //rectangle
+				// tip in different color
+				if (fontColor == Graphics.COLOR_WHITE) { // Dark Theme
+					dc.setColor(borderColor,Graphics.COLOR_BLACK);
+					dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.055, -(width/2.25), Math.ceil(handWidth+(width*0.0255))/2.75, 1.0)); //rectangle
+				}
+				dc.setColor(((aod==true and BurnIn==true and AODColor != true) or (accentColor == Graphics.COLOR_WHITE)) ? arborColor : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
+				dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.075, -(width/2.23), Math.ceil(handWidth-(width*0.0035))/2.75, 1.0)); //rectangle
 			}
-			dc.setColor(((aod==true and BurnIn==true and AODColor != true) or (accentColor == Graphics.COLOR_WHITE)) ? arborColor : Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT); // Light gray if AOD mode ON, White if not (or MIP display)
-			dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHandAngle, width / 2.075, -(width/2.23), Math.ceil(handWidth-(width*0.0035))/2.75, 1.0)); //rectangle
 		}
 
 	}
@@ -1549,7 +1565,9 @@ class MtbA_functions {
 	/* ------------------------ */
 	
 	// Draw Elevation
-	function drawElevation(dc, xIcon, yIcon, xText, yText, width) {	
+	function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {	
+		// side 1 = left top
+		// side 2 = left middle
 
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var elevationMetric = System.getDeviceSettings().elevationUnits;
@@ -1585,16 +1603,17 @@ class MtbA_functions {
     // Elevation Text	
 		if (elevationStr != null and elevationMetric!=null) {
 			if (elevationMetric == System.UNIT_METRIC) {
+				unit = "m";				
 				if (elevationStr >= 1000) {
-					unit = " km";
-				} else {
-					unit = " m";
+					if (fontSize==1 and width<=240 and side==2){
+						unit = "km";
+					}
 				}
 			} else{
-				unit = " ft";
+				unit = "ft";
 				elevationStr = elevationStr * 3.28084;
 			}
-			if (elevationStr >= 1000 and elevationMetric == System.UNIT_METRIC) {
+			if (elevationStr >= 1000 and elevationMetric == System.UNIT_METRIC and fontSize==1 and width<=240 and side==2) {
 				elevationStr = elevationStr * 0.001;
 				//elevationStr = Lang.format("$1$", [elevationStr.format("%.1f")] );
 				elevationStr = elevationStr.format("%.1f");
@@ -1608,7 +1627,9 @@ class MtbA_functions {
 		}
        		
 		dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(xText, yText, fontSize, elevationStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Elevation in m or mi
+		dc.drawText(xText, yText, fontSize, elevationStr, Graphics.TEXT_JUSTIFY_LEFT); // Elevation in m or ft
+		dc.drawText(xText + dc.getTextWidthInPixels(elevationStr,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 or width==260? 1 : 0) + (width==208? 1 : 0)),	0, unit, Graphics.TEXT_JUSTIFY_LEFT);
+
 	}
 
 /* ------------------------ */
@@ -1621,19 +1642,16 @@ class MtbA_functions {
 		//var unit= "";
 
 		if (Storage.getValue(20)==true){ //Athmospheric Pressure Type
-			if (Activity has :getActivityInfo and Activity.getActivityInfo() has :meanSeaLevelPressure) {
-				if(Activity.getActivityInfo().meanSeaLevelPressure!=null){
-					pressure = Activity.getActivityInfo().meanSeaLevelPressure;
-				}
+			if (Activity has :getActivityInfo and Activity.getActivityInfo() has :meanSeaLevelPressure and Activity.getActivityInfo().meanSeaLevelPressure!=null) {
+				pressure = Activity.getActivityInfo().meanSeaLevelPressure;
 			}
 		} else {
-			if (Activity has :getActivityInfo and Activity.getActivityInfo() has :rawAmbientPressure) {
+			if (Activity has :getActivityInfo and Activity.getActivityInfo() has :rawAmbientPressure and Activity.getActivityInfo().rawAmbientPressure!=null) {
 				//elevation = Activity.getActivityInfo().altitude;
-				if(Activity.getActivityInfo().rawAmbientPressure!=null){
-					pressure = Activity.getActivityInfo().rawAmbientPressure;
-				} else if (Activity.getActivityInfo() has :AmbientPressure and Activity.getActivityInfo().ambientPressure!=null){
-					pressure = Activity.getActivityInfo().ambientPressure;
-				}
+				//if(Activity.getActivityInfo().rawAmbientPressure!=null){
+				pressure = Activity.getActivityInfo().rawAmbientPressure;
+			} else if (Activity has :getActivityInfo and Activity.getActivityInfo() has :AmbientPressure and Activity.getActivityInfo().ambientPressure!=null){
+				pressure = Activity.getActivityInfo().ambientPressure;
 			}
 		}
 
@@ -1666,11 +1684,11 @@ class MtbA_functions {
     // Pressure Text	
 //		if (pressure != null and pressure instanceof Float) {
 			if (System.getDeviceSettings().temperatureUnits == System.UNIT_METRIC or Storage.getValue(16)==true) { // Always Celsius
-				pressure = pressure / 100;
+				pressure = pressure * 0.01 ; // divided by 100
 				pressure = pressure.format("%.0f");				
 				//unit = " hPa";
 			} else {
-				pressure = pressure / 100 * 0.02953; // inches of mercury
+				pressure = pressure * 0.01 * 0.02953; // inches of mercury
 				pressure = pressure.format("%.1f");
 				//unit = " inHg";
 			}
@@ -1894,20 +1912,27 @@ class MtbA_functions {
 				if(Weather.getHourlyForecast() != null) {
 					forecast = Weather.getHourlyForecast();
 					//forecast[-1].condition;
-					if (forecast[0].forecastTime != null){ // Trying to fix an error when weather data is not available
-						var info = Gregorian.info(forecast[0].forecastTime, Time.FORMAT_SHORT);
+					if (forecast.size()>=1 and forecast[0].condition!=null){ // Trying to fix an error when weather data is not available
+						//var info = Gregorian.info(forecast[0].forecastTime, Time.FORMAT_SHORT);
+						var oneHour = new Time.Duration(3600); // 1 hour
+						var info = Time.Gregorian.info(Time.now().add(oneHour), Time.FORMAT_SHORT);
 						var x2Icon = xIcon + 1;
 						drawWeatherIcon(dc, xIcon, yIcon, x2Icon, width, forecast[0].condition, info.hour);
+						if (forecast.size()>=2 and forecast[1].condition!=null){
 						var adj = xIcon + dc.getTextWidthInPixels("000", 0) + 1;
-						drawWeatherIcon(dc, adj, yIcon, adj, width, forecast[1].condition, info.hour+1);
-						if (size==3 and width>208) { // don't go in if FR55 (not enough space/resolution for 3 hour forecast)
+						oneHour = new Time.Duration(3600*2); // 2 hours
+						info = Time.Gregorian.info(Time.now().add(oneHour), Time.FORMAT_SHORT);
+						drawWeatherIcon(dc, adj, yIcon, adj, width, forecast[1].condition, info.hour);
+						if (size==3 and width>208 and forecast.size()>=3 and forecast[2].condition!=null) { // don't go in if FR55 (not enough space/resolution for 3 hour forecast)
 							adj = adj + dc.getTextWidthInPixels("000", 0) + 1;
-							drawWeatherIcon(dc, adj, yIcon, adj, width, forecast[2].condition, info.hour+2);
+							oneHour = new Time.Duration(3600*3); // 3 hours
+							info = Time.Gregorian.info(Time.now().add(oneHour), Time.FORMAT_SHORT);
+							drawWeatherIcon(dc, adj, yIcon, adj, width, forecast[2].condition, info.hour);
 						}					
 					}
 				}
 			}
-	//	}
+		}
 	}
 	/* ------------------------ */	
 
@@ -2036,7 +2061,7 @@ class MtbA_functions {
 				windSpeed = windSpeed * 3.6; //converting from m/s to km/h
 				if (width<=218) {
 					unit = "kph";
-				} else if (width<=400) {
+				} else if (fontSize==1 and width<=240) {
 					unit = " kph";
 				} else {
 					unit = " km/h";
@@ -2055,7 +2080,8 @@ class MtbA_functions {
 		if (windSpeed != null){
 			var windStr = Math.round(windSpeed).format("%.0f");
 			dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
-			dc.drawText(xText , yText, fontSize, windStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Wind Speed in km/h or mph
+			dc.drawText(xText , yText, fontSize, windStr, Graphics.TEXT_JUSTIFY_LEFT); // Wind Speed in km/h or mph
+			dc.drawText(xText + dc.getTextWidthInPixels(windStr,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 or width==260? 1 : 0) + (width==208? 1 : 0)),	0, unit, Graphics.TEXT_JUSTIFY_LEFT);
 		}     
 	}
 
@@ -2555,7 +2581,7 @@ class MtbA_functions {
 		} else {
 			dc.setColor((fontColor==Graphics.COLOR_WHITE ? 0xFFAA00 : 0xFF5500), Graphics.COLOR_TRANSPARENT); // Orange
 		}
-		dc.drawText( xIcon, yIcon + offset , IconsFont, icon, Graphics.TEXT_JUSTIFY_CENTER); // Using Font
+		dc.drawText( xIcon, yIcon + offset , IconsFont, icon, Graphics.TEXT_JUSTIFY_CENTER); // Draw Icon
 		
 		dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
 		//dc.drawText( xText, yText , fontSize, Lang.format("$1$:$2$$3$",[time.hour.format("%02u"), time.min.format("%02u"), am_pm]), Graphics.TEXT_JUSTIFY_LEFT);
@@ -2564,8 +2590,8 @@ class MtbA_functions {
 			text=Lang.format("$1$:$2$",[time.hour.format("%02u"), time.min.format("%02u")]);
 		}
 		
-		dc.drawText( xText, yText , fontSize, text, Graphics.TEXT_JUSTIFY_LEFT);
-		if (am_pm!=""){
+		dc.drawText( xText, yText , fontSize, text, Graphics.TEXT_JUSTIFY_LEFT); // Draw time
+		if (am_pm!=""){ // draw AM/PM on a smaller font
 			dc.drawText(xText + dc.getTextWidthInPixels(text,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 ? 1 : 0)),	0, am_pm, Graphics.TEXT_JUSTIFY_LEFT);
 		}
 
@@ -2611,7 +2637,7 @@ class MtbA_functions {
 			//drawHeartRate(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.03)-offset390, xText, width, accentColor);
 			drawHeartRate(dc, xIcon-(xIcon*0.005), yIcon+(width*0.017)-offset390, xText, width, accentColor);
 		} else if ((side>2 and dataPoint == 9) or (side<=2 and dataPoint == 13)) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawNotification(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
+			drawNotification(dc, xIcon-(xIcon*0.002), yIcon+(width*0.002)+offset390, xText, yText, accentColor, width);
 		} else if ((side>2 and dataPoint == 10) or (side<=2 and dataPoint == 14)) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
 		} else if ((side>2 and dataPoint == 11) or (side<=2 and dataPoint == 15)) { // Seconds
@@ -2642,7 +2668,7 @@ class MtbA_functions {
 		} else if (side<=2 and dataPoint == 1) { 
 			drawDistance(dc, xIcon-offset390, yIcon, xText+(xText*0.015)-offset390, yText, width, accentColor);
 		} else if (side<=2 and dataPoint == 2) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawElevation(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width);
+			drawElevation(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width, side);
 		} else if (side<=2 and dataPoint == 3) { // windIcon(dc, xIcon, yIcon, xText, yText, width)
 			drawWindSpeed(dc, xIcon-offset390, yIcon+(xIcon*0.01)-offset390, xText, yText, width);
 		} else if (side<=2 and dataPoint == 4) { // drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width)
@@ -2685,7 +2711,7 @@ class MtbA_functions {
 			//drawHeartRate(dc, xIcon-(xIcon*0.005), yIcon+(xIcon*0.03)-offset390, xText, width, accentColor);
 			drawHeartRate(dc, xIcon-(xIcon*0.005), yIcon+(width*0.017)-offset390, xText, width, accentColor);
 		} else if ((side>2 and dataPoint == 9) or (side<=2 and dataPoint == 13)) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			drawNotification(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
+			drawNotification(dc, xIcon-(xIcon*0.002), yIcon+(width*0.002)-offset390, xText, yText, accentColor, width);
 		} else if ((side>2 and dataPoint == 10) or (side<=2 and dataPoint == 14)) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor);
 		} else if ((side>2 and dataPoint == 11) or (side<=2 and dataPoint == 15)) { // Seconds
@@ -2712,8 +2738,21 @@ class MtbA_functions {
 		} else if (side<=2 and dataPoint == 1) { 
 			drawDistance(dc, xIcon-offset390, yIcon, xText+(xText*0.015)-offset390, yText, width, accentColor);
 		} else if (side<=2 and dataPoint == 2) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawElevation(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width);
+			drawElevation(dc, xIcon-(xIcon*0.015), yIcon-(xIcon*0.01), xText+(xText*0.015)-offset390, yText, width, side);
 		}
+	}
+
+	public function enterSleep(inLowPower) as Void {
+			lowPower=inLowPower;
+			//WatchUi.requestUpdate();
+	}
+
+	//! This method is called when the device exits sleep mode.
+	//! Set the isAwake flag to let onUpdate know it should render the second hand.
+	public function exitSleep(inLowPower) as Void {
+			//_isAwake = true;
+			lowPower=inLowPower;
+			//WatchUi.requestUpdate();
 	}
 
 
