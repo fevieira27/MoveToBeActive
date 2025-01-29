@@ -307,17 +307,37 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Addressing another error related to the atmospheric pressure not being available
 - [X] Updated to Garmin SDK 7.4.2
 
-**5.3.0** (Estimated Q1 2025)
+**5.2.2** (11/December/24)
+- [X] Fixed bug on the new forecast data field that happens whenever the weather station is not sending any weather data
+- [X] Addressing another error related to the atmospheric pressure not being available
+- [X] Updated to Garmin SDK 7.4.2
+
+**5.3.0** (28/December/24)
 - [X] For watches that enough have space available, the watch face won't change the altitute to km anymore. But for some low resolution watches (especially if using big font size for data fields) this update unfortunately won't be possible, so they will still keep the previous behaviour of showing in km after 999m.
 - [X] Improved positioning of notifications icon across all watches and positions on the watch face
 - [X] Fixed bug with the weather forecast data field, which gives an IQ screen if bluetooth connection is lost or forecast data is not being provided by the weather station for at least 2 hours.
-- [ ] Now giving the user an option to reduce the Date font (if watch has a smaller font size available)
+- [X] Now giving the user an option to reduce the Date font (if watch has a smaller font size available)
 - [X] Added the seconds hand also to MIP screens, but not all the time (only when using gestures, like the digital seconds that is currently available). I'm not willing to allow it to be on all the time since it occupies a huge portion of the screen and becomes a huge battery drain. Most people don't actually understand how an MIP screen works and will blame my watch face for the high battery consumption.
 - [X] SDK 7.4.2 was discontinued by Garmin and is not available anymore, which can only mean that it had critical bugs. Due to this, I'm rushing this updated to now compile this WF with SDK 7.4.3, which I hope will fix issues with several watches (mostly on VivoActive 5 since they lack a critical sensor for several data fields - Barometer, but also on other watches which would still have issues, only less frequent).
 
+**5.3.4** (07/January/25)
+- [X] Adding support for new Instinct 3 AMOLED watches (45 and 50mm).
+
+**5.3.5** (29/January/25)
+- [X] Adding support for new Approach S44 and S50 watches.
+- [X] Added precicipation chance to the weather condition description, whenever the current condition is rain, snow or wintry mix.
+- [X] The hour hand when using light theme is now darker to make it easier to read. The previous light gray color was too similar to the white background on MIP screens. The cannon pinion is now also displayed in black.
+- [X] On AMOLED watches, the cannon pinion is now full black when in always on display to avoid pixel burn-in.
+- [X] Small tweak to reduce battery consumption and storage usage of seconds hand (mostly noticeable for MIP, but also for applicable to AMOLED).
+- [X] Fixed an issue with the Matterhorn accent color (light theme only) that was being incorrectly shown as light gray.
+
+**5.4.0** (Estimated Q1 2025)
+- [ ] On AMOLED watches, the background color is now light gray instead of white. Still not great for battery life, but a white background on that type of screen can be hard to read (too bright), even on lowest brightness levels.
+
 **5.5.0** (Estimated Q2 2025)
 - [ ] Starting to change the code to use the new Complications class instead of Activity
-- [ ] Adding new data field to show training readiness (from Complications)
+- [ ] Add new data field to show training readiness (from Complications)
+- [ ] Add new cloud cover percentage data field, and also incorporate that on the weather condition description when cloudy weather (from SDK 8)
 
 ## MtbA Watchface examples:
 
