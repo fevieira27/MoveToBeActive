@@ -332,6 +332,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Fixed an issue with the Matterhorn accent color (light theme only) that was being incorrectly shown as light gray.
 
 **5.4.0** (Estimated Q1 2025)
+- [X] Fix for the battery text when using estimation in days was being incorrectly displayed in white when battery between 20 and 40 on light theme, making it hard to read. It is now black.
 - [ ] On AMOLED watches, the background color is now light gray instead of white. Still not great for battery life, but a white background on that type of screen can be hard to read (too bright), even on lowest brightness levels.
 
 **5.5.0** (Estimated Q2 2025)
