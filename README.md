@@ -331,7 +331,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Small tweak to reduce battery consumption and storage usage of seconds hand (mostly noticeable for MIP, but also for applicable to AMOLED).
 - [X] Fixed an issue with the Matterhorn accent color (light theme only) that was being incorrectly shown as light gray.
 
-**5.3.6** (03/March/25)
+**5.3.6** (09/March/25)
 - [X] Adding support for new Tactix 8 AMOLED and Solar watches.
 - [X] Added cloud cover and UV level to the weather condition description, whenever the current condition is respectively cloudy or sunny.
 - [X] Updated to Garmin SDK 8.1.0 (System 8)
