@@ -331,14 +331,19 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Small tweak to reduce battery consumption and storage usage of seconds hand (mostly noticeable for MIP, but also for applicable to AMOLED).
 - [X] Fixed an issue with the Matterhorn accent color (light theme only) that was being incorrectly shown as light gray.
 
-**5.4.0** (Estimated Q1 2025)
-- [X] Fix for the battery text when using estimation in days was being incorrectly displayed in white when battery between 20 and 40 on light theme, making it hard to read. It is now black.
-- [ ] On AMOLED watches, the background color is now light gray instead of white. Still not great for battery life, but a white background on that type of screen can be hard to read (too bright), even on lowest brightness levels.
+**5.3.6** (03/March/25)
+- [X] Adding support for new Tactix 8 AMOLED and Solar watches.
+- [X] Added cloud cover and UV level to the weather condition description, whenever the current condition is respectively cloudy or sunny.
+- [X] Updated to Garmin SDK 8.1.0 (System 8)
+- [X] Fixed the battery text when using estimation in days on light theme, which was being displayed in white when battery between 20 and 40, making it hard to read. The text is now black.
 
-**5.5.0** (Estimated Q2 2025)
+**5.4.0** (Estimated Q2 2025)
+- [ ] On AMOLED watches, the background color is now light gray instead of white. Still not great for battery life, but a white background on that type of screen can be hard to read (too bright), even on lowest brightness levels.
+- [ ] Add new data field to show UV level (from Weather Condition)
+
+**5.5.0** (Estimated Q3 2025)
 - [ ] Starting to change the code to use the new Complications class instead of Activity
 - [ ] Add new data field to show training readiness (from Complications)
-- [ ] Add new cloud cover percentage data field, and also incorporate that on the weather condition description when cloudy weather (from SDK 8)
 
 ## MtbA Watchface examples:
 
