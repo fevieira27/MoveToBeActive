@@ -337,6 +337,16 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Updated to Garmin SDK 8.1.0 (System 8)
 - [X] Fixed the battery text when using estimation in days on light theme, which was being displayed in white when battery between 20 and 40, making it hard to read. The text is now black.
 
+5.3.7 update - 07/Apr/25
+- [X] Adding support for newly released Vivoactive 6 watch;
+- [X] Updated to Garmin SDK 8.1.1 (System 8);
+
+5.3.8 update - 08/Apr/25
+- [X] Improved visibility of battery %/estimate text when using light theme.
+
+5.3.9 update - 14/Jun/25
+- [X] Adding support for newly released ForeRunner 570 (42 and 47mm) and 970 watches;
+
 **5.4.0** (Estimated Q2 2025)
 - [ ] On AMOLED watches, the background color is now light gray instead of white. Still not great for battery life, but a white background on that type of screen can be hard to read (too bright), even on lowest brightness levels.
 - [ ] Add new data field to show UV level (from Weather Condition)
