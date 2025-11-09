@@ -347,13 +347,15 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 5.3.9 update - 14/Jun/25
 - [X] Adding support for newly released ForeRunner 570 (42 and 47mm) and 970 watches;
 
-**5.4.0** (Estimated Q3 2025)
-- [ ] On AMOLED watches, the background color is now light gray instead of white. Still not great for battery life, but a white background on that type of screen can be hard to read (too bright), even on lowest brightness levels.
-- [ ] Add new data field to show UV level (from Weather Condition)
+**5.5.0** (Estimated Q3 2025)
+- [X] On AMOLED watches, the background color is now light gray instead of white. Still not great for battery life, but a white background on that type of screen can be hard to read (too bright), even on lowest brightness levels.
+- [X] Updated to Garmin SDK 8.3.0;
+- [X] Adding support for newly released Fenix 8 pro, Vivoactive 6, Venu 4 and Instinct Crossover AMOLED watches;
 
-**5.5.0** (Estimated Q4 2025)
-- [ ] Starting to change the code to use the new Complications class instead of Activity
+**5.6.0** (Estimated Q4 2025)
+- [ ] Add new data field to show UV level (from Weather Condition)
 - [ ] Add new data field to show training readiness (from Complications)
+- [ ] Starting to change the code to use the new Complications class instead of Activity
 
 ## MtbA Watchface examples:
 
