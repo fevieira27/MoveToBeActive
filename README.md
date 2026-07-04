@@ -356,6 +356,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [ ] Add new data field to show UV level (from Weather Condition)
 - [ ] Add new data field to show training readiness (from Complications)
 - [ ] Starting to change the code to use the new Complications class instead of Activity
+- [X] Added support for the newly released Forerunner 170 and Forerunner 170 Music (390x390 AMOLED, shares the Forerunner 165 layout)
 
 ## MtbA Watchface examples:
 
