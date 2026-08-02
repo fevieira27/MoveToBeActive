@@ -11,14 +11,14 @@ import Toybox.WatchUi;
 import Toybox.Application;
 import Toybox.Graphics;
 import Toybox.Lang;
-//import Toybox.Complications;
+import Toybox.Complications;
 
 //var partialUpdatesAllowed = false;
 var config as Array = [Storage.getValue(1),Storage.getValue(2),Storage.getValue(18),Storage.getValue(32),Storage.getValue(3),Storage.getValue(5),Storage.getValue(25),Storage.getValue(6),Storage.getValue(7),Storage.getValue(26),Storage.getValue(14),Storage.getValue(8),Storage.getValue(4),Storage.getValue(13),Storage.getValue(12),Storage.getValue(17),Storage.getValue(9),Storage.getValue(10),Storage.getValue(11),Storage.getValue(19),Storage.getValue(22),Storage.getValue(24),Storage.getValue(16),Storage.getValue(27),Storage.getValue(28),Storage.getValue(21)];
 //var fullScreenRefresh;
 //var accentColor;
 var inLowPower as Boolean = false;
-//var canBurnIn=false;
+var canBurnIn=false;
 var upTop=true;
 var MtbA = null;
 
@@ -36,8 +36,9 @@ class AnalogView extends WatchUi.WatchFace {
         WatchFace.initialize();
         //_fullScreenRefresh = true;
         //_partialUpdatesAllowed = (WatchUi.WatchFace has :onPartialUpdate);
+        canBurnIn=System.getDeviceSettings().requiresBurnInProtection;
 
-        //           0=accent color  ,  1=accent index   ,  2=tickmark color  , 3=Dark/Light theme ,  4=garmin logo    ,   5=hour labels   , 6=Weather condition, 7=Temperature type,  8=Location name  ,   9=Battery Icon   ,     10=Font size   ,  11=Alarm toggle  ,12=Bluetooth toggle, 13=Hands Thickness , 14=Right bottom DF ,  15=Right top DF   ,   16=Left top DF  ,  17=Left middle DF ,  18=Left bottom DF , 19=Batt. Est. flag , 20=AOD color minute ,   21=Date Format  , 22=temperature unit,   23=Hour Labels   ,24=Gray Battery Icon, 25=Date Font Size
+        //               0=accent color  ,  1=accent index   ,  2=tickmark color  , 3=Dark/Light theme ,  4=garmin logo    ,   5=hour labels   , 6=Weather condition, 7=Temperature type,  8=Location name  ,   9=Battery Icon   ,     10=Font size   ,  11=Alarm toggle  ,12=Bluetooth toggle, 13=Hands Thickness , 14=Right bottom DF ,  15=Right top DF   ,   16=Left top DF  ,  17=Left middle DF ,  18=Left bottom DF , 19=Batt. Est. flag , 20=AOD color minute ,   21=Date Format  , 22=temperature unit,   23=Hour Labels   ,24=Gray Battery Icon, 25=Date Font Size
         //$.config = [Storage.getValue(1),Storage.getValue(2),Storage.getValue(18),Storage.getValue(32),Storage.getValue(3),Storage.getValue(5),Storage.getValue(25),Storage.getValue(6),Storage.getValue(7),Storage.getValue(26),Storage.getValue(14),Storage.getValue(8),Storage.getValue(4),Storage.getValue(13),Storage.getValue(12),Storage.getValue(17),Storage.getValue(9),Storage.getValue(10),Storage.getValue(11),Storage.getValue(19),Storage.getValue(22),Storage.getValue(24),Storage.getValue(16),Storage.getValue(27),Storage.getValue(28),Storage.getValue(21)];
 
 		if ($.config[0] == null or $.config[1] == null) { // 0=accent color  ,  1=accent index
@@ -54,9 +55,9 @@ class AnalogView extends WatchUi.WatchFace {
             }
         }
 
-        var currentVersion=534;
+        var currentVersion=550;
             
-        if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){ // only runs at first install or watch face update
+        if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){ // only runs at first install or watch face initialization
             Storage.setValue(23,currentVersion);
             if ($.config[4] == null ){ Storage.setValue(3, true); $.config[4]=true; } // Garmin Logo
             if ($.config[12] == null ){ Storage.setValue(4, true); $.config[12]=true; } // Bluetooth Logo
@@ -94,7 +95,36 @@ class AnalogView extends WatchUi.WatchFace {
     }
 
     // Configure the layout of the watchface for this device
-(:allColors) public function onLayout(dc as Dc) as Void {
+(:LEDcolors) public function onLayout(dc as Dc) as Void {
+		
+        var offscreenBufferOptions = {
+                :width=>dc.getWidth(),
+                :height=>dc.getHeight(),
+                :palette=> [
+                    0xD4D4D4,
+                    Graphics.COLOR_DK_GRAY,
+                    Graphics.COLOR_LT_GRAY,
+                    Graphics.COLOR_BLACK
+                    //,Graphics.COLOR_WHITE
+                ]
+            };
+
+        if (Graphics has :createBufferedBitmap) {
+            // get() used to return resource as Graphics.BufferedBitmap
+            _offscreenBuffer = Graphics.createBufferedBitmap(offscreenBufferOptions).get() as BufferedBitmap;
+
+        } else if (Graphics has :BufferedBitmap) { // If this device supports BufferedBitmap, allocate the buffers we use for drawing
+            // Allocate a full screen size buffer with a palette of only 4 colors to draw
+            // the background image of the watchface.  This is used to facilitate blanking
+            // the second hand during partial updates of the display
+            _offscreenBuffer = new Graphics.BufferedBitmap(offscreenBufferOptions);
+        } else {
+            _offscreenBuffer = null;
+        }
+
+    }
+
+(:MIPcolors) public function onLayout(dc as Dc) as Void {
 		
         var offscreenBufferOptions = {
                 :width=>dc.getWidth(),
@@ -120,7 +150,6 @@ class AnalogView extends WatchUi.WatchFace {
         } else {
             _offscreenBuffer = null;
         }
-
     }
 
     // Configure the layout of the watchface for this device
@@ -147,9 +176,6 @@ class AnalogView extends WatchUi.WatchFace {
         } else {
             _offscreenBuffer = null;
         }
-
-        //MtbA = new MtbA_functions(inLowPower as Boolean);
-
     }
 
     // Handle the update event
@@ -157,7 +183,7 @@ class AnalogView extends WatchUi.WatchFace {
         var targetDc = null;        
         //var MtbA = new MtbA_functions();
         //var check = Storage.getValue(21);
-        var canBurnIn=System.getDeviceSettings().requiresBurnInProtection;
+        //var canBurnIn=System.getDeviceSettings().requiresBurnInProtection;
         //var accentColor = config[0];
         var accentColor = Storage.getValue(1);
         var tickmarkColor = $.config[2];
@@ -203,11 +229,13 @@ class AnalogView extends WatchUi.WatchFace {
             
             //drawBackground(dc);
             //dc.drawBitmap(0, 0, _offscreenBuffer);
-        } else {
+        } else { //aod off
 
             // Fill the entire background
             if ($.config[3]){ // Light Theme
-                targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
+                //targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
+                var Color = ((width>=360) ? 0xD4D4D4 : Graphics.COLOR_WHITE);
+                targetDc.setColor(Color, Color); // Use this for AMOLED, since I'm now adding a light gray background instead of white
             } else { // Dark Theme
                 targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
             }
@@ -218,7 +246,7 @@ class AnalogView extends WatchUi.WatchFace {
 
             // Draw the tick marks around the edges of the screen
             if(width>=360){ // No need for anti-alias on hashmarks of AMOLED screens
-                $.MtbA.drawHashMarks(dc, accentColor, width, $.inLowPower and canBurnIn, tickmarkColor, $.config[1], $.config[5], $.config[20]); //dc        
+                $.MtbA.drawHashMarks(dc, accentColor, width, $.inLowPower and canBurnIn, tickmarkColor, $.config[1], $.config[5], $.config[20]); //dc
             }
 
             if (dc has :setAntiAlias) {
@@ -227,14 +255,14 @@ class AnalogView extends WatchUi.WatchFace {
 
             // Draw the tick marks around the edges of the screen
             if(width<360){ // With anti-alias for MIP displays
-                $.MtbA.drawHashMarks(dc, accentColor, width, $.inLowPower and canBurnIn, tickmarkColor, $.config[1], $.config[5], $.config[20]); //dc         
+                $.MtbA.drawHashMarks(dc, accentColor, width, $.inLowPower and canBurnIn, tickmarkColor, $.config[1], $.config[5], $.config[20]); //dc
             }
 
             // Garmin Logo check
             var logo=$.config[4];
             var position = Application.loadResource(Rez.JsonData.mPosition) as Array;
             if (logo == null or logo == true) {
-                $.MtbA.drawGarminLogo(dc, position[4], position[5], $.config[3]); 
+                $.MtbA.drawGarminLogo(dc, position[4], position[5], $.config[3]);
             }
 
             // Draw the 3, 6, 9, and 12 hour labels.
@@ -242,6 +270,61 @@ class AnalogView extends WatchUi.WatchFace {
                 $.MtbA.drawHourLabels(dc, width, height, accentColor, $.config[23]); 
             }
 
+
+
+            var condition = null;
+
+            // 1. Try Complications API First
+            if (Toybox has :Complications) {
+                var compId = new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_CURRENT_WEATHER);
+                var weatherComp = Toybox.Complications.getComplication(compId);
+                
+                if (weatherComp != null && weatherComp.value != null) {
+                    condition = weatherComp.value;
+                }
+            }
+
+            // 2. Fallback to Weather API
+            // Safety check: If complication.value is a String, your drawWeatherIcon 
+            // will crash. We fall back to getCurrentConditions() to get the proper enum.
+            if ((condition == null || condition instanceof String) && Toybox has :Weather && Toybox.Weather has :getCurrentConditions) {
+                var conditionsObj = Toybox.Weather.getCurrentConditions();
+                if (conditionsObj != null) {
+                    condition = conditionsObj.condition;
+                }
+            }
+
+            // 3. Render if valid data exists
+            if (condition != null) {
+                
+                // --- EFFICIENCY GAIN: Calculate Y coordinates once ---
+                var iconY, tempY, locY;
+                
+                if (logo == false) { 
+                    iconY = position[22];
+                    tempY = position[7];
+                    locY  = position[6];
+                } else { // Show Garmin Logo
+                    iconY = position[20];
+                    tempY = (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) ? position[24] : position[20];
+                    locY  = position[23];
+                }
+
+                // --- Draw UI Elements ---
+                if ($.config[6] != false) { // Show current weather condition and temperature
+                    var hour = System.getClockTime().hour; // Cache the hour call
+                    $.MtbA.drawWeatherIcon(dc, position[18], iconY, position[19], width, condition, hour);
+                    $.MtbA.drawTemperature(dc, position[21], tempY, $.config[7], width, $.config[22]);
+                }
+                
+                if (width != 208) {
+                    // Draw Location Name
+                    $.MtbA.drawLocation(dc, width / 2, locY, $.config[8], $.config[4]);
+                }
+            }
+
+
+/*
             //Draw Weather Icon (dc, x, y, x2, width)
             //if (Toybox has :Weather and Weather has :getCurrentConditions) {
             if (Toybox has :Weather and Toybox.Weather has :getCurrentConditions) {
@@ -250,7 +333,7 @@ class AnalogView extends WatchUi.WatchFace {
                     if (logo==false){ // Hide Garmin Logo
                         if ($.config[6]!=false){ // Show current weather condition and temperature
                             //if (cond.condition!=null and cond.condition instanceof Number){
-                                $.MtbA.drawWeatherIcon(dc, position[18], position[22], position[19], width, Weather.getCurrentConditions().condition, System.getClockTime().hour);
+                            $.MtbA.drawWeatherIcon(dc, position[18], position[22], position[19], width, Weather.getCurrentConditions().condition, System.getClockTime().hour);
                             //}
                             //Draw Temperature Text
                             $.MtbA.drawTemperature(dc, position[21], position[7],  $.config[7], width, $.config[22]);
@@ -262,10 +345,10 @@ class AnalogView extends WatchUi.WatchFace {
                     } else { // Show Garmin Logo
                         if ($.config[6]!=false){ // Show current weather condition and temperature
                             //if (cond.condition!=null and cond.condition instanceof Number){
-                                $.MtbA.drawWeatherIcon(dc, position[18], position[20], position[19], width, Weather.getCurrentConditions().condition, System.getClockTime().hour);
+                            $.MtbA.drawWeatherIcon(dc, position[18], position[20], position[19], width, Weather.getCurrentConditions().condition, System.getClockTime().hour);
                             //}
                             //Draw Temperature Text
-                            $.MtbA.drawTemperature(dc, position[21], (System.SCREEN_SHAPE_ROUND==System.getDeviceSettings().screenShape)? (width==208 ? position[23] : position[15]) : position[20], config[7], width, config[22]);
+                            $.MtbA.drawTemperature(dc, position[21], (System.SCREEN_SHAPE_ROUND==System.getDeviceSettings().screenShape)? position[24] : position[20], config[7], width, config[22]);
                         }
                         if (width!=208){
                             //Draw Location Name
@@ -275,11 +358,12 @@ class AnalogView extends WatchUi.WatchFace {
                     }
                 }
             }
-            
+  */
+
             // Draw Battery
             if ($.config[9]!=false){ // Show Battery Icon
                 $.MtbA.drawBatteryIcon(dc, width*0.69, height / 2.11, width*0.82, height / 2.06+(width==218 ? 1 : 0), width, accentColor, config[24]);
-                $.MtbA.drawBatteryText(dc, width*0.76, height / 2.14 - 1, width, config[19]);
+                $.MtbA.drawBatteryText(dc, width*0.76, height / 2.14 - 1, width, config[19], config[24]);
             }
 
             //Data Points
