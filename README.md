@@ -354,8 +354,9 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 
 **5.6.0** (Estimated Q3 2026)
 - [ ] Changed the code of all the data fields (if applicable) to use the new Complications class instead of Activity info;
-- [X] Added support for the newly released Forerunner 170 and Forerunner 170 Music (390x390 AMOLED, shares the Forerunner 165 layout);
+- [X] Added support for the newly released Forerunner 70 / 170 / 170 Music and D2 Mach 2 pro
 - [X] Several code efficiency improvements (i.e. changed from Lang.format to outHour.format and outMin.format on sunrise and sunset data fields).
+- [X] Updated to Garmin SDK 9.2.0;
 
 **5.6.1** (Estimated Q4 2026)
 - [ ] Add new data field to show UV level (from Weather Condition)
