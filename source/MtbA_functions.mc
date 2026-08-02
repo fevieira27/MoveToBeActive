@@ -445,7 +445,7 @@ function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 
     // 4. "FREE" DATA EXTRACTION: Read directly from cached conditions
     var cloud = (conditions has :cloudCover) ? conditions.cloudCover : null;
-    var uv = (conditions has :uvIndex) ? conditions.uvIndex : null;
+    var uv = (conditions has :uvIndex) ? conditions.uvIndex.format("%d") : null;
     var precip = (conditions has :precipitationChance) ? conditions.precipitationChance : null;
 
     var align = Graphics.TEXT_JUSTIFY_RIGHT; 
@@ -2682,17 +2682,17 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 				dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
 			} else { // MIP, for better readability
 				dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
-				yIcon = yIcon-5;
 			}
 	  }
 
-		if (width==240 and System.SCREEN_SHAPE_ROUND == screenShape){
-			//yIcon = yIcon - 1;
+		if (width<300 and System.SCREEN_SHAPE_ROUND == screenShape){
+			yIcon = yIcon-5;
 			if (dc.getFontHeight(0)>=26){
 				yIcon = yIcon - 1;
 			}
-		} else if (width==218){
-			yIcon = yIcon + 1;
+			if (width==218){
+				yIcon = yIcon + 1;
+			}
 		}
 
 		dc.drawText( xIcon, yIcon, IconsFont, "B", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
@@ -3270,7 +3270,7 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		} else if ((side>2 and dataPoint == 12) or (side<=2 and dataPoint == 16)) { // Digital Clock
 			drawSeconds(dc, xIcon, yIcon+(width*0.02)-(offset390*2), xText, yText, width, 2);
 		} else if ((side>2 and dataPoint == 13) or (side<=2 and dataPoint == 17)) { // Intensity Minutes
-			drawIntensityMin(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.025)-(offset390*2), xText, yText, width, accentColor);
+			drawIntensityMin(dc, xIcon-(xIcon*0.002), yIcon+(width*0.015)-(offset390*2), xText, yText, width, accentColor);
 		} else if ((side>2 and dataPoint == 14) or (side<=2 and dataPoint == 18)) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
 			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);			
 		} else if ((side>2 and dataPoint == 15) or (side<=2 and dataPoint == 19)) { // Calories(dc, xIcon, yIcon, xText, yText, width)
