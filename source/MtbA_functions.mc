@@ -787,6 +787,51 @@ function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 	/* ------------------------ */
 	
 	// Notification Icon and Count
+function drawNotification(dc, xIcon, yIcon, xText, yText, accentColor, width) {
+    // 1. Cache the settings object (Only ask the system once)
+    var notificationAmount = System.getDeviceSettings().notificationCount;
+        
+    if (notificationAmount != null) {
+        
+        // 2. Format Text (Use .toString() instead of the heavier .format())
+        var formattedNotificationAmount = (notificationAmount > 99) ? "99+" : notificationAmount.toString();
+        
+        // Draw Text
+        dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(xText, yText, fontSize, formattedNotificationAmount, Graphics.TEXT_JUSTIFY_LEFT);
+        
+        // 3. Layout Offsets (Hardcoded integers replace slow floating-point math)
+        var offset = 0;
+        if (width >= 360) {
+            if (width == 360) {
+                offset = 7;
+            } else {
+                // Covers 390, 416, and 454 (Replaces width * 0.013 / 0.011)
+                offset = 5; 
+            }
+        } else if (width == 218) { // VA 4s
+            offset = 3; 
+        } else if (width == 240 && dc.getFontHeight(0) >= 26) { // Fenix 5 Plus
+            offset = -1; // Replaced -0.5 float with integer
+        }
+
+        // 4. Icon Color Logic (No string conversions!)
+        var iconColor;
+        if (notificationAmount == 0) { 
+            // When notification count is zero
+            iconColor = (fontColor == Graphics.COLOR_WHITE) ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY;
+        } else {
+            iconColor = accentColor;
+        }
+
+        // Draw Icon
+        dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(xIcon, yIcon + offset, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
+    }
+}
+
+
+/* old function
 	function drawNotification(dc, xIcon, yIcon, xText, yText, accentColor, width) {
 
 		var formattedNotificationAmount = "";
@@ -830,7 +875,7 @@ function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 			dc.drawText( xIcon, yIcon, IconsFont, "5", Graphics.TEXT_JUSTIFY_CENTER);
 		}
 	}
-	
+*/	
 	/* ------------------------ */
 
 function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
@@ -2071,6 +2116,81 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 /* ------------------------ */
 	
 	// Draw Atmospheric Pressure
+function drawPressure(dc, xIcon, yIcon, xText, yText, width) {  
+    var pressure = null;
+    var wantsSeaLevel = (Storage.getValue(20) == true);
+
+    // 1. Try Complications API First (Sea Level Pressure ONLY)
+    if (wantsSeaLevel && Toybox has :Complications) {
+        var pressComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE));
+        
+        if (pressComp != null && pressComp.value != null) {
+            pressure = pressComp.value.toFloat(); // API returns pascals
+        }
+    }
+
+    // 2. Fallback to Activity API (For older watches OR Ambient Pressure)
+    if (pressure == null && Activity has :getActivityInfo) {
+        var info = Activity.getActivityInfo(); // Cache this to prevent multiple API calls
+        if (info != null) {
+            if (wantsSeaLevel) {
+                if (info has :meanSeaLevelPressure && info.meanSeaLevelPressure != null) {
+                    pressure = info.meanSeaLevelPressure.toFloat();
+                }
+            } else {
+                // User wants Ambient Pressure (No Complication available for this)
+                if (info has :rawAmbientPressure && info.rawAmbientPressure != null) {
+                    pressure = info.rawAmbientPressure.toFloat();
+                } else if (info has :ambientPressure && info.ambientPressure != null) {
+                    pressure = info.ambientPressure.toFloat();
+                }
+            }
+        }
+    }
+
+    // 3. Layout Offsets (Icon)
+    var offset = 0;
+    if (width >= 360) { // Venu & D2 Air
+        offset = 7; 
+    } else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
+        offset = -2;
+    }
+
+    // 4. Determine Data and Icon Color mathematically
+    var pressureStr = "";
+    var iconColor = (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY); // Default
+
+    if (pressure != null) {
+        // A. Dynamic Color Logic
+        if (pressure < 100914.4) {
+            // Low Pressure (Stormy/Rain) -> Orange
+            iconColor = (fontColor == Graphics.COLOR_WHITE) ? 0xFFAA00 : 0xFF5500; 
+        } else if (pressure > 102268.9) {
+            // High Pressure (Fair/Clear) -> Blue
+            iconColor = (fontColor == Graphics.COLOR_WHITE) ? Graphics.COLOR_BLUE : 0x0055AA; 
+        }
+
+        // B. Format the Text
+        var isMetric = (System.getDeviceSettings().temperatureUnits == System.UNIT_METRIC || Storage.getValue(16) == true);
+        
+        if (isMetric) {
+            pressureStr = (pressure * 0.01).format("%.0f"); // hPa
+        } else {
+            // Consolidated math: (0.01 * 0.02953) = 0.0002953 (inHg)
+            pressureStr = (pressure * 0.0002953).format("%.1f"); 
+        }
+    }
+
+    // 5. Draw Icon
+    dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xIcon, yIcon + offset, IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); 
+
+    // 6. Draw Pressure Text
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, pressureStr, Graphics.TEXT_JUSTIFY_LEFT); 
+}
+
+/* old function
 	function drawPressure(dc, xIcon, yIcon, xText, yText, width) {	
 
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
@@ -2083,8 +2203,6 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 			}
 		} else {
 			if (Activity has :getActivityInfo and Activity.getActivityInfo() has :rawAmbientPressure and Activity.getActivityInfo().rawAmbientPressure!=null) {
-				//elevation = Activity.getActivityInfo().altitude;
-				//if(Activity.getActivityInfo().rawAmbientPressure!=null){
 				pressure = Activity.getActivityInfo().rawAmbientPressure;
 			} else if (Activity has :getActivityInfo and Activity.getActivityInfo() has :AmbientPressure and Activity.getActivityInfo().ambientPressure!=null){
 				pressure = Activity.getActivityInfo().ambientPressure;
@@ -2136,7 +2254,7 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 		dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
 		dc.drawText(xText, yText, fontSize, pressure, Graphics.TEXT_JUSTIFY_LEFT); // pressure in hPa
 	}
-
+*/
 
 	/* ------------------------ */
 	
@@ -2704,7 +2822,83 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 	}
 
 /* ------------------------ */
-	
+	function drawBodyBattery(dc, xIcon, yIcon, xText, yText, width) {
+    var bbValue = null;
+    var supportsBodyBattery = false;
+
+    // 1. Try Complications API First (API 4.2.0+)
+    if (Toybox has :Complications) {
+        supportsBodyBattery = true;
+        var bbComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_BODY_BATTERY));
+        
+        if (bbComp != null && bbComp.value != null) {
+            bbValue = bbComp.value;
+        }
+    }
+
+    // 2. Fallback to SensorHistory API
+    if (bbValue == null && Toybox has :SensorHistory && Toybox.SensorHistory has :getBodyBatteryHistory) {
+        supportsBodyBattery = true;
+        var bbIterator = Toybox.SensorHistory.getBodyBatteryHistory({:period => 1});
+        if (bbIterator != null) {
+            var sample = bbIterator.next();
+            if (sample != null && sample.data != null) {
+                bbValue = sample.data;
+            }
+        }
+    }
+
+    // 3. Early Exit! (If hardware doesn't support Body Battery at all, skip execution)
+    if (!supportsBodyBattery) {
+        return false;
+    }
+
+    // 4. Layout Offsets (Evaluated only when rendering is guaranteed)
+    var offset = 0;
+    if (width >= 360) { // Venu & D2 Air
+        offset = 7; 
+    } else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
+        offset = -2;  
+    } else if (width == 240 && dc.getFontHeight(0) >= 26) { // Fenix 5 Plus
+        offset = -1;
+    }
+
+    // 5. Data Formatting & Single-Pass Threshold Consolidation
+    var iconColor;
+    var textStr;
+
+    if (bbValue != null) {
+        textStr = bbValue.toString(); // Faster than format("%d")
+        var isDarkTheme = (fontColor == Graphics.COLOR_WHITE);
+
+        if (bbValue <= 25) {
+            iconColor = isDarkTheme ? Graphics.COLOR_RED : 0xAA0000;
+        } else if (bbValue <= 50) {
+            iconColor = isDarkTheme ? 0xFFAA00 : 0xFF5500; // Orange
+        } else if (bbValue <= 75) {
+            iconColor = isDarkTheme ? 0xFFFF55 : 0xAAAA00; // Yellow
+        } else {
+            iconColor = isDarkTheme ? Graphics.COLOR_BLUE : 0x0055AA; // Blue
+        }
+    } else {
+        textStr = "--";
+        iconColor = (width >= 360) 
+            ? (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY)
+            : fontColor;
+    }
+
+    // 6. Draw Text
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, textStr, Graphics.TEXT_JUSTIFY_LEFT);
+
+    // 7. Draw Icon
+    dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xIcon, yIcon + offset, IconsFont, "U", Graphics.TEXT_JUSTIFY_CENTER);
+
+    return true;
+}
+
+/* old function
 	function drawBodyBattery(dc, xIcon, yIcon, xText, yText, width) {
 
 		var offset = 0;
@@ -2761,9 +2955,90 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 		return true;
 
 	}
+*/
 
 /* ------------------------ */
-	
+function drawStress(dc, xIcon, yIcon, xText, yText, width) {
+    var stressScore = null;
+    var supportsStress = false;
+
+    // 1. Try Complications API First (API 4.2.0+)
+    if (Toybox has :Complications) {
+        supportsStress = true;
+        var stressComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_STRESS));
+        
+        if (stressComp != null && stressComp.value != null) {
+            stressScore = stressComp.value;
+        }
+    }
+
+    // 2. Fallback to SensorHistory API
+    if (stressScore == null && Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
+        supportsStress = true;
+        var stressIterator = Toybox.SensorHistory.getStressHistory({:period => 1});
+        
+        if (stressIterator != null) {
+            var sample = stressIterator.next(); 
+            if (sample != null && sample.data != null) {
+                stressScore = sample.data;
+            }
+        }
+    }
+
+    // 3. Early Exit! (If the watch physically does not support Stress, skip everything)
+    if (!supportsStress) {
+        return false;
+    }
+
+    // 4. Layout Offsets (Removed slow floating-point -0.5 math)
+    var offsetY = 0;
+    if (width >= 360) { // Fenix 6X & Enduro
+        offsetY = 1;
+    } else if (width == 260) {
+        offsetY = -1; // Rounding -0.5 to nearest integer prevents runtime type coercion
+    }
+
+    var iconColor;
+    var textStr;
+
+    // 5. Data Formatting and Color Consolidation
+    if (stressScore != null) {
+        // .toString() is faster than .format("%d")
+        textStr = stressScore.toString(); 
+        
+        // Caching this evaluation saves us from running it 4 times
+        var isDarkTheme = (fontColor == Graphics.COLOR_WHITE); 
+        
+        // Single threshold check replaces the massive double if/else block!
+        if (stressScore <= 25) {
+            iconColor = isDarkTheme ? Graphics.COLOR_BLUE : 0x0055AA;
+        } else if (stressScore <= 50) {
+            iconColor = isDarkTheme ? 0xFFFF55 : 0xAAAA00;
+        } else if (stressScore <= 75) {
+            iconColor = isDarkTheme ? Graphics.COLOR_ORANGE : 0xFF5500;
+        } else {
+            iconColor = isDarkTheme ? Graphics.COLOR_RED : 0xAA0000;
+        }
+    } else {
+        // Watch supports stress, but no data available (e.g., while on movement). Stress data only works if user is still for a few seconds.
+        textStr = "--";
+        iconColor = (width >= 360) 
+            ? (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY)
+            : fontColor;
+    }
+
+    // 6. Draw Text
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, textStr, Graphics.TEXT_JUSTIFY_LEFT);
+
+    // 7. Draw Icon
+    dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xIcon, yIcon + offsetY, IconsFont, "T", Graphics.TEXT_JUSTIFY_CENTER); 
+    
+    return true;
+}	
+
+/* old function
 	function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 
 		var offsetY = 0;
@@ -2815,6 +3090,7 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 		dc.drawText( xIcon, yIcon + offsetY , IconsFont, "T", Graphics.TEXT_JUSTIFY_CENTER); // Using Font
 		return true;
 	}
+*/
 
 /* ------------------------ */
 	// Add Vo2 Max - vo2maxRunning and vo2maxCycling from UserProfile.getProfile()
@@ -2921,7 +3197,60 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 
 /* ------------------------ */
 
-	// Add Recovery Time (hours) - timeToRecovery from ActivityMonitor.getInfo()
+// Add Recovery Time (hours) - timeToRecovery from ActivityMonitor.getInfo()
+function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {          
+    var recovery = null;
+
+    // 1. Try Complications API First (API 4.2.0+)
+    if (Toybox has :Complications) {
+        var recovComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_RECOVERY_TIME));
+        
+        if (recovComp != null && recovComp.value != null) {
+            recovery = recovComp.value;
+        }
+    }
+
+    // 2. Fallback to ActivityMonitor API
+    if (recovery == null && ActivityMonitor has :getInfo) {
+        var info = ActivityMonitor.getInfo(); // Cache the object to avoid multiple API calls
+        if (info has :timeToRecovery && info.timeToRecovery != null) {
+            recovery = info.timeToRecovery;
+        }
+    }
+
+    // 3. Early Exit! (Saves CPU by skipping layout math if there is no data)
+    if (recovery == null) {
+        return false;
+    } 
+
+    // 4. Layout Offsets
+    var offset = 0;
+    if (width >= 360) { // Venu & D2 Air
+        offset = 6; 
+    } else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Rectangle display
+        offset = -2;
+    }
+
+    // 5. Determine Icon Color mathematically
+    var iconColor = (width >= 360) 
+        ? (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY)
+        : fontColor; // MIP displays fallback
+
+    // 6. Draw Icon
+    dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xIcon, yIcon + offset, IconsFont, "V", Graphics.TEXT_JUSTIFY_CENTER); 
+
+    // 7. Format and Draw Text
+    // .toFloat() ensures safely formatted decimals regardless of whether the API returns a Number or Float
+    var recText = (recovery >= 10 ? recovery.toFloat().format("%.0f") : recovery.toFloat().format("%.1f")) + " hs";
+
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, recText, Graphics.TEXT_JUSTIFY_LEFT); 
+    
+    return true;        
+}
+
+/* old function
 	function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {	
           
 		var recovery = null;
@@ -2953,7 +3282,7 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 		}
 
 	}	
-
+*/
 
 	/* ------------------------ */
 
