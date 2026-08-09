@@ -352,11 +352,12 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Updated to Garmin SDK 8.3.0;
 - [X] Adding support for newly released Fenix 8 pro, Vivoactive 6, Venu 4 and Instinct Crossover AMOLED watches;
 
-**5.6.0** (Estimated Q3 2026)
-- [ ] Changed the code of all the data fields (if applicable) to use the new Complications class instead of Activity info;
-- [X] Added support for the newly released Forerunner 70 / 170 / 170 Music and D2 Mach 2 pro;
+**5.6.0** (Coming soon, currently being tested)
+- [X] Changed the code of all applicable data fields to use the new Complications class (if available) instead of Activity info;
+- [X] Added support for the newly released Forerunner 70 / 170 / 170 Music and D2 Mach 2 pro (thanks Enubia for the contribution);
 - [X] Several code efficiency improvements (i.e. changed from Lang.format to outHour.format and outMin.format on sunrise and sunset data fields);
 - [X] Fixed position of the Intensity Minutes icon;
+- [X] Shows sleep score for the 30 first minutes after waking up (only for CIQ 6.0.2+)
 - [X] Updated to Garmin SDK 9.2.0.
 
 **5.6.1** (Estimated Q4 2026)
