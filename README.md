@@ -363,7 +363,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 **5.6.1** (Estimated Q4 2026)
 - [ ] Add new data field to show UV level (from Weather Condition)
 - [ ] Add new data field to show training readiness (from Complications)
-
+- [ ] Add new data field to show sleep score (from Complications)
 
 ## MtbA Watchface examples:
 
