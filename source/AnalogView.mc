@@ -55,7 +55,7 @@ class AnalogView extends WatchUi.WatchFace {
             }
         }
 
-        var currentVersion=550;
+        var currentVersion=560;
             
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){ // only runs at first install or watch face initialization
             Storage.setValue(23,currentVersion);
@@ -270,28 +270,27 @@ class AnalogView extends WatchUi.WatchFace {
                 $.MtbA.drawHourLabels(dc, width, height, accentColor, $.config[23]); 
             }
 
-
-
             var condition = null;
 
             // 1. Try Complications API First
             if (Toybox has :Complications) {
-                var compId = new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_CURRENT_WEATHER);
-                var weatherComp = Toybox.Complications.getComplication(compId);
+                var weatherComp = Toybox.Complications.getComplication(new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_CURRENT_WEATHER));
                 
                 if (weatherComp != null && weatherComp.value != null) {
                     condition = weatherComp.value;
                 }
+                System.println("Complication Weather Condition: " + condition);
             }
 
             // 2. Fallback to Weather API
             // Safety check: If complication.value is a String, your drawWeatherIcon 
             // will crash. We fall back to getCurrentConditions() to get the proper enum.
-            if ((condition == null || condition instanceof String) && Toybox has :Weather && Toybox.Weather has :getCurrentConditions) {
+            if ((condition == null || condition instanceof String) && Toybox has :Weather && Weather has :getCurrentConditions) {
                 var conditionsObj = Toybox.Weather.getCurrentConditions();
                 if (conditionsObj != null) {
                     condition = conditionsObj.condition;
                 }
+                System.println("Fallback: " + condition);
             }
 
             // 3. Render if valid data exists
@@ -299,6 +298,8 @@ class AnalogView extends WatchUi.WatchFace {
                 
                 // --- EFFICIENCY GAIN: Calculate Y coordinates once ---
                 var iconY, tempY, locY;
+                System.println(System.getDeviceSettings().screenShape);
+                System.println(System.SCREEN_SHAPE_ROUND);
                 
                 if (logo == false) { 
                     iconY = position[22];
@@ -319,7 +320,7 @@ class AnalogView extends WatchUi.WatchFace {
                 
                 if (width != 208) {
                     // Draw Location Name
-                    $.MtbA.drawLocation(dc, width / 2, locY, $.config[8], $.config[4]);
+                    $.MtbA.drawLocation(dc, width / 2, locY, $.config[8], $.config[4], accentColor);
                 }
             }
 

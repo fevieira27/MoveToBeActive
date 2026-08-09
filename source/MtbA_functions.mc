@@ -22,6 +22,8 @@ class MtbA_functions {
 	var fontColor = (Storage.getValue(32) == true ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE);
 	var condName as String = "";
 	var lowPower as Boolean;
+	var wakeUpTimestamp = 0;
+	var lastSleepScoreDay = -1; // Tracks the day of the month (1-31) when sleep score was last triggered (API 6+ only)
 	var secHands = Storage.getValue(33);
 
 	function initialize(inLowPower) {
@@ -697,7 +699,81 @@ function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 	*/
 
 	/* ------------------------ */
-	
+	function drawTemperature(dc, x, y, showBoolean, width, unit) {
+    // 1. Check for Weather Support
+    if (!(Toybox has :Weather)) {
+        return false;
+    }
+
+    // 2. Fetch Weather (Cache the object!)
+    var weather = Weather.getCurrentConditions();
+    
+    // 3. Early Exit (No weather data available)
+    if (weather == null) {
+        return false;
+    }
+
+    // 4. Select the Temperature to display
+    var temp = null;
+    if (showBoolean == false && weather.feelsLikeTemperature != null) {
+        temp = weather.feelsLikeTemperature;
+    } else if (weather.temperature != null) {
+        temp = weather.temperature;
+    }
+
+    // 5. Second Early Exit (Data exists, but temperature is null)
+    if (temp == null) {
+        return false;
+    }
+
+    // 6. System Settings Short-Circuit
+    // If 'unit' is true, the || operator short-circuits and skips calling getDeviceSettings() entirely!
+    var isCelsius = unit || (System.getDeviceSettings().temperatureUnits == System.UNIT_METRIC);
+    var unitsStr = isCelsius ? "°C" : "°F";
+
+    var minTemp = weather.lowTemperature;
+    var maxTemp = weather.highTemperature;
+
+    // 7. Perform Math ONCE (Consolidated Fahrenheit conversion)
+    if (!isCelsius) {
+        temp = (temp * 1.8) + 32; 
+        if (minTemp != null) { minTemp = (minTemp * 1.8) + 32; }
+        if (maxTemp != null) { maxTemp = (maxTemp * 1.8) + 32; }
+    }
+
+    // 8. Layout Offset (Mutating 'y' directly)
+    if (width == 390) { // Venu
+        y -= 1;
+    }
+
+    // 9. Single-Pass Color Logic
+    var tempColor = fontColor; // Default color
+    if (minTemp != null && maxTemp != null) {
+        var isDarkTheme = (fontColor == Graphics.COLOR_WHITE);
+        if (temp <= minTemp) {
+            tempColor = isDarkTheme ? Graphics.COLOR_BLUE : 0x0055AA; // Blue
+        } else if (temp >= maxTemp) {
+            tempColor = isDarkTheme ? 0xFFAA00 : 0xFF5500; // Orange
+        }
+    }
+
+    // 10. Fix System 7 SDK Bug
+    // .toNumber().toString() safely casts floats to ints faster than .format("%d")
+    var tempStr = temp.toNumber().toString();
+
+    // 11. Draw Temperature Value
+    dc.setColor(tempColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(x, y, Graphics.FONT_XTINY, tempStr, Graphics.TEXT_JUSTIFY_LEFT);
+    
+    // 12. Draw Unit Value
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(x + dc.getTextWidthInPixels(tempStr, Graphics.FONT_XTINY), y, Graphics.FONT_XTINY, unitsStr, Graphics.TEXT_JUSTIFY_LEFT); 
+    
+    return true;
+}
+
+
+/* old function
 	function drawTemperature(dc, x, y, showBoolean, width, unit) {
 		
 		var TempMetric = System.getDeviceSettings().temperatureUnits;
@@ -769,21 +845,107 @@ function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 			dc.drawText(x + dc.getTextWidthInPixels(temp,Graphics.FONT_XTINY), y+offset , Graphics.FONT_XTINY, units, Graphics.TEXT_JUSTIFY_LEFT); 
 		}
 	}
+*/
 	
 	/* ------------------------ */
 	
-	// Weather Location Name
-	function drawLocation(dc, x, y, showBoolean, logo) {
+// Weather Condition Name (Now with Smart Sleep Score)
+(:afterAPI6) function drawLocation(dc, x, y, showBoolean, logo, accentColor) {
+    
+	// 1. Early Exit: If the user disabled this field, don't do any math at all
+	if (showBoolean == false) {
+			return; 
+	}
 
-			if(x*2==260 and logo){
-				y = y+6;
+	// 2. Maintain your original layout coordinate adjustments
+	if (x * 2 == 260 and logo) {
+			y = y + 6;
+	}
+
+	//x -= 1;
+
+	var textToDraw = condName;
+	var isShowingSleep = false;
+	var sleepScoreColor = Graphics.COLOR_TRANSPARENT; // Will be set dynamically
+	var sleepScore = 0; // Will be set dynamically
+
+	if (Toybox has :Complications) {
+		// 3. Sleep Mode Detection Engine
+		var clockTime = System.getClockTime(); // 24-hour time (hour: 0-23, day: 1-31)
+		
+		// Detect waking up (Date-based
+		// Only evaluate during typical morning hours (5:00 AM - 11:59 AM))
+		if (clockTime.hour >= 5 and clockTime.hour < 12) {
+			var todayInfo = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+			// If we haven't registered a wake-up event for TODAY yet
+			if (lastSleepScoreDay != todayInfo.day) {
+				var sleepComp = Toybox.Complications.getComplication(new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_SLEEP_SCORE));
+				
+				// Once Garmin publishes today's sleep score, lock in the wake-up timestamp
+				if (sleepComp != null and sleepComp.value != null) {
+						wakeUpTimestamp = Time.now().value();
+						lastSleepScoreDay = todayInfo.day; // Locks it in for today
+				}				
 			}
+		}
 
-			dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
-			//dc.fitTextToArea(text, font, width, height, truncate)
-			dc.drawText(x, y, Graphics.FONT_XTINY, showBoolean != false ? condName : "", Graphics.TEXT_JUSTIFY_CENTER);
+		// 4. 30-Minute Timeout Logic
+		if (wakeUpTimestamp > 0) {
+			var secondsSinceWake = Time.now().value() - wakeUpTimestamp;
+			
+			if (secondsSinceWake <= 1800) { // 30 minutes = 1800 seconds	
+				// Try to fetch the Sleep Score Complication
+				var sleepComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SLEEP_SCORE));					
+				if (sleepComp != null and sleepComp.value != null) {
+					// Override the weather text with the Sleep Score!
+					sleepScore = sleepComp.value.toNumber(); // Cast to number for math checks
+					textToDraw = "Today's sleep score: "; // + sleepScore.toString()
+					isShowingSleep = true;
+					
+					var isDarkTheme = (fontColor == Graphics.COLOR_WHITE);
+					
+					// Garmin Official Sleep Score Brackets
+					if (sleepScore >= 90) { // Excellent
+							sleepScoreColor = isDarkTheme ? ((accentColor == 0xAAFF00) ? 0xAAFF00 : 0x55FF00) : 0x00AA00;
+					} else if (sleepScore >= 80) { // Good
+							sleepScoreColor = isDarkTheme ? Graphics.COLOR_BLUE : 0x0055AA;
+					} else if (sleepScore >= 60) { // Fair
+							sleepScoreColor = isDarkTheme ? 0xFFFF55 : 0xAAAA00; // Yellow
+					} else { // Poor (< 60)
+							sleepScoreColor = isDarkTheme ? Graphics.COLOR_ORANGE : 0xFF5500; // Orange/Red
+					}
+				}
+			}
+		} else {
+				// 30 minutes have passed. Reset the timestamp so we stop checking until tomorrow.
+				wakeUpTimestamp = 0;
+		}
 	}
 	
+	dc.setColor((fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
+	// Draw the final chosen text (Weather or Sleep)
+	dc.drawText(x, y, Graphics.FONT_XTINY, textToDraw+"  ", Graphics.TEXT_JUSTIFY_CENTER);
+
+	// 5. Drawing Logic
+	if (isShowingSleep) {
+		//x -= 1;
+		dc.setColor(sleepScoreColor, Graphics.COLOR_TRANSPARENT); 
+		dc.drawText(x/2+dc.getTextWidthInPixels(textToDraw,Graphics.FONT_XTINY)-dc.getTextWidthInPixels("  ",Graphics.FONT_XTINY), y, Graphics.FONT_XTINY, sleepScore.toString(), Graphics.TEXT_JUSTIFY_CENTER);
+	}
+	
+}
+
+	// Weather Condition Name
+(:beforeAPI6) function drawLocation(dc, x, y, showBoolean, logo, accentColor) {
+	if(x*2==260 and logo){
+		y = y+6;
+	}
+
+	dc.setColor((fontColor==Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY), Graphics.COLOR_TRANSPARENT);
+	//dc.fitTextToArea(text, font, width, height, truncate)
+	dc.drawText(x, y, Graphics.FONT_XTINY, showBoolean != false ? condName : "", Graphics.TEXT_JUSTIFY_CENTER);
+}
+
 	/* ------------------------ */
 	
 	// Notification Icon and Count
@@ -1133,7 +1295,8 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 		dc.fillRoundedRectangle(xContact, yContact , width*0.018, height*0.039 - offset, 2);
 	}
 	
-		// Draw Battery Text (separate because of "too many arguments" error)
+/* old function
+	// Draw Battery Text (separate because of "too many arguments" error)
 	function drawBatteryText(dc, xText, yText, width, estimateFlag, greyIcon) {	
 	
 		//var estimateFlag = Storage.getValue(19);
@@ -1156,9 +1319,8 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 
 		var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 		var maxCharge = Storage.getValue(30);
-		var check = dc.getFontHeight(0);
 
-		if (System.getSystemStats().charging==true or (maxCharge!=null and battery>maxCharge or (battery==maxCharge and battery==100))){
+				if (System.getSystemStats().charging==true or (maxCharge!=null and battery>maxCharge or (battery==maxCharge and battery==100))){
 			var test = [
         today.hour,
         today.min,
@@ -1172,6 +1334,47 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 			Storage.setValue(31, null); // reset last estimated consumption data field
 			//Storage.setValue(22, null); // reset last hourDiff calculation
 		}
+
+*/
+
+	function drawBatteryText(dc, xText, yText, width, estimateFlag, greyIcon) { 
+		var battery = null;
+			
+		if (Toybox has :Complications) {
+				var batteryComplication = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_BATTERY));
+				
+				if (batteryComplication != null && batteryComplication.value != null) {
+						battery = batteryComplication.value;
+				}
+		}
+
+		// Fallback to getSystemStats
+		if (battery == null) {
+				battery = Math.ceil(System.getSystemStats().battery);
+		}
+
+		var maxCharge = Storage.getValue(30);
+		var lastChargeTime = Storage.getValue(29);
+		var nowSec = Time.now().value(); // Get current epoch time in seconds
+		var isCharging = System.getSystemStats().charging;
+
+		// EFFICIENCY FIX: Only write to storage if battery went UP, 
+		// OR if sitting on the charger we update the timestamp at most once every 5 minutes.
+		if (isCharging == true || (maxCharge != null && battery > maxCharge)) {
+			if (maxCharge == null || battery > maxCharge) {
+				// Battery went up! Save new baseline.
+				Storage.setValue(29, nowSec); 
+				Storage.setValue(30, battery); 
+				Storage.setValue(31, null); // Reset estimate
+			} else if (isCharging && battery == maxCharge) {
+				// Sitting on charger at max capacity. Keep moving the timestamp forward 
+				// so the calculation starts when they UNPLUG it, but only write every 5 mins (300 sec)
+				if (lastChargeTime == null || (nowSec - lastChargeTime) > 300) {
+						Storage.setValue(29, nowSec);
+				}
+			}
+		}
+		var check = dc.getFontHeight(0);
 
 		//System.println(dc.getTextDimensions("100",0)[1]);
 		//System.println(width);
@@ -1235,7 +1438,7 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 
 
 	/* ------------------------ */
-
+/*
 	function calcHourDiff(today) { // calculate hourDiff
 		var lastCharge=Storage.getValue(29) as Array;
 		var hourDiff = 0;
@@ -1274,10 +1477,60 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 		//Storage.setValue(32,hourDiff);
 		return hourDiff;
 	}
-
+*/
 
 	/* ------------------------ */
 
+function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {  
+    var battery = Math.ceil(System.getSystemStats().battery);
+    var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    var text = null;
+    
+    var maxCharge = Storage.getValue(30);
+    var lastChargeTime = Storage.getValue(29);
+
+    if (System.getSystemStats().charging == true) {
+        text = "chrng.";
+    } else if (System.getSystemStats().charging == false && ((width >= 360 && today.sec % 30 == 0) || (width < 360 && today.sec == 0))) {
+        
+        if (maxCharge == null || lastChargeTime == null) { 
+            text = "charge"; 
+            Storage.setValue(31, "charge");
+        } else if (battery >= maxCharge || (maxCharge - battery) < 1) { 
+            // Wait for at least a 1% drop to avoid wild division-by-zero estimates
+            text = "estim."; 
+            Storage.setValue(31, "estim.");
+        } else { 
+            // Calculate elapsed hours directly from Epoch seconds
+            var nowSec = Time.now().value();
+            var hourDiff = (nowSec - lastChargeTime) / 3600.0;
+            
+            // Failsafe to prevent division by zero if time glitch occurs
+            if (hourDiff > 0.1) {
+                var consumption = ((maxCharge - battery) / hourDiff) * 24.0;
+                
+                if (consumption < 1) {
+                    text = consumption.format("%.1f"); 
+                } else if (consumption >= 100) {
+                    text = "100";
+                } else {
+                    text = consumption.format("%.0f"); 
+                }
+                Storage.setValue(31, text);
+            } else {
+                text = "estim.";
+            }
+        }
+    } else {
+        text = Storage.getValue(31);
+        if (text == null && maxCharge == null){
+            text = "charge"; 
+        } else if (text == null && maxCharge != null) {
+            text = "estim."; 
+        }
+    }
+
+/* old function
 	function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {	
 	
 		var battery = Math.ceil(System.getSystemStats().battery);
@@ -1323,12 +1576,10 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 				text = "estim."; // not able to calculate yet
 			}
 		}
+*/
 
 		if(width==280 or width==240){ 
 			yIcon=yIcon-6;
-/*			if (width==240 and dc.getTextDimensions("100",0)[1]>=26){ //Fenix 5 Plus & Venu Sq
-				yIcon=yIcon-0.5;
-			}*/
 		} else if (width==260){
 			yIcon=yIcon-5;
 		} else if (width==218){
@@ -1347,14 +1598,14 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 		dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
 		dc.drawText( xText, yText, fontSize, text, Graphics.TEXT_JUSTIFY_LEFT);
 		
-		//if (System.getSystemStats().charging==false and Storage.getValue(21)!=null){
-		if (text.toNumber() instanceof Number) {
-			dc.drawText(xText + dc.getTextWidthInPixels(text,fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 ? 1 : 0)),	0, "%/d", Graphics.TEXT_JUSTIFY_LEFT);
-		}		
-		
+		//if (text.toNumber() instanceof Number) {
+		if (text != null && !text.equals("charge") && !text.equals("estim.") && !text.equals("chrng.")) {
+        dc.drawText(xText + dc.getTextWidthInPixels(text, fontSize), yText + fontSize*((dc.getFontHeight(Graphics.FONT_TINY)-dc.getFontHeight(Graphics.FONT_XTINY))*0.9 - (width==360 ? 1 : 0)), 0, "%/d", Graphics.TEXT_JUSTIFY_LEFT);
+    }
 		return true;
 	}
-	
+
+
 	/* ------------------------ */
 	
 	// Draw Do Not Disturb Icon
@@ -1399,6 +1650,69 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 	/* ------------------------ */
 	
 	// Draw Pulse Ox Icon and Text	
+	function drawPulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor) {          
+    var pulseOx = null;
+
+    // 1. Try Complications API First (API 4.2.0+)
+    if (Toybox has :Complications) {
+        var pulseOxComp = Toybox.Complications.getComplication(new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_PULSE_OX));
+        
+        if (pulseOxComp != null && pulseOxComp.value != null) {
+            pulseOx = pulseOxComp.value;
+        }
+    }
+    
+    // 2. Fallback to Activity API (Cache the object!)
+    if (pulseOx == null && Toybox has :Activity && Activity has :getActivityInfo) {
+        var info = Activity.getActivityInfo(); // Called exactly ONCE
+        if (info != null && info has :currentOxygenSaturation && info.currentOxygenSaturation != null) {
+            pulseOx = info.currentOxygenSaturation;
+        }
+    }
+    
+    // 3. Early Exit (Skip layout math and memory allocation if there is no data)
+    if (pulseOx == null) {
+        return false;
+    }
+    
+    // 4. Layout Offsets (Only executed if we are actually drawing!)
+    // Integers are passed by value, so mutating yIcon directly saves us from declaring an 'offset' variable
+    if (width >= 360) { // Venu & D2 Air
+        yIcon += 7; 
+    } else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
+        yIcon -= 2;
+    }
+    
+    // 5. Data Formatting & Single-Pass Color Logic
+    var iconColor;
+    var isDarkTheme = (fontColor == Graphics.COLOR_WHITE);
+
+    if (pulseOx >= 95) { // Normal
+        iconColor = isDarkTheme ? ((accentColor == 0xAAFF00) ? 0xAAFF00 : 0x55FF00) : 0x00AA00;
+    } else if (pulseOx >= 85) { // Between Normal and Brain being affected
+        iconColor = isDarkTheme ? Graphics.COLOR_BLUE : 0x0055AA;
+    } else if (pulseOx >= 80) { // Brain affected
+        iconColor = isDarkTheme ? 0xFFFF55 : 0xAAAA00;
+    } else if (pulseOx >= 66) { // Between brain affected and cyanosis
+        iconColor = isDarkTheme ? Graphics.COLOR_ORANGE : 0xFF5500;
+    } else { // Cyanosis
+        iconColor = isDarkTheme ? Graphics.COLOR_RED : 0xFF0000;
+    }
+
+    // 6. Draw Icon
+    dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xIcon, yIcon, IconsFont, "Q", Graphics.TEXT_JUSTIFY_CENTER);
+    
+    // 7. Draw Text
+    // .toNumber().toString() parses faster than formatting arrays
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, pulseOx.toNumber().toString() + "%", Graphics.TEXT_JUSTIFY_LEFT);
+    
+    return true;
+	}
+
+
+/* old function
 	function drawPulseOx(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
           
 		var pulseOx = null;
@@ -1418,30 +1732,30 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 			if (fontColor == Graphics.COLOR_WHITE){ // Dark Theme
 				if (pulseOx >= 95) { // Normal
 					if (accentColor == 0xAAFF00) {
-						dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+						dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); // Vivomove GREEN
 					} else {
-						dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); /* GREEN */
+						dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); // GREEN
 					}
 				} else if (pulseOx >= 85) { // Between Normal and Brain being affected
-					dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); /* Blue */
+					dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Blue
 				} else if (pulseOx >= 80) { // Brain affected
-					dc.setColor(0xFFFF55, Graphics.COLOR_TRANSPARENT); /* pastel yellow */
+					dc.setColor(0xFFFF55, Graphics.COLOR_TRANSPARENT); // pastel yellow
 				} else if (pulseOx >= 66) { // Between brain affected and cyanosis
-					dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT); /* orange */
+					dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT); // orange
 				} else { // Cyanosis
-					dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT); /* red */
+					dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT); // red
 				}
 			} else { // Light Theme
 				if (pulseOx >= 95) { // Normal
-					dc.setColor(0x00AA00, Graphics.COLOR_TRANSPARENT); /* GREEN */
+					dc.setColor(0x00AA00, Graphics.COLOR_TRANSPARENT); // GREEN
 				} else if (pulseOx >= 85) { // Between Normal and Brain being affected
-					dc.setColor(0x0055AA, Graphics.COLOR_TRANSPARENT); /* Blue */
+					dc.setColor(0x0055AA, Graphics.COLOR_TRANSPARENT); // Blue
 				} else if (pulseOx >= 80) { // Brain affected
-					dc.setColor(0xAAAA00, Graphics.COLOR_TRANSPARENT); /* pastel yellow */
+					dc.setColor(0xAAAA00, Graphics.COLOR_TRANSPARENT); // pastel yellow
 				} else if (pulseOx >= 66) { // Between brain affected and cyanosis
-					dc.setColor(0xFF5500, Graphics.COLOR_TRANSPARENT); /* orange */
+					dc.setColor(0xFF5500, Graphics.COLOR_TRANSPARENT); // orange
 				} else { // Cyanosis
-					dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT); /* red */
+					dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT); // red
 				}
 			}
 
@@ -1454,7 +1768,8 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 			return false;
 		}
 	}
-	
+/*
+
 	/* ------------------------ */
 	
 	// Draw Floors Climbed Icon and Text
@@ -1463,8 +1778,7 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 	  var floorsCount=null;
 	    
     if (Toybox has :Complications) {
-        var floorComplicationId = new Complications.Id(Complications.COMPLICATION_TYPE_FLOORS_CLIMBED);
-        var floorComplication = Complications.getComplication(floorComplicationId);
+        var floorComplication = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_FLOORS_CLIMBED));
         
         if (floorComplication != null && floorComplication.value != null) {
             floorsCount = floorComplication.value;
@@ -2327,7 +2641,77 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
 /* ------------------------ */
 	
 	// Draw Min and Max Temperatures
-(:tempo) function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {	
+(:tempo) function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) { 
+    
+    // 1. Guard clauses for early exit
+    if (!(Toybox has :Weather) || !(Weather has :getCurrentConditions)) { 
+        return false; 
+    }
+
+    var weather = Weather.getCurrentConditions();
+    if (weather == null || weather.lowTemperature == null || weather.highTemperature == null) {
+        return false;
+    }
+
+    var minTemp = weather.lowTemperature;
+    var maxTemp = weather.highTemperature;
+    var units = "°C";
+
+    // 2. Unit conversion
+    if (System.getDeviceSettings().temperatureUnits != System.UNIT_METRIC && Storage.getValue(16) != true) {
+        minTemp = (minTemp * 1.8) + 32; 
+        maxTemp = (maxTemp * 1.8) + 32; 
+        units = "°F";
+    }
+
+    // 3. Format strings early (fixes SDK 7 bug and prepares for width calculation)
+    var minStr = minTemp.format("%d");
+    var maxStr = maxTemp.format("%d");
+      
+    // 4. Calculate Y offset
+    var offset = 0;
+    if (width >= 360) { // Venu & D2 Air (AMOLED)
+        offset = 7; 
+    } else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Venu sq
+        offset = -2;  
+    } else if (width == 240 && dc.getFontHeight(0) >= 26) { // Fenix 5 Plus
+        offset = -1;
+    }
+
+    // 5. Draw Icon
+    if (width >= 360) { // AMOLED
+        dc.setColor(fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+    } else { // MIP
+        dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    }
+    dc.drawText(xIcon, yIcon + offset, IconsFont, ".", Graphics.TEXT_JUSTIFY_CENTER);
+
+    // 6. Pre-calculate widths to avoid string concatenation garbage collection overhead
+    var wMin = dc.getTextWidthInPixels(minStr, fontSize);
+    var wSlash = dc.getTextWidthInPixels("/", fontSize);
+    var wMax = dc.getTextWidthInPixels(maxStr, fontSize);
+
+    // Draw Min Temp
+    dc.setColor(fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_BLUE : 0x0055AA, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, minStr, Graphics.TEXT_JUSTIFY_LEFT);
+
+    // Draw Slash
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText + wMin, yText, fontSize, "/", Graphics.TEXT_JUSTIFY_LEFT);
+
+    // Draw Max Temp
+    dc.setColor(fontColor == Graphics.COLOR_WHITE ? 0xFFAA00 : 0xFF5500, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText + wMin + wSlash, yText, fontSize, maxStr, Graphics.TEXT_JUSTIFY_LEFT);
+
+    // Draw Units
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText + wMin + wSlash + wMax, yText, fontSize, units, Graphics.TEXT_JUSTIFY_LEFT);
+    
+    return true;
+}
+
+/* old function
+function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {	
 	
 		//var IconsFont = Application.loadResource(Rez.Fonts.IconsFont);
 		var minTemp, maxTemp;
@@ -2391,6 +2775,7 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
 		
 		return true;
     }
+*/
 
 	/* ------------------------ */
 	
@@ -2642,6 +3027,70 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
 	/* ------------------------ */
 	
 	// Draw Solar Intensity
+	function drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor) { 
+    var solarIntensity = null;
+    
+    // 1. Try Complications API First (API 4.2.0+)
+    if (Toybox has :Complications) {
+        var solarComp = Toybox.Complications.getComplication(new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_SOLAR_INPUT));
+        
+        if (solarComp != null && solarComp.value != null) {
+            solarIntensity = solarComp.value;
+        }
+    }
+
+    // 2. Fallback to SystemStats API (Cache the heavy object!)
+    if (solarIntensity == null && System has :getSystemStats) {
+        var stats = System.getSystemStats(); // Called exactly ONCE
+        if (stats has :solarIntensity && stats.solarIntensity != null) {
+            solarIntensity = stats.solarIntensity;
+        }
+    }
+    
+    // 3. Early Exit (Skip layout math if the watch has no solar panel)
+    if (solarIntensity == null) {
+        return false;
+    }
+
+    // 4. Single-Pass Color Logic (Flattened)
+    var solarIconColour;
+    var isDarkTheme = (fontColor == Graphics.COLOR_WHITE);
+
+    if (solarIntensity >= 80) { // Extreme
+        solarIconColour = isDarkTheme ? 0xAA55FF : 0xFF00AA; 
+    } else if (solarIntensity >= 60) { // Very High
+        solarIconColour = isDarkTheme ? Graphics.COLOR_RED : 0xFF0000; 
+    } else if (solarIntensity >= 40) { // High
+        solarIconColour = isDarkTheme ? 0xFFAA00 : 0xFF5500; 
+    } else if (solarIntensity >= 20) { // Moderate
+        solarIconColour = isDarkTheme ? 0xFFFF55 : 0xAAAA00; 
+    } else if (solarIntensity > 0) { // Low
+        // Nested ternary applied to safely handle the accent color check
+        solarIconColour = isDarkTheme ? ((accentColor == 0xAAFF00) ? 0xAAFF00 : 0x55FF00) : 0x00AA00;
+    } else { // Non-existent
+        solarIconColour = isDarkTheme ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY;
+    }
+
+    // 5. Layout Offsets (Only calculated if rendering)
+    // Modifying yIcon directly saves us from declaring a separate 'offsetY' variable
+    if (width == 280 || width == 240) { // Fenix 6X & Enduro
+        yIcon -= 2;
+    } else if (width == 260) {
+        yIcon -= 1; // Rounding -0.5 to nearest integer to avoid float coercion!
+    }
+      
+    // 6. Draw Icon
+    dc.setColor(solarIconColour, Graphics.COLOR_TRANSPARENT); 
+    dc.drawText(xIcon, yIcon, IconsFont, "R", Graphics.TEXT_JUSTIFY_CENTER); 
+    
+    // 7. Draw Text
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, solarIntensity.toNumber().toString() + "%", Graphics.TEXT_JUSTIFY_LEFT);
+    
+    return true;
+	}
+
+/* old function
 	function drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
 	
 		var solarIntensity=0;
@@ -2665,9 +3114,9 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
 				solarIconColour = 0xFFFF55; 
 			} else if (solarIntensity > 0) { // Low
 				if (accentColor == 0xAAFF00) {
-					solarIconColour = 0xAAFF00; /* Vivomove GREEN */
+					solarIconColour = 0xAAFF00; // Vivomove GREEN
 				} else {
-					solarIconColour = 0x55FF00; /* GREEN */
+					solarIconColour = 0x55FF00; // GREEN
 				}		
 			} else { // Not existent
 				solarIconColour = Graphics.COLOR_LT_GRAY;
@@ -2701,7 +3150,7 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
 		dc.drawText( xText , yText , fontSize, solarIntensity + "%", Graphics.TEXT_JUSTIFY_LEFT);
 		return true;
   }
-    
+*/
 
 	/* ------------------------ */
 	
@@ -2837,7 +3286,7 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
     }
 
     // 2. Fallback to SensorHistory API
-    if (bbValue == null && Toybox has :SensorHistory && Toybox.SensorHistory has :getBodyBatteryHistory) {
+    if (bbValue == null && Toybox has :SensorHistory && SensorHistory has :getBodyBatteryHistory) {
         supportsBodyBattery = true;
         var bbIterator = Toybox.SensorHistory.getBodyBatteryHistory({:period => 1});
         if (bbIterator != null) {
@@ -2868,7 +3317,7 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
     var textStr;
 
     if (bbValue != null) {
-        textStr = bbValue.toString(); // Faster than format("%d")
+        textStr = bbValue.format("%d"); // .toString() is faster than format("%d")
         var isDarkTheme = (fontColor == Graphics.COLOR_WHITE);
 
         if (bbValue <= 25) {
@@ -2973,9 +3422,9 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
     }
 
     // 2. Fallback to SensorHistory API
-    if (stressScore == null && Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
+    if (stressScore == null && Toybox has :SensorHistory && SensorHistory has :getStressHistory) {
         supportsStress = true;
-        var stressIterator = Toybox.SensorHistory.getStressHistory({:period => 1});
+        var stressIterator = SensorHistory.getStressHistory({:period => 1});
         
         if (stressIterator != null) {
             var sample = stressIterator.next(); 
@@ -2993,7 +3442,7 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
     // 4. Layout Offsets (Removed slow floating-point -0.5 math)
     var offsetY = 0;
     if (width >= 360) { // Fenix 6X & Enduro
-        offsetY = 1;
+        offsetY = width * 0.02;
     } else if (width == 260) {
         offsetY = -1; // Rounding -0.5 to nearest integer prevents runtime type coercion
     }
@@ -3003,8 +3452,7 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 
     // 5. Data Formatting and Color Consolidation
     if (stressScore != null) {
-        // .toString() is faster than .format("%d")
-        textStr = stressScore.toString(); 
+        textStr = stressScore.format("%d").toString(); 
         
         // Caching this evaluation saves us from running it 4 times
         var isDarkTheme = (fontColor == Graphics.COLOR_WHITE); 
@@ -3094,7 +3542,80 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 
 /* ------------------------ */
 	// Add Vo2 Max - vo2maxRunning and vo2maxCycling from UserProfile.getProfile()
+	function drawVO2Max(dc, xIcon, yIcon, xText, yText, width, cycle) { 
+    var vo2max = null;
 
+    // 1. Try Complications API First (API 4.2.0+)
+    if (Toybox has :Complications) {
+        // Dynamically select Run or Bike based on the 'cycle' parameter
+        var compType = cycle ? Toybox.Complications.COMPLICATION_TYPE_VO2MAX_BIKE 
+                             : Toybox.Complications.COMPLICATION_TYPE_VO2MAX_RUN;
+                             
+        var vo2Comp = Toybox.Complications.getComplication(new Toybox.Complications.Id(compType));
+        
+        if (vo2Comp != null && vo2Comp.value != null) {
+            vo2max = vo2Comp.value;
+        }
+    }
+
+    // 2. Fallback to UserProfile API (Cache the object!)
+    if (vo2max == null && Toybox has :UserProfile) {
+        var profile = UserProfile.getProfile(); // Called exactly ONCE
+        
+        // Properly respect the 'cycle' parameter to pull the correct metric
+        if (cycle && profile has :vo2maxCycling && profile.vo2maxCycling != null) {
+            vo2max = profile.vo2maxCycling;
+        } else if (!cycle && profile has :vo2maxRunning && profile.vo2maxRunning != null) {
+            vo2max = profile.vo2maxRunning;
+        }
+    }
+
+    // 3. Early Exit (Skip layout math if there is no data)
+    if (vo2max == null) { 
+        return false; 
+    }
+
+    // 4. Layout Offsets 
+    if (width == 280 || width == 240) { // Fenix 6X & Enduro
+        yIcon -= 5;
+    } else if (width == 260) {
+        yIcon -= 4;
+    } else if (width == 218) {
+        yIcon -= 3;
+    } else if (width == 360) {
+        yIcon -= 1;
+    }
+
+    // 5. Data Formatting & Single-Pass Color Logic
+    var iconColor;
+    var isDarkTheme = (fontColor == Graphics.COLOR_WHITE);
+
+    if (vo2max <= 30) { // Very Poor
+        iconColor = isDarkTheme ? Graphics.COLOR_RED : 0xAA0000;
+    } else if (vo2max <= 34) { // Poor
+        iconColor = isDarkTheme ? Graphics.COLOR_ORANGE : 0xFF5500;
+    } else if (vo2max <= 39) { // Fair
+        iconColor = 0xAAFF00; 
+    } else if (vo2max <= 44) { // Good
+        iconColor = isDarkTheme ? (width >= 360 ? 0xAAFF00 : 0x55FF00) : 0x55FF00;
+    } else if (vo2max <= 48) { // Excellent
+        iconColor = isDarkTheme ? Graphics.COLOR_BLUE : 0x00AAAA;
+    } else { // Superior
+        iconColor = isDarkTheme ? 0xAA55FF : 0x5500AA;
+    }
+
+    // 6. Draw Icon
+    dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xIcon, yIcon, IconsFont, "X", Graphics.TEXT_JUSTIFY_CENTER);
+    
+    // 7. Draw Text
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xText, yText, fontSize, vo2max.toNumber().toString(), Graphics.TEXT_JUSTIFY_LEFT);
+    
+    return true;
+	}
+
+/* old function 
 	function drawVO2Max(dc, xIcon, yIcon, xText, yText, width, cycle) {	
 	
 		var text = null;
@@ -3126,9 +3647,9 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 				dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT);
 			} else if (text<=44){ // Good
 				if (width>=360) {
-					dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); /* Vivomove GREEN */
+					dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT); // Vivomove GREEN
 				} else {
-					dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); /* GREEN */
+					dc.setColor(0x55FF00, Graphics.COLOR_TRANSPARENT); // GREEN
 				}		
 			} else if (text<=48){ // Excellent
 				dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT); // Blue or Graphics.COLOR_BLUE
@@ -3158,9 +3679,63 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 		
 		return true;
 	}
+/*
+
 
 /* ------------------------ */
 	// Add respiration Rate (breaths per minute) - respirationRate from ActivityMonitor.getInfo()
+	function drawRespiration(dc, xIcon, yIcon, xText, yText, accentColor, width) {
+    var respRate = null;
+
+    // 1. Try Complications API First (API 4.2.0+)
+    if (Toybox has :Complications) { // && Toybox.Complications has :COMPLICATION_TYPE_RESPIRATION_RATE
+        var respComp = Toybox.Complications.getComplication(new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_RESPIRATION_RATE));
+        
+        if (respComp != null && respComp.value != null) {
+            respRate = respComp.value;
+        }
+    }
+
+    // 2. Fallback to ActivityMonitor API (Cache the object!)
+    if (respRate == null && Toybox has :ActivityMonitor) {
+        var info = ActivityMonitor.getInfo(); // Called exactly ONCE
+        if (info has :respirationRate && info.respirationRate != null) {
+            respRate = info.respirationRate;
+        }
+    }
+
+    // 3. Format Text (Handle the null fallback to "--")
+    var text = (respRate != null) ? respRate.toNumber().toString() : "--";
+
+    // 4. Draw Text
+    dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);   
+    dc.drawText(xText, yText, fontSize, text, Graphics.TEXT_JUSTIFY_LEFT);
+    
+    // 5. Layout Offsets (For the Icon)
+    if (width == 280 || width == 240) { // Fenix 6X & Enduro
+        yIcon -= 5;
+    } else if (width == 260) {
+        yIcon -= 4;
+    } else if (width == 218) {
+        yIcon -= 3;
+    }
+
+    // 6. Icon Color Logic (Flattened)
+    var iconColor;
+    if (width >= 360) { // AMOLED displays
+        iconColor = (fontColor == Graphics.COLOR_WHITE) ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY;
+    } else { // MIP displays, for better readability
+        iconColor = fontColor;
+    }
+
+    // 7. Draw Icon
+    dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(xIcon, yIcon, IconsFont, "W", Graphics.TEXT_JUSTIFY_CENTER);
+    
+    return true;
+	}
+
+/* old function
 	function drawRespiration(dc, xIcon, yIcon, xText, yText, accentColor, width) {
 
 		var text=null;    
@@ -3192,8 +3767,8 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 		}
 		dc.drawText( xIcon, yIcon, IconsFont, "W", Graphics.TEXT_JUSTIFY_CENTER);
 		return true;
-
 	}
+*/
 
 /* ------------------------ */
 
@@ -3527,9 +4102,10 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		} else if ((side>2 and dataPoint == 13) or (side<=2 and dataPoint == 17)) { // Intensity Minutes
 			drawIntensityMin(dc, xIcon-(xIcon*0.002), yIcon+(width*0.015)-(offset390*2), xText, yText, width, accentColor);
 		} else if ((side>2 and dataPoint == 14) or (side<=2 and dataPoint == 18)) { // SolarIntensity (dc, xIcon, yIcon, xText, yText, width, accentColor)
-			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);			
+			drawBodyBattery(dc, xIcon+2, yIcon-1, xText+(xText*0.01), yText, width);
+			//drawBodyBattery(dc, xIcon+2, yIcon-(width*0.05), xText+(xText*0.01), yText, width);
 		} else if ((side>2 and dataPoint == 15) or (side<=2 and dataPoint == 19)) { // Calories(dc, xIcon, yIcon, xText, yText, width)
-			drawStress(dc, xIcon-(xIcon*0.002), yIcon+4, xText, yText, width);
+			drawStress(dc, xIcon-(xIcon*0.002), yIcon, xText, yText, width);
 		} else if ((side>2 and dataPoint == 16) or (side<=2 and dataPoint == 20)) { // Respiration Rate(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawRespiration(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, accentColor, width);
 		} else if ((side>2 and dataPoint == 17) or (side<=2 and dataPoint == 21)) { // Recovery Time(dc, xIcon, yIcon, xText, yText, width, accentColor)
@@ -3541,7 +4117,6 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		}	else if ((side>2 and dataPoint == 20) or (side<=2 and dataPoint == 24)) { // Next Sun Event
 			drawSunriseSunset(dc, xIcon, yIcon+(xIcon*0.002), xText-offset390, yText, width);
 		} else if ((side>2 and dataPoint == 21) or (side<=2 and dataPoint == 25)) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			//drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.035)-offset390, xText, yText, width);
 			drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(width*0.025)-offset390, xText, yText, width);
 		} else if (side>2 and dataPoint == 22){
 			drawForecast(dc, xIcon+(width*0.06), yIcon+(width*0.01), width, 2);
@@ -3613,7 +4188,6 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		} else if ((side>2 and dataPoint == 19) or (side<=2 and dataPoint == 23)) { // Vo2 Max Cycling(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
 			drawVO2Max(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.03)-offset390, xText, yText, width, true); //cycling
 		} else if ((side>2 and dataPoint == 21) or (side<=2 and dataPoint == 25)) { // Notification(dc, xIcon, yIcon, xText, yText, accentColor, width, Xoffset)
-			//drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(xIcon*0.035)-offset390, xText, yText, width);
 			drawBatteryConsumption(dc, xIcon-(xIcon*0.002), yIcon+(width*0.025)-offset390, xText, yText, width);
 		} else if (side<=2 and dataPoint == 1) { 
 			drawDistance(dc, xIcon-offset390, yIcon, xText+(xText*0.015)-offset390, yText, width, accentColor);
