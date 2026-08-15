@@ -55,7 +55,7 @@ class AnalogView extends WatchUi.WatchFace {
             }
         }
 
-        var currentVersion=560;
+        var currentVersion=561;
             
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){ // only runs at first install or watch face initialization
             Storage.setValue(23,currentVersion);
@@ -279,7 +279,7 @@ class AnalogView extends WatchUi.WatchFace {
                 if (weatherComp != null && weatherComp.value != null) {
                     condition = weatherComp.value;
                 }
-                System.println("Complication Weather Condition: " + condition);
+                //System.println("Complication Weather Condition: " + condition);
             }
 
             // 2. Fallback to Weather API
@@ -290,7 +290,7 @@ class AnalogView extends WatchUi.WatchFace {
                 if (conditionsObj != null) {
                     condition = conditionsObj.condition;
                 }
-                System.println("Fallback: " + condition);
+                //System.println("Fallback: " + condition);
             }
 
             // 3. Render if valid data exists
@@ -298,8 +298,8 @@ class AnalogView extends WatchUi.WatchFace {
                 
                 // --- EFFICIENCY GAIN: Calculate Y coordinates once ---
                 var iconY, tempY, locY;
-                System.println(System.getDeviceSettings().screenShape);
-                System.println(System.SCREEN_SHAPE_ROUND);
+                //System.println(System.getDeviceSettings().screenShape);
+                //System.println(System.SCREEN_SHAPE_ROUND);
                 
                 if (logo == false) { 
                     iconY = position[22];

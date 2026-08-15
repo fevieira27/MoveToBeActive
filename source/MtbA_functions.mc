@@ -1827,7 +1827,6 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 	// Draw Steps
 	function drawSteps(dc, xIcon, yIcon, xText, yText, width, accentColor) {	
 
-		var unit = "";
 		var distStr = null;
         
     var offsetY = 0;
@@ -1842,12 +1841,14 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 		}
 
     if (Toybox has :Complications) {
-        var stepsComplicationId = new Complications.Id(Complications.COMPLICATION_TYPE_STEPS);
-        var stepsComplication = Complications.getComplication(stepsComplicationId);
+        var stepsComplication = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_STEPS));
         
         if (stepsComplication != null && stepsComplication.value != null) {
             distStr = stepsComplication.value;
-        }
+						if (distStr instanceof Float) { // Garmin's Complications API returns integer before 10k and Float after 10k, but we want Integer always
+							distStr = null; // Fallback to ActivityMonitor after 10k
+						}
+				}
     }
 
     // 2. Fallback to Activity and ActivityMonitor for older devices
@@ -1872,7 +1873,7 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 		
 		// Steps Text	        
 		dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(xText , yText, fontSize, distStr + unit, Graphics.TEXT_JUSTIFY_LEFT); // Step Text
+		dc.drawText(xText , yText, fontSize, distStr, Graphics.TEXT_JUSTIFY_LEFT); // Step Text
 	}
 
 
@@ -3029,7 +3030,8 @@ function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {
 	// Draw Solar Intensity
 	function drawSolarIntensity(dc, xIcon, yIcon, xText, yText, width, accentColor) { 
     var solarIntensity = null;
-    
+
+/* Returns incorrect numbers for now (Aug/2026 - SDK 9.2.0) - Garmin is aware of the issue and is working on a fix (https://forums.garmin.com/developer/connect-iq/i/bug-reports/the-solar-input-data-collected-from-complications-complication_type_solar_input-don-t-make-sense).
     // 1. Try Complications API First (API 4.2.0+)
     if (Toybox has :Complications) {
         var solarComp = Toybox.Complications.getComplication(new Toybox.Complications.Id(Toybox.Complications.COMPLICATION_TYPE_SOLAR_INPUT));
@@ -3038,6 +3040,7 @@ function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {
             solarIntensity = solarComp.value;
         }
     }
+*/
 
     // 2. Fallback to SystemStats API (Cache the heavy object!)
     if (solarIntensity == null && System has :getSystemStats) {
@@ -3775,6 +3778,7 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 // Add Recovery Time (hours) - timeToRecovery from ActivityMonitor.getInfo()
 function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {          
     var recovery = null;
+		var unitText = " h";
 
     // 1. Try Complications API First (API 4.2.0+)
     if (Toybox has :Complications) {
@@ -3782,6 +3786,11 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
         
         if (recovComp != null && recovComp.value != null) {
             recovery = recovComp.value;
+						if (recovery > 99) {
+							recovery = recovery / 60; // Convert minutes to hours
+						} else {
+							unitText = " min";
+						}
         }
     }
 
@@ -3790,6 +3799,7 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
         var info = ActivityMonitor.getInfo(); // Cache the object to avoid multiple API calls
         if (info has :timeToRecovery && info.timeToRecovery != null) {
             recovery = info.timeToRecovery;
+
         }
     }
 
@@ -3817,10 +3827,8 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
 
     // 7. Format and Draw Text
     // .toFloat() ensures safely formatted decimals regardless of whether the API returns a Number or Float
-    var recText = (recovery >= 10 ? recovery.toFloat().format("%.0f") : recovery.toFloat().format("%.1f")) + " hs";
-
     dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
-    dc.drawText(xText, yText, fontSize, recText, Graphics.TEXT_JUSTIFY_LEFT); 
+    dc.drawText(xText, yText, fontSize, (recovery < 10 && unitText==" h" ? recovery.toFloat().format("%.1f") : recovery.toFloat().format("%.0f"))+unitText, Graphics.TEXT_JUSTIFY_LEFT); 
     
     return true;        
 }
