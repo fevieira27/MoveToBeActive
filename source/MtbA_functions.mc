@@ -3777,8 +3777,8 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 
 // Add Recovery Time (hours) - timeToRecovery from ActivityMonitor.getInfo()
 function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {          
-    var recovery = null;
-		var unitText = " h";
+    var recovery = 0.0 as Float;
+		var unitText = "h";
 
     // 1. Try Complications API First (API 4.2.0+)
     if (Toybox has :Complications) {
@@ -3787,9 +3787,9 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
         if (recovComp != null && recovComp.value != null) {
             recovery = recovComp.value;
 						if (recovery > 99) {
-							recovery = recovery / 60; // Convert minutes to hours
+							recovery = recovery.toFloat() / 60; // Convert minutes to hours
 						} else {
-							unitText = " min";
+							unitText = "min";
 						}
         }
     }
@@ -3799,7 +3799,6 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
         var info = ActivityMonitor.getInfo(); // Cache the object to avoid multiple API calls
         if (info has :timeToRecovery && info.timeToRecovery != null) {
             recovery = info.timeToRecovery;
-
         }
     }
 
@@ -3828,8 +3827,8 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
     // 7. Format and Draw Text
     // .toFloat() ensures safely formatted decimals regardless of whether the API returns a Number or Float
     dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
-    dc.drawText(xText, yText, fontSize, (recovery < 10 && unitText==" h" ? recovery.toFloat().format("%.1f") : recovery.toFloat().format("%.0f"))+unitText, Graphics.TEXT_JUSTIFY_LEFT); 
-    
+    dc.drawText(xText, yText, fontSize, (recovery < 10 && unitText.equals("h") ? recovery.toFloat().format("%.1f") : recovery.toFloat().format("%.0f"))+unitText, Graphics.TEXT_JUSTIFY_LEFT); 
+
     return true;        
 }
 
