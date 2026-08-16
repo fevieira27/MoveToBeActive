@@ -3795,7 +3795,7 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
     }
 
     // 2. Fallback to ActivityMonitor API
-    if (recovery == null && ActivityMonitor has :getInfo) {
+    if (recovery == 0 && ActivityMonitor has :getInfo) {
         var info = ActivityMonitor.getInfo(); // Cache the object to avoid multiple API calls
         if (info has :timeToRecovery && info.timeToRecovery != null) {
             recovery = info.timeToRecovery;
@@ -3803,7 +3803,7 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
     }
 
     // 3. Early Exit! (Saves CPU by skipping layout math if there is no data)
-    if (recovery == null) {
+    if (recovery == 0) {
         return false;
     } 
 
