@@ -360,6 +360,10 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Shows sleep score for the 30 first minutes after waking up (only for CIQ 6.0.2+)
 - [X] Updated to Garmin SDK 9.2.0.
 
+5.6.1 update - 16/Aug/26
+- [X] Fixed issue with Steps, Recovery Time and Solar Input data fields. These were showing weird behaviours when getting data from the Complications class. Fixes were either making extra conditions and conversions, or falling back to previous used class.
+- [X] Code clean up on AnalogView.
+
 **5.7.0** (Estimated Q4 2026)
 - [ ] Add new data field to show UV level (from Weather Condition)
 - [ ] Add new data field to show training readiness (from Complications)
