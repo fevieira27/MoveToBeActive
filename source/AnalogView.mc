@@ -21,6 +21,8 @@ var inLowPower as Boolean = false;
 var canBurnIn=false;
 var upTop=true;
 var MtbA = null;
+var mTrendData; // Holds [pressure, time, wantsSeaLevel, trendArrow] in RAM
+var mTrendArrow = 0;
 
 // This implements an analog watch face
 // Original design by Austen Harbour
@@ -55,10 +57,11 @@ class AnalogView extends WatchUi.WatchFace {
             }
         }
 
-        var currentVersion=561;
+        var currentVersion=564;
             
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){ // only runs at first install or watch face initialization
             Storage.setValue(23,currentVersion);
+            $.mTrendData = Storage.getValue(34);
             if ($.config[4] == null ){ Storage.setValue(3, true); $.config[4]=true; } // Garmin Logo
             if ($.config[12] == null ){ Storage.setValue(4, true); $.config[12]=true; } // Bluetooth Logo
             if ($.config[7] == null ){ Storage.setValue(6, true); $.config[7]=true; } // Temperature Type

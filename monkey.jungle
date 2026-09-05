@@ -32,6 +32,8 @@ base.excludeAnnotations = square;crossover;lowColors;MIPcolors;noTempo;beforeAPI
 # MIP API 6.0.2+
 fenix8solar47mm.excludeAnnotations = square;crossover;LEDcolors;lowColors;noTempo;beforeAPI6
 fenix8solar51mm.excludeAnnotations = square;crossover;LEDcolors;lowColors;noTempo;beforeAPI6
+fenix9prosolar47mm.excludeAnnotations = square;crossover;LEDcolors;lowColors;noTempo;beforeAPI6
+fenix9prosolar51mm.excludeAnnotations = square;crossover;LEDcolors;lowColors;noTempo;beforeAPI6
 enduro3.excludeAnnotations = square;crossover;LEDcolors;lowColors;noTempo;beforeAPI6
 # AMOLED pre-API 6.0.2
 d2mach2pro.excludeAnnotations = square;crossover;lowColors;MIPcolors;noTempo;afterAPI6

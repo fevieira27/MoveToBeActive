@@ -1,15 +1,6 @@
 // All functions used to draw data points and icons in the watch face
-/*
-using Toybox.System;
-//import Toybox.WatchUi;
-using Toybox.Weather;
-using Toybox.ActivityMonitor;
-using Toybox.UserProfile;
-using Toybox.Activity;
-using Toybox.Math;
-using Toybox.Graphics;
-*/
 import Toybox.Lang;
+import Toybox.Math;
 import Toybox.Application;
 import Toybox.Time;
 import Toybox.Complications;
@@ -930,7 +921,7 @@ function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
 	if (isShowingSleep) {
 		//x -= 1;
 		dc.setColor(sleepScoreColor, Graphics.COLOR_TRANSPARENT); 
-		dc.drawText(x/2+dc.getTextWidthInPixels(textToDraw,Graphics.FONT_XTINY)-dc.getTextWidthInPixels("  ",Graphics.FONT_XTINY), y, Graphics.FONT_XTINY, sleepScore.toString(), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(x/2+dc.getTextWidthInPixels(textToDraw,Graphics.FONT_XTINY)-dc.getTextWidthInPixels("   ",Graphics.FONT_XTINY), y, Graphics.FONT_XTINY, sleepScore.toString(), Graphics.TEXT_JUSTIFY_CENTER);
 	}
 	
 }
@@ -1522,11 +1513,16 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
             }
         }
     } else {
-        text = Storage.getValue(31);
-        if (text == null && maxCharge == null){
-            text = "charge"; 
-        } else if (text == null && maxCharge != null) {
-            text = "estim."; 
+        if (maxCharge != null && (battery >= maxCharge || (maxCharge - battery) < 1)) {
+            text = "estim.";
+            Storage.setValue(31, "estim.");
+        } else {
+            text = Storage.getValue(31);
+            if (text == null && maxCharge == null){
+                text = "charge"; 
+            } else if (text == null && maxCharge != null) {
+                text = "estim."; 
+            }
         }
     }
 
@@ -2431,9 +2427,9 @@ function drawElevation(dc, xIcon, yIcon, xText, yText, width, side) {
 /* ------------------------ */
 	
 	// Draw Atmospheric Pressure
-function drawPressure(dc, xIcon, yIcon, xText, yText, width) {  
+function drawPressure(dc, xIcon, yIcon, xText, yText, width, side) {  
     var pressure = null;
-    var wantsSeaLevel = (Storage.getValue(20) == true);
+    var wantsSeaLevel = Storage.getValue(20); // User preference for Sea Level Pressure (true) or Ambient Pressure (false)
 
     // 1. Try Complications API First (Sea Level Pressure ONLY)
     if (wantsSeaLevel && Toybox has :Complications) {
@@ -2496,6 +2492,50 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
         }
     }
 
+    // C. Compare readings over a three-hour window. Key 40 is runtime trend
+    // data and is intentionally separate from user settings.
+    var trendArrow = 0;
+		if (pressure != null) {
+				var nowSec = Time.now().value();
+
+				// 1. Reset / Initialize storage cache if invalid
+				if (mTrendData == null || !(mTrendData instanceof Array) || mTrendData.size() < 4) {
+						mTrendData = [pressure, nowSec, wantsSeaLevel, 0];
+						Storage.setValue(34, mTrendData);
+				} 
+				// 2. Reset if user toggled sea level setting or clock shifted backward
+				else if (mTrendData[2] != wantsSeaLevel || nowSec < mTrendData[1]) {
+						mTrendData[0] = pressure;
+						mTrendData[1] = nowSec;
+						mTrendData[2] = wantsSeaLevel;
+						mTrendData[3] = 0;
+						Storage.setValue(34, mTrendData);
+				} 
+				// 3. Valid state: Check 3-hour delta
+				else {
+						trendArrow = mTrendData[3];
+						
+						if ((nowSec - mTrendData[1]) >= 10800) { // 3 Hours (10,800 sec)
+								var pressureDelta = pressure - mTrendData[0];
+
+								if (pressureDelta >= 300) {
+										trendArrow = 1;
+								} else if (pressureDelta <= -300) {
+										trendArrow = -1;
+								} else {
+										trendArrow = 0;
+								}
+
+								// Update RAM cache and write to Storage ONCE every 3 hours
+								mTrendData[0] = pressure;
+								mTrendData[1] = nowSec;
+								mTrendData[2] = wantsSeaLevel;
+								mTrendData[3] = trendArrow;
+								Storage.setValue(34, mTrendData);
+						}
+				}
+		}
+
     // 5. Draw Icon
     dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
     dc.drawText(xIcon, yIcon + offset, IconsFont, "@", Graphics.TEXT_JUSTIFY_CENTER); 
@@ -2503,6 +2543,15 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width) {
     // 6. Draw Pressure Text
     dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
     dc.drawText(xText, yText, fontSize, pressureStr, Graphics.TEXT_JUSTIFY_LEFT); 
+
+    // 7. Draw the ASCII trend arrows immediately after the pressure value.
+    if ((width > 240 or side != 3) and trendArrow != 0 and pressureStr != "") {
+        var arrowColor = trendArrow > 0
+            ? (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_BLUE : 0x0055AA)
+            : (fontColor == Graphics.COLOR_WHITE ? 0xFFAA00 : 0xFF5500);
+        dc.setColor(arrowColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(xText + dc.getTextWidthInPixels(pressureStr, fontSize) + 1, yText, fontSize, trendArrow > 0 ? "^" : "v", Graphics.TEXT_JUSTIFY_LEFT);
+    }
 }
 
 /* old function
@@ -2892,31 +2941,31 @@ function drawMinMaxTemp(dc, xIcon, yIcon, xText, yText, width) {
 
 			if (fontColor == Graphics.COLOR_WHITE){ // Dark Theme
 				if (windSpeed >= 32.7) { // Hurricane Force
-					windIconColour = 0xAA0000;
+					windIconColour = 0xAA0000; // dark red
 				} else if (windSpeed >= 28.5) { // Violent Storm
-					windIconColour = 0xFF0000;
+					windIconColour = 0xFF0000; // bright red
 				} else if (windSpeed >= 24.5) { // Storm
-					windIconColour = 0xFF5500;
+					windIconColour = 0xFF5500; // Orange
 				} else if (windSpeed >= 20.8) { // Strong Gale
-					windIconColour = 0xFFAA00;
+					windIconColour = 0xFFAA00; // Light Orange
 				} else if (windSpeed >= 17.2) { // Gale
-					windIconColour = 0xFFAA55;
+					windIconColour = 0xFFAA55; // Lighter Orange
 				} else if (windSpeed >= 13.9) { // Near Gale
-					windIconColour = 0xAAFF00;
+					windIconColour = 0xAAFF00; // Yellow
 				} else if (windSpeed >= 10.8) { // Strong Breeze
-					windIconColour = 0x55FF00;
+					windIconColour = 0x55FF00; // Green
 				} else if (windSpeed >= 8) { // Fresh Breeze
-					windIconColour = 0x00FF55;
+					windIconColour = 0x00FF55; // Light Green
 				} else if (windSpeed >= 5.5) { // Moderate Breeze
-					windIconColour = 0x55FFAA;
+					windIconColour = 0x55FFAA; // Lighter Green
 				} else if (windSpeed >= 3.4) { // Gentle Breeze
-					windIconColour = 0xAAFFAA;
+					windIconColour = 0xAAFFAA; // Pastel Green
 				} else if (windSpeed >= 1.6) { // Light Breeze
-					windIconColour = 0x55FFFF;
+					windIconColour = 0x55FFFF; // Cyan
 				} else if (windSpeed >= 0.5) { // Light Air
-					windIconColour = 0xAAFFFF; 
+					windIconColour = 0xAAFFFF; // Light Blue
 				} else { // Calm
-					windIconColour = 0xFFFFFF; 
+					windIconColour = 0xFFFFFF; // White
 				}  
 			} else { // Light Theme
 				if (windSpeed >= 32.7) { // Hurricane Force
@@ -3777,13 +3826,16 @@ function drawStress(dc, xIcon, yIcon, xText, yText, width) {
 
 // Add Recovery Time (hours) - timeToRecovery from ActivityMonitor.getInfo()
 function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {          
-    var recovery = 0.0 as Float;
+    var recovery = null as Float;
 		var unitText = "h";
+		// Determine Icon Color mathematically
+		var iconColor = (width >= 360) 
+        ? (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY)
+        : fontColor; // MIP displays fallback
 
     // 1. Try Complications API First (API 4.2.0+)
     if (Toybox has :Complications) {
         var recovComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_RECOVERY_TIME));
-        
         if (recovComp != null && recovComp.value != null) {
             recovery = recovComp.value;
 						if (recovery > 99) {
@@ -3791,11 +3843,47 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
 						} else {
 							unitText = "min";
 						}
+						var status = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_TRAINING_STATUS));
+						if (status != null && !(status.value.equals("No Result") or status.value.equals("DETRAINING") or status.value.equals("UNDEFINED") or status.value.equals("PAUSED"))) {
+							if (fontColor == Graphics.COLOR_WHITE){ // Dark Theme
+								if (status.value.equals("PEAKING") or status.value.equals("PEAK")){ // PEAK
+									iconColor = 0xAA55FF; // Violet
+								} else if (status.value.equals("STRAINED")){ // STRAINED
+									iconColor = 0xFF00FF; // Light Magenta
+								} else if (status.value.equals("MAINTAINING")){ // MAINTENANCE
+									iconColor = 0xAAFF00; // Yellow
+								} else if (status.value.equals("PRODUCTIVE")){ // PRODUCTIVE
+									iconColor = 0x55FF00; // Green
+								} else if (status.value.equals("UNPRODUCTIVE")){ // UNPRODUCTIVE
+									iconColor = 0xFFA500; 		// Orange
+								} else if (status.value.equals("OVERREACHING")){ // OVERREACHING
+									iconColor = 0xFF0000; 		// Red
+								} else if (status.value.equals("RECOVERY")){ // RECOVERY
+									iconColor = Graphics.COLOR_BLUE; // Blue
+								}  
+							} else { // Light Theme
+								if (status.value.equals("PEAKING") or status.value.equals("PEAK")){ // PEAK
+									iconColor = 0x5500AA; // Purple
+								} else if (status.value.equals("STRAINED")){ // STRAINED
+									iconColor = 0xCC00CC; // Dark Light Magenta
+								} else if (status.value.equals("MAINTAINING")){ // MAINTENANCE
+									iconColor = 0xAAAA00; 		// Yellow or AAAA55
+								} else if (status.value.equals("PRODUCTIVE")){ // PRODUCTIVE
+									iconColor = 0x00AA00; 		// Green OK
+								} else if (status.value.equals("UNPRODUCTIVE")){ // UNPRODUCTIVE
+									iconColor = 0xCC6600; 		// Dark Orange
+								} else if (status.value.equals("OVERREACHING")){ // OVERREACHING
+									iconColor = 0xCC0000; 		// Dark Light Red
+								} else if (status.value.equals("RECOVERY")){ // RECOVERY
+									iconColor = 0x0055AA; 		// Cobalt OK
+								}  
+							}
+						}
         }
     }
 
     // 2. Fallback to ActivityMonitor API
-    if (recovery == 0 && ActivityMonitor has :getInfo) {
+    if (recovery == null && ActivityMonitor has :getInfo) {
         var info = ActivityMonitor.getInfo(); // Cache the object to avoid multiple API calls
         if (info has :timeToRecovery && info.timeToRecovery != null) {
             recovery = info.timeToRecovery;
@@ -3803,7 +3891,7 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
     }
 
     // 3. Early Exit! (Saves CPU by skipping layout math if there is no data)
-    if (recovery == 0) {
+    if (recovery == null) {
         return false;
     } 
 
@@ -3814,11 +3902,6 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
     } else if (System.SCREEN_SHAPE_ROUND != screenShape) { // Rectangle display
         offset = -2;
     }
-
-    // 5. Determine Icon Color mathematically
-    var iconColor = (width >= 360) 
-        ? (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_LT_GRAY : Graphics.COLOR_DK_GRAY)
-        : fontColor; // MIP displays fallback
 
     // 6. Draw Icon
     dc.setColor(iconColor, Graphics.COLOR_TRANSPARENT);
@@ -4086,7 +4169,7 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 			if (side<=3){ xText=xText+width*0.012; }
 			drawPrecipitation(dc, xIcon+(xIcon*0.0125)+offset390, yIcon-(xIcon*0.001)+(offset390*2), xText+(xText*0.025)-(offset390*2), yText, width);
 		} else if ((side>2 and dataPoint == 3) or (side<=2 and dataPoint == 7)) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width, side);
 		} else if ((side>2 and dataPoint == 4) or (side<=2 and dataPoint == 8)) { // Calories Total
 			drawCalories(dc, xIcon+(offset390*2), yIcon, xText, yText, width, 1);
 		} else if ((side>2 and dataPoint == 5) or (side<=2 and dataPoint == 9)) { // Calories Active
@@ -4160,7 +4243,7 @@ function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) {
 		if (dataPoint == 0) { //Steps 
 			drawSteps(dc, xIcon-(xIcon*0.002), yIcon, xText, yText, width, accentColor);
 		} else if ((side>2 and dataPoint == 3) or (side<=2 and dataPoint == 7)) { // elevationIcon(dc, xIcon, yIcon, xText, yText, width)
-			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width);
+			drawPressure(dc, xIcon, yIcon, xText+(xText*0.01)-offset390, yText, width, side);
 		} else if ((side>2 and dataPoint == 4) or (side<=2 and dataPoint == 8)) { // Calories Total
 			drawCalories(dc, xIcon+(offset390*2), yIcon, xText, yText, width, 1);
 		} else if ((side>2 and dataPoint == 5) or (side<=2 and dataPoint == 9)) { // Calories Active
