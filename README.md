@@ -354,7 +354,7 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 
 5.6.0 update - 09/Aug/26
 - [X] Changed the code of all applicable data fields to use the new Complications class (if available) instead of Activity info;
-- [X] Added support for the newly released Forerunner 70 / 170 / 170 Music and D2 Mach 2 pro (thanks Enubia for the contribution);
+- [X] Added support for the newly released Forerunner 70 / 170 / 170 Music and D2 Mach 2 pro (thanks [Enubia](https://github.com/Enubia) for the contribution);
 - [X] Several code efficiency improvements (i.e. changed from Lang.format to outHour.format and outMin.format on sunrise and sunset data fields);
 - [X] Fixed position of the Intensity Minutes icon;
 - [X] Shows sleep score for the 30 first minutes after waking up (only for CIQ 6.0.2+)
