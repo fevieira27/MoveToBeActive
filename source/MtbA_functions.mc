@@ -2492,7 +2492,7 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width, side) {
         }
     }
 
-    // C. Compare readings over a three-hour window. Key 40 is runtime trend
+    // C. Compare readings over a three-hour window. Key 34 is runtime trend
     // data and is intentionally separate from user settings.
     var trendArrow = 0;
 		if (pressure != null) {
@@ -2518,9 +2518,9 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width, side) {
 						if ((nowSec - mTrendData[1]) >= 10800) { // 3 Hours (10,800 sec)
 								var pressureDelta = pressure - mTrendData[0];
 
-								if (pressureDelta >= 300) {
+								if (pressureDelta >= 250) { //250
 										trendArrow = 1;
-								} else if (pressureDelta <= -300) {
+								} else if (pressureDelta <= -250) {
 										trendArrow = -1;
 								} else {
 										trendArrow = 0;
@@ -2544,13 +2544,23 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width, side) {
     dc.setColor(fontColor, Graphics.COLOR_TRANSPARENT);
     dc.drawText(xText, yText, fontSize, pressureStr, Graphics.TEXT_JUSTIFY_LEFT); 
 
-    // 7. Draw the ASCII trend arrows immediately after the pressure value.
+    // 7. Draw the trend arrows immediately after the pressure value.
     if ((width > 240 or side != 3) and trendArrow != 0 and pressureStr != "") {
         var arrowColor = trendArrow > 0
             ? (fontColor == Graphics.COLOR_WHITE ? Graphics.COLOR_BLUE : 0x0055AA)
             : (fontColor == Graphics.COLOR_WHITE ? 0xFFAA00 : 0xFF5500);
         dc.setColor(arrowColor, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(xText + dc.getTextWidthInPixels(pressureStr, fontSize) + 1, yText, fontSize, trendArrow > 0 ? "^" : "v", Graphics.TEXT_JUSTIFY_LEFT);
+        //dc.drawText(xText + dc.getTextWidthInPixels(pressureStr, fontSize) + 1, yText, fontSize, trendArrow > 0 ? "^" : "v", Graphics.TEXT_JUSTIFY_LEFT);
+				var arrowX = xText + dc.getTextWidthInPixels(pressureStr, fontSize) + 4;
+				var arrowY = yText + dc.getFontHeight(fontSize) / 2;
+				dc.setPenWidth(2);
+				if (trendArrow > 0) {
+						dc.drawLine(arrowX, arrowY + 4, arrowX + 5, arrowY - 2);
+						dc.drawLine(arrowX + 5, arrowY - 2, arrowX + 10, arrowY + 4);
+				} else if (trendArrow < 0) {
+						dc.drawLine(arrowX, arrowY - 4, arrowX + 5, arrowY + 2);
+						dc.drawLine(arrowX + 5, arrowY + 2, arrowX + 10, arrowY - 4);
+				}
     }
 }
 

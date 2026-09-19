@@ -34,7 +34,6 @@ class AnalogView extends WatchUi.WatchFace {
 
     // Initialize variables for this view
     function initialize() {
-
         WatchFace.initialize();
         //_fullScreenRefresh = true;
         //_partialUpdatesAllowed = (WatchUi.WatchFace has :onPartialUpdate);
@@ -57,11 +56,11 @@ class AnalogView extends WatchUi.WatchFace {
             }
         }
 
-        var currentVersion=564;
+        var currentVersion=565;
             
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){ // only runs at first install or watch face initialization
             Storage.setValue(23,currentVersion);
-            $.mTrendData = Storage.getValue(34);
+            $.mTrendData = null;
             if ($.config[4] == null ){ Storage.setValue(3, true); $.config[4]=true; } // Garmin Logo
             if ($.config[12] == null ){ Storage.setValue(4, true); $.config[12]=true; } // Bluetooth Logo
             if ($.config[7] == null ){ Storage.setValue(6, true); $.config[7]=true; } // Temperature Type
@@ -94,6 +93,7 @@ class AnalogView extends WatchUi.WatchFace {
             if ($.config[25] == null or $.config[25] instanceof Array) { Storage.deleteValue(21); Storage.setValue(21, true); $.config[25]=true; } //date font size
         }        
 
+        $.mTrendData = Storage.getValue(34);
         $.MtbA = new MtbA_functions($.inLowPower as Boolean);        
     }
 
