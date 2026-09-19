@@ -371,6 +371,10 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] Added Atmospheric Pressure trend to corresponding data field (if changing rapidly)
 - [X] Fixed layout for Fenix 9 Amoled 51mm
 
+5.6.5 update - (coming soon)
+- [ ] Automatic theme based on sunrise/sunset
+- [X] Fix for Atmospheric Pressure trend
+
 **5.7.0** (Estimated Q4 2026)
 - [ ] Add new data field to show UV level (from Weather Condition)
 - [ ] Add new data field to show training readiness (from Complications)
