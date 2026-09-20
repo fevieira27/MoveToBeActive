@@ -22,7 +22,8 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
 
         var drawable1 = new CustomAccent();
         Menu2.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-        Menu2.addItem(new WatchUi.ToggleMenuItem("Theme", {:enabled=>"Light", :disabled=>"Dark"}, 32, Storage.getValue(32), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+        var drawableTheme = new CustomTheme();
+        Menu2.addItem(new WatchUi.IconMenuItem("Theme", drawableTheme.getString(), 32, drawableTheme, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
         Menu2.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
         Menu2.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
         Menu2.addItem(new WatchUi.MenuItem("Base Units", null, "units", null));
@@ -57,6 +58,8 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
         if (item instanceof WatchUi.IconMenuItem) {
             if (item.getIcon() instanceof CustomAccent){
                 item.setSubLabel((item.getIcon() as CustomAccent).nextState(item.getId()));
+            } else if (item.getIcon() instanceof CustomTheme) {
+                item.setSubLabel((item.getIcon() as CustomTheme).nextState(item.getId()));
             } else if (item.getIcon() instanceof CustomDataPoint){
                 if (item.getId()==9 or item.getId()==10){
                     item.setSubLabel((item.getIcon() as CustomDataPoint).nextState(item.getId(),1)); //big
@@ -239,6 +242,43 @@ class DrawableMenuTitle extends WatchUi.Drawable {
     }
 }
 
+class CustomTheme extends WatchUi.Drawable {
+
+    private var mIndex as Number;
+
+    public function initialize() {
+        Drawable.initialize({});
+/*        var theme = Storage.getValue(32);
+        if (theme == true) {
+            mIndex = 1;
+        } else if (theme == 2) {
+            mIndex = 2;
+        } else {
+            mIndex = 0;
+        }
+*/      mIndex = Storage.getValue(32);
+    }
+
+    public function getString() as String {
+        return ["Dark", "Light", "Automatic"][mIndex];
+    }
+
+    public function nextState(id) as String {
+        mIndex++;
+        if (mIndex >= 3) {
+            mIndex = 0;
+        }
+        Storage.setValue(32, mIndex);
+        return getString();
+    }
+
+    public function draw(dc) {
+        var color = (mIndex == 0 ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE);
+        //System.println("CustomTheme.draw() mIndex: " + mIndex);        
+        dc.setColor(color, color);
+        dc.clear();
+    }
+}
 
 // This is the custom Icon drawable. It fills the icon space with a color to
 // to demonstrate its extents. It changes color each time the next state is
@@ -413,4 +453,3 @@ class CustomThickness extends WatchUi.Drawable {
     }
 
 }
-
