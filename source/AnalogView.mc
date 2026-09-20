@@ -56,7 +56,7 @@ class AnalogView extends WatchUi.WatchFace {
             }
         }
 
-        var currentVersion=565;
+        var currentVersion=570;
             
         if (Storage.getValue(23)==null or Storage.getValue(23)<currentVersion){ // only runs at first install or watch face initialization
             Storage.setValue(23,currentVersion);
@@ -67,8 +67,8 @@ class AnalogView extends WatchUi.WatchFace {
             if ($.config[8] == null ){ Storage.setValue(7, true); $.config[8]=true; } // Location Name
             if ($.config[11] == null ){ Storage.setValue(8, true); $.config[11]=true; } // Alarm Icon
             if ($.config[13] == null ){ Storage.setValue(13, 2); $.config[13]=2; } // Hands Thickness - Thinner
-            //if (Storage.getValue(15) == null ){ Storage.setValue(15, true); } // Wind Unit
-            if (Storage.getValue(15) == null or Storage.getValue(15) instanceof Boolean){ Storage.deleteValue(15); Storage.setValue(15, 0);}  // Wind Unit
+            if (Storage.getValue(15) == null ){ Storage.setValue(15, 0); } // Wind Unit
+            //if (Storage.getValue(15) == null or Storage.getValue(15) instanceof Boolean){ Storage.deleteValue(15); Storage.setValue(15, 0);}  // Old Wind Unit
             if ($.config[22] == null ){ Storage.setValue(16, false); $.config[22]=false; } // Temperature Unit
             if ($.config[2] == null ){ Storage.setValue(18, false); $.config[2]=false; } // Tickmark Color
             if ($.config[19] == null ){ Storage.setValue(19, false); $.config[19]=false; } // Battery Estimate
@@ -78,7 +78,7 @@ class AnalogView extends WatchUi.WatchFace {
             if ($.config[6] == null ){ Storage.setValue(25, true); $.config[6]=true; } // Display Weather
             if ($.config[9] == null ){ Storage.setValue(26, true); $.config[9]=true; } // Battery Icon 
             if ($.config[24] == null ){ Storage.setValue(28, true); $.config[24]=true; } // Battery Color 
-            if ($.config[3] == null ){ Storage.setValue(32, false); $.config[3]=false; } // Theme - Default Dark
+            if ($.config[3] == null || $.config[3] instanceof Boolean){ Storage.setValue(32, 0); $.config[3]=0; } // Theme - Default Dark (0=Dark, 1=Light, 2=Auto)
             if (System.SCREEN_SHAPE_ROUND == System.getDeviceSettings().screenShape) { // If not square display
                 if ($.config[5] == null ){ Storage.setValue(5, true); $.config[5]=true; } // Hour Labels
                 if ($.config[23] == null ){ Storage.setValue(27, false); $.config[23]=false; } // Labels Color
@@ -95,6 +95,7 @@ class AnalogView extends WatchUi.WatchFace {
 
         $.mTrendData = Storage.getValue(34);
         $.MtbA = new MtbA_functions($.inLowPower as Boolean);        
+        $.config[3] = $.MtbA.updateTheme($.config[3]);
     }
 
     // Configure the layout of the watchface for this device
@@ -189,6 +190,14 @@ class AnalogView extends WatchUi.WatchFace {
         //var canBurnIn=System.getDeviceSettings().requiresBurnInProtection;
         //var accentColor = config[0];
         var accentColor = Storage.getValue(1);
+        var themeMode = Storage.getValue(32);
+        var effectiveLightTheme = $.MtbA.updateTheme(themeMode);
+        if ($.config[3] != effectiveLightTheme) {
+            $.config[3] = effectiveLightTheme;
+            accentColor = Storage.getValue(1);
+        } else {
+            $.config[3] = effectiveLightTheme;
+        }
         var tickmarkColor = $.config[2];
 
         // We always want to refresh the full screen when we get a regular onUpdate call.

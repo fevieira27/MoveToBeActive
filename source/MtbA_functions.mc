@@ -11,6 +11,11 @@ class MtbA_functions {
 	const screenShape = System.getDeviceSettings().screenShape;
 	var fontSize = (Storage.getValue(14) == true ? 1 : 0);
 	var fontColor = (Storage.getValue(32) == true ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE);
+	var sunriseSeconds = null;
+	var sunsetSeconds = null;
+	var sunTimesDay = null;
+	var daylightCheckMinute = null;
+	var daylightResult as Boolean = false;
 	var condName as String = "";
 	var lowPower as Boolean;
 	var wakeUpTimestamp = 0;
@@ -19,6 +24,89 @@ class MtbA_functions {
 
 	function initialize(inLowPower) {
 		lowPower = inLowPower;
+	}
+
+	function updateTheme(themeMode) as Boolean {
+		var isLight = false;
+
+		if (themeMode == 1) {
+			isLight = true;
+		} else if (themeMode == 2) {
+			isLight = isDaylight();
+		}
+
+		fontColor = isLight ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE;
+		return isLight;
+	}
+
+	private function getSunTimes() as Array<Number>? {
+		var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+		var dayKey = today.year * 10000 + today.month * 100 + today.day;
+
+		if (sunTimesDay != dayKey) {
+			sunriseSeconds = null;
+			sunsetSeconds = null;
+			sunTimesDay = dayKey;
+
+			if (Toybox has :Complications) {
+				var sunsetComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SUNSET));
+				var sunriseComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SUNRISE));
+				if (sunsetComp != null and sunriseComp != null and
+					sunsetComp.value instanceof Number and sunriseComp.value instanceof Number) {
+					sunsetSeconds = sunsetComp.value;
+					sunriseSeconds = sunriseComp.value;
+				}
+			}
+
+			if (sunriseSeconds == null and Toybox has :Weather and
+				Weather has :getSunset and Weather has :getSunrise) {
+				var conditions = Weather.getCurrentConditions();
+				if (conditions != null) {
+					var position = conditions.observationLocationPosition;
+					var observationTime = conditions.observationTime;
+					if (position != null and position instanceof Position.Location and
+						observationTime != null and observationTime instanceof Time.Moment) {
+						var sunset = Weather.getSunset(position, observationTime);
+						var sunrise = Weather.getSunrise(position, observationTime);
+						if (sunset != null and sunrise != null) {
+							var sunsetInfo = Time.Gregorian.info(sunset, Time.FORMAT_SHORT);
+							var sunriseInfo = Time.Gregorian.info(sunrise, Time.FORMAT_SHORT);
+							sunsetSeconds = sunsetInfo.hour * 3600 + sunsetInfo.min * 60 + sunsetInfo.sec;
+							sunriseSeconds = sunriseInfo.hour * 3600 + sunriseInfo.min * 60 + sunriseInfo.sec;
+						}
+					}
+				}
+			}
+		}
+
+		if (sunriseSeconds == null or sunsetSeconds == null) {
+			return null;
+		}
+
+		return [sunriseSeconds, sunsetSeconds];
+	}
+
+	private function isDaylight() as Boolean {
+		var today = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+		var dayKey = today.year * 10000 + today.month * 100 + today.day;
+		var clock = System.getClockTime();
+		var checkMinute = dayKey * 1440 + clock.hour * 60 + clock.min;
+
+		if (daylightCheckMinute == checkMinute) {
+			return daylightResult;
+		}
+
+		var sunTimes = getSunTimes();
+		if (sunTimes == null) {
+			daylightCheckMinute = checkMinute;
+			daylightResult = false;
+			return false;
+		}
+
+		var currentSeconds = clock.hour * 3600 + clock.min * 60 + clock.sec;
+		daylightCheckMinute = checkMinute;
+		daylightResult = currentSeconds >= sunTimes[0] and currentSeconds < sunTimes[1];
+		return daylightResult;
 	}
 
 	// This function is used to generate the coordinates of the 4 corners of the polygon
@@ -380,50 +468,7 @@ function drawWeatherIcon(dc, x, y, x2, width, cond, clockTime) {
         return false;
     }
 
-    var sunset = 18;
-    var sunrise = 6;
-    var sunTimesLoaded = false;
-
-		// 3a. SUNRISE/SUNSET VIA COMPLICATIONS (CIQ 4.2+)
-    if (Toybox has :Complications) {
-			var sunsetId = new Complications.Id(Complications.COMPLICATION_TYPE_SUNSET);
-			var sunriseId = new Complications.Id(Complications.COMPLICATION_TYPE_SUNRISE);
-			
-			var sunsetComp = Complications.getComplication(sunsetId);
-			var sunriseComp = Complications.getComplication(sunriseId);
-
-			// Check if the value is a Number (seconds since midnight)
-			if (sunsetComp != null && sunsetComp.value instanceof Number && 
-					sunriseComp != null && sunriseComp.value instanceof Number) {
-					
-					// Divide by 3600 to convert seconds since midnight into the 24-hour hour
-					sunset = sunsetComp.value / 3600;
-					sunrise = sunriseComp.value / 3600;
-					sunTimesLoaded = true;
-			}
-    }
-
-    // 3b. FALLBACK: Weather API for Sunrise/Sunset
-    if (!sunTimesLoaded && Toybox.Weather has :getSunset && Toybox.Weather has :getSunrise) {
-			var pos = conditions.observationLocationPosition;
-			var today = conditions.observationTime;
-
-			// By checking pos != null, we avoid the ERA crash you experienced on CIQ 7
-			if (pos != null && pos instanceof Position.Location && today != null && today instanceof Time.Moment) {
-				var sunsetMoment = Toybox.Weather.getSunset(pos, today);
-				if (sunsetMoment != null) {
-						sunset = Time.Gregorian.info(sunsetMoment, Time.FORMAT_SHORT).hour;
-				}
-				
-				var sunriseMoment = Toybox.Weather.getSunrise(pos, today);
-				if (sunriseMoment != null) {
-						sunrise = Time.Gregorian.info(sunriseMoment, Time.FORMAT_SHORT).hour;
-				}
-			}
-    }
-
-    // Evaluate day/night exactly once
-    var isNight = (clockTime >= sunset || clockTime < sunrise);
+    var isNight = !isDaylight();
 
     // Layout adjustments
     if (width <= 280) {
@@ -1418,7 +1463,7 @@ function drawHeartRate(dc, xIcon, hrIconY, xText, width, accentColor) {
 			}
 		}
 
-		if (estimateFlag == true and System.getSystemStats() has :batteryInDays){ // user requested and watch supports
+		if (estimateFlag == true and System.getSystemStats() has :batteryInDays){ // user requested and watch supports battery estimate in days
 			if (System.getSystemStats().batteryInDays!=null and System.getSystemStats().batteryInDays!=0){ //trying to make sure that we don't get an error if batteryInDays not supported by watch
 				battery = System.getSystemStats().batteryInDays;
 			} 
@@ -1934,16 +1979,11 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 
 
 	/* ------------------------ */
-	
+
 	// Draw Hour and Minute Hands
 (:display) function drawHands(dc, width, height, accentColor, thickInd, aod, upTop, AODColor) {	
 		var clockTime = System.getClockTime();
 		var screenCenterPoint = [width/2, height/2];
-
-		// Calculate the hour hand. Convert it to minutes and compute the angle.
-		//var hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
-		//hourHandAngle = hourHandAngle / (12 * 60.0);
-		//hourHandAngle = hourHandAngle * Math.PI * 2;
 		var hourHandAngle = Math.PI/6*(1.0*clockTime.hour+clockTime.min/60.0);
 		
 		// Correct widths and lengths depending on resolution
@@ -1959,7 +1999,7 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 		if (handWidth==260){
 			handWidth=10;
 			offsetOuterCircle=-1;			
-			if (thickInd == true or thickInd == 1) { // remove redundancies on later versions, true/false was used previously instead of 0,1,2
+			if (thickInd == 1) {
 				handWidth = handWidth+3;
 			} else if (thickInd == 2) { // thinner
 				handWidth = handWidth-2;
@@ -1967,7 +2007,7 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 		} else if (handWidth==240){
 			handWidth=10;
 			offsetOuterCircle = -1;			
-			if (thickInd == true or thickInd == 1) {
+			if (thickInd == 1) {
 				handWidth = handWidth+2;
 			} else if (thickInd == 2) {
 				handWidth = handWidth-2;
@@ -1975,7 +2015,7 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 		} else if (handWidth==280){
 			handWidth=11;
 			offsetInnerCircle = 1;
-			if (thickInd == true or thickInd == 1) {
+			if (thickInd == 1) {
 				//offsetInnerCircle = 1;
 				offsetOuterCircle = -0.5;
 				handWidth = handWidth+4;
@@ -1986,7 +2026,7 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 			handWidth=8;
 			//offsetInnerCircle = 1;
 			offsetOuterCircle = -1;
-			if (thickInd == true or thickInd == 1) {
+			if (thickInd == 1) {
 				handWidth = handWidth+3;
 				//offsetInnerCircle = 1;
 				//offsetOuterCircle = 1;
@@ -1997,7 +2037,7 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 			handWidth=15;
 			offsetInnerCircle = 1;
 			offsetOuterCircle = -1;
-			if (thickInd == true or thickInd == 1) {
+			if (thickInd == 1) {
 				handWidth = handWidth+5;
 				offsetInnerCircle = 2;
 				offsetOuterCircle = 0;
@@ -2008,7 +2048,7 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 			handWidth=14;
 			offsetInnerCircle = 1;
 			offsetOuterCircle = -1;
-			if (thickInd == true or thickInd == 1) {
+			if (thickInd == 1) {
 				handWidth = handWidth+5;
 				offsetInnerCircle = 2;
 				//offsetOuterCircle = 1;
@@ -2018,11 +2058,8 @@ function drawBatteryConsumption(dc, xIcon, yIcon, xText, yText, width) {
 		}
 		
 		var borderColor=Graphics.COLOR_BLACK, arborColor=Graphics.COLOR_LT_GRAY; // colors for not AOD mode
-		//var BurnIn = System.getDeviceSettings().requiresBurnInProtection;
 		if (aod==true and canBurnIn==true and AODColor != true) { //AOD mode ON
 			accentColor=Graphics.COLOR_LT_GRAY;
-			//arborColor=Graphics.COLOR_LT_GRAY;
-			//borderColor=Graphics.COLOR_BLACK;
 		}
 
 		//Use white to draw the hour hand, with a dark grey background
@@ -2518,9 +2555,9 @@ function drawPressure(dc, xIcon, yIcon, xText, yText, width, side) {
 						if ((nowSec - mTrendData[1]) >= 10800) { // 3 Hours (10,800 sec)
 								var pressureDelta = pressure - mTrendData[0];
 
-								if (pressureDelta >= 250) { //250
+								if (pressureDelta >= 200) { //250
 										trendArrow = 1;
-								} else if (pressureDelta <= -250) {
+								} else if (pressureDelta <= -200) {
 										trendArrow = -1;
 								} else {
 										trendArrow = 0;
@@ -3964,55 +4001,16 @@ function drawRecoveryTime(dc, xIcon, yIcon, xText, yText, width) {
 	// Draw next Sun Event time
 	//(:memory) 
 (:tempo) function drawSunriseSunset(dc, xIcon, yIcon, xText, yText, width) { 
-    var sunriseSec = null;
-    var sunsetSec = null;
-
-    // 1. Try Complications API First (Fastest)
-    if (Toybox has :Complications) {      
-        var sunsetComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SUNSET));
-        var sunriseComp = Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SUNRISE));
-
-        if (sunsetComp != null && sunsetComp.value instanceof Number && sunriseComp != null && sunriseComp.value instanceof Number) {
-            sunsetSec = sunsetComp.value;
-            sunriseSec = sunriseComp.value;
-        }
-    }
-
-    // 2. Fallback to Weather API (Time.Moment calculation)
-    if (sunriseSec == null && Toybox has :Weather && Weather has :getSunset) {
-        var conditions = Weather.getCurrentConditions();
-        if (conditions != null) {
-            var pos = conditions.observationLocationPosition;
-            var today = conditions.observationTime;
-
-            if (pos != null && pos instanceof Position.Location && today != null && today instanceof Time.Moment) {
-                var sunsetMom = Weather.getSunset(pos, today);
-                var sunriseMom = Weather.getSunrise(pos, today);
-
-                if (sunsetMom != null && sunriseMom != null) {
-                    var ssInfo = Time.Gregorian.info(sunsetMom, Time.FORMAT_SHORT);
-                    var srInfo = Time.Gregorian.info(sunriseMom, Time.FORMAT_SHORT);
-                    
-                    // Convert Gregorian Moment to seconds since midnight
-                    sunsetSec = (ssInfo.hour * 3600) + (ssInfo.min * 60) + ssInfo.sec;
-                    sunriseSec = (srInfo.hour * 3600) + (srInfo.min * 60) + srInfo.sec;
-                }
-            }
-        } else {
-            return false; // Replicating your original early exit if no conditions exist
-        }
-    }
+    var sunTimes = getSunTimes();
+    var sunriseSec = sunTimes == null ? null : sunTimes[0];
+    var sunsetSec = sunTimes == null ? null : sunTimes[1];
 
     // 3. Determine Day/Night and Target Time
     var icon, text, am_pm = "";
     var isDay = false;
 
     if (sunriseSec != null && sunsetSec != null) {
-        var myTime = System.getClockTime();
-        var currentSec = (myTime.hour * 3600) + (myTime.min * 60) + myTime.sec;
-
-        // One simple math check replaces 4 complex if/else time comparisons
-        isDay = (currentSec >= sunriseSec && currentSec < sunsetSec);
+        isDay = isDaylight();
         
         var targetSec = isDay ? sunsetSec : sunriseSec;
         icon = isDay ? "?" : ">";
