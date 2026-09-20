@@ -23,7 +23,8 @@ class AnalogSettingsViewTest extends WatchUi.Menu2 {
 
         var drawable1 = new CustomAccent();
         Menu2.addItem(new WatchUi.IconMenuItem("Accent Color", drawable1.getString(), 1, drawable1, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
-        Menu2.addItem(new WatchUi.ToggleMenuItem("Theme", {:enabled=>"Light", :disabled=>"Dark"}, 32, Storage.getValue(32), {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
+        var drawableTheme = new CustomTheme();
+        Menu2.addItem(new WatchUi.IconMenuItem("Theme", drawableTheme.getString(), 32, drawableTheme, {:alignment=>WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT}));
         Menu2.addItem(new WatchUi.MenuItem("Layout", null, "design", null));
         Menu2.addItem(new WatchUi.MenuItem("Data Fields", null, "datapoints", null));
         if (Toybox has :Weather or System.getSystemStats() has :batteryInDays){ // 
@@ -60,6 +61,8 @@ class Menu2TestMenu2Delegate extends WatchUi.Menu2InputDelegate { // Sub-menu De
         if (item instanceof WatchUi.IconMenuItem) {
             if (item.getIcon() instanceof CustomAccent){
                 item.setSubLabel((item.getIcon() as CustomAccent).nextState(item.getId()));
+            } else if (item.getIcon() instanceof CustomTheme) {
+                item.setSubLabel((item.getIcon() as CustomTheme).nextState(item.getId()));
             } else if (item.getIcon() instanceof CustomDataPoint){
                 if (item.getId()==9 or item.getId()==10){
                     item.setSubLabel((item.getIcon() as CustomDataPoint).nextState(item.getId(),1)); //big
@@ -268,7 +271,6 @@ class CustomAccent extends WatchUi.Drawable {
     // Return the color string for the menu to use as it's sublabel
     public function getString() {
         var mColorStrings;
-        //if (Storage.getValue(32) == null or Storage.getValue(32) == false){
         if (Storage.getValue(32) == true){
             mColorStrings = Application.loadResource(Rez.JsonData.mColorStringsWhite) as Array;
         } else {
@@ -312,6 +314,35 @@ class CustomAccent extends WatchUi.Drawable {
 	    var color = mColors[mIndex];
         dc.setColor(color, color);
         dc.clear();        
+    }
+}
+
+class CustomTheme extends WatchUi.Drawable {
+
+    private var mIndex as Number;
+
+    public function initialize() {
+        Drawable.initialize({});
+        mIndex = Storage.getValue(32);
+    }
+
+    public function getString() as String {
+        return ["Dark", "Light", "Automatic"][mIndex];
+    }
+
+    public function nextState(id) as String {
+        mIndex++;
+        if (mIndex >= 3) {
+            mIndex = 0;
+        }
+        Storage.setValue(32, mIndex);
+        return getString();
+    }
+
+    public function draw(dc) {
+        var color = (mIndex == 0 ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE);
+        dc.setColor(color, color);
+        dc.clear();
     }
 }
 
@@ -396,13 +427,7 @@ class CustomThickness extends WatchUi.Drawable {
 	
     function initialize() {
         Drawable.initialize({});
-        /*if (Storage.getValue(13) == false or Storage.getValue(13) == null){ 
-        	mIndex = 0;
-        } else if (Storage.getValue(13) == true) {
-            mIndex = 1;
-        } else {*/
         mIndex=Storage.getValue(13); 
-        //}        
     }    
 
     // Advance to the next color state for the drawable
@@ -431,13 +456,7 @@ class CustomThickness extends WatchUi.Drawable {
 	
     function initialize() {
         Drawable.initialize({});
-        /*if (Storage.getValue(13) == false or Storage.getValue(13) == null){ 
-        	mIndex = 0;
-        } else if (Storage.getValue(13) == true) {
-            mIndex = 1;
-        } else {*/
-        	mIndex=Storage.getValue(15); 
-        //}        
+       	mIndex=Storage.getValue(15); 
     }    
 
     // Advance to the next color state for the drawable
