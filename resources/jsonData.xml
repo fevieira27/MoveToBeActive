@@ -1,10 +1,10 @@
 <resources>
-  <jsonData id="mColorStrings">["Bright Green", "Vivomove", "Yellow", "Sky Blue", "Aqua", "Medium Purple", "Orange", "Red", "Pink Flamingo", "White"]</jsonData>
-  <jsonData id="mColors">[5635840, 11206400, 16776960, 43775, 65535, 11163135, 16755200, 16711680, 16733695, 16777215]</jsonData>
+  <jsonData id="mColorStrings">["Bright Green", "Vivomove", "Yellow", "Lavender", "Magenta", "White", "Light Gray", "Coral Red", "Sky Blue", "Cyan", "Amber"]</jsonData>
+  <jsonData id="mColors">[5635840, 11206400, 16776960, 11163135, 16733695, 16777215, 11184810, 16733525, 43775, 65535, 16755200]</jsonData>
   <!-- <jsonData id="mColorStringsWhite">["Cobalt", "Mosque", "Green", "Citrus", "Orange", "Purple", "Free Speech", "Red", "Cerise", "Matterhorn"]</jsonData> -->
   <!-- <jsonData id="mColorsWhite">[21930, 21845, 43520, 11184640, 16733440, 11141375, 11141120, 16711680, 16711850, 5592405]</jsonData> -->
-  <jsonData id="mColorStringsWhite">["Green", "Mosque", "Citrus", "Cobalt", "Free Speech", "Purple", "Orange", "Red", "Cerise", "Matterhorn"]</jsonData>
-  <jsonData id="mColorsWhite">[43520, 21845, 11184640, 21930, 11141120, 11141375, 16733440, 16711680, 16711850, 5592405]</jsonData>
+  <jsonData id="mColorStringsWhite">["Green", "Olive", "Ochre", "Purple", "Rose", "Black", "Dark Gray", "Dark Red", "Cobalt", "Teal", "Orange"]</jsonData>
+  <jsonData id="mColorsWhite">[43520, 11184640, 11162880, 11141375, 16711850, 0, 5592405, 11141120, 21930, 21845, 16733440]</jsonData>
   <jsonData id="mIcons12">["0", "7", ";", "P", ".", "A", "S", "@", "6", "6", "1", "Q", "3", "5", "R", "2", "2", "B", "U", "T", "W", "V", "X", "X", "?", "4", "P", ""]</jsonData>
   <jsonData id="mIcons9">["0", "A", "S", "@", "6", "6", "1", "Q", "3", "5", "R", "2", "2", "B", "U", "T", "W", "V", "X", "X", "?", "4", "P", ""]</jsonData>
   <!--      Venu 2s          0 , 1 ,  2 ,  3 ,  4 , 5 ,  6 ,  7 ,  8 ,  9 , 10 , 11 , 12, 13,  14 ,  15 , 16 , 17 , 18 , 19 , 20 , 21 , 22 , 23 , 24 -->
@@ -75,6 +75,7 @@
     32= Theme Dark/Light
     33= Seconds hand toggle
     34= pressure trend arrow - Holds [pressure, time, wantsSeaLevel, trendArrow]
+    35= 
 
     
     **Icons**
