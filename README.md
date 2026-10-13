@@ -376,6 +376,11 @@ Garmin Watch Face that was inspired by the design of the Vivomove series, adding
 - [X] New accent colors
 - [X] Fix for Atmospheric Pressure trend
 
+5.7.1 update - 13/Out/26
+- [X] Adding support for newly released watches: Enduro 4, Marq Gen3, Approach S72
+- [X] Fixed Garmin logo position on new 51mm watches (i.e. Fenix 9 pro)
+- [X] Reverted Coral Red accent color to original red tone on AMOLED displays
+
 **5.8.0** (Estimated Q4 2026)
 - [ ] Add new data field to show UV level (from Weather Condition)
 - [ ] Add new data field to show training readiness (from Complications)
